@@ -6,3 +6,6 @@ build
 
 # Ignore bin/ where all bytecode regenerable files are
 bin/
+
+# Ignore class path
+.classpath
