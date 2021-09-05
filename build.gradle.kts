@@ -10,12 +10,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    gradlePluginPortal()
-    google()
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
-    maven(url = "https://oss.sonatype.org/content/repositories/releases/")
 }
 
 val javaFXModules = listOf(
@@ -34,13 +29,6 @@ val jUnitVersion = "5.7.1"
 
 val kotlinVersion = "1.3.41"
 
-val gdxVersion = "1.10.0"
-val roboVMVersion = "2.3.12"
-val box2DLightsVersion = "1.5"
-val ashleyVersion = "1.7.3"
-val aiVersion = "1.8.2"
-val gdxControllersVersion = "2.1.0"
-
 dependencies {
     // Example library: Guava. Add what you need (and remove Guava if you don't use it)
     // implementation("com.google.guava:guava:28.1-jre")
@@ -51,23 +39,6 @@ dependencies {
             implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
         }
     }
-
-	implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-bullet:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-freetype:$gdxVersion")
-    implementation("com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion")
-    implementation("com.badlogicgames.ashley:ashley:$ashleyVersion")
-    implementation("com.badlogicgames.gdx:gdx-ai:$aiVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-        	
-    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-tools:$gdxVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 
     // JUnit API and testing engine
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
