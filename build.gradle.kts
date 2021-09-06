@@ -4,7 +4,7 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application
     // You can run your app via task "run": ./gradlew run
-    application
+	application
 
     id("org.openjfx.javafxplugin") version "0.0.9"
 }
@@ -40,18 +40,12 @@ dependencies {
         }
     }
 
-    // JUnit API and testing engine
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+    // Use JUnit test framework
+    testImplementation("junit:junit:4.12")
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-}
-
-tasks.withType<Test> {
-    // Enables JUnit 5 Jupiter module
-    useJUnitPlatform()
 }
 
 application {
