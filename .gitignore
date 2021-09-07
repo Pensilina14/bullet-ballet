@@ -21,3 +21,6 @@ bin/
 *.aux
 *.bbl
 *.blg
+*.mdj
+svg/
+*.svg
