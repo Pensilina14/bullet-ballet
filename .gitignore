@@ -9,3 +9,4 @@ bin/
 
 # Ignore class path
 .classpath
+.project
