@@ -14,7 +14,7 @@ public class MenuTest extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("homepage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml.menu.homepage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
