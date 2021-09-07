@@ -10,3 +10,14 @@ bin/
 # Ignore class path
 .classpath
 .project
+
+# Ignore tex related files
+*.toc
+*.synctex.gz
+*.synctex.bbl
+*.synctex.blg
+*.log
+*.out
+*.aux
+*.bbl
+*.blg
