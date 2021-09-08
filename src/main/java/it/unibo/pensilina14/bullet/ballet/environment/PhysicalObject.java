@@ -17,4 +17,6 @@ public interface PhysicalObject {
 	 * @return false otherwise.
 	 */
 	Boolean isCollidingWith(PhysicalObject other);
+	
+	Dimension2D getDimension();
 }
