@@ -32,7 +32,7 @@ val kotlinVersion = "1.3.41"
 dependencies {
     // Example library: Guava. Add what you need (and remove Guava if you don't use it)
     // implementation("com.google.guava:guava:28.1-jre")
-
+	implementation("org.apache.commons:commons-configuration2:2.7")
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
