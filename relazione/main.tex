@@ -1,0 +1,63 @@
+% ---------------- RELAZIONE PROGETTO DI PROGRAMMAZIONE AD OGGETTI (OOP) --------
+\documentclass[a4paper,12pt]{report}
+
+% ----------------------------- PREAMBLE --------------------------------------- 
+
+\usepackage{alltt, fancyvrb, url}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+% Questo commentalo se vuoi scrivere in inglese.
+\usepackage[italian]{babel}
+
+\usepackage[italian]{cleveref}
+
+\usepackage{comment}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+
+% hyperref settings
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black, %blue
+	filecolor=magenta,      
+	urlcolor=cyan,
+	pdftitle={Sharelatex Example},
+	bookmarks=true,
+	pdfpagemode=FullScreen,
+}
+
+% ----------------------------- PREAMBLE END -----------------------------------
+
+\title{Meta-relazione per\\``Programmazione ad Oggetti''}
+
+\author{Danilo Pianini}
+\date{\today}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+% \input: import the commands from filename.tex to target file.
+
+% \include: does a \clearpage and does an \input.
+
+\include{Abstract}
+
+\include{Analisi}
+
+\include{Design}
+
+\include{Sviluppo}
+
+\include{Commenti_Finali}
+
+\include{Appendice}
+
+\end{document}
