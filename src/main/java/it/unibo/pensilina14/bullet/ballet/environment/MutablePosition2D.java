@@ -13,6 +13,16 @@ public interface MutablePosition2D {
   MutablePair<Integer, Integer> getPosition();
   
   /*
+   * @return coordinate X of position
+   */
+  int getX();
+  
+  /*
+   * @return coordinate Y of position
+   */
+  int getY();
+  
+  /*
    * @param x is x coordinate. 
    * @param y represents y coordinate.
    */
