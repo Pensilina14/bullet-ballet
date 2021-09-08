@@ -14,13 +14,13 @@ public class GameEnvironment implements Environment {
 
 	
 	@Override
-	public Map<Pair<Integer, Integer>, Optional<PhysicalObject>> getMap() {
+	public Map<ImmutablePair<Integer, Integer>, Optional<PhysicalObject>> getMap() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Pair<Integer, Integer>> findObjInMap(PhysicalObject obj) {
+	public Optional<ImmutablePair<Integer, Integer>> findObjInMap(PhysicalObject obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
