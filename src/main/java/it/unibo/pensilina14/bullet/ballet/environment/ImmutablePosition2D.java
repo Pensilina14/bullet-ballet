@@ -12,4 +12,14 @@ public interface ImmutablePosition2D {
    * @return an {@link ImmutablePair} representing the position.
    */
   ImmutablePair<Integer, Integer> getPosition();
+  
+  /*
+   * @return coordinate X of position
+   */
+  int getX();
+  
+  /*
+   * @return coordinate Y of position
+   */
+  int getY();
 }
