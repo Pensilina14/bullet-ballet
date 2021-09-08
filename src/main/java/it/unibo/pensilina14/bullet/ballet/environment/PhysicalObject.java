@@ -10,9 +10,9 @@ public interface PhysicalObject {
 	/*
 	 * @return position in coordinates.
 	 */
-    /*
-	Pair<Integer, Integer> getPosition();
-	*/
+    
+	Position2D getPosition();
+	
 	/*
 	 * @return true if this PhysicalObject is colliding with {@param other},
 	 * @return false otherwise.
