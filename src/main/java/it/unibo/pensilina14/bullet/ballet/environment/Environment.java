@@ -16,6 +16,12 @@ public interface Environment {
   double getGravity();
   
   /*
+   * @return environment's dimension composed by height and width,
+   * they refer to the imaginary grid that fills the virtual map.
+   */
+  Dimension2D getDimension();
+  
+  /*
    * @return a {@link #Map} of coordinates and {@link PhysicalObject}s representing the map.
    */
   Map<ImmutablePair<Integer, Integer>, Optional<PhysicalObject>> getMap();

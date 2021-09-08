@@ -9,11 +9,19 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 public class GameEnvironment implements Environment {
 
   private final double gravity;
-  private Map<ImmutablePair<Integer, Integer>, Optional<PhysicalObject>> gameMap;
-  
+  private final int gameMapSize;
+  private Map<ImmutablePosition2D<Integer, Integer>, Optional<PhysicalObject>> gameMap;
+  /*
+   * Constructor method in which {@link gravity} 
+   * is set at earth one's value and {@link gameMap}'s 
+   * coordinates are automatically set.
+   */
   public GameEnvironment() {
     this.gravity = 9.81;
-    this.gameMap = new HashMap<>();
+    this.gameMapSize = 500;
+    //this.gameMap = new HashMap<>();
+    int i = 0;
+    //TODO: generate virtual map's coordinates as gameMap keys
   }
   
   public GameEnvironment(final double gravity) {
