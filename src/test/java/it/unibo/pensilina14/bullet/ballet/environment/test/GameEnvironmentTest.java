@@ -1,18 +1,17 @@
 package it.unibo.pensilina14.bullet.ballet.environment.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
+import it.unibo.pensilina14.bullet.ballet.environment.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-
-import org.junit.Test;
-
+import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.environment.PhysicalObject;
+import java.util.Map;
+import java.util.Optional;
+import org.junit.Test;
 
 public class GameEnvironmentTest {
 
@@ -20,9 +19,11 @@ public class GameEnvironmentTest {
   public void testGameEnvironment() {
     final Environment gameEnv = new GameEnvironment();
     
-    assertTrue(gameEnv.getGravity() == 9.81);
-    assert
-    final Map<ImmutablePair<Integer, Integer>, Optional<PhysicalObject>> actual_map = 
-    		Map.of(ImmutablePair.of(left, right));
+    assertEquals(gameEnv.getGravity(), 9.81);
+    assertSame(gameEnv.getDimension(), new Dimension2Dimpl(500, 500));
+    
+    final Map<ImmutablePosition2D, Optional<PhysicalObject>> actual_map = null;
+    //Map.of(new ImmutablePosition2Dimpl(0, 0), Optional.empty(),
+    //TODO: generate map ---> streams <3
   }
 }

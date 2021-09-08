@@ -24,7 +24,7 @@ public interface Environment {
   /*
    * @return a {@link #Map} of coordinates and {@link PhysicalObject}s representing the map.
    */
-  Map<ImmutablePair<Integer, Integer>, Optional<PhysicalObject>> getMap();
+  Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap();
 
   /*
    * Finds the given @param obj in the map: 
@@ -32,7 +32,7 @@ public interface Environment {
    * if found, @return location in coordinates;
    * else @return {@link Optional#Empty}.
    */
-  Optional<ImmutablePair<Integer, Integer>> findObjInMap(PhysicalObject obj);
+  Optional<ImmutablePosition2D> findObjInMap(PhysicalObject obj);
   
   /*
    * @return a {@link List} containing all the current game objects
