@@ -10,7 +10,7 @@ public interface PhysicalObject {
 	 * @return position in coordinates.
 	 */
     
-	Position2D getPosition();
+	MutablePosition2D getPosition();
 	
 	/*
 	 * @return true if this PhysicalObject is colliding with {@param other},
