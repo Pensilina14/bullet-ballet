@@ -11,10 +11,12 @@ public class GameEnvironment implements Environment {
   private final double gravity;
   private final int gameMapSize;
   private Map<ImmutablePosition2D<Integer, Integer>, Optional<PhysicalObject>> gameMap;
+  
   /*
    * Constructor method in which {@link gravity} 
    * is set at earth one's value and {@link gameMap}'s 
    * coordinates are automatically set.
+   * {@link gameMapSize} set to 500 by default.
    */
   public GameEnvironment() {
     this.gravity = 9.81;
@@ -24,8 +26,12 @@ public class GameEnvironment implements Environment {
     //TODO: generate virtual map's coordinates as gameMap keys
   }
   
-  public GameEnvironment(final double gravity) {
+  /*
+   * 
+   */
+  public GameEnvironment(final double gravity, final int size) {
     this.gravity = gravity;
+    this.gameMapSize = size;
     this.gameMap = new HashMap<>();
   }
   
