@@ -22,8 +22,8 @@ public class GameEnvironmentTest {
   public void testGameEnvironment() {
     final Environment gameEnv = new GameEnvironment();
     
-    assertEquals(gameEnv.getGravity(), EARTH_GRAVITY);
-    assertSame(gameEnv.getDimension(), new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM));
+    assertEquals(gameEnv.getGravity(), EARTH_GRAVITY, 0.01);
+    assertEquals(gameEnv.getDimension(), new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM));
     
     final Map<ImmutablePosition2D, Optional<PhysicalObject>> expectedMap = new HashMap<>();
     for (int x = 0; x < gameEnv.getDimension().getWidth(); x++) {
@@ -32,6 +32,6 @@ public class GameEnvironmentTest {
       }
     }
     
-    assertSame(gameEnv.getMap(), expectedMap);
+    assertEquals(gameEnv.getMap(), expectedMap);
   }
 }
