@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * Implementation of Environment.
@@ -13,7 +14,7 @@ public class GameEnvironment implements Environment {
   private final double gravity;
   private final Dimension2D gameMapDim;
   private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
-  private static final int DEFAULT_DIM = 500;
+  public static final int DEFAULT_DIM = 500;
   
   /*
    * Constructor method in which {@link gravity} 
@@ -41,6 +42,7 @@ public class GameEnvironment implements Environment {
     this.gameMap = new HashMap<>();
     this.initializeMap(this.gameMap, this.gameMapDim);
   }
+  
   /*
    * Generates virtual map's coordinates as gameMap keys.
    */
