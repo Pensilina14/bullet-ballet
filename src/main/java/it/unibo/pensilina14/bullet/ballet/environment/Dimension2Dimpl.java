@@ -24,7 +24,7 @@ public class Dimension2Dimpl implements Dimension2D {
 
   @Override
   public int getWidth() {
-    return this.getWidth();
+    return this.width;
   }
     
 }
