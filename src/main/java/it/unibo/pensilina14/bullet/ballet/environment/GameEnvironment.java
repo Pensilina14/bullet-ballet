@@ -4,12 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
+/**
+ * Implementation of Environment.
+ */
 public class GameEnvironment implements Environment {
 
   private final double gravity;
   private final Dimension2D gameMapDim;
-  private Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
+  private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
+  public static final int DEFAULT_DIM = 500;
   
   /*
    * Constructor method in which {@link gravity} 
@@ -19,18 +24,35 @@ public class GameEnvironment implements Environment {
    */
   public GameEnvironment() {
     this.gravity = 9.81;
-    this.gameMapDim = new Dimension2Dimpl(500, 500);
-    //this.gameMap = new HashMap<>();
-    //TODO: generate virtual map's coordinates as gameMap keys
+    this.gameMapDim = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+    //generate virtual map's coordinates as gameMap keys
+    this.gameMap = new HashMap<>();
+    this.initializeMap(this.gameMap, this.gameMapDim);
   }
   
   /*
-   * 
+   * Constructor method in which {@link gravity}
+   * is set at @param gravity and {@link Dimension2D} is 
+   * set at @param size 
+   * {@link gameMap} is initialized
    */
   public GameEnvironment(final double gravity, final Dimension2D size) {
     this.gravity = gravity;
     this.gameMapDim = size;
     this.gameMap = new HashMap<>();
+    this.initializeMap(this.gameMap, this.gameMapDim);
+  }
+  
+  /*
+   * Generates virtual map's coordinates as gameMap keys.
+   */
+  private void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, 
+      final Dimension2D mapDim) {
+    for (int x = 0; x < mapDim.getWidth(); x++) { 
+      for (int y = 0; y < mapDim.getHeight(); y++) {
+        map.put(new ImmutablePosition2Dimpl(x, y), Optional.empty());
+      }
+    }
   }
   
   @Override
