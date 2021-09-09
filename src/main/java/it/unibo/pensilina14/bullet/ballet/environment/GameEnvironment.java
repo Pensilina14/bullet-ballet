@@ -69,6 +69,7 @@ public class GameEnvironment implements Environment {
     return Map.copyOf(this.gameMap);
   }
 
+  // TODO: refactor this code in order to adhere to map idea
   @Override
   public Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
     for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> 
