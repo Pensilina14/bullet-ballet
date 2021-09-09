@@ -20,7 +20,8 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
 
     @Override
     public Boolean isCollidingWith(PhysicalObject other) {
-        return null;
+        return this.position.getX() == other.getPosition().getX()
+                || this.position.getY() == other.getPosition().getY();
     }
 
     @Override
@@ -32,15 +33,18 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
-    public boolean move() {
+    public boolean move(int x, int y, Environment env) {
+        if (isWithinMapBoundaries(env)) {
+            this.position.setPosition(x + this.position.getX(), y + this.position.getY());
+            return true;
+        }
         return false;
     }
     
-    private boolean isWithinMapBoundaries() {
-        /*
-         * TODO
-        */
-        return false;
+    private boolean isWithinMapBoundaries(Environment env) {
+        return this.position.getX() + this.dimension.getWidth() <= env.getDimension().getWidth() && 
+                this.position.getY() + this.dimension.getHeight() <= env.getDimension().getHeight();
+         
     }
     
 }
