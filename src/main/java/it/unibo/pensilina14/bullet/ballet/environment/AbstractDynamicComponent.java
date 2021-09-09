@@ -4,12 +4,15 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     
     private final Dimension2D dimension;
     private final MutablePosition2D position;
+    private final Environment environment;
     private final double mass;
     
     public AbstractDynamicComponent(final Dimension2D dimension, 
-            final MutablePosition2D position, final double mass) {
+            final MutablePosition2D position, final Environment environment,
+            final double mass) {
         this.dimension = dimension;
         this.position = position;
+        this.environment = environment;
         this.mass = mass;
     }
 
@@ -33,18 +36,43 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
-    public boolean move(int x, int y, Environment env) {
-        if (isWithinMapBoundaries(env)) {
-            this.position.setPosition(x + this.position.getX(), y + this.position.getY());
+    public boolean move(int x, int y) {
+        if (isWithinMapBoundaries(x, y)) {
+            vectorialSum(x, y);
             return true;
         }
         return false;
     }
     
-    private boolean isWithinMapBoundaries(Environment env) {
-        return this.position.getX() + this.dimension.getWidth() <= env.getDimension().getWidth() && 
-                this.position.getY() + this.dimension.getHeight() <= env.getDimension().getHeight();
-         
+    private void vectorialSum(int x, int y) {
+        this.position.setPosition(x + this.position.getX(), y + this.position.getY());
+    }
+    
+    private boolean isWithinMapBoundaries(int x, int y) {    
+        return this.isWithinLeftUpperCorner() && 
+                this.isWithinLeftLowerCorner(y) &&
+                this.isWithinRightLowerCorner(x, y) &&
+                this.isWithinRightUpperCorner(x);
+    }
+    
+    private boolean isWithinLeftUpperCorner() {
+        return this.position.getX() < GameEnvironment.DEFAULT_DIM && this.position.getY() > 0;
+    }
+    
+    private boolean isWithinLeftLowerCorner(int y) {
+        return this.position.getX() < GameEnvironment.DEFAULT_DIM && this.position.getY() + y < GameEnvironment.DEFAULT_DIM;
+    }
+    
+    private boolean isWithinRightLowerCorner(int x, int y) {
+        return this.position.getX() - x > 0 && this.position.getY() + y < GameEnvironment.DEFAULT_DIM;
+    }
+
+    private boolean isWithinRightUpperCorner(int x) {
+        return this.position.getX() - x < GameEnvironment.DEFAULT_DIM && this.position.getY() > 0;
+    }
+    
+    public Environment getEnvironment() {
+        return this.environment;
     }
     
 }
