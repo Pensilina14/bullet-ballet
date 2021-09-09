@@ -3,30 +3,35 @@ package it.unibo.pensilina14.bullet.ballet.weapon;
 public class WeaponImpl implements Weapon {
 
 	//set for each weapon the total number of available bullets
-	private static int MAX_AMMO;
+	private final static int MAX_AMMO = 10;
 	private final String name;
 	private int currentAmmo;
-	private Bullet[] spareCharger;
+	private Bullet[] spareCharger = new BulletImpl[MAX_AMMO];
 	
-	public WeaponImpl(int max_ammo, String nameOfWeapon) {
-		this.MAX_AMMO = max_ammo;
+	public WeaponImpl(String nameOfWeapon) {
 		this.name = nameOfWeapon;
-		this.currentAmmo = this.MAX_AMMO;
+		this.currentAmmo = MAX_AMMO;
+		for(int i=0; i<MAX_AMMO; i++) {
+			spareCharger[i] = new BulletImpl(BulletType.CLASSICAL);
+		}
 	}
 	
 	@Override
 	public int getAmmoLeft() {
-		return this.currentAmmo;
+		return currentAmmo;
 	}
 
 	@Override
 	public int getTotalAmmo() {
-		return this.MAX_AMMO;
+		return MAX_AMMO;
 	}
 
 	@Override
 	public void decreaseAmmo() {
-		this.currentAmmo--;
+		if(hasAmmo() == true) {
+			currentAmmo--;
+			spareCharger[currentAmmo--] = null;
+		}
 	}
 
 	@Override
@@ -36,7 +41,7 @@ public class WeaponImpl implements Weapon {
 
 	@Override
 	public boolean hasAmmo() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -48,7 +53,7 @@ public class WeaponImpl implements Weapon {
 	
 	@Override
 	public Effect getEffect() {
-		
+		return null;
 	}
 
 }
