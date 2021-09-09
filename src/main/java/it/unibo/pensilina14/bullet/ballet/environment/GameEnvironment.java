@@ -26,20 +26,31 @@ public class GameEnvironment implements Environment {
     this.gameMapDim = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
     //generate virtual map's coordinates as gameMap keys
     this.gameMap = new HashMap<>();
-    for (int x = 0; x < this.gameMapDim.getWidth(); x++) {
-      for (int y = 0; y < this.gameMapDim.getHeight(); y++) {
-        this.gameMap.put(new ImmutablePosition2Dimpl(x, y), Optional.empty());
-      }
-    }
+    this.initializeMap(this.gameMap, this.gameMapDim);
   }
   
   /*
-   * 
+   * Constructor method in which {@link gravity}
+   * is set at @param gravity and {@link Dimension2D} is 
+   * set at @param size 
+   * {@link gameMap} is initialized
    */
   public GameEnvironment(final double gravity, final Dimension2D size) {
     this.gravity = gravity;
     this.gameMapDim = size;
     this.gameMap = new HashMap<>();
+    this.initializeMap(this.gameMap, this.gameMapDim);
+  }
+  /*
+   * Generates virtual map's coordinates as gameMap keys.
+   */
+  private void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, 
+      final Dimension2D mapDim) {
+    for (int x = 0; x < mapDim.getWidth(); x++) { 
+      for (int y = 0; y < mapDim.getHeight(); y++) {
+        map.put(new ImmutablePosition2Dimpl(x, y), Optional.empty());
+      }
+    }
   }
   
   @Override
