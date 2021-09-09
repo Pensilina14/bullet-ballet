@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementation of Environment.
+ */
 public class GameEnvironment implements Environment {
 
   private final double gravity;
   private final Dimension2D gameMapDim;
-  private Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
+  private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
+  private static final int DEFAULT_DIM = 500;
   
   /*
    * Constructor method in which {@link gravity} 
@@ -19,9 +23,14 @@ public class GameEnvironment implements Environment {
    */
   public GameEnvironment() {
     this.gravity = 9.81;
-    this.gameMapDim = new Dimension2Dimpl(500, 500);
-    //this.gameMap = new HashMap<>();
-    //TODO: generate virtual map's coordinates as gameMap keys
+    this.gameMapDim = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+    //generate virtual map's coordinates as gameMap keys
+    this.gameMap = new HashMap<>();
+    for (int x = 0; x < this.gameMapDim.getWidth(); x++) {
+      for (int y = 0; y < this.gameMapDim.getHeight(); y++) {
+        this.gameMap.put(new ImmutablePosition2Dimpl(x, y), Optional.empty());
+      }
+    }
   }
   
   /*
