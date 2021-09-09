@@ -53,4 +53,9 @@ public class GameEnvironmentTest {
     
     assertEquals(gameEnv.getMap(), expectedMap);
   }
+  
+  @Test
+  public void testFindObjInMap() {
+    // TODO
+  }
 }
