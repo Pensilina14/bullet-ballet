@@ -39,20 +39,20 @@ public class Dimension2Dimpl implements Dimension2D {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
-	  return true;
+      return true;
     }
     if (obj == null) {
-	  return false;
+      return false;
     }
     if (getClass() != obj.getClass()) {
-	  return false;
+      return false;
     }
     final Dimension2Dimpl other = (Dimension2Dimpl) obj;
     if (height != other.height) {
-	  return false;
+      return false;
     }
     if (width != other.width) {
-	  return false;
+      return false;
     }
     return true;
   }
