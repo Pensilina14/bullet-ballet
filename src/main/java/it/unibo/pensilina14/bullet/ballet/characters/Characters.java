@@ -2,9 +2,64 @@ package it.unibo.pensilina14.bullet.ballet.characters;
 
 public interface Characters {
 
-    float getHealth();
+    /**
+     *
+     * @return health of the character.
+     */
 
-    float getMana();
+    double getHealth();
 
-    
+    /**
+     *
+     * @return mana of the character.
+     */
+
+    double getMana();
+
+    /**
+     *
+     * @return whether character is alive or not.
+     */
+
+    boolean isAlive(); // isDead
+
+    /**
+     *
+     * @param setHealth: set new health of the character
+     */
+    void setHealth(float setHealth);
+
+    /**
+     *
+     * @return whether the character has jumped
+     */
+
+    boolean jump();
+
+    /**
+     *
+     * @return whether is crouching
+     */
+
+    boolean crouch();
+
+    /**
+     * returns the Weapon that the character is using.
+     */
+
+    void getWeapon(); // returns a Weapon
+
+    /**
+     * parameter: a Weapon
+     * @return if weapon has been set
+     */
+
+    boolean setWeapon();
+
+    /**
+     *
+     * @return name of the character
+     */
+
+    String getName();
 }
