@@ -1,5 +1,7 @@
-package it.unibo.pensilina14.bullet.ballet.environment;
+package it.unibo.pensilina14.bullet.ballet.game.entities;
 
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 
 /**
  * 

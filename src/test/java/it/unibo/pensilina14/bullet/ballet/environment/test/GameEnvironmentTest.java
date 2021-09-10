@@ -2,12 +2,13 @@ package it.unibo.pensilina14.bullet.ballet.environment.test;
 
 import static org.junit.Assert.assertEquals;
 
-import it.unibo.pensilina14.bullet.ballet.environment.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.environment.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
