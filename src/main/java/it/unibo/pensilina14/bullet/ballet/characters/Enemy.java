@@ -1,14 +1,17 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
-public class Player implements Characters{
+public class Enemy implements Characters{
 
-    private double health = 100.0;
-    private double mana = 100.0;
-
+    private double health;
+    private double mana;
+    private final int numberOfEnemies;
     private final String name;
 
-    public Player(String name){
+    public Enemy(String name, float health, float mana, int numberOfEnemies){
         this.name = name;
+        this.health = health;
+        this.mana = mana;
+        this.numberOfEnemies = numberOfEnemies;
     }
 
     @Override
