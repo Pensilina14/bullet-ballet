@@ -31,14 +31,14 @@ public interface Characters {
 
     /**
      *
-     * @return wheter has jumped
+     * @return whether the character has jumped
      */
 
     boolean jump();
 
     /**
      *
-     * @return wheter is crouching
+     * @return whether is crouching
      */
 
     boolean crouch();
