@@ -16,6 +16,6 @@ public class Sprite {
     }
 
     public void draw(GraphicsContext gc){
-        gc.drawImage(image, this.width, this.height);
+        gc.drawImage(this.image, this.width, this.height);
     }
 }
