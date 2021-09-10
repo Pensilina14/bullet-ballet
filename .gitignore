@@ -24,6 +24,7 @@ bin/
 *.mdj
 svg/
 *.svg
+*.idx
 
 # Ignore IDE folders
 .idea/
