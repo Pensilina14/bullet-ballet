@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
+
 /**
  * This interface wraps all the virtual game world
  * and permits interaction between objects inside a virtual map.

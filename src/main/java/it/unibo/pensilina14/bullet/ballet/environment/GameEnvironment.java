@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
+
 /**
  * Implementation of Environment.
  */

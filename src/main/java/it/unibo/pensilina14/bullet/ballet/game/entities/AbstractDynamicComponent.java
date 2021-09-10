@@ -1,4 +1,9 @@
-package it.unibo.pensilina14.bullet.ballet.environment;
+package it.unibo.pensilina14.bullet.ballet.game.entities;
+
+import it.unibo.pensilina14.bullet.ballet.environment.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.environment.MutablePosition2D;
 
 public abstract class AbstractDynamicComponent implements PhysicalObject{
     
