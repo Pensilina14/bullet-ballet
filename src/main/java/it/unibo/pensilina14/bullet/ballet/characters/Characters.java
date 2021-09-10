@@ -22,4 +22,14 @@ public interface Characters {
      */
 
     boolean isAlive(); // isDead
+
+    void setHealth(float setHealth);
+
+    boolean jump();
+
+    boolean crouch();
+
+    void getWeapon(); // returns a Weapon
+
+    boolean setWeapon();
 }
