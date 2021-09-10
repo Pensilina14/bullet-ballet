@@ -8,7 +8,6 @@ import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.environment.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
