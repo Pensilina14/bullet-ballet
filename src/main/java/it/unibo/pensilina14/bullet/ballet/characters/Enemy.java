@@ -18,7 +18,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private Weapon weapon;
 
-    public Enemy(String name, float health, float mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+    public Enemy(String name, double health, double mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
 
         super(dimension, position, environment, mass);
 
