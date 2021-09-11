@@ -1,6 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.environment.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
@@ -54,8 +55,15 @@ public class GameEnvironmentTest {
     assertEquals(gameEnv.getMap(), expectedMap);
   }
   
-  @Test
-  public void testFindObjInMap() {
-    // TODO
-  }
+//  @Test
+//  public void testAddObjToMap() {
+//    final Environment gameEnv = new GameEnvironment();
+//    final PhysicalObject obj = new PhysicalObjectImpl();
+//    final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
+//    
+//    final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
+//    
+//    assertTrue(hasBeenAdded);
+//    assertEquals(gameEnv.findObjInMap(obj).get(), pos);
+//  }
 }
