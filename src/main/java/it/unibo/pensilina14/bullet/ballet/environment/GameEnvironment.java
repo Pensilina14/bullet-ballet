@@ -53,7 +53,7 @@ public class GameEnvironment implements Environment {
   /*
    * Generates virtual map's coordinates as gameMap keys.
    */
-  private final void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, 
+  private void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, 
       final Dimension2D mapDim) {
     for (int x = 0; x < mapDim.getWidth(); x++) { 
       for (int y = 0; y < mapDim.getHeight(); y++) {
