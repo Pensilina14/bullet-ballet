@@ -66,4 +66,17 @@ public class GameEnvironmentTest {
 //    assertTrue(hasBeenAdded);
 //    assertEquals(gameEnv.findObjInMap(obj).get(), pos);
 //  }
+  
+//  @Test
+//  public void testDeleteObjByPosition() {
+//    final Environment gameEnv = new GameEnvironment();
+//    final PhysicalObject obj = new PhysicalObjectImpl();
+//    final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
+//
+//    final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
+//    gameEnv.deleteObjByPosition(pos);
+//  
+//    assertTrue(hasBeenAdded);
+//    assertEquals(gameEnv.findObjInMap(obj).get(), Optional.empty());
+//  }
 }
