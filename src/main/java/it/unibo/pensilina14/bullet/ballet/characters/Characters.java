@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
+import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+
 public interface Characters {
 
     /**
@@ -21,7 +23,7 @@ public interface Characters {
      * @return whether character is alive or not.
      */
 
-    boolean isAlive(); // isDead
+    boolean isAlive();
 
     /**
      *
@@ -44,17 +46,17 @@ public interface Characters {
     boolean crouch();
 
     /**
-     * returns the Weapon that the character is using.
+     * @return the Weapon that the character is using.
      */
 
-    void getWeapon(); // returns a Weapon
+    Weapon getWeapon(); // returns a Weapon
 
     /**
-     * parameter: a Weapon
-     * @return if weapon has been set
+     * @param weapon: set the new character weapon.
+     *
      */
 
-    boolean setWeapon();
+    void setWeapon(Weapon weapon);
 
     /**
      *

@@ -1,11 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
+import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
+
 public class Player implements Characters{
 
     private double health = 100.0;
     private double mana = 100.0;
 
     private final String name;
+
+    private Weapon weapon;
 
     public Player(String name){
         this.name = name;
@@ -42,13 +47,13 @@ public class Player implements Characters{
     }
 
     @Override
-    public void getWeapon() {
-
+    public Weapon getWeapon() {
+        return this.weapon;
     }
 
     @Override
-    public boolean setWeapon() {
-        return false;
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     @Override
