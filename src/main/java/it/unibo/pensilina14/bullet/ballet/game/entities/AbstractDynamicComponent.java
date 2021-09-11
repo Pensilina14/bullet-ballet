@@ -9,15 +9,15 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     
     private final Dimension2D dimension;
     private final MutablePosition2D position;
-    private final Environment environment;
+    private final Environment gameEnvironment;
     private final double mass;
     
     public AbstractDynamicComponent(final Dimension2D dimension, 
-            final MutablePosition2D position, final Environment environment,
+            final MutablePosition2D position, final Environment gameEnvironment,
             final double mass) {
         this.dimension = dimension;
         this.position = position;
-        this.environment = environment;
+        this.gameEnvironment = gameEnvironment;
         this.mass = mass;
     }
 
@@ -35,6 +35,11 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     @Override
     public Dimension2D getDimension() {
         return this.dimension;
+    }
+
+    @Override
+    public Environment getGameEnvironment() {
+        return this.gameEnvironment;
     }
 
     public double getMass() {
@@ -76,11 +81,7 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.position.getX() - x < GameEnvironment.DEFAULT_DIM && this.position.getY() > 0;
     }
     
-    public Environment getEnvironment() {
-        return this.environment;
-    }
-    
     public double getGravityForce() {
-        return environment.getGravity() * this.mass;
+        return gameEnvironment.getGravity() * this.mass;
     }
 }
