@@ -1,13 +1,27 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
-public class Enemy implements Characters{
+import it.unibo.pensilina14.bullet.ballet.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
+
+import javax.xml.crypto.dsig.DigestMethod;
+
+public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private double health;
     private double mana;
     private final int numberOfEnemies;
     private final String name;
 
-    public Enemy(String name, float health, float mana, int numberOfEnemies){
+    private Weapon weapon;
+
+    public Enemy(String name, float health, float mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+
+        super(dimension, position, environment, mass);
+
         this.name = name;
         this.health = health;
         this.mana = mana;
@@ -45,13 +59,13 @@ public class Enemy implements Characters{
     }
 
     @Override
-    public void getWeapon() {
-
+    public Weapon getWeapon() {
+        return this.weapon;
     }
 
     @Override
-    public boolean setWeapon() {
-        return false;
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     @Override
