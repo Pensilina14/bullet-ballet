@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
+
+import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
 
 /**
  * Implementation of Environment.
@@ -70,6 +75,7 @@ public class GameEnvironment implements Environment {
     return Map.copyOf(this.gameMap);
   }
 
+  // TODO: refactor this code in order to adhere to map idea
   @Override
   public Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
     for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> 

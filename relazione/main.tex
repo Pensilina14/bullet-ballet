@@ -17,6 +17,9 @@
 \usepackage{microtype}
 \usepackage{fancyhdr}
 
+\usepackage[scaled=.92]{helvet}
+\usepackage[T1]{fontenc}
+
 % hyperref settings
 \hypersetup{
 	colorlinks=true,
@@ -30,17 +33,28 @@
 
 % ----------------------------- PREAMBLE END -----------------------------------
 
-\title{Meta-relazione per\\``Programmazione ad Oggetti''}
+\makeindex
 
-\author{Danilo Pianini}
-\date{\today}
-
-
-
+\title{Relazione Progetto \\ \textbf{Bullet Ballet}}
+\author{Alessandro Pioggia, Leon Baiocchi, Federico Brunelli, Luca Rengo}
+\date{Agosto | Settembre | Ottobre 2021}
 
 \begin{document}
 
-\maketitle
+\makeatletter
+\begin{titlepage}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{img/alma_mater_studiorum_cesena_logo.png}\\[4ex]
+		{\Huge  \@title }\\[3ex] 
+		{\large  \@author}\\[3ex] 
+		{\large \@date}
+	\end{center}
+\end{titlepage}
+\makeatother
+\thispagestyle{empty}
+\newpage
+
+%\maketitle
 
 \tableofcontents
 

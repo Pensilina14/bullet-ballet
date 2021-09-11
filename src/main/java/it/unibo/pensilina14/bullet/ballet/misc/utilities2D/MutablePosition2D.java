@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.environment;
+package it.unibo.pensilina14.bullet.ballet.misc.utilities2D;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
