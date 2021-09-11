@@ -1,15 +1,14 @@
 package it.unibo.pensilina14.bullet.ballet.environment;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Implementation of Environment.
@@ -20,7 +19,7 @@ public class GameEnvironment implements Environment {
   private final Dimension2D gameMapDim;
   private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
   public static final int DEFAULT_DIM = 500;
-  
+
   /*
    * Constructor method in which {@link gravity} 
    * is set at earth one's value and {@link gameMap}'s 
