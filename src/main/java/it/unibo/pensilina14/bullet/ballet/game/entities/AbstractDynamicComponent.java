@@ -80,4 +80,7 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.environment;
     }
     
+    public double getGravityForce() {
+        return environment.getGravity() * this.mass;
+    }
 }
