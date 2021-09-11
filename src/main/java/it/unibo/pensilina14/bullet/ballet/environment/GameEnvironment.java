@@ -75,7 +75,21 @@ public class GameEnvironment implements Environment {
     return Map.copyOf(this.gameMap);
   }
 
-  // TODO: refactor this code in order to adhere to map idea
+  @Override
+  public boolean addObjToMap(final PhysicalObject obj, final ImmutablePosition2D pos) {
+    if (this.gameMap.containsKey(pos) && this.gameMap.get(pos).equals(Optional.empty())) {
+      this.gameMap.put(pos, Optional.ofNullable(obj));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public void deleteObjByPosition(final ImmutablePosition2D position) {
+    this.gameMap.remove(position);
+  }
+  
   @Override
   public Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
     for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> 
@@ -95,6 +109,5 @@ public class GameEnvironment implements Environment {
   public Optional<List<PhysicalObject>> getObjListInMap() {
     //TODO
     return Optional.empty();
-  }
-        
+  } 
 }
