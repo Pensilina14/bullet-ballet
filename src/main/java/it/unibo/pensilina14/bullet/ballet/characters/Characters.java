@@ -29,7 +29,7 @@ public interface Characters {
      *
      * @param setHealth: set new health of the character
      */
-    void setHealth(float setHealth);
+    void setHealth(double setHealth);
 
     /**
      *

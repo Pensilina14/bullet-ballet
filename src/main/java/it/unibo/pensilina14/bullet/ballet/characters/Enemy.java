@@ -44,7 +44,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     @Override
-    public void setHealth(float setHealth) {
+    public void setHealth(double setHealth) {
         this.health = setHealth;
     }
 

@@ -32,7 +32,7 @@ public class Player implements Characters{
     }
 
     @Override
-    public void setHealth(float setHealth) {
+    public void setHealth(double setHealth) {
         this.health = setHealth;
     }
 
