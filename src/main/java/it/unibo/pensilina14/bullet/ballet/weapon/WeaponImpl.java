@@ -48,7 +48,7 @@ public class WeaponImpl implements Weapon {
 	
 	@Override
 	public Effect getEffect() {
-		
+		return null;
 	}
 
 }
