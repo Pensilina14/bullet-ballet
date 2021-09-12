@@ -72,4 +72,19 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public boolean manaLeft() {
+        return this.mana > 0.0;
+    }
+
+    @Override
+    public void decreaseMana(double decreaseValue) {
+        this.mana -= decreaseValue;
+    }
+
+    @Override
+    public void increaseMana(double increaseValue) {
+        this.mana += increaseValue;
+    }
 }

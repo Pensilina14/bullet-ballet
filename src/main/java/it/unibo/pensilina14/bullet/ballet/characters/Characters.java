@@ -64,4 +64,25 @@ public interface Characters {
      */
 
     String getName();
+
+    /**
+     *
+     * @return whether the character has any mana left.
+     */
+
+    boolean manaLeft();
+
+    /**
+     *
+     * @param decreaseValue: decreases mana.
+     */
+
+    void decreaseMana(double decreaseValue);
+
+    /**
+     *
+     * @param increaseValue: increases mana.
+     */
+
+    void increaseMana(double increaseValue);
 }
