@@ -88,7 +88,7 @@ public class GameEnvironmentTest {
     gameEnv.deleteObjByPosition(pos);
 
     assertTrue(hasBeenAdded);
-    assertEquals(gameEnv.findObjInMap(obj).get(), Optional.empty());
+    assertTrue(gameEnv.findObjInMap(obj).isEmpty());
   }
 
   @Test
@@ -103,9 +103,9 @@ public class GameEnvironmentTest {
               new MutablePosition2Dimpl(0, 1),
               gameEnv, DEFAULT_MASS + 1, null); // TODO: substitution of null!!!
       final PhysicalObject obj3 = new PickupItem(
-              new Dimension2Dimpl(DEFAULT_DIM - 1, DEFAULT_DIM - 1),
+              new Dimension2Dimpl(DEFAULT_DIM + 2, DEFAULT_DIM + 2),
               new MutablePosition2Dimpl(1, 1),
-              gameEnv, DEFAULT_MASS - 1, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS + 2, null); // TODO: substitution of null!!!
 
       final boolean firstIsAdded = gameEnv.addObjToMap(obj, 
               new ImmutablePosition2Dimpl(obj.getPosition().getX(), obj.getPosition().getY()));
@@ -117,7 +117,7 @@ public class GameEnvironmentTest {
       assertTrue(firstIsAdded);
       assertTrue(secondIsAdded);
       assertTrue(thirdIsAdded);
-      assertEquals(gameEnv.getObjListInMap().get(), Optional.empty());
+      assertTrue(gameEnv.getObjListInMap().isPresent());
       assertEquals(gameEnv.getObjListInMap().get(), List.of(obj, obj2, obj3));
   }
 }

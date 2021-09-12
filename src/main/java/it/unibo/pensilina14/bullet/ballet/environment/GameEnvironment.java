@@ -96,7 +96,7 @@ public class GameEnvironment implements Environment {
   public final Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
     for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> 
             entry : this.gameMap.entrySet()) {
-      if (entry.getValue().get().equals(obj)) {
+      if (entry.getValue().isPresent() && entry.getValue().get().equals(obj)) {
         return Optional.of(
           new ImmutablePosition2Dimpl(obj.getPosition().getX(), 
             obj.getPosition().getY()
