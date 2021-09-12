@@ -1,19 +1,24 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class WeaponImpl implements Weapon {
 
 	//set for each weapon the total number of available bullets
 	private final static int MAX_AMMO = 10;
 	private final String name;
 	private int currentAmmo;
-	private Bullet[] spareCharger = new BulletImpl[MAX_AMMO];
+	private ArrayList<Bullet> spareCharger = new ArrayList<>();
 	
 	public WeaponImpl(String nameOfWeapon) {
 		this.name = nameOfWeapon;
 		this.currentAmmo = MAX_AMMO;
-		for(int i=0; i<MAX_AMMO; i++) {
-			spareCharger[i] = new BulletImpl(BulletType.CLASSICAL);
-		}
+		spareCharger.ensureCapacity(MAX_AMMO);
+		spareCharger.stream().map(i -> new BulletImpl(BulletType.CLASSICAL));
+		//for(int i=0; i<MAX_AMMO; i++) {
+		//	spareCharger.add(new BulletImpl(BulletType.CLASSICAL));
+		//}
 	}
 	
 	@Override
@@ -30,7 +35,7 @@ public class WeaponImpl implements Weapon {
 	public void decreaseAmmo() {
 		if(hasAmmo() == true) {
 			currentAmmo--;
-			spareCharger[currentAmmo--] = null;
+			spareCharger.remove(currentAmmo--);
 		}
 	}
 
@@ -41,14 +46,12 @@ public class WeaponImpl implements Weapon {
 
 	@Override
 	public boolean hasAmmo() {
-		
-		return false;
+		return 	spareCharger.isEmpty();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 	
 	@Override
