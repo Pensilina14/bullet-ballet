@@ -40,7 +40,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean isAlive() {
-        return this.health <= 0.0;
+        return this.health > 0.0;
     }
 
     @Override

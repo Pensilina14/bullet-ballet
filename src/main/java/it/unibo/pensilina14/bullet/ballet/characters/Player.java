@@ -28,7 +28,7 @@ public class Player implements Characters{
 
     @Override
     public boolean isAlive() {
-        return this.health <= 0.0;
+        return this.health > 0.0;
     }
 
     @Override
