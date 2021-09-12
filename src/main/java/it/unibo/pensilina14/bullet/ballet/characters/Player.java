@@ -28,11 +28,11 @@ public class Player implements Characters{
 
     @Override
     public boolean isAlive() {
-        return this.health <= 0.0;
+        return this.health > 0.0;
     }
 
     @Override
-    public void setHealth(float setHealth) {
+    public void setHealth(double setHealth) {
         this.health = setHealth;
     }
 
@@ -59,5 +59,20 @@ public class Player implements Characters{
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public boolean manaLeft() {
+        return this.mana > 0.0;
+    }
+
+    @Override
+    public void decreaseMana(double decreaseValue) {
+        this.mana -= decreaseValue;
+    }
+
+    @Override
+    public void increaseMana(double increaseValue) {
+        this.mana += increaseValue;
     }
 }

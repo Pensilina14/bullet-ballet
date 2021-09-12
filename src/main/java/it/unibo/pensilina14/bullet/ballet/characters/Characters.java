@@ -29,7 +29,7 @@ public interface Characters {
      *
      * @param setHealth: set new health of the character
      */
-    void setHealth(float setHealth);
+    void setHealth(double setHealth);
 
     /**
      *
@@ -64,4 +64,25 @@ public interface Characters {
      */
 
     String getName();
+
+    /**
+     *
+     * @return whether the character has any mana left.
+     */
+
+    boolean manaLeft();
+
+    /**
+     *
+     * @param decreaseValue: decreases mana.
+     */
+
+    void decreaseMana(double decreaseValue);
+
+    /**
+     *
+     * @param increaseValue: increases mana.
+     */
+
+    void increaseMana(double increaseValue);
 }
