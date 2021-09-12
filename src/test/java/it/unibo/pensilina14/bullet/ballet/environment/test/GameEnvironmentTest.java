@@ -118,6 +118,6 @@ public class GameEnvironmentTest {
       assertTrue(secondIsAdded);
       assertTrue(thirdIsAdded);
       assertTrue(gameEnv.getObjListInMap().isPresent());
-      assertEquals(gameEnv.getObjListInMap().get(), List.of(obj, obj2, obj3));
+      assertEquals(gameEnv.getObjListInMap().get(), List.of(obj, obj2, obj3)); //PickupItem needs equals() method
   }
 }
