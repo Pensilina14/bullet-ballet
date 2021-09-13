@@ -74,34 +74,19 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     private boolean isWithinMapBoundaries(int x, int y) {    
-        return this.isWithinLeftUpperCorner() && 
-                this.isWithinLeftLowerCorner(y) &&
-                this.isWithinRightLowerCorner(x, y) &&
-                this.isWithinRightUpperCorner(x);
+        return isWithinXaxis(x) && isWithinYaxis(y);
     }
     
-    private boolean isWithinLeftUpperCorner() {
-        final Dimension2D envDimension = this.getDimension();
-        return Math.abs(this.position.getX()) <= envDimension.getWidth()
-                && Math.abs(this.position.getY()) >= 0;
+    private boolean isWithinXaxis(int x) {
+        Dimension2D envDimension = this.gameEnvironment.getDimension();
+        return this.position.getX() + x >= -envDimension.getWidth()
+                && this.position.getX() + x + this.dimension.getWidth() <= 0;
     }
     
-    private boolean isWithinLeftLowerCorner(int y) {
-        final Dimension2D envDimension = this.getDimension();
-        return Math.abs(this.position.getX()) <= envDimension.getWidth() 
-                && Math.abs(this.position.getY() - y) <= envDimension.getHeight();
-    }
-    
-    private boolean isWithinRightLowerCorner(int x, int y) {
-        final Dimension2D envDimension = this.getDimension();
-        return Math.abs(this.position.getX() + x) >= 0 
-                && Math.abs(this.position.getY() - y) <= envDimension.getHeight();
-    }
-
-    private boolean isWithinRightUpperCorner(int x) {
-        final Dimension2D envDimension = this.getDimension();
-        return Math.abs(this.position.getX() + x) <= envDimension.getWidth()
-                && Math.abs(this.position.getY()) >= 0;
+    private boolean isWithinYaxis(int y) {
+        Dimension2D envDimension = this.gameEnvironment.getDimension();
+        return this.position.getY() + y <= 0
+                && this.position.getY() + y - this.dimension.getHeight() >= -envDimension.getHeight();
     }
     
     public double getGravityForce() {
