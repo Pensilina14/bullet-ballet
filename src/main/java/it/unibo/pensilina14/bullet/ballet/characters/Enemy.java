@@ -5,20 +5,20 @@ import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
 
-import javax.xml.crypto.dsig.DigestMethod;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private double health;
-    private double mana;
+    private Optional<Double> mana;
     private final int numberOfEnemies;
     private final String name;
 
     private Weapon weapon;
 
-    public Enemy(String name, double health, double mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+    public Enemy(String name, double health, Optional<Double> mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
 
         super(dimension, position, environment, mass);
 
@@ -34,7 +34,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     @Override
-    public double getMana() {
+    public Optional<Double> getMana() {
         return this.mana;
     }
 
@@ -75,16 +75,22 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean manaLeft() {
-        return this.mana > 0.0;
+        return !this.mana.equals(Optional.of(0.0));
     }
 
     @Override
     public void decreaseMana(double decreaseValue) {
-        this.mana -= decreaseValue;
+        //this.mana.ifPresent( value -> value -= decreaseValue);
+        if(this.mana.isPresent()){
+            this.mana = Optional.of( this.mana.get() - decreaseValue);
+        }
     }
 
     @Override
     public void increaseMana(double increaseValue) {
-        this.mana += increaseValue;
+        //this.mana.ifPresent( value -> value += increaseValue);
+        if(this.mana.isPresent()){
+            this.mana = Optional.of( this.mana.get() + increaseValue);
+        }
     }
 }

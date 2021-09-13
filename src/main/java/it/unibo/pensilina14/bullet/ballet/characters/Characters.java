@@ -2,6 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.characters;
 
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
 
+import java.util.Optional;
+
 public interface Characters {
 
     /**
@@ -13,10 +15,10 @@ public interface Characters {
 
     /**
      *
-     * @return mana of the character.
+     * @return optional mana of the character.
      */
 
-    double getMana();
+    Optional<Double> getMana();
 
     /**
      *

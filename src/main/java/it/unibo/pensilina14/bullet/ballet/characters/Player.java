@@ -1,12 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
+
+import java.util.Optional;
 
 public class Player implements Characters{
 
     private double health = 100.0;
-    private double mana = 100.0;
+    private Optional<Double> mana = Optional.of(100.0);
 
     private final String name;
 
@@ -22,7 +23,7 @@ public class Player implements Characters{
     }
 
     @Override
-    public double getMana() {
+    public Optional<Double> getMana() {
         return this.mana;
     }
 
@@ -63,16 +64,22 @@ public class Player implements Characters{
 
     @Override
     public boolean manaLeft() {
-        return this.mana > 0.0;
+        //return !this.mana.equals(Optional.of(0.0));
+        return this.mana.filter( i -> i > 0.0).isPresent();
     }
 
     @Override
     public void decreaseMana(double decreaseValue) {
-        this.mana -= decreaseValue;
+        //this.mana.ifPresent(aDouble -> aDouble -= decreaseValue);
+        if(this.mana.isPresent()){
+            this.mana = Optional.of(this.mana.get() - decreaseValue);
+        }
     }
 
     @Override
     public void increaseMana(double increaseValue) {
-        this.mana += increaseValue;
+        if(this.mana.isPresent()){
+            this.mana = Optional.of(this.mana.get() + increaseValue);
+        }
     }
 }
