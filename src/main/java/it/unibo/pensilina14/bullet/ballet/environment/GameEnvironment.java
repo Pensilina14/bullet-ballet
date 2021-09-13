@@ -1,15 +1,17 @@
 package it.unibo.pensilina14.bullet.ballet.environment;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of Environment.
@@ -20,7 +22,7 @@ public class GameEnvironment implements Environment {
   private final Dimension2D gameMapDim;
   private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
   public static final int DEFAULT_DIM = 500;
-  
+
   /*
    * Constructor method in which {@link gravity} 
    * is set at earth one's value and {@link gameMap}'s 
@@ -34,7 +36,7 @@ public class GameEnvironment implements Environment {
     this.gameMap = new HashMap<>();
     this.initializeMap(this.gameMap, this.gameMapDim);
   }
-  
+
   /*
    * Constructor method in which {@link gravity}
    * is set at @param gravity and {@link Dimension2D} is 
@@ -47,7 +49,7 @@ public class GameEnvironment implements Environment {
     this.gameMap = new HashMap<>();
     this.initializeMap(this.gameMap, this.gameMapDim);
   }
-  
+
   /*
    * Generates virtual map's coordinates as gameMap keys.
    */
@@ -59,28 +61,42 @@ public class GameEnvironment implements Environment {
       }
     }
   }
-  
+
   @Override
-  public double getGravity() {
+  public final double getGravity() {
     return this.gravity;
   }
-  
+
   @Override
-  public Dimension2D getDimension() {
+  public final Dimension2D getDimension() {
     return this.gameMapDim;
   }
 
   @Override
-  public Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap() {
+  public final Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap() {
     return Map.copyOf(this.gameMap);
   }
 
-  // TODO: refactor this code in order to adhere to map idea
   @Override
-  public Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
+  public final boolean addObjToMap(final PhysicalObject obj, final ImmutablePosition2D pos) {
+    if (this.gameMap.containsKey(pos) && this.gameMap.get(pos).equals(Optional.empty())) {
+      this.gameMap.put(pos, Optional.ofNullable(obj));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public final void deleteObjByPosition(final ImmutablePosition2D position) {
+    this.gameMap.remove(position);
+  }
+
+  @Override
+  public final Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
     for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> 
             entry : this.gameMap.entrySet()) {
-      if (entry.getValue().get().equals(obj)) {
+      if (entry.getValue().isPresent() && entry.getValue().get().equals(obj)) {
         return Optional.of(
           new ImmutablePosition2Dimpl(obj.getPosition().getX(), 
             obj.getPosition().getY()
@@ -92,9 +108,11 @@ public class GameEnvironment implements Environment {
 
 
   @Override
-  public Optional<List<PhysicalObject>> getObjListInMap() {
-    //TODO
-    return Optional.empty();
-  }
-        
+  public final Optional<List<PhysicalObject>> getObjListInMap() {
+    final List<PhysicalObject> objList = new ArrayList<>();
+    this.gameMap.entrySet().stream()
+        .filter(e -> e.getValue().equals(Optional.empty()))
+        .collect(Collectors.toList());
+    return Optional.ofNullable(objList);
+  } 
 }

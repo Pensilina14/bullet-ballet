@@ -10,7 +10,7 @@ public interface MutablePosition2D {
   /*
    * @return a {@link MutablePair} representing position.
    */
-  MutablePair<Integer, Integer> getPosition();
+  MutablePair<Integer, Integer> getCoordinates();
   
   /*
    * @return coordinate X of position

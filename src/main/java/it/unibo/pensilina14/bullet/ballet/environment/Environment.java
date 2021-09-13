@@ -31,6 +31,29 @@ public interface Environment {
   Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap();
 
   /*
+   * @param obj is the object that will be added to the map along with 
+   * its head position in the map.
+   * 
+   * @param pos represents the head position of the given PhysicalObject.
+   * 
+   * The head of a {@link PhysicalObject} is meant to represent the upper-left corner
+   * of the imaginary box that wraps it up.
+   * 
+   * @return true only if obj has been succesfully put in the map.
+   * @return false if it's not possible to do that.
+   * Example: {@link ImmutablePosition2D} already occupied by another {@link PhysicalObject}.
+   */
+  boolean addObjToMap(PhysicalObject obj, ImmutablePosition2D head);
+  
+  /*
+   * @param position is the position of the object to be deleted.
+   * 
+   * The {@link PhysicalObject} to be deleted is first searched and
+   * then removed from the map.
+   */
+  void deleteObjByPosition(ImmutablePosition2D position);
+  
+  /*
    * Finds the given @param obj in the map: 
    * 
    * if found, @return location in coordinates;

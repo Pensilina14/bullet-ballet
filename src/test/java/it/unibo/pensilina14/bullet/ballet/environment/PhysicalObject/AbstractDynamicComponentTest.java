@@ -20,7 +20,7 @@ public class AbstractDynamicComponentTest {
     private class AbstractDynamicComponentImpl extends AbstractDynamicComponent {
 
         public AbstractDynamicComponentImpl() {
-            super(new Dimension2Dimpl(10, 10), new MutablePosition2Dimpl(5, 5)
+            super(new Dimension2Dimpl(2, 2), new MutablePosition2Dimpl(0, 0)
                     , new GameEnvironment(), 10);
         }
         
@@ -30,7 +30,7 @@ public class AbstractDynamicComponentTest {
     public void testMutablePosition2D() {
         final PhysicalObject component = new AbstractDynamicComponentImpl();
         final MutablePosition2D position = component.getPosition();
-        assertEquals(position.getPosition(), MutablePair.of(5, 5));
+        assertEquals(position.getCoordinates(), MutablePair.of(0, 0));
     }
     
     @Test
@@ -46,7 +46,44 @@ public class AbstractDynamicComponentTest {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
         boolean isMoving = component.move(-5, -5);
         assertTrue(isMoving);
-        isMoving = component.move(506, 506);
+        isMoving = component.move(-506, -506);
+        assertTrue(!isMoving);
+    }
+    
+    @Test
+    public void testMoveUP() {
+        final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        boolean isMoving = component.moveUP(10);
+        assertTrue(!isMoving);
+        component.getPosition().setPosition(-20, -20);
+        isMoving = component.moveUP(10);
+        assertTrue(isMoving);
+    }
+    
+    @Test
+    public void testMoveDOWN() {
+        final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        boolean isMoving = component.moveDOWN(10);
+        assertTrue(!isMoving);
+        isMoving = component.moveDOWN(1000);
+        assertTrue(!isMoving);
+    }
+    
+    @Test
+    public void testMoveRIGHT() {
+        final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        boolean isMoving = component.moveRIGHT(10);
+        assertTrue(!isMoving);
+        isMoving = component.moveRIGHT(2000);
+        assertTrue(!isMoving);
+    }
+    
+    @Test
+    public void testMoveLEFT() {
+        final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        boolean isMoving = component.moveLEFT(10);
+        assertTrue(isMoving);
+        isMoving = component.moveLEFT(2000);
         assertTrue(!isMoving);
     }
     

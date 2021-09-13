@@ -1,7 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
+=======
+import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
+>>>>>>> main
 
 public class WeaponImpl implements Weapon {
 

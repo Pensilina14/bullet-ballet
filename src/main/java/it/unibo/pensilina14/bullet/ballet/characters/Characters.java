@@ -1,5 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
+import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+
+import java.util.Optional;
+
 public interface Characters {
 
     /**
@@ -11,23 +15,23 @@ public interface Characters {
 
     /**
      *
-     * @return mana of the character.
+     * @return optional mana of the character.
      */
 
-    double getMana();
+    Optional<Double> getMana();
 
     /**
      *
      * @return whether character is alive or not.
      */
 
-    boolean isAlive(); // isDead
+    boolean isAlive();
 
     /**
      *
      * @param setHealth: set new health of the character
      */
-    void setHealth(float setHealth);
+    void setHealth(double setHealth);
 
     /**
      *
@@ -44,17 +48,17 @@ public interface Characters {
     boolean crouch();
 
     /**
-     * returns the Weapon that the character is using.
+     * @return the Weapon that the character is using.
      */
 
-    void getWeapon(); // returns a Weapon
+    Weapon getWeapon(); // returns a Weapon
 
     /**
-     * parameter: a Weapon
-     * @return if weapon has been set
+     * @param weapon: set the new character weapon.
+     *
      */
 
-    boolean setWeapon();
+    void setWeapon(Weapon weapon);
 
     /**
      *
@@ -62,4 +66,25 @@ public interface Characters {
      */
 
     String getName();
+
+    /**
+     *
+     * @return whether the character has any mana left.
+     */
+
+    boolean manaLeft();
+
+    /**
+     *
+     * @param decreaseValue: decreases mana.
+     */
+
+    void decreaseMana(double decreaseValue);
+
+    /**
+     *
+     * @param increaseValue: increases mana.
+     */
+
+    void increaseMana(double increaseValue);
 }
