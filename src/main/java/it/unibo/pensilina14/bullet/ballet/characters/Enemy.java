@@ -6,7 +6,6 @@ import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class Enemy extends AbstractDynamicComponent implements Characters{
@@ -75,12 +74,11 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean manaLeft() {
-        return !this.mana.equals(Optional.of(0.0));
+        return this.mana.filter( i -> i > 0.0).isPresent();
     }
 
     @Override
     public void decreaseMana(double decreaseValue) {
-        //this.mana.ifPresent( value -> value -= decreaseValue);
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() - decreaseValue);
         }
@@ -88,7 +86,6 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public void increaseMana(double increaseValue) {
-        //this.mana.ifPresent( value -> value += increaseValue);
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }

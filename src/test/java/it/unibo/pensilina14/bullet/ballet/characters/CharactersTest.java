@@ -2,12 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.characters;
 
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -54,7 +50,6 @@ public class CharactersTest {
     }
 
     private static final int DEFAULT_DIM = 500;
-    private static final double DEFAULT_MASS = 10.0;
 
     @Test
     public void testEnemy(){
@@ -89,7 +84,7 @@ public class CharactersTest {
         assertTrue(enemy.getMana().get() == 65.0);
 
         enemy.decreaseMana(65.0);
-        assertFalse(enemy.isAlive());
+        assertFalse(enemy.manaLeft());
 
         // WEAPON
     }

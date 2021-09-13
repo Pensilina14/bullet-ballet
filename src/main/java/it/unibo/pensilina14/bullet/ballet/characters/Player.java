@@ -64,13 +64,11 @@ public class Player implements Characters{
 
     @Override
     public boolean manaLeft() {
-        //return !this.mana.equals(Optional.of(0.0));
         return this.mana.filter( i -> i > 0.0).isPresent();
     }
 
     @Override
     public void decreaseMana(double decreaseValue) {
-        //this.mana.ifPresent(aDouble -> aDouble -= decreaseValue);
         if(this.mana.isPresent()){
             this.mana = Optional.of(this.mana.get() - decreaseValue);
         }
