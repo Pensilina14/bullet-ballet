@@ -46,6 +46,22 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
+    public boolean moveUP(int y) {
+        return this.move(0, Math.abs(y));
+    }
+    
+    public boolean moveDOWN(int y) {
+        return this.move(0, -Math.abs(y));
+    }
+    
+    public boolean moveRIGHT(int x) {
+        return this.move(Math.abs(x), 0);
+    }
+    
+    public boolean moveLEFT(int x) {
+        return this.move(-Math.abs(x), 0);
+    }
+    
     public boolean move(int x, int y) {
         if (isWithinMapBoundaries(x, y)) {
             vectorialSum(x, y);
