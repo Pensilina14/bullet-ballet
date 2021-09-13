@@ -1,11 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
-=======
 import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
->>>>>>> main
 
 public class WeaponImpl implements Weapon {
 
@@ -29,12 +26,12 @@ public class WeaponImpl implements Weapon {
 	public int getAmmoLeft() {
 		return currentAmmo;
 	}
-
+	
 	@Override
 	public int getTotalAmmo() {
 		return MAX_AMMO;
 	}
-
+	
 	@Override
 	public void decreaseAmmo() {
 		if(hasAmmo() == true) {
@@ -42,17 +39,17 @@ public class WeaponImpl implements Weapon {
 			spareCharger.remove(currentAmmo--);
 		}
 	}
-
+	
 	@Override
 	public boolean shoot() {
 		return false;
 	}
-
+	
 	@Override
 	public boolean hasAmmo() {
 		return 	spareCharger.isEmpty();
 	}
-
+	
 	@Override
 	public String getName() {
 		return name;
@@ -61,6 +58,14 @@ public class WeaponImpl implements Weapon {
 	@Override
 	public Effect getEffect() {
 		return null;
+	}
+	
+	@Override
+	public boolean recharge(Bullet singleBullet, Bullet[] charger) {
+		for(Bullet bullet: charger) {
+			spareCharger.add(bullet);
+		}
+		return false;
 	}
 
 }
