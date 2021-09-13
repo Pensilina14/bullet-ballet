@@ -1,4 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
+import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
+
 
 public class BulletImpl implements Bullet {
 
