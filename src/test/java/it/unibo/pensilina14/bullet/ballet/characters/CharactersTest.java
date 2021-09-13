@@ -49,6 +49,22 @@ public class CharactersTest {
 
     }
 
+    @Test
+    public void testPlayerTypes(){
+        EntityList.Player playerType = EntityList.Player.PLAYER1;
+        final Player player1 = new Player(playerType);
+
+        // HEALTH & MANA
+
+        assertTrue(player1.getHealth() == 82.0);
+        assertTrue(player1.getMana().get() == 50.0);
+
+        // WEAPON
+
+        //assertEquals("AK-47", player1.getWeapon().getName()); // TODO: getName() not yet implemented in WeaponsImpl
+        assertEquals(100, player1.getWeapon().getTotalAmmo());
+    }
+
     private static final int DEFAULT_DIM = 500;
 
     @Test
