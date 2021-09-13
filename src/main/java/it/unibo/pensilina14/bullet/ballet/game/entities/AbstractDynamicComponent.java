@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.game.entities;
 
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 
@@ -46,6 +45,22 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
+    public boolean moveUP(int y) {
+        return this.move(0, Math.abs(y));
+    }
+    
+    public boolean moveDOWN(int y) {
+        return this.move(0, -Math.abs(y));
+    }
+    
+    public boolean moveRIGHT(int x) {
+        return this.move(Math.abs(x), 0);
+    }
+    
+    public boolean moveLEFT(int x) {
+        return this.move(-Math.abs(x), 0);
+    }
+    
     public boolean move(int x, int y) {
         if (isWithinMapBoundaries(x, y)) {
             vectorialSum(x, y);
@@ -66,19 +81,27 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     private boolean isWithinLeftUpperCorner() {
-        return this.position.getX() < GameEnvironment.DEFAULT_DIM && this.position.getY() > 0;
+        final Dimension2D envDimension = this.getDimension();
+        return this.position.getX() < envDimension.getWidth()
+                && this.position.getY() > 0;
     }
     
     private boolean isWithinLeftLowerCorner(int y) {
-        return this.position.getX() < GameEnvironment.DEFAULT_DIM && this.position.getY() + y < GameEnvironment.DEFAULT_DIM;
+        final Dimension2D envDimension = this.getDimension();
+        return this.position.getX() < envDimension.getWidth() 
+                && this.position.getY() + y < envDimension.getHeight();
     }
     
     private boolean isWithinRightLowerCorner(int x, int y) {
-        return this.position.getX() - x > 0 && this.position.getY() + y < GameEnvironment.DEFAULT_DIM;
+        final Dimension2D envDimension = this.getDimension();
+        return this.position.getX() - x > 0 
+                && this.position.getY() + y < envDimension.getHeight();
     }
 
     private boolean isWithinRightUpperCorner(int x) {
-        return this.position.getX() - x < GameEnvironment.DEFAULT_DIM && this.position.getY() > 0;
+        final Dimension2D envDimension = this.getDimension();
+        return this.position.getX() - x < envDimension.getWidth()
+                && this.position.getY() > 0;
     }
     
     public double getGravityForce() {

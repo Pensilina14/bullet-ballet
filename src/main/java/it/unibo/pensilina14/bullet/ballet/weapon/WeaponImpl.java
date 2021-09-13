@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
+import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
+
 public class WeaponImpl implements Weapon {
 
 	//set for each weapon the total number of available bullets

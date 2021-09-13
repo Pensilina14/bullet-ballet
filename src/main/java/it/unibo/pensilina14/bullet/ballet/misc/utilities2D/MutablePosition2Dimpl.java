@@ -13,7 +13,7 @@ public class MutablePosition2Dimpl implements MutablePosition2D {
   }
 
   @Override
-  public MutablePair<Integer, Integer> getPosition() {
+  public MutablePair<Integer, Integer> getCoordinates() {
     return this.position.get();
   }
 
