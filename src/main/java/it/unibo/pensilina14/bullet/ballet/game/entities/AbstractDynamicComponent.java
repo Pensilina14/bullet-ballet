@@ -82,26 +82,26 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     
     private boolean isWithinLeftUpperCorner() {
         final Dimension2D envDimension = this.getDimension();
-        return this.position.getX() < envDimension.getWidth()
-                && this.position.getY() > 0;
+        return Math.abs(this.position.getX()) <= envDimension.getWidth()
+                && Math.abs(this.position.getY()) >= 0;
     }
     
     private boolean isWithinLeftLowerCorner(int y) {
         final Dimension2D envDimension = this.getDimension();
-        return this.position.getX() < envDimension.getWidth() 
-                && this.position.getY() + y < envDimension.getHeight();
+        return Math.abs(this.position.getX()) <= envDimension.getWidth() 
+                && Math.abs(this.position.getY() - y) <= envDimension.getHeight();
     }
     
     private boolean isWithinRightLowerCorner(int x, int y) {
         final Dimension2D envDimension = this.getDimension();
-        return this.position.getX() - x > 0 
-                && this.position.getY() + y < envDimension.getHeight();
+        return Math.abs(this.position.getX() + x) >= 0 
+                && Math.abs(this.position.getY() - y) <= envDimension.getHeight();
     }
 
     private boolean isWithinRightUpperCorner(int x) {
         final Dimension2D envDimension = this.getDimension();
-        return this.position.getX() - x < envDimension.getWidth()
-                && this.position.getY() > 0;
+        return Math.abs(this.position.getX() + x) <= envDimension.getWidth()
+                && Math.abs(this.position.getY()) >= 0;
     }
     
     public double getGravityForce() {
