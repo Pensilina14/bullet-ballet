@@ -2,13 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.weapon;
 
 public interface Bullet extends Item {
 	
-	enum BulletType{
-		Classical, Toxic, Paralyzing
-		}
-	
-	BulletType getBulletType();
+	String getName();
 	
 	double getDamage();
 	
-	void inflictDamage();
 }

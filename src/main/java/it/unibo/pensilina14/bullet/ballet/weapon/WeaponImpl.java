@@ -1,56 +1,71 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
 
 public class WeaponImpl implements Weapon {
 
 	//set for each weapon the total number of available bullets
-	private static int MAX_AMMO;
+	private final static int MAX_AMMO = 10;
 	private final String name;
 	private int currentAmmo;
-	private Bullet[] spareCharger;
+	private ArrayList<Bullet> spareCharger = new ArrayList<>();
 	
-	public WeaponImpl(int max_ammo, String nameOfWeapon) {
-		this.MAX_AMMO = max_ammo;
+	public WeaponImpl(String nameOfWeapon) {
 		this.name = nameOfWeapon;
-		this.currentAmmo = this.MAX_AMMO;
+		this.currentAmmo = MAX_AMMO;
+		spareCharger.ensureCapacity(MAX_AMMO);
+		spareCharger.stream().map(i -> new BulletImpl(BulletType.CLASSICAL));
+		//for(int i=0; i<MAX_AMMO; i++) {
+		//	spareCharger.add(new BulletImpl(BulletType.CLASSICAL));
+		//}
 	}
 	
 	@Override
 	public int getAmmoLeft() {
-		return this.currentAmmo;
+		return currentAmmo;
 	}
-
+	
 	@Override
 	public int getTotalAmmo() {
-		return this.MAX_AMMO;
+		return MAX_AMMO;
 	}
-
+	
 	@Override
 	public void decreaseAmmo() {
-		this.currentAmmo--;
+		if(hasAmmo() == true) {
+			currentAmmo--;
+			spareCharger.remove(currentAmmo--);
+		}
 	}
-
+	
 	@Override
 	public boolean shoot() {
 		return false;
 	}
-
+	
 	@Override
 	public boolean hasAmmo() {
-		// TODO Auto-generated method stub
-		return false;
+		return 	spareCharger.isEmpty();
 	}
-
+	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 	
 	@Override
 	public Effect getEffect() {
 		return null;
+	}
+	
+	@Override
+	public boolean recharge(Bullet singleBullet, Bullet[] charger) {
+		for(Bullet bullet: charger) {
+			spareCharger.add(bullet);
+		}
+		return false;
 	}
 
 }

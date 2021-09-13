@@ -33,4 +33,8 @@ public interface Weapon extends Item {
 	 */
 	String getName();
 	
+	/*
+	 * @return True if recharging takes place correctly
+	 */
+	boolean recharge(Bullet singleBullet, Bullet[] charger);
 }
