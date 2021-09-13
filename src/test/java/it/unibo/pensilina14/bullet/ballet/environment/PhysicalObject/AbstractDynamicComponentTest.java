@@ -30,7 +30,7 @@ public class AbstractDynamicComponentTest {
     public void testMutablePosition2D() {
         final PhysicalObject component = new AbstractDynamicComponentImpl();
         final MutablePosition2D position = component.getPosition();
-        assertEquals(position.getPosition(), MutablePair.of(5, 5));
+        assertEquals(position.getCoordinates(), MutablePair.of(5, 5));
     }
     
     @Test
