@@ -38,7 +38,7 @@ public class Player implements Characters{
             case PLAYER1:
                 this.health = 82.0;
                 this.mana = Optional.of(50.0);
-                this.weapon = new WeaponImpl(100, "AK-47");
+                this.weapon = new WeaponImpl("AK-47");
             case PLAYER2:
                 // TODO: to implement
                 break;

@@ -61,8 +61,8 @@ public class CharactersTest {
 
         // WEAPON
 
-        //assertEquals("AK-47", player1.getWeapon().getName()); // TODO: getName() not yet implemented in WeaponsImpl
-        assertEquals(100, player1.getWeapon().getTotalAmmo());
+        assertEquals("AK-47", player1.getWeapon().getName());
+        //assertEquals(100, player1.getWeapon().getTotalAmmo());
     }
 
     private static final int DEFAULT_DIM = 500;
