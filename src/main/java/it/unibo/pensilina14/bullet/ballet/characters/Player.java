@@ -1,20 +1,51 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
 
 import java.util.Optional;
 
 public class Player implements Characters{
 
-    private double health = 100.0;
-    private Optional<Double> mana = Optional.of(100.0);
+    private double health;
+    private Optional<Double> mana;
 
-    private final String name;
+    private String name;
 
     private Weapon weapon;
 
+    private EntityList.Player playerType;
+
     public Player(String name){
         this.name = name;
+        this.health = 100.0;
+        this.mana = Optional.of(100.0);
+    }
+
+    public Player(String name, double health,Optional<Double> mana){
+        this.name = name;
+        this.health = health;
+        this.mana = mana;
+    }
+
+    public Player(EntityList.Player playerType){
+        this.playerType = playerType;
+        setPlayerType(playerType);
+    }
+
+    private void setPlayerType(EntityList.Player playerType){
+        switch(playerType){
+            case PLAYER1:
+                this.health = 82.0;
+                this.mana = Optional.of(50.0);
+                this.weapon = new WeaponImpl(100, "AK-47");
+            case PLAYER2:
+                // TODO: to implement
+                break;
+            case PLAYER3:
+                // TODO: to implement
+                break;
+        }
     }
 
     @Override
