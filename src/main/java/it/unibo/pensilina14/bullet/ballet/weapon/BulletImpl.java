@@ -27,4 +27,10 @@ public class BulletImpl implements Bullet {
 		return null;
 	}
 
+    @Override
+    public ITEM_ID getItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
