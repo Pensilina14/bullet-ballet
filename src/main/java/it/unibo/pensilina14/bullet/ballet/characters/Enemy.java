@@ -5,6 +5,7 @@ import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
 
 import java.util.Optional;
 
@@ -12,10 +13,12 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private double health;
     private Optional<Double> mana;
-    private final int numberOfEnemies;
-    private final String name;
+    private int numberOfEnemies;
+    private String name;
 
     private Weapon weapon;
+
+    private EntityList.Enemy enemyType;
 
     public Enemy(String name, double health, Optional<Double> mana, int numberOfEnemies, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
 
@@ -25,6 +28,29 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         this.health = health;
         this.mana = mana;
         this.numberOfEnemies = numberOfEnemies;
+
+    }
+
+    public Enemy(EntityList.Enemy enemyType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+        super(dimension, position, environment, mass);
+        this.enemyType = enemyType;
+        setEnemyType(enemyType);
+    }
+
+    private void setEnemyType(EntityList.Enemy enemyType){
+        switch(enemyType){
+            case ENEMY1:
+                this.name = "Enemy1";
+                this.numberOfEnemies = 0;
+                this.health = 77.0;
+                this.mana = Optional.of(43.0);
+                this.weapon = new WeaponImpl("AK-47");
+                break;
+            case ENEMY2:
+                break;
+            case ENEMY3:
+                break;
+        }
     }
 
     @Override

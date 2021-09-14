@@ -36,6 +36,7 @@ public class Player implements Characters{
     private void setPlayerType(EntityList.Player playerType){
         switch(playerType){
             case PLAYER1:
+                this.name = "Player1";
                 this.health = 82.0;
                 this.mana = Optional.of(50.0);
                 this.weapon = new WeaponImpl("AK-47");
