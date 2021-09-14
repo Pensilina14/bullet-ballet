@@ -66,6 +66,7 @@ public class CharactersTest {
     }
 
     private static final int DEFAULT_DIM = 500;
+    private static final int DEFAULT_MASS = 10;
 
     @Test
     public void testEnemy(){
@@ -103,5 +104,21 @@ public class CharactersTest {
         assertFalse(enemy.manaLeft());
 
         // WEAPON
+    }
+
+    @Test
+    public void testEnemyTypes(){
+        final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+        final Environment environment = new GameEnvironment();
+        final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
+
+        Enemy enemy1 = new Enemy(EntityList.Enemy.ENEMY1, dimension, position, environment, DEFAULT_MASS);
+
+        assertTrue(enemy1.getHealth() == 77.0);
+        assertTrue(enemy1.getMana().get() == 43.0);
+
+        assertTrue(enemy1.getName() == "Enemy1");
+
+        assertEquals("AK-47",enemy1.getWeapon().getName());
     }
 }
