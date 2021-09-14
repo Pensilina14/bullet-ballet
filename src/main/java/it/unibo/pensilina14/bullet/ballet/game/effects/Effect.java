@@ -11,6 +11,8 @@ package it.unibo.pensilina14.bullet.ballet.game.effects;
 public interface Effect {
 	/**
 	 * Applies the effect to the target {@link Character}.
+	 * 
+	 * @param target is the Character on which the effect will be applied.
 	 */
-    void applyEffect();
+    void applyEffect(Character target);
 }
