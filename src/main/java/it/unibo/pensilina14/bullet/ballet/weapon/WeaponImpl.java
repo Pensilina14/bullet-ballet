@@ -68,4 +68,10 @@ public class WeaponImpl implements Weapon {
 		return false;
 	}
 
+    @Override
+    public ITEM_ID getItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
