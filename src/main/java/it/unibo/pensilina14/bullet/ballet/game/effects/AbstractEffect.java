@@ -2,11 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.game.effects;
 
 /**
  * This abstract class serves as a template
- * for all the possible implementations of {@link Effect} 
- * interface that include NEGATIVE consequences after 
+ * for several default implementations of {@link Effect} 
+ * interface that include POSITIVE consequences after 
  * the method {@link Effect#applyEffect()}.
  */
-public abstract class AbstractMalusEffect implements Effect {
+public abstract class AbstractEffect implements Effect {
 	/**
 	 * Every effect has a target {@link Character}, referred to by this field.
 	 */
@@ -18,7 +18,7 @@ public abstract class AbstractMalusEffect implements Effect {
 	 * 
 	 * @param target
 	 */
-	public AbstractMalusEffect(final Character target) {
+	public AbstractEffect(final Character target) {
 		this.target = target;
 	}
 
@@ -30,16 +30,12 @@ public abstract class AbstractMalusEffect implements Effect {
 	public final Character getTarget() {
 		return this.target;
 	}
-	
+
 	/**
 	 * This method must be implemented in inheriting class.
 	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void applyEffect() {
-		// TODO Auto-generated method stub
-
-	}
-
+	public abstract void applyEffect();
 }
