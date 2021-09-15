@@ -3,7 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.environment;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
