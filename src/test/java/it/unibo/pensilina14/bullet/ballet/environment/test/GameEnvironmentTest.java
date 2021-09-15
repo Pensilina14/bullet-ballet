@@ -10,7 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.weapon.PickupItem;
+import it.unibo.pensilina14.bullet.ballet.weapon.DynamicPickupItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +63,7 @@ public class GameEnvironmentTest {
   @Test
   public void testAddObjToMap() {
     final Environment gameEnv = new GameEnvironment();
-    final PhysicalObject obj = new PickupItem(
+    final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
             new MutablePosition2Dimpl(0, 0),
             gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
@@ -78,7 +78,7 @@ public class GameEnvironmentTest {
   @Test
   public void testDeleteObjByPosition() {
     final Environment gameEnv = new GameEnvironment();
-    final PhysicalObject obj = new PickupItem(
+    final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
             new MutablePosition2Dimpl(0, 0),
             gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
@@ -94,15 +94,15 @@ public class GameEnvironmentTest {
   @Test
   public void testGetObjListInMap() {
       final Environment gameEnv = new GameEnvironment();
-      final PhysicalObject obj = new PickupItem(
+      final PhysicalObject obj = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
               new MutablePosition2Dimpl(0, 0),
               gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
-      final PhysicalObject obj2 = new PickupItem(
+      final PhysicalObject obj2 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 1, DEFAULT_DIM + 1),
               new MutablePosition2Dimpl(0, 1),
               gameEnv, DEFAULT_MASS + 1, null, null); // TODO: substitution of null!!!
-      final PhysicalObject obj3 = new PickupItem(
+      final PhysicalObject obj3 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 2, DEFAULT_DIM + 2),
               new MutablePosition2Dimpl(1, 1),
               gameEnv, DEFAULT_MASS + 2, null, null); // TODO: substitution of null!!!

@@ -11,7 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.weapon.PickupItem;
+import it.unibo.pensilina14.bullet.ballet.weapon.DynamicPickupItem;
 
 public class EffectTest {
 
