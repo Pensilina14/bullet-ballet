@@ -6,12 +6,12 @@ import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
 
-public class PickupItem extends AbstractDynamicComponent implements Item{
+public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
 
     private final ITEM_ID id;
     private final Effect effect;
     
-    public PickupItem(Dimension2D dimension, MutablePosition2D position
+    public DynamicPickupItem(Dimension2D dimension, MutablePosition2D position
             , Environment gameEnvironment, double mass,
             Effect effect, ITEM_ID id) {
         super(dimension, position, gameEnvironment, mass);
