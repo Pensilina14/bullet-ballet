@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.weapon;
 
+import java.util.stream.IntStream;
+
 import it.unibo.pensilina14.bullet.ballet.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.game.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent;
@@ -28,4 +30,13 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
     public ITEM_ID getItemId() {
         return this.id;
     }
+    
+    /*
+     *TODO = refactor with java streams 
+    */
+    public void yAxisMovement() {
+        while (this.moveUP(1)) {};
+        while (this.moveDOWN(1)) {};
+    }
+    
 }
