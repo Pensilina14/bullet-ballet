@@ -7,12 +7,12 @@ import it.unibo.pensilina14.bullet.ballet.characters.Characters;
  * classes that do implement {@link Item} interface
  * must adhere, in order to give that Item an effect.
  * The effect is intended to be "effective" against
- * a specific {@link Character}.
+ * a specific {@link Characters}.
  */
 @FunctionalInterface
 public interface Effect {
 	/**
-	 * Applies the effect to the target {@link Character}.
+	 * Applies the effect to the target {@link Characters}.
 	 * 
 	 * @param target is the {@link Characters} on which the effect will be applied.
 	 */
