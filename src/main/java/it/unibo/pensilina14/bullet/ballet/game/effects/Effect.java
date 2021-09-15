@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.game.effects;
 
+import it.unibo.pensilina14.bullet.ballet.characters.Characters;
+
 /**
  * Defines a contract to which all of the
  * classes that do implement {@link Item} interface
@@ -12,7 +14,7 @@ public interface Effect {
 	/**
 	 * Applies the effect to the target {@link Character}.
 	 * 
-	 * @param target is the Character on which the effect will be applied.
+	 * @param target is the {@link Characters} on which the effect will be applied.
 	 */
-    void applyEffect(Character target);
+    void applyEffect(Characters target);
 }
