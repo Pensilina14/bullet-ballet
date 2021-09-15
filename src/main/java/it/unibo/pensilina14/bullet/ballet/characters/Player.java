@@ -4,6 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.weapon.WeaponImpl;
 
 import java.util.Optional;
+import java.util.Random;
 
 public class Player implements Characters{
 
@@ -15,6 +16,10 @@ public class Player implements Characters{
     private Weapon weapon;
 
     private EntityList.Player playerType;
+
+    private final Random rand = new Random();
+    private final static double MAX = 100.0;
+    //private final static double MIN = 0.0;
 
     public Player(String name){
         this.name = name;
@@ -34,17 +39,31 @@ public class Player implements Characters{
     }
 
     private void setPlayerType(EntityList.Player playerType){
+        double minHealth;
+        double minMana;
         switch(playerType){
             case PLAYER1:
+                minHealth = 80.0;
+                minMana = 50.0;
                 this.name = "Player1";
-                this.health = 82.0;
-                this.mana = Optional.of(50.0);
-                this.weapon = new WeaponImpl("AK-47");
+                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
+                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                break;
             case PLAYER2:
-                // TODO: to implement
+                minHealth = 65.0;
+                minMana = 70.0;
+                this.name = "Player2";
+                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
+                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.weapon = new WeaponImpl("Knife");
                 break;
             case PLAYER3:
-                // TODO: to implement
+                minHealth = 50.0;
+                minMana = 85.0;
+                this.name = "Player3";
+                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
+                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.weapon = new WeaponImpl("AK-47");
                 break;
         }
     }

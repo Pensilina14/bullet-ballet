@@ -56,12 +56,12 @@ public class CharactersTest {
 
         // HEALTH & MANA
 
-        assertTrue(player1.getHealth() == 82.0);
-        assertTrue(player1.getMana().get() == 50.0);
+        assertTrue(player1.getHealth() >= 80.0 && player1.getHealth() <= 100.0);
+        assertTrue(player1.getMana().get() >= 50.0 && player1.getMana().get() <= 100.0);
 
         // WEAPON
 
-        assertEquals("AK-47", player1.getWeapon().getName());
+        //assertEquals("AK-47", player1.getWeapon().getName());
         //assertEquals(100, player1.getWeapon().getTotalAmmo());
     }
 
@@ -73,14 +73,14 @@ public class CharactersTest {
         final String name = "Enemy";
         double health = 100.0;
         Optional<Double> mana = Optional.of(50.0);
-        final int numberOfEnemies = 1;
+        //final int numberOfEnemies = 1;
         final double mass = 35.0;
 
         final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
         final Environment environment = new GameEnvironment();
         final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
 
-        final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), numberOfEnemies, dimension, position, environment, mass);
+        final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, position, environment, mass);
 
         // NAME
 
@@ -114,8 +114,8 @@ public class CharactersTest {
 
         Enemy enemy1 = new Enemy(EntityList.Enemy.ENEMY1, dimension, position, environment, DEFAULT_MASS);
 
-        assertTrue(enemy1.getHealth() == 77.0);
-        assertTrue(enemy1.getMana().get() == 43.0);
+        assertTrue(enemy1.getHealth() >= 80.0 && enemy1.getHealth() <= 100.0);
+        assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);
 
         assertTrue(enemy1.getName() == "Enemy1");
 
