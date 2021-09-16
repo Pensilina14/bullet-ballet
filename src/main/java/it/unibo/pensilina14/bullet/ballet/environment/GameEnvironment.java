@@ -14,7 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of Environment.
+ * Implementation of {@link Environment}.
+ * 
+ * {@inheritDoc}
  */
 public class GameEnvironment implements Environment {
 
