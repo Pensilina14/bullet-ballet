@@ -19,7 +19,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private Weapon weapon;
 
-    private EntityList.Enemy enemyType;
+    private EntityList.Characters.Enemy enemyType;
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
@@ -35,13 +35,13 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     }
 
-    public Enemy(EntityList.Enemy enemyType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+    public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
         super(dimension, position, environment, mass);
         this.enemyType = enemyType;
-        setEnemyType(enemyType);
+        setEnemyType(this.enemyType);
     }
 
-    private void setEnemyType(EntityList.Enemy enemyType){
+    private void setEnemyType(EntityList.Characters.Enemy enemyType){
         double minHealth;
         double minMana;
         switch(enemyType){
@@ -73,6 +73,10 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         }
     }
 
+    private void AI(){
+        // TODO: AI of Enemy
+    }
+
     @Override
     public double getHealth() {
         return this.health;
@@ -95,12 +99,12 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean jump() {
-        return false;
+        return false; // TODO: jump
     }
 
     @Override
     public boolean crouch() {
-        return false;
+        return false; // TODO: crouch
     }
 
     @Override
@@ -135,5 +139,25 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }
+    }
+
+    @Override
+    public boolean moveUp(int y) {
+        return false; // TODO: moveUp
+    }
+
+    @Override
+    public boolean moveDown(int y) {
+        return false; // TODO: moveDown
+    }
+
+    @Override
+    public boolean moveRight(int x) {
+        return false; // TODO: moveRight
+    }
+
+    @Override
+    public boolean moveLeft(int x) {
+        return false; // TODO: moveLeft
     }
 }
