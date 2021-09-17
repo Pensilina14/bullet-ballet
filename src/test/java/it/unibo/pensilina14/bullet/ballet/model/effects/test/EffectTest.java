@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.game.effects;
+package it.unibo.pensilina14.bullet.ballet.model.effects.test;
 
 import static org.junit.Assert.assertEquals;
 

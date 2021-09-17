@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.characters;
+package it.unibo.pensilina14.bullet.ballet.model.characters.test;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;

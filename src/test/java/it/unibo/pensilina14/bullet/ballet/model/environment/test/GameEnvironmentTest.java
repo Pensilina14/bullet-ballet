@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.environment.test;
+package it.unibo.pensilina14.bullet.ballet.model.environment.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

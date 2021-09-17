@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.environment.PhysicalObject;
+package it.unibo.pensilina14.bullet.ballet.model.entities.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
