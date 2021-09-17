@@ -3,10 +3,14 @@ package it.unibo.pensilina14.bullet.ballet.model.characters;
 import java.util.Optional;
 import java.util.Random;
 
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
-public class Player implements Characters{
+public class Player extends AbstractDynamicComponent implements Characters{
 
     private double health;
     private Optional<Double> mana;
@@ -15,30 +19,35 @@ public class Player implements Characters{
 
     private Weapon weapon;
 
-    private EntityList.Player playerType;
+    private EntityList.Characters.Player playerType;
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
-    //private final static double MIN = 0.0;
 
-    public Player(String name){
+    public Player(String name, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+        super(dimension, position, environment, mass);
+
         this.name = name;
         this.health = 100.0;
         this.mana = Optional.of(100.0);
     }
 
-    public Player(String name, double health,Optional<Double> mana){
+    public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+        super(dimension, position, environment, mass);
+
         this.name = name;
         this.health = health;
         this.mana = mana;
     }
 
-    public Player(EntityList.Player playerType){
+    public Player(EntityList.Characters.Player playerType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
+        super(dimension, position, environment, mass);
+
         this.playerType = playerType;
-        setPlayerType(playerType);
+        setPlayerType(this.playerType);
     }
 
-    private void setPlayerType(EntityList.Player playerType){
+    private void setPlayerType(EntityList.Characters.Player playerType){
         double minHealth;
         double minMana;
         switch(playerType){
@@ -90,12 +99,12 @@ public class Player implements Characters{
 
     @Override
     public boolean jump() {
-        return false;
+        return false; // TODO: jump
     }
 
     @Override
     public boolean crouch() {
-        return false;
+        return false; // TODO: crouch
     }
 
     @Override
@@ -130,5 +139,25 @@ public class Player implements Characters{
         if(this.mana.isPresent()){
             this.mana = Optional.of(this.mana.get() + increaseValue);
         }
+    }
+
+    @Override
+    public boolean moveUp(int y) {
+        return false; // TODO: moveUp
+    }
+
+    @Override
+    public boolean moveDown(int y) {
+        return false; // TODO: moveDown
+    }
+
+    @Override
+    public boolean moveRight(int x) {
+        return false; // TODO: moveRight
+    }
+
+    @Override
+    public boolean moveLeft(int x) {
+        return false; // TODO: moveLeft
     }
 }
