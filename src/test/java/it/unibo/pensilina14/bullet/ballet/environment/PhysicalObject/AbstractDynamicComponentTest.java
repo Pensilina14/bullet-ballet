@@ -6,12 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Test;
 
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.game.entities.AbstractDynamicComponent;
-import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 
 public class AbstractDynamicComponentTest {
     

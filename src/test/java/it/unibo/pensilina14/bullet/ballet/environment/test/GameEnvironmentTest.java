@@ -3,14 +3,14 @@ package it.unibo.pensilina14.bullet.ballet.environment.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.unibo.pensilina14.bullet.ballet.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.game.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.ImmutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.weapon.DynamicPickupItem;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 
 import java.util.HashMap;
 import java.util.List;

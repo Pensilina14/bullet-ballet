@@ -1,9 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.characters;
 
-import it.unibo.pensilina14.bullet.ballet.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+
 import org.junit.Test;
 
 import java.util.Optional;
