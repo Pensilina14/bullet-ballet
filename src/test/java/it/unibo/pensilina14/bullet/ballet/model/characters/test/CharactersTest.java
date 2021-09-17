@@ -16,10 +16,17 @@ import static org.junit.Assert.*;
 
 public class CharactersTest {
 
+    private static final int DEFAULT_DIM = 500;
+    private static final int DEFAULT_MASS = 10;
+
+    final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+    final Environment environment = new GameEnvironment();
+    final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
+
     @Test
     public void testPlayer(){
         final String name = "Player";
-        final Player player = new Player(name);
+        final Player player = new Player(name, dimension, position, environment, DEFAULT_MASS);
 
         // NAME
 
@@ -55,8 +62,8 @@ public class CharactersTest {
 
     @Test
     public void testPlayerTypes(){
-        EntityList.Player playerType = EntityList.Player.PLAYER1;
-        final Player player1 = new Player(playerType);
+        EntityList.Characters.Player playerType = EntityList.Characters.Player.PLAYER1;
+        final Player player1 = new Player(playerType, dimension, position, environment, DEFAULT_MASS);
 
         // HEALTH & MANA
 
@@ -69,8 +76,7 @@ public class CharactersTest {
         //assertEquals(100, player1.getWeapon().getTotalAmmo());
     }
 
-    private static final int DEFAULT_DIM = 500;
-    private static final int DEFAULT_MASS = 10;
+
 
     @Test
     public void testEnemy(){
@@ -79,10 +85,6 @@ public class CharactersTest {
         Optional<Double> mana = Optional.of(50.0);
         //final int numberOfEnemies = 1;
         final double mass = 35.0;
-
-        final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
-        final Environment environment = new GameEnvironment();
-        final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
 
         final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, position, environment, mass);
 
@@ -116,7 +118,7 @@ public class CharactersTest {
         final Environment environment = new GameEnvironment();
         final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
 
-        Enemy enemy1 = new Enemy(EntityList.Enemy.ENEMY1, dimension, position, environment, DEFAULT_MASS);
+        final Enemy enemy1 = new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, position, environment, DEFAULT_MASS);
 
         assertTrue(enemy1.getHealth() >= 80.0 && enemy1.getHealth() <= 100.0);
         assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);
