@@ -87,4 +87,45 @@ public interface Characters {
      */
 
     void increaseMana(double increaseValue);
+
+    /**
+     *
+     * @param x movement in the x-axis.
+     * @param y movement in the y-axis.
+     * @return whether movement has occurred or not.
+     */
+
+    boolean move(int x, int y);
+
+    /**
+     *
+     * @param y movement up in the y-axis.
+     * @return whether movement up has occurred or not.
+     */
+
+    boolean moveUp(int y);
+
+    /**
+     *
+     * @param y movement down in the y-axis.
+     * @return whether movement down has occurred or not.
+     */
+
+    boolean moveDown(int y);
+
+    /**
+     *
+     * @param x movement right in the x-axis.
+     * @return whether movement right has occurred or not.
+     */
+
+    boolean moveRight(int x);
+
+    /**
+     *
+     * @param x movement left in the x-axis.
+     * @return whether movement left has occurred or not.
+     */
+
+    boolean moveLeft(int x);
 }
