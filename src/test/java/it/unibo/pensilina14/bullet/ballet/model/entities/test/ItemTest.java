@@ -4,14 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import it.unibo.pensilina14.bullet.ballet.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.weapon.DynamicPickupItem;
-import it.unibo.pensilina14.bullet.ballet.weapon.ITEM_ID;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
+
+
 
 public class ItemTest {
     
