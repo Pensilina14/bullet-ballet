@@ -37,6 +37,11 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
         while (this.moveDOWN(1)) {};
     }
 
+    public void xAxisMovement() {
+        while (this.moveRIGHT(1)) {};
+        while (this.moveLEFT(1)) {};
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
