@@ -21,7 +21,7 @@ public class AbstractDynamicComponentTest {
 
         public AbstractDynamicComponentImpl() {
             super(new Dimension2Dimpl(2, 2), new MutablePosition2Dimpl(0, 0)
-                    , new GameEnvironment(), 10);
+                    , new GameEnvironment(), 10, 0);
         }
         
     }

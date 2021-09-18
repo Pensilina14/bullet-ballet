@@ -22,7 +22,7 @@ public class ItemTest {
     private static final int MASS = 100;
     
     private DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION)
-            , new MutablePosition2Dimpl(POSITION, POSITION), new GameEnvironment(), MASS, null, ITEM_ID.HEART);
+            , new MutablePosition2Dimpl(POSITION, POSITION), new GameEnvironment(), MASS, 0, null, ITEM_ID.HEART);
     
     @Test
     public void yAxisMovementTest() {
