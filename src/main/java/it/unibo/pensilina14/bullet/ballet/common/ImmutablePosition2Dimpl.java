@@ -5,24 +5,24 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class ImmutablePosition2Dimpl implements ImmutablePosition2D {
 
-  private final Optional<ImmutablePair<Integer, Integer>> position;
+  private final Optional<ImmutablePair<Double, Double>> position;
 
-  public ImmutablePosition2Dimpl(final int x, final int y) {
+  public ImmutablePosition2Dimpl(final double x, final double y) {
     this.position = Optional.ofNullable(ImmutablePair.of(x, y));
   }
 
   @Override
-  public ImmutablePair<Integer, Integer> getPosition() {
+  public ImmutablePair<Double, Double> getPosition() {
     return this.position.get();
   }
   
   @Override
-  public int getX() {
+  public double getX() {
     return this.position.get().getLeft();
   }
 
   @Override
-  public int getY() {
+  public double getY() {
     return this.position.get().getRight();
   }
 

@@ -26,7 +26,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
 
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
 
         this.name = name;
         this.health = health;
@@ -36,7 +36,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
         this.enemyType = enemyType;
         setEnemyType(this.enemyType);
     }
@@ -140,4 +140,33 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public boolean moveUp(int y) {
+        return false; // TODO: moveUp
+    }
+
+    @Override
+    public boolean moveDown(int y) {
+        return false; // TODO: moveDown
+    }
+
+    @Override
+    public boolean moveRight(int x) {
+        return false; // TODO: moveRight
+    }
+
+    @Override
+    public boolean moveLeft(int x) {
+        return false; // TODO: moveLeft
+    }
+
+    @Override
+    public boolean move(int x, int y) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+>>>>>>> main
 }

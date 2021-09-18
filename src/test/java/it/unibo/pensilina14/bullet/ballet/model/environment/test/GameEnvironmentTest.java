@@ -66,7 +66,7 @@ public class GameEnvironmentTest {
     final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
             new MutablePosition2Dimpl(0, 0),
-            gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
+            gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
     final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
 
     final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
@@ -81,7 +81,7 @@ public class GameEnvironmentTest {
     final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
             new MutablePosition2Dimpl(0, 0),
-            gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
+            gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
     final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
 
     final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
@@ -97,15 +97,15 @@ public class GameEnvironmentTest {
       final PhysicalObject obj = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
               new MutablePosition2Dimpl(0, 0),
-              gameEnv, DEFAULT_MASS, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
       final PhysicalObject obj2 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 1, DEFAULT_DIM + 1),
               new MutablePosition2Dimpl(0, 1),
-              gameEnv, DEFAULT_MASS + 1, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS + 1, 0, null, null); // TODO: substitution of null!!!
       final PhysicalObject obj3 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 2, DEFAULT_DIM + 2),
               new MutablePosition2Dimpl(1, 1),
-              gameEnv, DEFAULT_MASS + 2, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS + 2, 0, null, null); // TODO: substitution of null!!!
 
       final boolean firstIsAdded = gameEnv.addObjToMap(obj, 
               new ImmutablePosition2Dimpl(obj.getPosition().getX(), obj.getPosition().getY()));
