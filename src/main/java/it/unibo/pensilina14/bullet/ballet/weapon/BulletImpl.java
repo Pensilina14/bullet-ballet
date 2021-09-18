@@ -8,18 +8,18 @@ public class BulletImpl implements Bullet {
 	private final double damage;
 	
 	public BulletImpl(BulletType bulletType) {
-		this.name = bulletType.toString();
-		this.damage = bulletType.getDamage();
+		this.name = bulletType.description();
+		this.damage = bulletType.damage();
 	}
 	
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public double getDamage() {
-		return damage;
+		return this.damage;
 	}
 
 	@Override
