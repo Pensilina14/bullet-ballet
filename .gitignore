@@ -28,3 +28,4 @@ svg/
 
 # Ignore IDE folders
 .idea/
+.settings/org.eclipse.jdt.core.prefs
