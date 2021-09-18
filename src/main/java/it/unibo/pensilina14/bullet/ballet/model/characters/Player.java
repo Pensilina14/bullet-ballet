@@ -25,7 +25,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     private final static double MAX = 100.0;
 
     public Player(String name, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
 
         this.name = name;
         this.health = 100.0;
@@ -33,7 +33,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
 
         this.name = name;
         this.health = health;
@@ -41,7 +41,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(EntityList.Characters.Player playerType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
 
         this.playerType = playerType;
         setPlayerType(this.playerType);

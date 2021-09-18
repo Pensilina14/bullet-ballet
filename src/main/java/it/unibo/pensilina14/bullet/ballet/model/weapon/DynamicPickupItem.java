@@ -13,10 +13,10 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
     private final ITEM_ID id;
     private final Effect effect;
     
-    public DynamicPickupItem(Dimension2D dimension, MutablePosition2D position
-            , Environment gameEnvironment, double mass,
-            Effect effect, ITEM_ID id) {
-        super(dimension, position, gameEnvironment, mass);
+    public DynamicPickupItem(final Dimension2D dimension, final MutablePosition2D position
+            , final Environment gameEnvironment, final double mass, final double speed,
+            final Effect effect, final ITEM_ID id) {
+        super(dimension, position, gameEnvironment, mass, speed);
         this.effect = effect;
         this.id = id;
     }

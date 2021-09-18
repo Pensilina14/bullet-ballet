@@ -26,7 +26,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
 
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
 
         this.name = name;
         this.health = health;
@@ -36,7 +36,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass);
+        super(dimension, position, environment, mass, 0);
         this.enemyType = enemyType;
         setEnemyType(this.enemyType);
     }
