@@ -45,23 +45,23 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
-    public boolean moveUP(int y) {
+    public boolean moveUP(double y) {
         return this.move(0, Math.abs(y));
     }
     
-    public boolean moveDOWN(int y) {
+    public boolean moveDOWN(double y) {
         return this.move(0, -Math.abs(y));
     }
     
-    public boolean moveRIGHT(int x) {
+    public boolean moveRIGHT(double x) {
         return this.move(Math.abs(x), 0);
     }
     
-    public boolean moveLEFT(int x) {
+    public boolean moveLEFT(double x) {
         return this.move(-Math.abs(x), 0);
     }
     
-    public boolean move(int x, int y) {
+    public boolean move(double x, double y) {
         if (isWithinMapBoundaries(x, y)) {
             vectorialSum(x, y);
             return true;
@@ -69,21 +69,21 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return false;
     }
     
-    private void vectorialSum(int x, int y) {
+    private void vectorialSum(double x, double y) {
         this.position.setPosition(x + this.position.getX(), y + this.position.getY());
     }
     
-    private boolean isWithinMapBoundaries(int x, int y) {    
+    private boolean isWithinMapBoundaries(double x, double y) {    
         return isWithinXaxis(x) && isWithinYaxis(y);
     }
     
-    private boolean isWithinXaxis(int x) {
+    private boolean isWithinXaxis(double x) {
         Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.position.getX() + x >= -envDimension.getWidth()
                 && this.position.getX() + x + this.dimension.getWidth() <= 0;
     }
     
-    private boolean isWithinYaxis(int y) {
+    private boolean isWithinYaxis(double y) {
         Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.position.getY() + y <= 0
                 && this.position.getY() + y - this.dimension.getHeight() >= -envDimension.getHeight();

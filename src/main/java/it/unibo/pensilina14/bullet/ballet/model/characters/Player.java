@@ -160,4 +160,10 @@ public class Player extends AbstractDynamicComponent implements Characters{
     public boolean moveLeft(int x) {
         return false; // TODO: moveLeft
     }
+
+    @Override
+    public boolean move(int x, int y) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

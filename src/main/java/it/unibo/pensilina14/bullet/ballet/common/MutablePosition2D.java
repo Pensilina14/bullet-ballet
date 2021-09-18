@@ -10,21 +10,21 @@ public interface MutablePosition2D {
   /*
    * @return a {@link MutablePair} representing position.
    */
-  MutablePair<Integer, Integer> getCoordinates();
+  MutablePair<Double, Double> getCoordinates();
   
   /*
    * @return coordinate X of position
    */
-  int getX();
+  double getX();
   
   /*
    * @return coordinate Y of position
    */
-  int getY();
+  double getY();
   
   /*
    * @param x is x coordinate. 
    * @param y represents y coordinate.
    */
-  void setPosition(int x, int y);
+  void setPosition(double x, double y);
 }
