@@ -1,9 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
-import java.util.stream.IntStream;
-
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -13,12 +11,12 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
     private final ITEM_ID id;
     private final Effect effect;
     
-    public DynamicPickupItem(final Dimension2D dimension, final MutablePosition2D position
-            , final Environment gameEnvironment, final double mass, final double speed,
-            final Effect effect, final ITEM_ID id) {
-        super(dimension, position, gameEnvironment, mass, speed);
-        this.effect = effect;
+    public DynamicPickupItem(final Dimension2D dimension, final Environment gameEnvironment, 
+            final double mass, final SpeedVector2D vector, final ITEM_ID id, 
+            final Effect effect) {
+        super(dimension, gameEnvironment, mass, vector);
         this.id = id;
+        this.effect = effect;
     }
 
     @Override

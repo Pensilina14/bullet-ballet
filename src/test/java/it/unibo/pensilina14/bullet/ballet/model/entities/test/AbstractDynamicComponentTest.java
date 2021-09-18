@@ -9,6 +9,7 @@ import org.junit.Test;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
@@ -16,12 +17,17 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 public class AbstractDynamicComponentTest {
     
     private final static double APPROXIMATION = 0.001;
+    private final static double SPEED = 5.0;
+    private final static int SIZE = 1;
+    private final static double MASS = 5;
+    private final static double POSITION = -5;
+    
     
     private class AbstractDynamicComponentImpl extends AbstractDynamicComponent {
 
         public AbstractDynamicComponentImpl() {
-            super(new Dimension2Dimpl(2, 2), new MutablePosition2Dimpl(0, 0)
-                    , new GameEnvironment(), 10, 0);
+            super(new Dimension2Dimpl(SIZE, SIZE), new GameEnvironment(), MASS
+                    , new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED));
         }
         
     }
