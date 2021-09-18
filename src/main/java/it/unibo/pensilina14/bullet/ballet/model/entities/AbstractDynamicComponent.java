@@ -6,6 +6,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public abstract class AbstractDynamicComponent implements PhysicalObject{
     
+    private static final double MS_TO_S = 0.001;
     private final Dimension2D dimension;
     private final MutablePosition2D position;
     private final Environment gameEnvironment;
@@ -67,6 +68,10 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
             return true;
         }
         return false;
+    }
+    
+    public void updateState(double dt) {
+        this.vectorialSum(dt * MS_TO_S, dt * MS_TO_S);
     }
     
     private void vectorialSum(double x, double y) {
