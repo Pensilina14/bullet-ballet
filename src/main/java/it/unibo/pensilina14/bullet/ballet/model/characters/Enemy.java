@@ -140,24 +140,4 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }
     }
-
-    @Override
-    public boolean moveUp(int y) {
-        return false; // TODO: moveUp
-    }
-
-    @Override
-    public boolean moveDown(int y) {
-        return false; // TODO: moveDown
-    }
-
-    @Override
-    public boolean moveRight(int x) {
-        return false; // TODO: moveRight
-    }
-
-    @Override
-    public boolean moveLeft(int x) {
-        return false; // TODO: moveLeft
-    }
 }
