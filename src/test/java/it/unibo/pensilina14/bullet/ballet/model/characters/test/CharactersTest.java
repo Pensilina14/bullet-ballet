@@ -2,6 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.model.characters.test;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
@@ -22,11 +24,13 @@ public class CharactersTest {
     final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
     final Environment environment = new GameEnvironment();
     final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
+    final double speed = 5.0;
+    final SpeedVector2D vector = new SpeedVector2DImpl(position, speed);
 
     @Test
     public void testPlayer(){
         final String name = "Player";
-        final Player player = new Player(name, dimension, position, environment, DEFAULT_MASS);
+        final Player player = new Player(name, dimension, vector, environment, DEFAULT_MASS);
 
         // NAME
 
@@ -63,7 +67,7 @@ public class CharactersTest {
     @Test
     public void testPlayerTypes(){
         EntityList.Characters.Player playerType = EntityList.Characters.Player.PLAYER1;
-        final Player player1 = new Player(playerType, dimension, position, environment, DEFAULT_MASS);
+        final Player player1 = new Player(playerType, dimension, vector, environment, DEFAULT_MASS);
 
         // HEALTH & MANA
 
@@ -86,7 +90,7 @@ public class CharactersTest {
         //final int numberOfEnemies = 1;
         final double mass = 35.0;
 
-        final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, position, environment, mass);
+        final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, vector, environment, mass);
 
         // NAME
 
@@ -118,7 +122,7 @@ public class CharactersTest {
         final Environment environment = new GameEnvironment();
         final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
 
-        final Enemy enemy1 = new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, position, environment, DEFAULT_MASS);
+        final Enemy enemy1 = new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, vector, environment, DEFAULT_MASS);
 
         assertTrue(enemy1.getHealth() >= 80.0 && enemy1.getHealth() <= 100.0);
         assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);

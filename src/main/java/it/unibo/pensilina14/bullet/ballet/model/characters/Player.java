@@ -5,6 +5,7 @@ import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -24,24 +25,24 @@ public class Player extends AbstractDynamicComponent implements Characters{
     private final Random rand = new Random();
     private final static double MAX = 100.0;
 
-    public Player(String name, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass, 0);
+    public Player(String name, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+        super(dimension, environment, mass, vector);
 
         this.name = name;
         this.health = 100.0;
         this.mana = Optional.of(100.0);
     }
 
-    public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass, 0);
+    public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+        super(dimension, environment, mass, vector);
 
         this.name = name;
         this.health = health;
         this.mana = mana;
     }
 
-    public Player(EntityList.Characters.Player playerType, Dimension2D dimension, MutablePosition2D position, Environment environment, double mass){
-        super(dimension, position, environment, mass, 0);
+    public Player(EntityList.Characters.Player playerType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+        super(dimension, environment, mass, vector);
 
         this.playerType = playerType;
         setPlayerType(this.playerType);
@@ -140,33 +141,4 @@ public class Player extends AbstractDynamicComponent implements Characters{
             this.mana = Optional.of(this.mana.get() + increaseValue);
         }
     }
-<<<<<<< HEAD
-=======
-
-    @Override
-    public boolean moveUp(int y) {
-        return false; // TODO: moveUp
-    }
-
-    @Override
-    public boolean moveDown(int y) {
-        return false; // TODO: moveDown
-    }
-
-    @Override
-    public boolean moveRight(int x) {
-        return false; // TODO: moveRight
-    }
-
-    @Override
-    public boolean moveLeft(int x) {
-        return false; // TODO: moveLeft
-    }
-
-    @Override
-    public boolean move(int x, int y) {
-        // TODO Auto-generated method stub
-        return false;
-    }
->>>>>>> main
 }
