@@ -11,14 +11,16 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     private final MutablePosition2D position;
     private final Environment gameEnvironment;
     private final double mass;
+    private final double speed;
     
     public AbstractDynamicComponent(final Dimension2D dimension, 
             final MutablePosition2D position, final Environment gameEnvironment,
-            final double mass) {
+            final double mass, final double speed) {
         this.dimension = dimension;
         this.position = position;
         this.gameEnvironment = gameEnvironment;
         this.mass = mass;
+        this.speed = speed;
     }
 
     @Override
@@ -51,20 +53,20 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     public boolean moveDOWN(double y) {
-        return this.move(0, -Math.abs(y));
+        return this.move(0, -Math.abs(y)*speed);
     }
     
     public boolean moveRIGHT(double x) {
-        return this.move(Math.abs(x), 0);
+        return this.move(Math.abs(x)*speed, 0);
     }
     
     public boolean moveLEFT(double x) {
-        return this.move(-Math.abs(x), 0);
+        return this.move(-Math.abs(x)*speed, 0);
     }
     
     public boolean move(double x, double y) {
         if (isWithinMapBoundaries(x, y)) {
-            vectorialSum(x, y);
+            vectorialSum(x*speed, y*speed);
             return true;
         }
         return false;
@@ -96,5 +98,9 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     
     public double getGravityForce() {
         return gameEnvironment.getGravity() * this.mass;
+    }
+
+    public double getSpeed() {
+        return this.speed;
     }
 }
