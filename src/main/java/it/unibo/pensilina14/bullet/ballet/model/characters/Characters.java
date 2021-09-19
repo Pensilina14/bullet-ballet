@@ -87,4 +87,5 @@ public interface Characters {
      */
 
     void increaseMana(double increaseValue);
+
 }

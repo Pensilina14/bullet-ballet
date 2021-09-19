@@ -14,13 +14,17 @@ public enum BulletType {
 		this.damage = damage;
 	}
 	
-	public double getDamage() {
-		return damage;
+	public double damage() {
+		return this.damage;
+	}
+	
+	public String description() {
+		return this.description;
 	}
 	
 	@Override
 	public String toString() {
-		return description;
+		return this.description + "/t damage: " + this.damage;
 	}
 	
 }

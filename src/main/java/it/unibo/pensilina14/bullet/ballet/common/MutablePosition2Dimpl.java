@@ -6,29 +6,29 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 public class MutablePosition2Dimpl implements MutablePosition2D {
 
-  private Optional<MutablePair<Integer, Integer>> position;
+  private Optional<MutablePair<Double, Double>> position;
 
-  public MutablePosition2Dimpl(final int x, final int y) {
+  public MutablePosition2Dimpl(final double x, final double y) {
     this.position = Optional.ofNullable(MutablePair.of(x, y));
   }
 
   @Override
-  public MutablePair<Integer, Integer> getCoordinates() {
+  public MutablePair<Double, Double> getCoordinates() {
     return this.position.get();
   }
 
   @Override
-  public int getX() {
+  public double getX() {
     return this.position.get().getLeft();
   }
 
   @Override
-  public int getY() {
+  public double getY() {
     return this.position.get().getRight();
   }
 
   @Override
-  public void setPosition(int x, int y) {
+  public void setPosition(double x, double y) {
     this.position = Optional.ofNullable(MutablePair.of(x, y));
   }
 }

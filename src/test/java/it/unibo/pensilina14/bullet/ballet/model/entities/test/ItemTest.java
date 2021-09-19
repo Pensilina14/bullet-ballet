@@ -4,23 +4,28 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import it.unibo.pensilina14.bullet.ballet.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.misc.utilities2D.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.weapon.DynamicPickupItem;
-import it.unibo.pensilina14.bullet.ballet.weapon.ITEM_ID;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
+
+
 
 public class ItemTest {
     
     private static final int DIMENSION = 1;
     private static final int POSITION = -5;
     private static final int MASS = 100;
+    private static final int SPEED = 5;
     
-    private DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION)
-            , new MutablePosition2Dimpl(POSITION, POSITION), new GameEnvironment(), MASS, null, ITEM_ID.HEART);
+    private DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION),
+            new GameEnvironment(), 10, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), 5),
+            ITEM_ID.HEART, null);
     
     @Test
     public void yAxisMovementTest() {

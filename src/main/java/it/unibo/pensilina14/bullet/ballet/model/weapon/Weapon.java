@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
+import java.util.ArrayList;
+
 public interface Weapon extends Item {
 	
 	/*
@@ -16,13 +18,7 @@ public interface Weapon extends Item {
 	 * decrease by one the available bullets
 	 */
 	void decreaseAmmo();
-	
-	/*
-	 * @return True if there is at least one bullet
-	 */
-	boolean shoot();
-	
-	// Bruno: hasAmmo() è inutile(ripetizione).
+		
 	/*
 	 * @return True if there is at least one bullet
 	 */
@@ -36,5 +32,5 @@ public interface Weapon extends Item {
 	/*
 	 * @return True if recharging takes place correctly
 	 */
-	boolean recharge(Bullet singleBullet, Bullet[] charger);
+	void recharge(ArrayList<Bullet> charger);
 }
