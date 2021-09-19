@@ -30,8 +30,8 @@ public class EffectTest {
 	private static final long ITERATIONS = 10;
 	/*
 	 * Note:
-	 * 	This test method does NOT take in consideration collisions a
-	 *  and environmental aspects as dimension and position.
+	 * 	This test method does NOT take in consideration collisions
+	 *  and environmental aspects such as dimension and position.
 	 */
 	@Test
 	public void testApplySimpleEffect() {
