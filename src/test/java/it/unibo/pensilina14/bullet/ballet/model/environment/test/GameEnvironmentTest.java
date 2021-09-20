@@ -7,10 +7,12 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ public class GameEnvironmentTest {
   private static final int DEFAULT_DIM = 500;
   private static final double DELTA = 0.01;
   private static final double DEFAULT_MASS = 10.0;
+  private static final double DEFAULT_SPEED = 15.0;
 
   @Test
   public void testGameEnvironment() {
@@ -65,8 +68,8 @@ public class GameEnvironmentTest {
     final Environment gameEnv = new GameEnvironment();
     final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
-            new MutablePosition2Dimpl(0, 0),
-            gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
+            gameEnv, DEFAULT_MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), DEFAULT_SPEED),
+            ITEM_ID.HEART, null); // TODO: substitution of null!!!
     final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
 
     final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
@@ -80,8 +83,8 @@ public class GameEnvironmentTest {
     final Environment gameEnv = new GameEnvironment();
     final PhysicalObject obj = new DynamicPickupItem(
             new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
-            new MutablePosition2Dimpl(0, 0),
-            gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
+            gameEnv, DEFAULT_MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), DEFAULT_SPEED),
+            ITEM_ID.HEART, null); // TODO: substitution of null!!!
     final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
 
     final boolean hasBeenAdded = gameEnv.addObjToMap(obj, pos);
@@ -96,16 +99,16 @@ public class GameEnvironmentTest {
       final Environment gameEnv = new GameEnvironment();
       final PhysicalObject obj = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM),
-              new MutablePosition2Dimpl(0, 0),
-              gameEnv, DEFAULT_MASS, 0, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), DEFAULT_SPEED),
+              ITEM_ID.HEART, null); // TODO: substitution of null!!!
       final PhysicalObject obj2 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 1, DEFAULT_DIM + 1),
-              new MutablePosition2Dimpl(0, 1),
-              gameEnv, DEFAULT_MASS + 1, 0, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS + 1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 1), DEFAULT_SPEED),
+              ITEM_ID.HEART, null); // TODO: substitution of null!!!
       final PhysicalObject obj3 = new DynamicPickupItem(
               new Dimension2Dimpl(DEFAULT_DIM + 2, DEFAULT_DIM + 2),
-              new MutablePosition2Dimpl(1, 1),
-              gameEnv, DEFAULT_MASS + 2, 0, null, null); // TODO: substitution of null!!!
+              gameEnv, DEFAULT_MASS + 2, new SpeedVector2DImpl(new MutablePosition2Dimpl(1, 1), DEFAULT_SPEED),
+              ITEM_ID.HEART, null); // TODO: substitution of null!!!
 
       final boolean firstIsAdded = gameEnv.addObjToMap(obj, 
               new ImmutablePosition2Dimpl(obj.getPosition().getX(), obj.getPosition().getY()));
@@ -118,6 +121,6 @@ public class GameEnvironmentTest {
       assertTrue(secondIsAdded);
       assertTrue(thirdIsAdded);
       assertTrue(gameEnv.getObjListInMap().isPresent());
-      assertEquals(gameEnv.getObjListInMap().get(), List.of(obj, obj2, obj3)); //PickupItem needs equals() method
+      assertEquals(gameEnv.getObjListInMap().get(), List.of(obj, obj2, obj3));
   }
 }
