@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -28,6 +29,7 @@ public class EffectTest {
 	private static final double DAMAGE = 10.0;
 	private static final double MANA_DAMAGE = 1.0;
 	private static final long ITERATIONS = 10;
+	private static final double DEFAULT_SPEED = 15.0;
 	/*
 	 * Note:
 	 * 	This test method does NOT take in consideration collisions
@@ -40,11 +42,12 @@ public class EffectTest {
 		 */
 		final Environment env = new GameEnvironment();
 		final Characters enemy = new Enemy("testEnemy00", HEALTH, Optional.ofNullable(MANA), 
-			    new Dimension2Dimpl(25, 5), new MutablePosition2Dimpl(10, 30), env, CHARACTER_MASS);
+			    new Dimension2Dimpl(25, 5), new SpeedVector2DImpl(new MutablePosition2Dimpl(10, 30), DEFAULT_SPEED), 
+			    env, CHARACTER_MASS);
 		final Item poisonItem = new StaticPickUpItem(new Dimension2Dimpl(25, 5),
-				new MutablePosition2Dimpl(150, 50), env, ITEM_MASS, ITEM_ID.POISON, e -> e.setHealth(e.getHealth() - DAMAGE));
+				new MutablePosition2Dimpl(150, 50), env, ITEM_ID.POISON, e -> e.setHealth(e.getHealth() - DAMAGE));
 		final Item heartItem = new StaticPickUpItem(new Dimension2Dimpl(30, 30),
-				new MutablePosition2Dimpl(150, 300), env, ITEM_MASS, ITEM_ID.HEART, e -> e.setHealth(e.getHealth() + DAMAGE));
+				new MutablePosition2Dimpl(150, 300), env, ITEM_ID.HEART, e -> e.setHealth(e.getHealth() + DAMAGE));
 		/*
 		 * ELABORATION
 		 */
@@ -64,15 +67,16 @@ public class EffectTest {
 		 */
 		final Environment env = new GameEnvironment();
 		final Characters enemy = new Enemy("testEnemy00", HEALTH, Optional.ofNullable(MANA), 
-			    new Dimension2Dimpl(25, 5), new MutablePosition2Dimpl(10, 30), env, CHARACTER_MASS);
+			    new Dimension2Dimpl(25, 5), new SpeedVector2DImpl(new MutablePosition2Dimpl(10, 30), DEFAULT_SPEED),
+			    env, CHARACTER_MASS);
 		final Item poisonItem = new StaticPickUpItem(new Dimension2Dimpl(25, 5),
-				new MutablePosition2Dimpl(150, 50), env, ITEM_MASS, ITEM_ID.POISON, e -> {
+				new MutablePosition2Dimpl(150, 50), env, ITEM_ID.POISON, e -> {
 					e.setHealth(e.getHealth() - DAMAGE);
 					IntStream.iterate(0, x -> x + 1).limit(ITERATIONS)
 						.forEach(x -> e.decreaseMana(MANA_DAMAGE));
 				});
 		final Item heartItem = new StaticPickUpItem(new Dimension2Dimpl(30, 30),
-				new MutablePosition2Dimpl(150, 300), env, ITEM_MASS, ITEM_ID.HEART, e -> {
+				new MutablePosition2Dimpl(150, 300), env, ITEM_ID.HEART, e -> {
 					e.setHealth(e.getHealth() + DAMAGE);
 					IntStream.iterate(0, x -> x + 1).limit(ITERATIONS)
 						.forEach(x -> e.increaseMana(MANA_DAMAGE));
