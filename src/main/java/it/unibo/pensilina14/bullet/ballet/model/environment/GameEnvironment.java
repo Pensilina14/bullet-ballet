@@ -48,7 +48,7 @@ public class GameEnvironment implements Environment {
 		this.initializeMap(this.gameMap, this.gameMapDim);
 	}
 
-	/*
+	/**
 	 * Constructor method in which {@link gravity} is set at @param gravity and
 	 * {@link Dimension2D} is set at @param size {@link gameMap} is initialized
 	 */
@@ -59,7 +59,7 @@ public class GameEnvironment implements Environment {
 		this.initializeMap(this.gameMap, this.gameMapDim);
 	}
 
-	/*
+	/**
 	 * Generates virtual map's coordinates as gameMap keys.
 	 */
 	private void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, final Dimension2D mapDim) {
@@ -70,21 +70,33 @@ public class GameEnvironment implements Environment {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final double getGravity() {
 		return this.gravity;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final Dimension2D getDimension() {
 		return this.gameMapDim;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap() {
 		return Map.copyOf(this.gameMap);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final boolean addObjToMap(final PhysicalObject obj, final ImmutablePosition2D head) {
 		if (this.gameMap.containsKey(head) && this.gameMap.get(head).equals(Optional.empty())) {
@@ -95,11 +107,17 @@ public class GameEnvironment implements Environment {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final void deleteObjByPosition(final ImmutablePosition2D position) {
 		this.gameMap.remove(position);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
 		for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> entry : this.gameMap.entrySet()) {
@@ -110,6 +128,9 @@ public class GameEnvironment implements Environment {
 		return Optional.empty();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final Optional<List<PhysicalObject>> getObjListInMap() {
 		final List<PhysicalObject> objList = new ArrayList<>();
@@ -118,6 +139,9 @@ public class GameEnvironment implements Environment {
 		return Optional.ofNullable(objList);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateState(final int dt) { 
 		final Optional<List<PhysicalObject>> gameObjs = this.getObjListInMap();
@@ -133,6 +157,13 @@ public class GameEnvironment implements Environment {
 		}
 	}
 	
+	/**
+	 * Given a {@link List} of objects that extend(in this case implement) {@link PhysicalObject} interface.
+	 * 
+	 * @param gameObjs
+	 * @return an {@link Optional} {@link List} of {@link AbstractDynamicComponent} 
+	 * @throws NoDynamicObjectsException
+	 */
 	private Optional<List<AbstractDynamicComponent>> getDynamicObjs(final List<? extends PhysicalObject> gameObjs) throws NoDynamicObjectsException {
 		try {
 			final Optional<List<AbstractDynamicComponent>> dynamicObjs = Optional.ofNullable(
