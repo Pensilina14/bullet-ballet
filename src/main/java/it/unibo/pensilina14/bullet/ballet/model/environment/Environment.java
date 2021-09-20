@@ -68,4 +68,12 @@ public interface Environment {
 	 * game map.
 	 */
 	Optional<List<PhysicalObject>> getObjListInMap();
+	
+	/**
+	 * @param dt is the given time instant when the environment must be updated
+	 * 
+	 * This must recall every {@link AbstractDynamicComponent}'s {@link AbstractDynamicComponent#updateState} method,
+	 * in order to update the whole environment. 
+	 */
+	void updateState(int dt);
 }

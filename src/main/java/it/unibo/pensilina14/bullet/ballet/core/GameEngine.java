@@ -42,6 +42,7 @@ public class GameEngine implements Controller {
 			this.processInput();
 			this.updateGame(elapsed);
 			this.render();
+			this.waitForNextFrame(elapsed);
 			lastTime = current;
 		}
 	}
@@ -65,9 +66,7 @@ public class GameEngine implements Controller {
 	}
 	
 	private void updateGame(final int elapsed) {
-		/*
-		 * TODO: update game
-		 */
+		this.world.updateState(elapsed);
 	}
 	
 	private void render() {

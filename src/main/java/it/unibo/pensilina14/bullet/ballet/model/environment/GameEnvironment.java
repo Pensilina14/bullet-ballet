@@ -4,7 +4,9 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NoDynamicObjectsException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,5 +116,37 @@ public class GameEnvironment implements Environment {
 		this.gameMap.entrySet().stream().filter(e -> e.getValue().equals(Optional.empty()))
 				.collect(Collectors.toList());
 		return Optional.ofNullable(objList);
+	}
+
+	@Override
+	public void updateState(final int dt) { 
+		final Optional<List<PhysicalObject>> gameObjs = this.getObjListInMap();
+		if (gameObjs.isPresent()) {
+			try {
+				final Optional<List<AbstractDynamicComponent>> dynamicObjs = this.getDynamicObjs(gameObjs.get());
+				if (dynamicObjs.isPresent()) {
+	            	dynamicObjs.get().stream().forEach(obj -> obj.updateState(dt));
+	            }
+		    } catch (final NoDynamicObjectsException e) {
+				e.printStackTrace();
+			} 
+		}
+	}
+	
+	private Optional<List<AbstractDynamicComponent>> getDynamicObjs(final List<? extends PhysicalObject> gameObjs) throws NoDynamicObjectsException {
+		try {
+			final Optional<List<AbstractDynamicComponent>> dynamicObjs = Optional.ofNullable(
+					(List<AbstractDynamicComponent>) gameObjs.stream()
+	        		.filter(obj -> obj instanceof AbstractDynamicComponent)
+	        		.map(obj -> (AbstractDynamicComponent) obj)
+	        		.collect(Collectors.toList()));
+			if (dynamicObjs.isEmpty()) {
+				throw new NoDynamicObjectsException(this);
+			} 
+			return dynamicObjs;
+		} catch (final ClassCastException e) {
+			e.printStackTrace();
+			return Optional.empty();
+		}
 	}
 }
