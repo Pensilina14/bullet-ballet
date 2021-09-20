@@ -17,7 +17,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 public class AbstractDynamicComponentTest {
     
     private final static double APPROXIMATION = 0.001;
-    private final static double SPEED = 5.0;
+    private final static double SPEED = 2.0;
     private final static int SIZE = 1;
     private final static double MASS = 5;
     private final static double POSITION = -5;
@@ -36,7 +36,7 @@ public class AbstractDynamicComponentTest {
     public void testMutablePosition2D() {
         final PhysicalObject component = new AbstractDynamicComponentImpl();
         final MutablePosition2D position = component.getPosition();
-        assertEquals(position.getCoordinates(), MutablePair.of(0, 0));
+        assertEquals(position.getCoordinates(), MutablePair.of(-5.0, -5.0));
     }
     
     @Test
@@ -60,19 +60,26 @@ public class AbstractDynamicComponentTest {
     public void testMoveUP() {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
         boolean isMoving = component.moveUP(10);
+        final double yAxisPositionBeforeMovement = component.getPosition().getY();
         assertTrue(!isMoving);
-        component.getPosition().setPosition(-20, -20);
-        isMoving = component.moveUP(10);
+        isMoving = component.moveUP(2);
         assertTrue(isMoving);
+        assertEquals(yAxisPositionBeforeMovement + (2 * component.getSpeedVector().getSpeed())
+                , component.getPosition().getY(), APPROXIMATION);
     }
+    
     
     @Test
     public void testMoveDOWN() {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        final double yAxisPositionBeforeMovement = component.getPosition().getY();
         boolean isMoving = component.moveDOWN(10);
+        assertTrue(isMoving);
+        isMoving = component.moveDOWN(245);
         assertTrue(!isMoving);
-        isMoving = component.moveDOWN(1000);
-        assertTrue(!isMoving);
+        assertEquals(yAxisPositionBeforeMovement - (10 * component.getSpeedVector().getSpeed())
+                , component.getPosition().getY(), APPROXIMATION);
+        
     }
     
     @Test
@@ -80,19 +87,24 @@ public class AbstractDynamicComponentTest {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
         boolean isMoving = component.moveRIGHT(10);
         assertTrue(!isMoving);
-        isMoving = component.moveRIGHT(2000);
-        assertTrue(!isMoving);
+        component.getPosition().setPosition(-100, -10);
+        final double xAxisPositionBeforeMovement = component.getPosition().getX();
+        isMoving = component.moveRIGHT(10);
+        assertTrue(isMoving);
+        assertEquals(xAxisPositionBeforeMovement + (10 * component.getSpeedVector().getSpeed())
+                , component.getPosition().getX(), APPROXIMATION);
     }
     
     @Test
     public void testMoveLEFT() {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        final double xAxisPositionBeforeMovement = component.getPosition().getX();
         boolean isMoving = component.moveLEFT(10);
         assertTrue(isMoving);
-        isMoving = component.moveLEFT(2000);
+        isMoving = component.moveLEFT(243);
         assertTrue(!isMoving);
+        assertEquals(xAxisPositionBeforeMovement - (10 * component.getSpeedVector().getSpeed())
+                , component.getPosition().getX(), APPROXIMATION);
     }
-    
-    
     
 }

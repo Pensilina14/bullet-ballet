@@ -21,10 +21,10 @@ public class ItemTest {
     private static final int DIMENSION = 1;
     private static final int POSITION = -5;
     private static final int MASS = 100;
-    private static final int SPEED = 5;
+    private static final int SPEED = 1;
     
     private DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION),
-            new GameEnvironment(), 10, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), 5),
+            new GameEnvironment(), 10, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
             ITEM_ID.HEART, null);
     
     @Test

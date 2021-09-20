@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.model.characters;
+package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
