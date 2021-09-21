@@ -1,7 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -11,33 +13,34 @@ import javafx.scene.input.MouseEvent;
 public class HomePageController {
     
     @FXML
-    void exitOnMouseClicked(MouseEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION,
+    void exitOnMouseClicked(final MouseEvent event) {
+        final Alert alert = new Alert(AlertType.CONFIRMATION,
                 "Are you sure?",
                 ButtonType.OK, 
                 ButtonType.CANCEL);
         createDialog(alert);
     }
 
-    private void createDialog(Alert alert) {
-        Optional<ButtonType> result = alert.showAndWait();
+    private void createDialog(final Alert alert) {
+        final Optional<ButtonType> result = alert.showAndWait();
         if (result.get().equals(ButtonType.OK)) {
-            System.exit(0);
+            Platform.exit();
         }
     }
     
     @FXML
-    void newGameOnMouseClick(MouseEvent event) {
+    void newGameOnMouseClick(final MouseEvent event) {
         System.out.println("new game");
     }
 
     @FXML
-    void settingsOnMouseClick(MouseEvent event) {
+    void settingsOnMouseClick(final MouseEvent event) {
         System.out.println("settings");
     }
 
     @FXML
-    void statsOnMouseClick(MouseEvent event) {
-        System.out.println("stats");
+    void statsOnMouseClick(final MouseEvent event) throws IOException {
+        final PageLoader loader = new PageLoader();
+        loader.goToSelectedPage("settings.fxml", event);
     }
 }

@@ -52,16 +52,16 @@ public class AbstractDynamicComponentTest {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
         boolean isMoving = component.move(-5, -5);
         assertTrue(isMoving);
-        isMoving = component.move(-506, -506);
-        assertTrue(!isMoving);
+        isMoving = !component.move(-506, -506);
+        assertTrue(isMoving);
     }
     
     @Test
     public void testMoveUP() {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
-        boolean isMoving = component.moveUP(10);
+        boolean isMoving = !component.moveUP(10);
         final double yAxisPositionBeforeMovement = component.getPosition().getY();
-        assertTrue(!isMoving);
+        assertTrue(isMoving);
         isMoving = component.moveUP(2);
         assertTrue(isMoving);
         assertEquals(yAxisPositionBeforeMovement + (2 * component.getSpeedVector().getSpeed())
@@ -75,8 +75,8 @@ public class AbstractDynamicComponentTest {
         final double yAxisPositionBeforeMovement = component.getPosition().getY();
         boolean isMoving = component.moveDOWN(10);
         assertTrue(isMoving);
-        isMoving = component.moveDOWN(245);
-        assertTrue(!isMoving);
+        isMoving = !component.moveDOWN(245);
+        assertTrue(isMoving);
         assertEquals(yAxisPositionBeforeMovement - (10 * component.getSpeedVector().getSpeed())
                 , component.getPosition().getY(), APPROXIMATION);
         
@@ -85,8 +85,8 @@ public class AbstractDynamicComponentTest {
     @Test
     public void testMoveRIGHT() {
         final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
-        boolean isMoving = component.moveRIGHT(10);
-        assertTrue(!isMoving);
+        boolean isMoving = !component.moveRIGHT(10);
+        assertTrue(isMoving);
         component.getPosition().setPosition(-100, -10);
         final double xAxisPositionBeforeMovement = component.getPosition().getX();
         isMoving = component.moveRIGHT(10);
@@ -101,8 +101,8 @@ public class AbstractDynamicComponentTest {
         final double xAxisPositionBeforeMovement = component.getPosition().getX();
         boolean isMoving = component.moveLEFT(10);
         assertTrue(isMoving);
-        isMoving = component.moveLEFT(243);
-        assertTrue(!isMoving);
+        isMoving = !component.moveLEFT(243);
+        assertTrue(isMoving);
         assertEquals(xAxisPositionBeforeMovement - (10 * component.getSpeedVector().getSpeed())
                 , component.getPosition().getX(), APPROXIMATION);
     }

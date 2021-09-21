@@ -28,7 +28,7 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
 
     @Override
-    public Boolean isCollidingWith(PhysicalObject other) {
+    public Boolean isCollidingWith(final PhysicalObject other) {
         return null;
     }
 
@@ -50,23 +50,23 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
-    public boolean moveUP(double y) {
+    public boolean moveUP(final double y) {
         return this.move(0, Math.abs(y));
     }
     
-    public boolean moveDOWN(double y) {
+    public boolean moveDOWN(final double y) {
         return this.move(0, -Math.abs(y));
     }
     
-    public boolean moveRIGHT(double x) {
+    public boolean moveRIGHT(final double x) {
         return this.move(Math.abs(x), 0);
     }
     
-    public boolean moveLEFT(double x) {
+    public boolean moveLEFT(final double x) {
         return this.move(-Math.abs(x), 0);
     }
     
-    public boolean move(double x, double y) {
+    public boolean move(final double x, final double y) {
         if (isWithinMapBoundaries(x * this.vector.getSpeed(), y * this.vector.getSpeed())) {
             this.vector.vectorSum(x, y);
             return true;
@@ -74,22 +74,22 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return false;
     }
     
-    public void updateState(double dt) {
+    public void updateState(final double dt) {
         this.vector.noSpeedVectorSum(dt * MS_TO_S, dt * MS_TO_S);
     }
     
-    private boolean isWithinMapBoundaries(double x, double y) {    
+    private boolean isWithinMapBoundaries(final double x, final double y) {    
         return isWithinXaxis(x) && isWithinYaxis(y);
     }
     
-    private boolean isWithinXaxis(double x) {
-        Dimension2D envDimension = this.gameEnvironment.getDimension();
+    private boolean isWithinXaxis(final double x) {
+        final Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.vector.getPosition().getX() + x >= -envDimension.getWidth()
                 && this.vector.getPosition().getX() + x + this.dimension.getWidth() <= 0;
     }
     
-    private boolean isWithinYaxis(double y) {
-        Dimension2D envDimension = this.gameEnvironment.getDimension();
+    private boolean isWithinYaxis(final double y) {
+        final Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.vector.getPosition().getY() + y <= 0
                 && this.vector.getPosition().getY() + y - this.dimension.getHeight() >= -envDimension.getHeight();
     }

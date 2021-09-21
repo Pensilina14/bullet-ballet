@@ -3,7 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractStaticComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
