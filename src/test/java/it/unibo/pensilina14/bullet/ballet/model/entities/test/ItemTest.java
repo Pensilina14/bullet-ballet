@@ -20,11 +20,11 @@ public class ItemTest {
     
     private static final int DIMENSION = 1;
     private static final int POSITION = -5;
-    private static final int MASS = 100;
+    private static final int MASS = 10;
     private static final int SPEED = 1;
     
-    private DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION),
-            new GameEnvironment(), 10, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
+    private final DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION),
+            new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
             ITEM_ID.HEART, null);
     
     @Test
@@ -35,7 +35,7 @@ public class ItemTest {
         final MutablePosition2D itemPos = dynItem.getPosition();
         dynItem.yAxisMovement();
         final MutablePosition2D actualPosition = dynItem.getPosition();
-        MutablePosition2D expectedPosition = new MutablePosition2Dimpl(itemPos.getX()
+        final MutablePosition2D expectedPosition = new MutablePosition2Dimpl(itemPos.getX()
                 , -gameEnvDim.getHeight() + itemDim.getHeight()); 
         assertEquals(actualPosition.getCoordinates(), expectedPosition.getCoordinates());
     }
@@ -48,7 +48,7 @@ public class ItemTest {
         final MutablePosition2D itemPos = dynItem.getPosition();
         dynItem.xAxisMovement();
         final MutablePosition2D actualPosition = dynItem.getPosition();
-        MutablePosition2D expectedPosition = new MutablePosition2Dimpl(-gameEnvDim.getWidth()
+        final MutablePosition2D expectedPosition = new MutablePosition2Dimpl(-gameEnvDim.getWidth()
                 , itemPos.getY()); 
         assertEquals(actualPosition.getCoordinates(), expectedPosition.getCoordinates());
     }
