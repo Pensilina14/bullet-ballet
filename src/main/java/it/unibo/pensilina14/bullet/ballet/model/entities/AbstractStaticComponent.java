@@ -23,7 +23,7 @@ public abstract class AbstractStaticComponent implements PhysicalObject{
     }
 
     @Override
-    public Boolean isCollidingWith(PhysicalObject other) {
+    public Boolean isCollidingWith(final PhysicalObject other) {
         return null;
     }
 

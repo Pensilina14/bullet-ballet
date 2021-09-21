@@ -52,14 +52,14 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DynamicPickupItem other = (DynamicPickupItem) obj;
+        final DynamicPickupItem other = (DynamicPickupItem) obj;
         if (effect == null) {
             if (other.effect != null)
                 return false;

@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
 import java.util.Optional;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class MutablePosition2Dimpl implements MutablePosition2D {
@@ -28,7 +27,7 @@ public class MutablePosition2Dimpl implements MutablePosition2D {
   }
 
   @Override
-  public void setPosition(double x, double y) {
+  public void setPosition(final double x, final double y) {
     this.position = Optional.ofNullable(MutablePair.of(x, y));
   }
 }

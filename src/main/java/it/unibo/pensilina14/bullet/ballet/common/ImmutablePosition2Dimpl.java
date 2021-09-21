@@ -35,7 +35,7 @@ public class ImmutablePosition2Dimpl implements ImmutablePosition2D {
 }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
 	if (this == obj) {
 		return true;
 	}

@@ -6,15 +6,15 @@ public enum ITEM_ID {
     WEAPON("weapon"),
     POISON("poison");
     
-    private final String item_id;
+    private final String itemID;
     
-    ITEM_ID(final String item_id) {
-        this.item_id = item_id; 
+    ITEM_ID(final String itemID) {
+        this.itemID = itemID; 
     }
     
     @Override
     public String toString() {
-        return this.item_id;  
+        return this.itemID;  
     }
     
 }
