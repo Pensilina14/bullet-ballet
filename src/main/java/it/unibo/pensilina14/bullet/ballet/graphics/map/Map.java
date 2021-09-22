@@ -3,12 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.graphics.map;
 import com.badlogic.gdx.Game;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.Scene;
 
-/*import org.mapeditor.io.TMXMapReader;
-import org.mapeditor.core.Map;
-import org.mapeditor.core.MapLayer;
-import org.mapeditor.core.TileLayer;
-import org.mapeditor.core.Tile;*/
-
 public class Map extends Game {
 
     public enum Maps {
@@ -17,6 +11,16 @@ public class Map extends Game {
         FOREST,
         CAVE
     }
+
+    private final Maps map;
+
+    public Map(){
+        this.map = Maps.HALLOWEEN;
+    }
+
+    /*public Map(Maps map){
+        this.map = map;
+    }*/
 
     @Override
     public void create() {
