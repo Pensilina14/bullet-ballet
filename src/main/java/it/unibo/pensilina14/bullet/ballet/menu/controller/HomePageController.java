@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -38,7 +39,8 @@ public class HomePageController {
     }
 
     @FXML
-    void statsOnMouseClick(final MouseEvent event) {
-        System.out.println("stats");
+    void statsOnMouseClick(final MouseEvent event) throws IOException {
+        final PageLoader loader = new PageLoader();
+        loader.goToSelectedPage("settings.fxml", event);
     }
 }
