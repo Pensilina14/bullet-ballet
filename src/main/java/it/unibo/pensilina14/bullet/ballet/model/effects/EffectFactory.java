@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.effects;
 
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 
 /**
  * This interface is part of the Factory Method pattern
@@ -10,28 +9,30 @@ public interface EffectFactory {
 	/**
 	 * Creates an effect capable of healing a given {@link Characters}.
 	 * 
-	 * @param target is the given {@link Characters} that will be affected by the newly created {@link Effect}.
 	 * @param healthIncreaseFactor is the value by which {@link Characters}'s health is increased.
 	 * 
 	 * @return {@link Effect} 
 	 */
-	Effect createHealEffect(Characters target, double healthIncreaseFactor);
+	Effect createHealEffect(double healthIncreaseFactor);
 	/**
 	 * Creates an effect capable of damaging a given {@link Characters}.
 	 * 
-	 * @param target is the given {@link Characters} that will be affected by the newly created {@link Effect}.
 	 * @param healthDecreaseFactor is the value by which {@link Characters}'s health is decreased.
 	 * 
 	 * @return {@link Effect} 
 	 */
-	Effect createDamageEffect(Characters target, double healthDecreaseFactor);
+	Effect createDamageEffect(double healthDecreaseFactor);
 	/**
 	 * Creates an effect capable of poisoning a given {@link Characters}.
 	 * Poisoning means that health is decrease by a value multiple times in time.
 	 * 
-	 * @param target is the given {@link Characters} that will be affected by the newly created {@link Effect}.
 	 * @param healthDecreaseFactor is the value by which {@link Characters}'s health is decreased each time.
+	 * @param msStep represents the step in time in between every damaging hit.
+	 * @param msDuration represents the duration of the effect.
+	 * 
+	 * Note that msStep and msDuration are in milliseconds.
+	 * 
 	 * @return {@link Effect}
 	 */
-	Effect createPoisonEffect(Characters target, double healthDecreaseFactor);
+	Effect createPoisonEffect(double healthDecreaseFactor, long msStep, long msDuration);
 }

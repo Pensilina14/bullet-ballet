@@ -1,36 +1,42 @@
 package it.unibo.pensilina14.bullet.ballet.model.effects;
 
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
-
 /**
  * Implementation of an {@link Effect} factory.
  * 
  * {@inheritDoc}
  */
-public class EffectFactoryImpl implements EffectFactory {
+public final class EffectFactoryImpl implements EffectFactory {
 
 	@Override
-	public Effect createHealEffect(final Characters target, final double healthIncreaseFactor) {
-		final double actualHealth = target.getHealth();
+	public Effect createHealEffect(final double healthIncreaseFactor) {
 		return e -> {
-			target.setHealth(actualHealth + healthIncreaseFactor);
+			final double actualHealth = e.getHealth();
+			e.setHealth(actualHealth + healthIncreaseFactor);
 		};
 	}
 
 	@Override
-	public Effect createDamageEffect(final Characters target, final double healthDecreaseFactor) {
-		final double actualHealth = target.getHealth();
+	public Effect createDamageEffect(final double healthDecreaseFactor) {
 		return e -> {
-			target.setHealth(actualHealth - healthDecreaseFactor); 
+			final double actualHealth = e.getHealth();
+			e.setHealth(actualHealth - healthDecreaseFactor);
 		};
 	}
 
 	@Override
-	public Effect createPoisonEffect(Characters target, double healthDecreaseFactor) {
-		final double actualHealth = target.getHealth();
+	public Effect createPoisonEffect(final double healthDecreaseFactor, final long msStep, final long msDuration) {
 		return e -> {
-			//TODO
+			long elapsedTime = 0;
+			long lastTime = System.currentTimeMillis();
+			while (elapsedTime < msDuration) {
+				final long current = System.currentTimeMillis();
+				elapsedTime = lastTime - current;
+				if (elapsedTime % msStep == 0) {
+					final double actualHealth = e.getHealth();
+					e.setHealth(actualHealth - healthDecreaseFactor);
+				}
+				lastTime = current;
+			}
 		};
 	}
-
 }
