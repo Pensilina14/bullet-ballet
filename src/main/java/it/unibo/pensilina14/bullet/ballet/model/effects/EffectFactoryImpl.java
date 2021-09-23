@@ -30,10 +30,16 @@ public final class EffectFactoryImpl implements EffectFactory {
 			long lastTime = System.currentTimeMillis();
 			while (elapsedTime < msDuration) {
 				final long current = System.currentTimeMillis();
-				elapsedTime = lastTime - current;
+				elapsedTime = elapsedTime + (current - lastTime);
+				System.out.println("elapsed poisoning time: " + elapsedTime);
 				if (elapsedTime % msStep == 0) {
 					final double actualHealth = e.getHealth();
 					e.setHealth(actualHealth - healthDecreaseFactor);
+					try {
+						Thread.sleep(1);
+					} catch (final InterruptedException exc) {
+						exc.printStackTrace();
+					}
 				}
 				lastTime = current;
 			}
