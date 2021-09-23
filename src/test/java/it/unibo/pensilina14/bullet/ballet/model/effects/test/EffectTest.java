@@ -37,7 +37,7 @@ public class EffectTest {
 	@Test
 	public void testApplySimpleEffect() {
 		/*
-		 * DECLARATION
+		 * INITIALIZATION
 		 */
 		final Environment env = new GameEnvironment();
 		final Characters enemy = new Enemy("testEnemy00", HEALTH, Optional.ofNullable(MANA), 
