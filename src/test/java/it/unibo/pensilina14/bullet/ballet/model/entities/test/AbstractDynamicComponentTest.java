@@ -9,6 +9,7 @@ import org.junit.Test;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -21,6 +22,8 @@ public class AbstractDynamicComponentTest {
     private final static int SIZE = 1;
     private final static double MASS = 5;
     private final static double POSITION = -5;
+    private final static double TIME = 10;
+    private final static double MS_TO_S = 0.001;
     
     
     private class AbstractDynamicComponentImpl extends AbstractDynamicComponent {
@@ -107,4 +110,14 @@ public class AbstractDynamicComponentTest {
                 , component.getPosition().getX(), APPROXIMATION);
     }
     
+    @Test
+    public void testUpdateState() {
+        final AbstractDynamicComponent component = new AbstractDynamicComponentImpl();
+        final SpeedVector2D vector = component.getSpeedVector();
+        final MutablePosition2D prevPosition = vector.getPosition();
+        prevPosition.setPosition(component.getPosition().getX() + TIME * MS_TO_S, 
+                component.getPosition().getY() + TIME * MS_TO_S);
+        component.updateState(TIME);
+        assertEquals(component.getPosition(), prevPosition); 
+    }
 }
