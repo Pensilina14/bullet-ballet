@@ -52,7 +52,7 @@ public class GameEngine implements Controller {
 		if (dt < this.period) {
 			try {
 				Thread.sleep(period - dt);
-			} catch (final Exception e) {
+			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
