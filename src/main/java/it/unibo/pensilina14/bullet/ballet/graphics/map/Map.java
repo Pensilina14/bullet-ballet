@@ -10,10 +10,16 @@ public class Map extends Game {
     private final static int HEIGHT = 720;
 
     public enum Maps {
-        HALLOWEEN,
-        JUNGLE,
-        FOREST,
-        CAVE
+        HALLOWEEN("res/src/assets/Backgrounds/"),
+        JUNGLE("res/src/assets/Backgrounds/"),
+        FOREST("res/src/assets/Backgrounds/"),
+        CAVE("res/src/assets/Backgrounds/");
+
+        String path;
+
+        Maps(String path){
+            this.path = path;
+        }
     }
 
     private final Maps map;
