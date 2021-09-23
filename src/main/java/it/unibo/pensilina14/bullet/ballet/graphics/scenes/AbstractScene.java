@@ -8,8 +8,8 @@ import javafx.scene.layout.StackPane;
 
 public abstract class AbstractScene extends Scene {
 
-    private int width = 1280; // TODO: 1920 o scelto dall'utente dal menu
-    private int height = 720; // TODO: 1080 o scelto dall'utente dal menu
+    protected int width = 1280; // TODO: 1920 o scelto dall'utente dal menu
+    protected int height = 720; // TODO: 1080 o scelto dall'utente dal menu
 
     private StackPane root = new StackPane();
     protected GraphicsContext gfx;
