@@ -47,32 +47,6 @@ dependencies {
             implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
         }
     }
-
-    // LibGdx framework
-    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
-
-    /*implementation("com.badlogicgames.gdx:gdx-ai:$aiVersion")
-    implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-bullet:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-freetype:$gdxVersion")
-    implementation("com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion")
-    implementation("com.badlogicgames.ashley:ashley:$ashleyVersion")
-    implementation("com.badlogicgames.gdx:gdx-ai:$aiVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-
-    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion")
-    implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-tools:$gdxVersion")*/
-
-    // Tiled map editor
-    implementation("org.mapeditor:tiled-parent:1.4.2")
-    implementation("org.mapeditor:tmxviewer:1.4.2")
-    implementation("org.mapeditor:libtiled:1.4.2")
     
     /* for cross-platform jar: */
     runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:win")
