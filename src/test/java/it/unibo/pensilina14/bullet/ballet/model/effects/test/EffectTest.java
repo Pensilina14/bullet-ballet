@@ -32,8 +32,7 @@ public class EffectTest {
 	private static final double DEFAULT_SPEED = 15.0;
 	/*
 	 * Note:
-	 * 	This test method does NOT take in consideration collisions
-	 *  and environmental aspects such as dimension and position.
+	 * 	This test method does NOT take in consideration collisions.
 	 */
 	@Test
 	public void testApplySimpleEffect() {
