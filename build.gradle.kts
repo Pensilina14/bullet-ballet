@@ -29,14 +29,6 @@ val jUnitVersion = "5.7.1"
 
 val kotlinVersion = "1.3.41"
 
-val gdxVersion = "1.10.0"
-
-val aiVersion = "1.8.2"
-
-val box2DLightsVersion = "1.5"
-
-val ashleyVersion = "1.7.3"
-
 dependencies {
     // Example library: Guava. Add what you need (and remove Guava if you don't use it)
     // implementation("com.google.guava:guava:28.1-jre")
