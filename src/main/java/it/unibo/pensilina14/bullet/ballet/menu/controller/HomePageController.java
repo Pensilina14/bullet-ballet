@@ -41,6 +41,6 @@ public class HomePageController {
     @FXML
     void statsOnMouseClick(final MouseEvent event) throws IOException {
         final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage("settings.fxml", event);
+        loader.goToSelectedPage("fxml/menu/settings.fxml", event);
     }
 }
