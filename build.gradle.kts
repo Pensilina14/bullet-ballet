@@ -58,6 +58,11 @@ application {
     mainClassName = "it.unibo.pensilina14.bullet.ballet.Launcher"
 }
 
+javafx {
+    version = "15"
+    modules("javafx.controls", "javafx.fxml", "javafx.swing")
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
