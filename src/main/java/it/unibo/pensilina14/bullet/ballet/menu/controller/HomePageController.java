@@ -39,7 +39,7 @@ public class HomePageController {
     @FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
         final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage("/settings.fxml", event);
+        loader.goToSelectedPage(FRAME.SETTINGS, event);
     }
 
     @FXML
