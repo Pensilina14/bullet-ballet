@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -30,17 +31,19 @@ public class HomePageController {
     
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
-        System.out.println("new game");
+        final GameEngine game = new GameEngine();
+        game.setup();
+        game.mainLoop();
     }
 
     @FXML
-    void settingsOnMouseClick(final MouseEvent event) {
-        System.out.println("settings");
+    void settingsOnMouseClick(final MouseEvent event) throws IOException {
+        final PageLoader loader = new PageLoader();
+        loader.goToSelectedPage("/settings.fxml", event);
     }
 
     @FXML
     void statsOnMouseClick(final MouseEvent event) throws IOException {
-        final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage("fxml/menu/settings.fxml", event);
+        
     }
 }
