@@ -1,8 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
@@ -64,10 +64,10 @@ public interface Environment {
 	Optional<ImmutablePosition2D> findObjInMap(PhysicalObject obj);
 
 	/**
-	 * @return {@link List} containing all the current game objects present in the
+	 * @return {@link Set} containing all the current game objects present in the
 	 * game map.
 	 */
-	Optional<List<PhysicalObject>> getObjListInMap();
+	Optional<Set<PhysicalObject>> getObjSetInMap();
 	
 	/**
 	 * @param dt is the given time instant when the environment must be updated

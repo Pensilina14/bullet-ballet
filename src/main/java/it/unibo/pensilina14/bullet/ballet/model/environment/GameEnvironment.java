@@ -8,11 +8,11 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponen
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NoDynamicObjectsException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -132,11 +132,11 @@ public class GameEnvironment implements Environment {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Optional<List<PhysicalObject>> getObjListInMap() {
-		final List<PhysicalObject> objList = new ArrayList<>();
-		this.gameMap.entrySet().stream().filter(e -> e.getValue().equals(Optional.empty()))
-				.collect(Collectors.toList());
-		return Optional.ofNullable(objList);
+	public final Optional<Set<PhysicalObject>> getObjSetInMap() {
+		return Optional.ofNullable(this.gameMap.entrySet().stream()
+				.filter(e -> e.getValue().isPresent())
+				.map(e -> e.getValue().get())
+				.collect(Collectors.toSet()));
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class GameEnvironment implements Environment {
 	 */
 	@Override
 	public void updateState(final int dt) { 
-		final Optional<List<PhysicalObject>> gameObjs = this.getObjListInMap();
+		final Optional<Set<PhysicalObject>> gameObjs = this.getObjSetInMap();
 		if (gameObjs.isPresent()) {
 			try {
 				final Optional<List<AbstractDynamicComponent>> dynamicObjs = this.getDynamicObjs(gameObjs.get());
@@ -164,7 +164,7 @@ public class GameEnvironment implements Environment {
 	 * @return an {@link Optional} {@link List} of {@link AbstractDynamicComponent} 
 	 * @throws NoDynamicObjectsException
 	 */
-	private Optional<List<AbstractDynamicComponent>> getDynamicObjs(final List<? extends PhysicalObject> gameObjs) throws NoDynamicObjectsException {
+	private Optional<List<AbstractDynamicComponent>> getDynamicObjs(final Set<? extends PhysicalObject> gameObjs) throws NoDynamicObjectsException {
 		try {
 			final Optional<List<AbstractDynamicComponent>> dynamicObjs = Optional.ofNullable(
 					(List<AbstractDynamicComponent>) gameObjs.stream()
