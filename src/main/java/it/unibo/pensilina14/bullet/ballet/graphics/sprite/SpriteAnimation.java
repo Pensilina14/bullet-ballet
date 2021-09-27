@@ -40,7 +40,7 @@ public class SpriteAnimation extends Sprite{
         super(width, height);
     }
 
-    public void move(Direction direction){
+    public void animate(Direction direction){
         if(direction == this.currentDirection){
             this.currentSpriteStep++;
             if(this.currentSpriteStep >= SpriteAnimation.SPRITE_STEP){
@@ -55,7 +55,7 @@ public class SpriteAnimation extends Sprite{
         updateSprite();
     }
 
-    private void updateSprite(){
+    protected void updateSprite(){
         x = this.spriteX[this.currentDirection.getIndex()][this.currentSprite];
         y = this.spriteY[this.currentDirection.getIndex()][this.currentSprite];
     }
