@@ -3,8 +3,10 @@ package it.unibo.pensilina14.bullet.ballet.model.characters;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
@@ -42,7 +44,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         setEnemyType(this.enemyType);
     }
 
-    private void setEnemyType(EntityList.Characters.Enemy enemyType){
+    private void setEnemyType(EntityList.Characters.Enemy enemyType){ //, EntityList.Weapons, Dimension2D dimension, SpeedVector2D vector, Environment environment,double mass, ITEM_ID id,final Effect effect
         double minHealth;
         double minMana;
         switch(enemyType){
@@ -53,7 +55,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 //this.numberOfEnemies = 0;
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                this.weapon = new WeaponImpl("AK-47");
+                //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect);
                 break;
             case ENEMY2:
                 minHealth = 60.0;
@@ -61,7 +63,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 this.name = "Enemy2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                this.weapon = new WeaponImpl("M4A1");
+                //this.weapon = new WeaponImpl("M4A1");
                 break;
             case ENEMY3:
                 minHealth = 40.0;
@@ -69,7 +71,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 this.name = "Enemy3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                this.weapon = new WeaponImpl("Bazooka");
+                //this.weapon = new WeaponImpl("Bazooka");
                 break;
         }
     }
@@ -100,12 +102,12 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean jump() {
-        return false; // TODO: jump
+        return super.moveUP(10.0); // TODO: jump
     }
 
     @Override
     public boolean crouch() {
-        return false; // TODO: crouch
+        return super.moveDOWN(10.0); // TODO: crouch
     }
 
     @Override

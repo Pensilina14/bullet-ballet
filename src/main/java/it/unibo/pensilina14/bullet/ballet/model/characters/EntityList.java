@@ -18,8 +18,31 @@ public enum EntityList {
             ENEMY3
         }
     }
-
-
-
-
+    public enum Weapons{
+    	GUN("Gun", 10, 4),
+    	SHOTGUN("Shotgun", 5, 3),
+    	AUTO("Auto", 15, 5);
+    	
+    	private final String description;
+    	private final int limitBullets;
+    	private final int limitChargers;
+    	
+    	Weapons(final String name, final int limBullets, final int limChargers){
+    		this.description = name;
+    		this.limitBullets = limBullets;
+    		this.limitChargers = limChargers;
+    	}
+    	
+    	public String getName() {
+    		return this.description;
+    	}
+    	
+    	public int getLimBullets() {
+    		return this.limitBullets;
+    	}
+    	
+    	public int getLimChargers() {
+    		return this.limitChargers;
+    	}
+    }
 }
