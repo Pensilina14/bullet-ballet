@@ -1,19 +1,15 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-<<<<<<< HEAD
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-=======
->>>>>>> main
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-<<<<<<< HEAD
 public class Launcher extends Application {
 
     private final static int MAX_SCENES = 2;
@@ -34,23 +30,12 @@ public class Launcher extends Application {
 
         public int getIndex(){
             return this.index;
-=======
-public final class Launcher extends Application{
-
-        @Override
-        public void start(final Stage stage) throws Exception {
-            final Parent root = FXMLLoader.load(getClass().getResource("/homepage.fxml"));
-            final Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
->>>>>>> main
         }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-<<<<<<< HEAD
         Launcher.stage = primaryStage;
 
         //Launcher.scenes[Scenes.MENU_SCENE.getIndex()] = new Menu();
@@ -79,13 +64,7 @@ public final class Launcher extends Application{
                 final GameEngine game = new GameEngine();
                 game.setup();
                 game.mainLoop();
-                
+
            */
     }
-=======
-        public static void main(final String[] args) {
-            launch(args);
-        }
-        
->>>>>>> main
 }
