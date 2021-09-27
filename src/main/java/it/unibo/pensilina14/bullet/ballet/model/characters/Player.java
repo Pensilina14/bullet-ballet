@@ -6,8 +6,10 @@ import java.util.Random;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
@@ -48,7 +50,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
         setPlayerType(this.playerType);
     }
 
-    private void setPlayerType(EntityList.Characters.Player playerType){
+    private void setPlayerType(EntityList.Characters.Player playerType){ //, EntityList.Weapons weaponType, Dimension2D dimension, SpeedVector2D vector, Environment environment,double mass, ITEM_ID id, final Effect effect
         double minHealth;
         double minMana;
         switch(playerType){
@@ -65,7 +67,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                this.weapon = new WeaponImpl("Knife");
+                //this.weapon = new WeaponImpl("Knife");
                 break;
             case PLAYER3:
                 minHealth = 50.0;
@@ -73,7 +75,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                this.weapon = new WeaponImpl("AK-47");
+                //this.weapon = new WeaponImpl("AK-47");
                 break;
         }
     }
@@ -100,12 +102,12 @@ public class Player extends AbstractDynamicComponent implements Characters{
 
     @Override
     public boolean jump() {
-        return false; // TODO: jump
+        return super.moveUP(10.0); // TODO: jump
     }
 
     @Override
     public boolean crouch() {
-        return false; // TODO: crouch
+        return super.moveDOWN(10.0); // TODO: crouch
     }
 
     @Override
