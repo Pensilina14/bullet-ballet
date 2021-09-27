@@ -9,7 +9,7 @@ public enum BulletType {
 	private final String description;
 	private final double damage;
 	
-	BulletType(String name, double damage) {
+	BulletType(final String name, final double damage) {
 		this.description = name;
 		this.damage = damage;
 	}
