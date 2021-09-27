@@ -2,6 +2,8 @@ package it.unibo.pensilina14.bullet.ballet;
 
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,35 +12,61 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public final class Launcher extends Application{
+public class Launcher extends Application {
 
-        @Override
-        public void start(final Stage primaryStage) throws Exception {
-            primaryStage.setTitle("PROVA PROVA PROVA!");
-            final Button btn = new Button();
-            btn.setText("PROVA PROVA PROVA");
-            btn.setOnAction(new EventHandler<ActionEvent>() {
-     
-                @Override
-                public void handle(final ActionEvent event) {
-                    System.out.println("PROVA PROVA PROVA!");
-                }
-            });
-            
-            final StackPane root = new StackPane();
-            root.getChildren().add(btn);
-            primaryStage.setScene(new Scene(root, 300, 250));
-            primaryStage.show();
+    private final static int MAX_SCENES = 2;
+
+    public static final AbstractScene[] scenes = new AbstractScene[MAX_SCENES];
+
+    private static Stage stage;
+
+    public enum Scenes {
+        MENU_SCENE(0),
+        MAP_SCENE(1);
+
+        int index;
+
+        Scenes(int index){
+            this.index = index;
         }
 
-        public static void main(final String[] args) {
-            launch(args);
-            /*
+        public int getIndex(){
+            return this.index;
+        }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        Launcher.stage = primaryStage;
+
+        //Launcher.scenes[Scenes.MENU_SCENE.getIndex()] = new Menu();
+        Launcher.scenes[Scenes.MAP_SCENE.getIndex()] = new MapScene();
+
+        Launcher.stage.setTitle("Bullet Ballet");
+        setScene(Scenes.MAP_SCENE.getIndex());
+        stage.show();
+
+
+    }
+
+    public static void setScene(int currentScene){
+        Launcher.stage.setScene(scenes[currentScene]);
+        scenes[currentScene].draw();
+    }
+
+    public static void exit(){
+        stage.hide();
+    }
+
+    public static void main(String[] args) {
+
+        launch(args);
+        /*
                 final GameEngine game = new GameEngine();
                 game.setup();
                 game.mainLoop();
                 
-            */
-        }
-        
+           */
+    }
 }
