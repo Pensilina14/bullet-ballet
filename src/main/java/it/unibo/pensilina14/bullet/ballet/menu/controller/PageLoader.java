@@ -12,12 +12,12 @@ import javafx.stage.Stage;
 
 public class PageLoader {
 
-    public void goToSelectedPage(final String string, final MouseEvent event) throws IOException {
+    public void goToSelectedPage(final FRAME frame, final MouseEvent event) throws IOException {
             
             Platform.runLater(() -> {
                     Parent page = null;
                     try {
-                            page = FXMLLoader.load(getClass().getResource(string));
+                            page = FXMLLoader.load(getClass().getResource(frame.toString()));
                     } catch (IOException e) {
                             e.printStackTrace();
                     }
