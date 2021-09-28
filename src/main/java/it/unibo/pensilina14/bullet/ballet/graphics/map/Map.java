@@ -2,8 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
 import javafx.util.Pair;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Map {
 
@@ -35,6 +35,21 @@ public class Map {
         public String getPath(){
             return this.path;
         }
+
+        /*public static Stream<Maps> stream() {
+            return Stream.of(Maps.values());
+        }*/
+
+    }
+
+    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
+
+    private final Random rand = new Random();
+
+    private Maps map;
+
+    public Map(){ //TODO: maybe not necessary.
+        this.map = Map.DEFAULT_MAP;
     }
 
     //TODO: metodo da tenere qui o da mettere in MapScene
@@ -44,5 +59,25 @@ public class Map {
         //TODO: aggiungere le coordinate di queste piastrelle in un Unmodifiable Set.
         //TODO: però quando il player arriva a metà della mappa, la mappa si deve aggiornare mostrando nuove piastrelle (tiles) in nuove posizioni.
         //TODO: Le posizioni delle piastrelle dovranno essere aggiunte alle entità fisiche e quindi ci sarà una collisione/fisica che fa stare il player sopra esse.
+    }
+
+    public String getMap(){
+        return this.map.getPath();
+    }
+
+    public void setMap(Maps map){
+        this.map = map;
+    }
+
+    public String mapChooser(){
+        final int max = Maps.values().length;
+        final int min = 0;
+        final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
+        for(Maps m : Maps.values()){
+            if(m.ordinal() == randomMap){
+                return m.getPath();
+            }
+        }
+        return Map.DEFAULT_MAP.getPath();
     }
 }
