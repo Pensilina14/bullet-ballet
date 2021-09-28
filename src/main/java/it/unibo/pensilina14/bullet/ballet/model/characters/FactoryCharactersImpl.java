@@ -16,32 +16,13 @@ public class FactoryCharactersImpl implements FactoryCharacters{
     final SpeedVector2D vector = new SpeedVector2DImpl(position, speed);
 
     @Override
-    public Player createPlayer1() {
-        return new Player(EntityList.Characters.Player.PLAYER1, dimension, vector, environment, DEFAULT_MASS);
+    public Player createPlayer(EntityList.Characters.Player playerType) {
+        return new Player(playerType, this.dimension, this.vector, this.environment, this.DEFAULT_MASS);
     }
 
     @Override
-    public Player createPlayer2() {
-        return new Player(EntityList.Characters.Player.PLAYER2, dimension, vector, environment, DEFAULT_MASS);
+    public Enemy createEnemy(EntityList.Characters.Enemy enemyType) {
+        return new Enemy(enemyType, this.dimension, this.vector, this.environment, this.DEFAULT_MASS);
     }
 
-    @Override
-    public Player createPlayer3() {
-        return new Player(EntityList.Characters.Player.PLAYER3, dimension, vector, environment, DEFAULT_MASS);
-    }
-
-    @Override
-    public Enemy createEnemy1() {
-        return new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, vector, environment, DEFAULT_MASS);
-    }
-
-    @Override
-    public Enemy createEnemy2() {
-        return new Enemy(EntityList.Characters.Enemy.ENEMY2, dimension, vector, environment, DEFAULT_MASS);
-    }
-
-    @Override
-    public Enemy createEnemy3() {
-        return new Enemy(EntityList.Characters.Enemy.ENEMY3, dimension, vector, environment, DEFAULT_MASS);
-    }
 }
