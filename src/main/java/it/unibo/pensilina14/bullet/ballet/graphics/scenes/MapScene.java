@@ -31,6 +31,7 @@ public class MapScene extends AbstractScene{
                 gfx.setFill(Color.BLACK);
                 gfx.fillRect(0,0,width, height);
                 gfx.drawImage(background, 0, 0);
+                //TODO: aggiungere il personaggio principale ed i nemici.
             }
         }.start();
 

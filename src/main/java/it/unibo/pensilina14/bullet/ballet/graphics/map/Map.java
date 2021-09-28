@@ -2,8 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
 import javafx.util.Pair;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Map {
 
@@ -11,6 +11,10 @@ public class Map {
     private final static int HEIGHT = 720;
 
     private final Set<Pair<Integer,Integer>> tiles = new HashSet<>();
+
+    private final Random rand = new Random();
+
+
 
     public enum Maps {
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
@@ -35,7 +39,14 @@ public class Map {
         public String getPath(){
             return this.path;
         }
+
+        /*public static Stream<Maps> stream() {
+            return Stream.of(Maps.values());
+        }*/
+
     }
+
+    //private final static int MAP_LENGTH = Maps.values().length;
 
     //TODO: metodo da tenere qui o da mettere in MapScene
     public void generate(){
@@ -44,5 +55,21 @@ public class Map {
         //TODO: aggiungere le coordinate di queste piastrelle in un Unmodifiable Set.
         //TODO: però quando il player arriva a metà della mappa, la mappa si deve aggiornare mostrando nuove piastrelle (tiles) in nuove posizioni.
         //TODO: Le posizioni delle piastrelle dovranno essere aggiunte alle entità fisiche e quindi ci sarà una collisione/fisica che fa stare il player sopra esse.
+    }
+
+    public String setMap(Maps map){ //TODO: rename in getMap ?
+        return map.getPath(); // Maps.valueOf(mapString).getPath();
+    }
+
+    public String mapChooser(){
+        final int max = Maps.values().length;
+        final int min = 0;
+        final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
+        for(Maps m : Maps.values()){
+            if(m.ordinal() == randomMap){
+                return m.getPath();
+            }
+        }
+        return Maps.HALLOWEEN.getPath(); // default
     }
 }
