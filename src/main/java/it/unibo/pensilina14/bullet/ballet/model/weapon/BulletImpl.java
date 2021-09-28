@@ -1,4 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 
 
@@ -7,7 +8,7 @@ public class BulletImpl implements Bullet {
 	private final String name;
 	private final double damage;
 	
-	public BulletImpl(BulletType bulletType) {
+	public BulletImpl(final EntityList.BulletType bulletType) {
 		this.name = bulletType.description();
 		this.damage = bulletType.damage();
 	}
