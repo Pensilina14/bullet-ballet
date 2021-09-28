@@ -101,13 +101,13 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     @Override
-    public boolean jump() {
-        return super.moveUP(10.0); // TODO: jump
+    public boolean jump() { //TODO: add a parameter
+        return super.moveUP(10.0);
     }
 
     @Override
-    public boolean crouch() {
-        return super.moveDOWN(10.0); // TODO: crouch
+    public boolean crouch() { //TODO: add a parameter
+        return super.moveDOWN(10.0);
     }
 
     @Override
