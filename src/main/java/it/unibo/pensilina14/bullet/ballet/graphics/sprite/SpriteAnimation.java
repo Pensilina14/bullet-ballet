@@ -3,13 +3,23 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 public class SpriteAnimation extends Sprite{
 
     public enum Direction{
-        UP,
-        DOWN,
-        RIGHT,
-        LEFT;
+        RIGHT(0),
+        LEFT(1),
+        UP(2),
+        DOWN(3);
+
+        int index;
+
+        Direction(int index){
+            this.index = index;
+        }
+
+        public int getIndex(){
+            return this.index;
+        }
     }
 
-    private static final int SPRITE_FRAMES = 3;
+    private static final int SPRITE_FRAMES = 4; //TODO: Direction.values().length;
     private final static int SPRITE_STEP = 5;
 
     /*private final int totalFrames;
@@ -19,8 +29,8 @@ public class SpriteAnimation extends Sprite{
     private final int frameWidth;
     private final int frameHeight;*/
 
-    private int[][] spriteX = new int[SpriteAnimation.SPRITE_FRAMES][];
-    private int[][] spriteY = new int[SpriteAnimation.SPRITE_FRAMES][];
+    protected int[][] spriteX = new int[SpriteAnimation.SPRITE_FRAMES][];
+    protected int[][] spriteY = new int[SpriteAnimation.SPRITE_FRAMES][];
 
     private Direction currentDirection = Direction.RIGHT;
     private int currentSprite = 0;
@@ -30,12 +40,11 @@ public class SpriteAnimation extends Sprite{
         super(width, height);
     }
 
-    public void move(Direction direction){
+    public void animate(Direction direction){
         if(direction == this.currentDirection){
-            // TODO: animate sprite in the same direction
             this.currentSpriteStep++;
             if(this.currentSpriteStep >= SpriteAnimation.SPRITE_STEP){
-                //this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection].length);
+                this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection.getIndex()].length);
             }
         } else {
             this.currentDirection = direction;
@@ -46,9 +55,8 @@ public class SpriteAnimation extends Sprite{
         updateSprite();
     }
 
-    private void updateSprite(){
-        // TODO:
-        // = this.spriteX[this.currentDirection][this.currentSprite];
-        //y = this.spriteY[this.currentDirection][this.currentSprite];
+    protected void updateSprite(){
+        x = this.spriteX[this.currentDirection.getIndex()][this.currentSprite];
+        y = this.spriteY[this.currentDirection.getIndex()][this.currentSprite];
     }
 }
