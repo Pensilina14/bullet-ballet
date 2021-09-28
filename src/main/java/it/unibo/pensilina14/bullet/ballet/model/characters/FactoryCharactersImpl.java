@@ -17,12 +17,12 @@ public class FactoryCharactersImpl implements FactoryCharacters{
 
     @Override
     public Player createPlayer(EntityList.Characters.Player playerType) {
-        return new Player(playerType, this.dimension, this.vector, this.environment, this.DEFAULT_MASS);
+        return new Player(playerType, this.dimension, this.vector, this.environment, FactoryCharactersImpl.DEFAULT_MASS);
     }
 
     @Override
     public Enemy createEnemy(EntityList.Characters.Enemy enemyType) {
-        return new Enemy(enemyType, this.dimension, this.vector, this.environment, this.DEFAULT_MASS);
+        return new Enemy(enemyType, this.dimension, this.vector, this.environment, FactoryCharactersImpl.DEFAULT_MASS);
     }
 
 }
