@@ -12,10 +12,6 @@ public class Map {
 
     private final Set<Pair<Integer,Integer>> tiles = new HashSet<>();
 
-    private final Random rand = new Random();
-
-
-
     public enum Maps {
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
@@ -46,7 +42,15 @@ public class Map {
 
     }
 
-    //private final static int MAP_LENGTH = Maps.values().length;
+    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
+
+    private final Random rand = new Random();
+
+    private Maps map;
+
+    public Map(){ //TODO: maybe not necessary.
+        this.map = Map.DEFAULT_MAP;
+    }
 
     //TODO: metodo da tenere qui o da mettere in MapScene
     public void generate(){
@@ -57,8 +61,12 @@ public class Map {
         //TODO: Le posizioni delle piastrelle dovranno essere aggiunte alle entità fisiche e quindi ci sarà una collisione/fisica che fa stare il player sopra esse.
     }
 
-    public String setMap(Maps map){ //TODO: rename in getMap ?
-        return map.getPath(); // Maps.valueOf(mapString).getPath();
+    public String getMap(){
+        return this.map.getPath();
+    }
+
+    public void setMap(Maps map){
+        this.map = map;
     }
 
     public String mapChooser(){
@@ -70,6 +78,6 @@ public class Map {
                 return m.getPath();
             }
         }
-        return Maps.HALLOWEEN.getPath(); // default
+        return Map.DEFAULT_MAP.getPath();
     }
 }
