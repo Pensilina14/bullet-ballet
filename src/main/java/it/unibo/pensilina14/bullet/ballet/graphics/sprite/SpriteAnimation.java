@@ -3,20 +3,11 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 public class SpriteAnimation extends Sprite{
 
     public enum Direction{
-        RIGHT(0),
-        LEFT(1),
-        UP(2),
-        DOWN(3);
+        RIGHT,
+        LEFT,
+        UP,
+        DOWN;
 
-        int index;
-
-        Direction(int index){
-            this.index = index;
-        }
-
-        public int getIndex(){
-            return this.index;
-        }
     }
 
     private static final int SPRITE_FRAMES = 4; //TODO: Direction.values().length;
@@ -44,7 +35,7 @@ public class SpriteAnimation extends Sprite{
         if(direction == this.currentDirection){
             this.currentSpriteStep++;
             if(this.currentSpriteStep >= SpriteAnimation.SPRITE_STEP){
-                this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection.getIndex()].length);
+                this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection.ordinal()].length);
             }
         } else {
             this.currentDirection = direction;
@@ -56,7 +47,7 @@ public class SpriteAnimation extends Sprite{
     }
 
     protected void updateSprite(){
-        x = this.spriteX[this.currentDirection.getIndex()][this.currentSprite];
-        y = this.spriteY[this.currentDirection.getIndex()][this.currentSprite];
+        x = this.spriteX[this.currentDirection.ordinal()][this.currentSprite];
+        y = this.spriteY[this.currentDirection.ordinal()][this.currentSprite];
     }
 }
