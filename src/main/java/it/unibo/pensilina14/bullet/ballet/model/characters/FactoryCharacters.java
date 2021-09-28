@@ -2,17 +2,19 @@ package it.unibo.pensilina14.bullet.ballet.model.characters;
 
 public interface FactoryCharacters {
 
-    //TODO: Add a specific name for each type of Player and Enemy instead than numbers.
+    /**
+     *
+     * @param playerType : an enum with the name of the player that you want to create.
+     * @return : a Player.
+     */
 
-    Player createPlayer1();
+    Player createPlayer(EntityList.Characters.Player playerType);
 
-    Player createPlayer2();
+    /**
+     *
+     * @param enemyType : an enum with the name of the enemy that you want to create.
+     * @return : an Enemy.
+     */
 
-    Player createPlayer3();
-
-    Enemy createEnemy1();
-
-    Enemy createEnemy2();
-
-    Enemy createEnemy3();
+    Enemy createEnemy(EntityList.Characters.Enemy enemyType);
 }
