@@ -3,10 +3,14 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Sprite {
 
-    private final int width;
-    private final int height;
+    private final int spriteWidth;
+    private final int spriteHeight;
 
     private Image image;
     private int spriteX;
@@ -15,13 +19,13 @@ public class Sprite {
     protected int y;
 
     public Sprite(int width, int height){
-        this.width = width;
-        this.height = height;
+        this.spriteWidth = width;
+        this.spriteHeight = height;
     }
 
     public void draw(GraphicsContext gc){
         //gc.drawImage(this.image, this.width, this.height);
-        gc.drawImage(this.image, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
+        gc.drawImage(this.image, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight, this.x, this.y, this.spriteWidth, this.spriteHeight);
     }
 
     public int getX(){
@@ -30,5 +34,21 @@ public class Sprite {
 
     public int getY(){
         return this.y;
+    }
+
+    public void setSprite(String img) throws IOException {
+        this.image = new Image(Files.newInputStream(Paths.get(img)));
+    }
+
+    public Image getSprite(){
+        return this.image;
+    }
+
+    public int getSpriteWidth(){
+        return this.spriteWidth;
+    }
+
+    public int getSpriteHeight(){
+        return this.spriteHeight;
     }
 }
