@@ -44,5 +44,41 @@ public enum EntityList {
     	public int getLimChargers() {
     		return this.limitChargers;
     	}
+    	
+    	@Override
+    	public String toString() {
+    		return this.description + "/t Bullets: " + this.limitBullets
+    				+ "/t Chargers: " + this.limitChargers;
+    	}
+    }
+    
+    public enum BulletType {
+
+    	CLASSICAL("Normal bullet", 10),
+    	TOXIC("Toxic bullet", 10),
+    	SOPORIFIC("Soporific bullet", 10);
+	
+    	private final String description;
+    	private final double damage;
+	
+    	BulletType(final String name, final double damage) {
+    		this.description = name;
+    		this.damage = damage;
+    	}
+	
+    	public double damage() {
+    		return this.damage;
+    	}
+	
+    	public String description() {
+    		return this.description;
+    	}
+	
+    	@Override
+    	public String toString() {
+    		return this.description + "/t damage: " + this.damage;
+    	}
+	
     }
 }
+

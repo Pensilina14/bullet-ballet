@@ -49,7 +49,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	
 	private void initializeWeapon() {
 		((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
-		this.spareCharger.stream().map(i -> new BulletImpl(BulletType.CLASSICAL));
+		this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
 		((ArrayList<List<Bullet>>) this.bandolier).ensureCapacity(this.limitChargers);
 		this.bandolier.add(this.spareCharger);
 		this.bandolier.add(new ArrayList<>());
@@ -85,7 +85,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	
 	@Override
