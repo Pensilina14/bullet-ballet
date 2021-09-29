@@ -32,10 +32,10 @@ public class MainPlayer extends SpriteAnimation {
         this.player = new Player(playerType, dimension, vector, environment, mass);
 
         //TODO: Add sprites coords of spritesheet.
-        spriteX[Direction.RIGHT.getIndex()] = new int[] {};
-        spriteX[Direction.LEFT.getIndex()] = new int[] {};
-        spriteX[Direction.UP.getIndex()] = new int[] {};
-        spriteX[Direction.DOWN.getIndex()] = new int[] {};
+        spriteX[Direction.RIGHT.ordinal()] = new int[] {};
+        spriteX[Direction.LEFT.ordinal()] = new int[] {};
+        spriteX[Direction.UP.ordinal()] = new int[] {};
+        spriteX[Direction.DOWN.ordinal()] = new int[] {};
 
         updateSprite();
 
