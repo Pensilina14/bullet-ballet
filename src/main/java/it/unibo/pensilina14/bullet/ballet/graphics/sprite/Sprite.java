@@ -9,8 +9,8 @@ import java.nio.file.Paths;
 
 public class Sprite {
 
-    private final int spriteWidth;
-    private final int spriteHeight;
+    private int spriteWidth;
+    private int spriteHeight;
 
     private Image image;
     private int spriteX;
@@ -36,11 +36,16 @@ public class Sprite {
         return this.y;
     }
 
-    public void setSprite(String img) throws IOException {
-        this.image = new Image(Files.newInputStream(Paths.get(img)));
+    public void setSpriteImage(String img) {
+        try {
+            this.image = new Image(Files.newInputStream(Paths.get(img)));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
-    public Image getSprite(){
+    public Image getSpriteImage(){
         return this.image;
     }
 
@@ -50,5 +55,13 @@ public class Sprite {
 
     public int getSpriteHeight(){
         return this.spriteHeight;
+    }
+
+    public void setSpriteWidth(int width){
+        this.spriteWidth = width;
+    }
+
+    public void setSpriteHeight(int height){
+        this.spriteHeight = height;
     }
 }
