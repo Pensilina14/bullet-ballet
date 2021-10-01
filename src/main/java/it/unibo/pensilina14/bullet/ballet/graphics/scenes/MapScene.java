@@ -26,14 +26,13 @@ public class MapScene extends AbstractScene{
 
     //private final MainPlayer mainPlayer = new MainPlayer(EntityList.Characters.Player.PLAYER1);
 
-    BackgroundImage bi = new BackgroundImage(new Image(Map.Maps.HALLOWEEN.getPath()),
+    /*BackgroundImage bi = new BackgroundImage(new Image(Map.Maps.HALLOWEEN.getPath()),
             BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT,
-            BackgroundSize.DEFAULT);
+            BackgroundSize.DEFAULT);*/
 
-    // Background creation
-    Background bg = new Background(bi);
+    //Background bg = new Background(bi);
 
     public MapScene() throws IOException {
         super();
@@ -55,10 +54,10 @@ public class MapScene extends AbstractScene{
 
                 gfx.setFill(Color.BLACK);
                 gfx.fillRect(0,0,width, height);
-                //gfx.drawImage(background, 0, 0);
+                gfx.drawImage(background, 0, 0);
                 // Dopo il background
 
-                root.setBackground(bg);
+                //root.setBackground(bg);
 
                 //TODO: aggiungere il personaggio principale ed i nemici.
 
