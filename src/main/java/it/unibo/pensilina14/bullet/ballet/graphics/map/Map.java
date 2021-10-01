@@ -12,7 +12,7 @@ public class Map {
     private final static int MAP_WIDTH = 1280;
     private final static int MAP_HEIGHT = 720;
 
-    private final Set<Pair<Integer,Integer>> tiles = new HashSet<>();
+    private final Set<Pair<Integer,Integer>> tiles = new HashSet<>(); //TODO: choose whether to use Set or Map or others.
 
     private java.util.Map<Sprite, Pair<Integer,Integer>> platforms = new HashMap<>();
 

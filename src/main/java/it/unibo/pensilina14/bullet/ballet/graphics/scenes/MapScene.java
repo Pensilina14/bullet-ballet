@@ -9,7 +9,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -25,6 +25,15 @@ public class MapScene extends AbstractScene{
     //private Node backgroundNode;
 
     //private final MainPlayer mainPlayer = new MainPlayer(EntityList.Characters.Player.PLAYER1);
+
+    BackgroundImage bi = new BackgroundImage(new Image(Map.Maps.HALLOWEEN.getPath()),
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            BackgroundSize.DEFAULT);
+
+    // Background creation
+    Background bg = new Background(bi);
 
     public MapScene() throws IOException {
         super();
@@ -46,21 +55,17 @@ public class MapScene extends AbstractScene{
 
                 gfx.setFill(Color.BLACK);
                 gfx.fillRect(0,0,width, height);
-                gfx.drawImage(background, 0, 0);
+                //gfx.drawImage(background, 0, 0);
                 // Dopo il background
 
-                //TODO: aggiungere il personaggio principale ed i nemici.
-                //gfx.drawImage(,map.getTiles().); //TODO: tiles.getX(), tiles.getY()
+                root.setBackground(bg);
 
-                //TODO: HashMap
+                //TODO: aggiungere il personaggio principale ed i nemici.
+
+                //TODO: HashMap platforms
                 map.getPlatforms().forEach( (s, c) -> {
                     gfx.drawImage(s.getSpriteImage(), c.getKey(), c.getValue()); //TODO: non mi serve sempre settare la sprite, perchè è sempra la stessa (basta una volta)
-                }); //s.getSpriteImage()
-
-                //TODO: Set
-                /*map.getTiles().forEach( (k) -> {
-                    gfx.drawImage(map.getPlatformSprite().getSprite(), k.getKey(), k.getValue());
-                });*/
+                });
 
                 if(keysPressed.contains(KeyCode.RIGHT)){
                     //TODO: move screen pane()
