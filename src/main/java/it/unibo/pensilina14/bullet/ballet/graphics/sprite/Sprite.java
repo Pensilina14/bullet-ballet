@@ -3,7 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -43,6 +42,11 @@ public class Sprite {
             e.printStackTrace();
         }
 
+    }
+
+    public void move(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 
     public Image getSpriteImage(){
