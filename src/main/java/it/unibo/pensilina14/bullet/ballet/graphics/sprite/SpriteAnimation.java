@@ -20,8 +20,8 @@ public class SpriteAnimation extends Sprite{
     private final int frameWidth;
     private final int frameHeight;*/
 
-    protected int[][] spriteX = new int[SpriteAnimation.SPRITE_FRAMES][];
-    protected int[][] spriteY = new int[SpriteAnimation.SPRITE_FRAMES][];
+    protected int[][] spriteXCoords = new int[SpriteAnimation.SPRITE_FRAMES][];
+    protected int[][] spriteYCoords = new int[SpriteAnimation.SPRITE_FRAMES][];
 
     private Direction currentDirection = Direction.RIGHT;
     private int currentSprite = 0;
@@ -35,7 +35,7 @@ public class SpriteAnimation extends Sprite{
         if(direction == this.currentDirection){
             this.currentSpriteStep++;
             if(this.currentSpriteStep >= SpriteAnimation.SPRITE_STEP){
-                this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection.ordinal()].length);
+                this.currentSprite = ((this.currentSprite + 1) % this.spriteXCoords[this.currentDirection.ordinal()].length);
             }
         } else {
             this.currentDirection = direction;
@@ -47,7 +47,7 @@ public class SpriteAnimation extends Sprite{
     }
 
     protected void updateSprite(){
-        x = this.spriteX[this.currentDirection.ordinal()][this.currentSprite];
-        y = this.spriteY[this.currentDirection.ordinal()][this.currentSprite];
+        x = this.spriteXCoords[this.currentDirection.ordinal()][this.currentSprite];
+        y = this.spriteYCoords[this.currentDirection.ordinal()][this.currentSprite];
     }
 }
