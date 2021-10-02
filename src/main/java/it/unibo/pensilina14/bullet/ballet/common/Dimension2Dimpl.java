@@ -7,7 +7,7 @@ public class Dimension2Dimpl implements Dimension2D {
     private final double height;
     private final double width;
       
-    public Dimension2Dimpl(final int height, final int width) {
+    public Dimension2Dimpl(final double height, final double width) {
       this.height = height;
       this.width = width;
     }
