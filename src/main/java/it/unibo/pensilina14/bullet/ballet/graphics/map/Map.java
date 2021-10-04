@@ -1,16 +1,22 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Sprite;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Map {
 
-    private final static int WIDTH = 1280;
-    private final static int HEIGHT = 720;
+    private final static int MAP_WIDTH = 1280;
+    private final static int MAP_HEIGHT = 720;
 
-    private final Set<Pair<Integer,Integer>> tiles = new HashSet<>();
+    private final Set<Pair<Integer,Integer>> tiles = new HashSet<>(); //TODO: choose whether to use Set or Map or others.
+
+    private java.util.Map<Sprite, Pair<Integer,Integer>> platforms = new HashMap<>();
+
+    private Sprite platformSprite;
 
     public enum Maps {
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
@@ -46,6 +52,8 @@ public class Map {
 
     private final Random rand = new Random();
 
+    private String PLATFORM_SPRITE = "res/assets/maps/Tiles/tmw_desert_spacing.png";
+
     private Maps map;
 
     public Map(){ //TODO: maybe not necessary.
@@ -59,7 +67,33 @@ public class Map {
         //TODO: aggiungere le coordinate di queste piastrelle in un Unmodifiable Set.
         //TODO: però quando il player arriva a metà della mappa, la mappa si deve aggiornare mostrando nuove piastrelle (tiles) in nuove posizioni.
         //TODO: Le posizioni delle piastrelle dovranno essere aggiunte alle entità fisiche e quindi ci sarà una collisione/fisica che fa stare il player sopra esse.
+
+        this.platformSprite = new Sprite(265,199);
+        this.platformSprite.setSpriteImage(PLATFORM_SPRITE);
+
+        int numTiles = (Map.MAP_WIDTH / this.platformSprite.getSpriteWidth()); // larghezza mappa / larghezza sprite
+
+        List<Sprite> spriteList = new ArrayList<>();
+        List<Pair<Integer,Integer>> platformsPositions = new ArrayList<>();
+
+        for(int i = 0; i < numTiles; i++){
+            spriteList.add(new Sprite(265,199));
+
+            platformsPositions.add(new Pair<>(i * spriteList.get(i).getSpriteWidth(), Map.MAP_HEIGHT - spriteList.get(i).getSpriteHeight())); //this.platformSprite.getSpriteHeight()));
+
+            this.platforms.put(spriteList.get(i), platformsPositions.get(i));
+        }
+
+        spriteList.forEach( s -> {
+            s.setSpriteImage(PLATFORM_SPRITE);
+        });
+
     }
+
+    //TODO: if player moves to the right, if offset > (widht/2) && offset < width - (width/2), then Pane.setLayoutX(-(offset - (width/2))
+    //TODO: Pane.getChildren().addAll(background, Mappa, UI)
+    //TODO: if isPressed(Keycode.W) >= x then movePlayer(-x)
+    //TODO: player jump y = - (negative) value.
 
     public String getMap(){
         return this.map.getPath();
@@ -79,5 +113,29 @@ public class Map {
             }
         }
         return Map.DEFAULT_MAP.getPath();
+    }
+
+    public java.util.Map<Sprite, Pair<Integer,Integer>> getPlatforms(){
+        return this.platforms;
+    }
+
+    public Set<Pair<Integer,Integer>> getTiles(){
+        return this.tiles;
+    }
+
+    public Sprite getPlatformSprite(){
+        return this.platformSprite;
+    }
+
+    public void setPlatformSprite(Sprite platformSprite){
+        this.platformSprite = platformSprite;
+    }
+
+    public int getMapWidth(){
+        return Map.MAP_WIDTH;
+    }
+
+    public int getMapHeight(){
+        return Map.MAP_HEIGHT;
     }
 }

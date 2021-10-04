@@ -4,7 +4,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class AbstractScene extends Scene {
 
@@ -14,12 +18,15 @@ public abstract class AbstractScene extends Scene {
     protected int width = 1280; // TODO: 1920 o scelto dall'utente dal menu
     protected int height = 720; // TODO: 1080 o scelto dall'utente dal menu
 
-    private StackPane root = new StackPane();
+    protected StackPane root = new StackPane();
     protected GraphicsContext gfx;
+
+    protected Set<KeyCode> keysPressed;
+    protected Set<KeyCode> keysReleased;
 
     public AbstractScene() {
 
-        super(new StackPane(), AbstractScene.WIDTH, AbstractScene.HEIGHT); // TODO: add width, height
+        super(new StackPane(), AbstractScene.WIDTH, AbstractScene.HEIGHT);
 
         this.root = new StackPane();
         this.setRoot(this.root);
@@ -27,6 +34,17 @@ public abstract class AbstractScene extends Scene {
         Canvas canvas = new Canvas(this.width, this.height);
         this.root.getChildren().add(canvas);
         this.gfx = canvas.getGraphicsContext2D();
+
+        this.keysPressed = new HashSet<>();
+        this.keysReleased = new HashSet<>();
+        this.setOnKeyPressed( k -> {
+            this.keysPressed.add(k.getCode());
+        });
+
+        this.setOnKeyReleased( k -> {
+            this.keysPressed.add(k.getCode());
+            this.keysReleased.add(k.getCode());
+        });
     }
 
     public int setWidth(int width){
