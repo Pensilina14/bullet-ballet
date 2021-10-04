@@ -56,7 +56,7 @@ public class EffectsUtils {
 			this.value = value;
 		}
 		
-		public final double getValue() {
+		public final long getValue() {
 			return this.value;
 		}
 	}
@@ -85,7 +85,7 @@ public class EffectsUtils {
 			this.value = value;
 		}
 		
-		public final double getValue() {
+		public final long getValue() {
 			return this.value;
 		}
 	}
