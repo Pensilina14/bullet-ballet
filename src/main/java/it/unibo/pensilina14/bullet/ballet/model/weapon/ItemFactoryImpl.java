@@ -4,7 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactory;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.effects.Effects;w
+import it.unibo.pensilina14.bullet.ballet.model.effects.Effects;
 import it.unibo.pensilina14.bullet.ballet.model.effects.SpecialEffects;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
