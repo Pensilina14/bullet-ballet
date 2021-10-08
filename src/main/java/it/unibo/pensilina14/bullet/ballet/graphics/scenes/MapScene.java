@@ -1,83 +1,108 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
-import com.sun.tools.javac.Main;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.SpriteAnimation;
-import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapScene extends AbstractScene{
 
-    private final Map map = new Map();
+    public static Pane appPane = new Pane();
+    public static Pane gamePane = new Pane();
+    public static Pane uiPane = new Pane();
 
-    private Image background;
+    private int levelWidth;
 
-    //private Node backgroundNode;
+    private Map map = new Map(); // da questa istanza della mappa prendo sia il background sia la piattaforma scelta.
 
-    //private final MainPlayer mainPlayer = new MainPlayer(EntityList.Characters.Player.PLAYER1);
+    private ImageView backgroundView;
 
-    /*BackgroundImage bi = new BackgroundImage(new Image(Map.Maps.HALLOWEEN.getPath()),
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT,
-            BackgroundSize.DEFAULT);*/
+    //TODO: Add private MainPlayer mainPlayer
 
-    //Background bg = new Background(bi);
+    public static ArrayList<Platform> platforms = new ArrayList<>();
+    private HashMap<KeyCode,Boolean> keys = new HashMap<>();
 
-    public MapScene() throws IOException {
-        super();
+    private final static int MAP_LENGTH = 60;
 
-        this.background = new Image(Files.newInputStream(Paths.get(Map.Maps.HALLOWEEN.getPath())));
+    public MapScene(){
 
-        this.map.generate();
+        // serve per quando si cambia la risoluzione del gioco.
+        appPane.setMaxWidth(AbstractScene.SCENE_WIDTH);
+        appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT); // Questi mi servono perchè ci sono alcuni background che sono più grandi della MAX WIDTH AND MAX HEIGHT
+    }
+
+    public void generateMap() throws IOException { //TODO: passare mappa e platformType
+
+        this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
+
+        this.backgroundView.fitWidthProperty().bind(MapScene.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
+        this.backgroundView.fitHeightProperty().bind(MapScene.appPane.heightProperty());
+
+        this.levelWidth = LevelData.LEVEL1[0].length() * MapScene.MAP_LENGTH;
+
+        for(int i = 0; i < LevelData.LEVEL1.length; i++){
+            String line = LevelData.LEVEL1[i];
+            for(int j = 0; j < line.length(); j++){
+                switch(line.charAt(j)){
+                    case '0':
+                        break;
+                    case '1':
+                        Platform platform = new Platform(this.map.getPlatformType(), j * MapScene.MAP_LENGTH, i * MapScene.MAP_LENGTH);
+                        MapScene.platforms.add(platform);
+                        break;
+                    case '2':
+                        //TODO: coins
+                        break;
+                    case '3':
+                        //TODO: obstacles
+                        break;
+                    case '4':
+                        //TODO: items
+                        break;
+                    case '5':
+                        //TODO: enemies
+                        break;
+                }
+            }
+        }
+
+        //TODO: Add player here.
 
     }
 
     @Override
     public void draw() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
 
-        keysPressed.clear();
-
-        new AnimationTimer(){
-
-            public void handle(long currentNanoTime){
-
-                gfx.setFill(Color.BLACK);
-                gfx.fillRect(0,0,width, height);
-                gfx.drawImage(background, 0, 0);
-                // Dopo il background
-
-                //root.setBackground(bg);
-
-                //TODO: aggiungere il personaggio principale ed i nemici.
-
-                //TODO: HashMap platforms
-                map.getPlatforms().forEach( (s, c) -> {
-                    gfx.drawImage(s.getSpriteImage(), c.getKey(), c.getValue()); //TODO: non mi serve sempre settare la sprite, perchè è sempra la stessa (basta una volta)
-                });
-
-                if(keysPressed.contains(KeyCode.RIGHT)){
-                    //TODO: move screen pane()
-                    int offset = 100; //TODO: will be added based upon player movement
-                    root.setLayoutX(-(offset - map.getMapWidth()));
-                    //root.getChildren().addAll(backgroundNode, root, root);
-
-                    // player movement and animation
-                    //mainPlayer.move(SpriteAnimation.Direction.RIGHT);
-                }
             }
-        }.start();
+        };
+        timer.start();
+    }
 
+    // Questo serve per cambiare la mappa: quindi l'immagine di sfondo e delle piattaforme.
+    public void setMap(Map.Maps map){
+        this.map.setMap(map);
 
+        //TODO: potrei anche chiamare direttamente generateMap() da qui.
+    }
+
+    public HashMap<KeyCode, Boolean> getKeys(){
+        return this.keys;
+    }
+
+    public int getLevelWidth(){
+        return this.levelWidth;
     }
 }
