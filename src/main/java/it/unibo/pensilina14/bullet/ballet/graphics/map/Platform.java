@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Sprite;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,31 +35,37 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
 
     private Platforms platformType;
 
+    private int minY;
+    private int minX;
+    private int platformWidth;
+    private int platformHeight;
+
     public Platform(Platforms platformType, int x, int y) throws IOException {
 
         this.platformType = platformType;
 
-        setPlatform(this.platformType, x, y);
+        setPlatform(x, y);
 
         getChildren().add(this.platformView);
         MapScene.gamePane.getChildren().add(this.platformView);
     }
 
-    private void setPlatform(Platforms platformType, int x, int y) throws IOException { //TODO: non serve passarlo come parametro.
-        switch(platformType){
+    private void setPlatform(int x, int y) throws IOException {
+        switch(this.platformType){
             case DESERT_PLATFORM:
-                int minX = 20;
-                int minY = 20;
-                int width = 60;
-                int height = 60;
+                minX = 20;
+                minY = 20;
+                platformWidth = 60;
+                platformHeight = 60;
                 this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.DESERT_PLATFORM.getPath()))));
-                this.platformView.setViewport(new Rectangle2D(minX,minY,width,height));
+                this.platformView.setViewport(new Rectangle2D(minX,minY,platformWidth,platformHeight));
                 this.platformView.setTranslateX(x);
                 this.platformView.setTranslateY(y);
 
                 this.platformView.fitWidthProperty();
                 this.platformView.fitHeightProperty();
                 break;
+                //TODO: Add other platform types
             case HALLOWEEN_PLATFORM:
                 //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
