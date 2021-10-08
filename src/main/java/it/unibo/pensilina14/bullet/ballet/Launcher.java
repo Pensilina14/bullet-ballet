@@ -18,6 +18,8 @@ public class Launcher extends Application {
 
     private static Stage stage;
 
+    public MapScene mapScene = new MapScene();
+
     public enum Scenes {
         MENU_SCENE(0),
         MAP_SCENE(1);
@@ -39,13 +41,21 @@ public class Launcher extends Application {
         Launcher.stage = primaryStage;
 
         //Launcher.scenes[Scenes.MENU_SCENE.getIndex()] = new Menu();
-        Launcher.scenes[Scenes.MAP_SCENE.getIndex()] = new MapScene();
+        //Launcher.scenes[Scenes.MAP_SCENE.getIndex()] = this.mapScene; //TODO: uncomment
+
+        // MAP GENERATION
+
+        this.mapScene.setMap(Map.Maps.LAVA); // Per settare il background e di conseguenza la piattaforma verrà settata in base al background.
+        this.mapScene.generateMap();
+
+        Scene scene = new Scene(MapScene.appPane);
 
         Launcher.stage.setTitle("Bullet Ballet");
-        setScene(Scenes.MAP_SCENE.getIndex());
+        Launcher.stage.setScene(scene);
+        //setScene(Scenes.MAP_SCENE.getIndex()); //TODO: uncomment
         stage.show();
 
-
+        //this.mapScene.draw();
     }
 
     public static void setScene(int currentScene){
