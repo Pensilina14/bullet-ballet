@@ -78,17 +78,19 @@ public class MapScene extends AbstractScene{
 
         //TODO: Add player here.
 
+        MapScene.appPane.getChildren().addAll(this.backgroundView ,MapScene.gamePane);
+
     }
 
     @Override
     public void draw() {
-        AnimationTimer timer = new AnimationTimer() {
+        /*AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-
+                //TODO: Add update method.
             }
         };
-        timer.start();
+        timer.start();*/
     }
 
     // Questo serve per cambiare la mappa: quindi l'immagine di sfondo e delle piattaforme.

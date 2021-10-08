@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Map {
 
-    public enum Maps {
+    public enum Maps { //TODO: mettere questo enum a parte.
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
         JUNGLE2("res/assets/maps/Backgrounds/jungle_background2.jpg"),
@@ -54,12 +54,23 @@ public class Map {
 
     private Platform.Platforms platformType;
 
-    private void initMap(Maps map) { //TODO: non serve passarci il parametro, perchè posso direttamente prenderlo dal campo.
+    private void initMap() {
         switch(this.map){
             case DESERT:
-                //this.platform = new Platform(Platform.Platforms.DESERT_PLATFORM);
-                //this.platform = new Platform2(Platform2.Platforms.DESERT_PLATFORM);
-                this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: mi basta scegliere la piattaforma, non serve crearla.
+                this.platformType = Platform.Platforms.DESERT_PLATFORM;
+                break;
+                //TODO: add other platform types.
+            case CAVE:
+                break;
+            case HALLOWEEN:
+                break;
+            case LAVA:
+                break;
+            case JUNGLE:
+                break;
+            case FUTURISTIC:
+                break;
+            default:
                 break;
         }
     }
@@ -80,12 +91,10 @@ public class Map {
         return this.map;
     }
 
-    public void setMap(Maps map) { //TODO: nome mapSetter
+    public void setMap(Maps map) { //TODO: renome in mapSetter
         this.map = map;
 
-        //TODO: aggiungere la tipologia di platform
-
-        initMap(map);
+        initMap();
     }
 
     public int getMapWidth(){
