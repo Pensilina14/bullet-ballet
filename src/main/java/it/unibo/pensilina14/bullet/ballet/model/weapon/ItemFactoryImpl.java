@@ -4,6 +4,8 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactory;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.effects.Effects;
+import it.unibo.pensilina14.bullet.ballet.model.effects.SpecialEffects;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class ItemFactoryImpl implements ItemFactory{
@@ -13,27 +15,26 @@ public class ItemFactoryImpl implements ItemFactory{
     private final EffectFactory effectFact = new EffectFactoryImpl();
     
     @Override
-    public Item createPoisoningItem(final Environment environment, final SpeedVector2D speedVector, 
-            final double healthDecreaseFactor, final long msStep, final long msDuration) {
+    public Item createPoisoningItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
                 environment, MASS, speedVector, ITEM_ID.POISON,
-                effectFact.createPoisonEffect(healthDecreaseFactor, msStep, msDuration));
+                effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue(),
+                        SpecialEffects.POISON.getMsStep().getValue(),
+                        SpecialEffects.POISON.getMsDuration().getValue()));
     }
 
     @Override
-    public Item createHealingItem(final Environment environment, final SpeedVector2D speedVector,
-            final double healthIncreaseFactor) {
+    public Item createHealingItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
                 environment, MASS, speedVector, ITEM_ID.HEART,
-                effectFact.createHealEffect(healthIncreaseFactor));
+                effectFact.createHealEffect(Effects.HEALTHY.getDelta().getValue()));
     }
 
     @Override
-    public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector, 
-            final double healthDecreaseFactor) {
+    public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
                 environment, MASS, speedVector, ITEM_ID.HEART,
-                effectFact.createHealEffect(healthDecreaseFactor));
+                effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()));
     }
 
 }

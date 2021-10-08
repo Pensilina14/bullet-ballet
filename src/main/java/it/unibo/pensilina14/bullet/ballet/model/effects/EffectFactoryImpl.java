@@ -1,7 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.effects;
 
-import org.apache.commons.lang3.time.StopWatch;
-
 /**
  * Implementation of an {@link Effect} factory.
  * 
@@ -28,18 +26,23 @@ public final class EffectFactoryImpl implements EffectFactory {
 	@Override
 	public Effect createPoisonEffect(final double healthDecreaseFactor, final long msStep, final long msDuration) {
 		return e -> {
-			final StopWatch timer = StopWatch.createStarted();
-			long elapsedTime = 0;
-			while (elapsedTime < msDuration) {
-				timer.split();
-				elapsedTime = elapsedTime + timer.getSplitTime();
-				System.out.println("elapsed poisoning time: " + elapsedTime);
-				if (elapsedTime % msStep == 0) {
-					final double actualHealth = e.getHealth();
-					e.setHealth(actualHealth - healthDecreaseFactor);
+			new Thread() {
+				@Override
+				public void run() {
+					long steppedTime = 0;
+					while (steppedTime < msDuration) {
+						e.setHealth(e.getHealth() - healthDecreaseFactor);
+						try {
+							Thread.sleep(msStep);
+						} catch (final InterruptedException exc) {
+							exc.printStackTrace();
+						}
+						steppedTime += msStep;
+					}
 				}
-			}
-			timer.stop();
+			}.start();
 		};
 	}
+	
+	//TODO: Create PoisonAgent in order to launch a thread well designed
 }
