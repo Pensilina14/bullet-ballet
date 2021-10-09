@@ -1,12 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NotAnObstacleException;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 /**
  * This interface wraps all the virtual game world and permits interaction
@@ -19,55 +23,46 @@ public interface Environment {
 	double getGravity();
 
 	/**
-	 * @return environment's dimension composed by height and width, they refer to
-	 * the imaginary grid that fills the virtual map.
+	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
 	 */
-	Dimension2D getDimension();
+	Optional<List<PhysicalObject>> getObjsList();
 
 	/**
-	 * @return a {@link #Map} of coordinates and {@link PhysicalObject}s
-	 * representing the map.
+	 * @param character which is the {@link Characters} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if character is already present.
 	 */
-	Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap();
+	boolean addCharacter(Characters character);
+	
+	/**
+	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if obstacle is already present.
+	 * 
+	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
+	 */
+	boolean addObstacle(PhysicalObject obstacle) throws NotAnObstacleException;
+	
+	/**
+	 * @param item which is the {@link item} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if item is already present.
+	 */
+	boolean addItem(Item item);
 
 	/**
-	 * @param obj is the object that will be added to the map along with its head
-	 * position in the map.
+	 * @param position of the object to be deleted.
 	 * 
-	 * @param head represents the head position of the given PhysicalObject.
+	 * The {@link PhysicalObject} to be deleted is first searched and then removed.
 	 * 
-	 * The head of a {@link PhysicalObject} is meant to represent the upper-left
-	 * corner of the imaginary box that wraps it up.
-	 * 
-	 * @return true only if obj has been succesfully put in the map.
-	 *         false if it's not possible to do that. 
-	 *         Example: {@link ImmutablePosition2D} already occupied by another {@link PhysicalObject}.
+	 * @return true if a {@link PhysicalObject} has been deleted.
+	 * 		   false otherwise. 
+	 * 		   Could be false, for example, if there was no object at position.
 	 */
-	boolean addObjToMap(PhysicalObject obj, ImmutablePosition2D head);
-
-	/**
-	 * @param position is the position of the object to be deleted.
-	 * 
-	 * The {@link PhysicalObject} to be deleted is first searched and then removed
-	 * from the map.
-	 */
-	void deleteObjByPosition(ImmutablePosition2D position);
-
-	/**
-	 * Finds the given {@link PhysicalObject} in the map.
-	 * 
-	 * @param obj is the {@link PhysicalObject} in input.
-	 * 
-	 * @return location in coordinates; else @return {@link
-	 * Optional#Empty}.
-	 */
-	Optional<ImmutablePosition2D> findObjInMap(PhysicalObject obj);
-
-	/**
-	 * @return {@link Set} containing all the current game objects present in the
-	 * game map.
-	 */
-	Optional<Set<PhysicalObject>> getObjSetInMap();
+	boolean deleteObjByPosition(ImmutablePosition2D position);
 	
 	/**
 	 * @param dt is the given time instant when the environment must be updated
