@@ -47,7 +47,8 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
         setPlatform(x, y);
 
         getChildren().add(this.platformView);
-        MapScene.gamePane.getChildren().add(this.platformView);
+        MapScene.platforms.add(this);
+        MapScene.gamePane.getChildren().add(this);
     }
 
     private void setPlatform(int x, int y) throws IOException {
@@ -58,12 +59,13 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
                 platformWidth = 60;
                 platformHeight = 60;
                 this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.DESERT_PLATFORM.getPath()))));
-                this.platformView.setViewport(new Rectangle2D(minX,minY,platformWidth,platformHeight));
-                this.platformView.setTranslateX(x);
-                this.platformView.setTranslateY(y);
+                this.setTranslateX(x);
+                this.setTranslateY(y);
 
-                this.platformView.fitWidthProperty();
-                this.platformView.fitHeightProperty();
+                /*this.platformView.setFitWidth(MapScene.MAP_LENGTH);
+                this.platformView.setFitHeight(MapScene.MAP_LENGTH);*/
+
+                this.platformView.setViewport(new Rectangle2D(minX,minY,platformWidth,platformHeight));
                 break;
                 //TODO: Add other platform types
             case HALLOWEEN_PLATFORM:
