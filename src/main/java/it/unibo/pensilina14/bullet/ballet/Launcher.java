@@ -1,12 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -21,18 +18,8 @@ public class Launcher extends Application {
     public MapScene mapScene = new MapScene();
 
     public enum Scenes {
-        MENU_SCENE(0),
-        MAP_SCENE(1);
-
-        int index;
-
-        Scenes(int index){
-            this.index = index;
-        }
-
-        public int getIndex(){
-            return this.index;
-        }
+        MENU_SCENE,
+        MAP_SCENE;
     }
 
     @Override
@@ -40,22 +27,31 @@ public class Launcher extends Application {
 
         Launcher.stage = primaryStage;
 
-        //Launcher.scenes[Scenes.MENU_SCENE.getIndex()] = new Menu();
-        //Launcher.scenes[Scenes.MAP_SCENE.getIndex()] = this.mapScene; //TODO: uncomment
+        //Launcher.scenes[Scenes.MENU_SCENE.ordinal()] = new Menu();
+        //Launcher.scenes[Scenes.MAP_SCENE.ordinal()] = this.mapScene; //TODO: uncomment
 
         // MAP GENERATION
 
         this.mapScene.setMap(Map.Maps.LAVA); // Per settare il background e di conseguenza la piattaforma verrà settata in base al background.
         this.mapScene.generateMap();
 
-        Scene scene = new Scene(MapScene.appPane);
+        Scene scene = new Scene(MapScene.appPane); //TODO: this.mapScene.getAppPane()
+
+        scene.setOnKeyPressed(event -> this.mapScene.setKeys(event.getCode(), true));
+        scene.setOnKeyReleased(event -> {
+            this.mapScene.setKeys(event.getCode(), false);
+            this.mapScene.getMainPlayer().animation.stop();
+        });
 
         Launcher.stage.setTitle("Bullet Ballet");
         Launcher.stage.setScene(scene);
         //setScene(Scenes.MAP_SCENE.getIndex()); //TODO: uncomment
-        stage.show();
 
         //this.mapScene.draw();
+
+        stage.show();
+
+        this.mapScene.draw();
     }
 
     public static void setScene(int currentScene){
