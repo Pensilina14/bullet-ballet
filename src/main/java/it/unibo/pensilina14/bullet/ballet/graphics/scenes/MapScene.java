@@ -3,7 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Character;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
