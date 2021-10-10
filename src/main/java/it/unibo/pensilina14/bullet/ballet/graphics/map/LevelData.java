@@ -5,11 +5,6 @@ package it.unibo.pensilina14.bullet.ballet.graphics.map;
     //TODO: aggiungere gli altri numeri per gli altri oggetti.
     //TODO: add more levels.
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 public class LevelData {
 
     // i: riga.
@@ -53,5 +48,4 @@ public class LevelData {
             LEVEL1, LEVEL0
     };
 
-    public static List<List<String[]>> levelsList = new ArrayList<>(Arrays.asList(Collections.singletonList(LEVEL1), Collections.singletonList(LEVEL0)));
 }
