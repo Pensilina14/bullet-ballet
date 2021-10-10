@@ -28,12 +28,12 @@ public interface Environment {
 	Optional<List<PhysicalObject>> getObjsList();
 
 	/**
-	 * @param character which is the {@link Characters} to be added.
+	 * @param enemy which is the {@link Enemy} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if character is already present.
 	 */
-	boolean addCharacter(Characters character);
+	boolean addEnemy(Enemy enemy);
 	
 	/**
 	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
