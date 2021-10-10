@@ -9,6 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NotAnObstacleException;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -28,6 +29,14 @@ public interface Environment {
 	 */
 	Optional<List<PhysicalObject>> getObjsList();
 
+	/**
+	 * @param player is the main character of the game.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if character is already present.
+	 */
+	boolean addPlayer(Player player);
+	
 	/**
 	 * @param enemy which is the {@link Enemy} to be added.
 	 * 
