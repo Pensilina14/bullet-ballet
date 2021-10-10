@@ -7,7 +7,7 @@ public class EffectsUtils {
 	 * Note that deltas are constants, the effects in the main enum will be flexible 
 	 * to this point.
 	 */
-	enum Deltas {
+	public enum Deltas {
 		/**
 		 * Light delta.
 		 */
@@ -36,7 +36,7 @@ public class EffectsUtils {
 	 * Provides all the different types of steps.
 	 * Each one has a different duration.
 	 */
-	enum Steps {
+	public enum Steps {
 		/**
 		 * Short step.
 		 */
@@ -65,7 +65,7 @@ public class EffectsUtils {
 	 * Provides all the different durations possible.
 	 * Each one has a value describing the duration.
 	 */
-	enum Durations {
+	public enum Durations {
 		/**
 		 * Short duration.
 		 */

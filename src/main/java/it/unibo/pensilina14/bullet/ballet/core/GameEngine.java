@@ -75,7 +75,6 @@ public class GameEngine implements Controller {
 		 */
 	}
 	
-	
 	@Override
 	public void notifyCommand(final Command cmd) {
         this.cmdQueue.add(cmd);
