@@ -24,7 +24,7 @@ public class GameEnvironment implements Environment {
 
 	private final double gravity;
 	private final Dimension2D gameMapDim;
-	private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
+	private final Optional<List<>> gameMap;
 	/**
 	 * DEFAULT_DIM is the default size used to create a new
 	 * {@link Dimension2D}.
