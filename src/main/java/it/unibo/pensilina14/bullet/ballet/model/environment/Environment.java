@@ -8,6 +8,7 @@ import java.util.Set;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NotAnObstacleException;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
