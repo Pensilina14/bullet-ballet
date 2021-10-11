@@ -7,8 +7,6 @@ import java.util.concurrent.BlockingQueue;
 
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
-import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
