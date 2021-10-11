@@ -63,21 +63,16 @@ public class Coin extends Pane {
                 this.setTranslateY(y);
                 this.coinView.setViewport(new Rectangle2D(minX,minY,coinWidth,coinHeight));
                 break;
-                //TODO: Add other platform types
+                //TODO: Add other coin types
             case SILVER_COIN:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case RED_COIN:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case EMERALD_COIN:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case LIGHT_BLUE_COIN:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case YELLOW_COIN:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             default:
                 break;
