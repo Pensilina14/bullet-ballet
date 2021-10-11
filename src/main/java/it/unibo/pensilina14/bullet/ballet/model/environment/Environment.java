@@ -7,7 +7,6 @@ import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NotAnObstacleException;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 /**
@@ -26,12 +25,11 @@ public interface Environment {
 	Optional<List<PhysicalObject>> getObjsList();
 
 	/**
-	 * @param player is the main character of the game.
+	 * Sets the player.
 	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if character is already present.
+	 * @param player is the main character of the game.
 	 */
-	boolean addPlayer(Player player);
+	void setPlayer(Player player);
 	
 	/**
 	 * @param enemy which is the {@link Enemy} to be added.
@@ -45,11 +43,11 @@ public interface Environment {
 	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if obstacle is already present.
+	 * Unsuccess is guaranteed if obstacle is already present and in case of a wrong parameter.
 	 * 
 	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
 	 */
-	boolean addObstacle(PhysicalObject obstacle) throws NotAnObstacleException;
+	boolean addObstacle(PhysicalObject obstacle);
 	
 	/**
 	 * @param item which is the {@link item} to be added.
