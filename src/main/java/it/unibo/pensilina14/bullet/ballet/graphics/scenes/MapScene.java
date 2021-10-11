@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
@@ -34,6 +35,7 @@ public class MapScene extends AbstractScene{
     private MainPlayer mainPlayer;
 
     public static ArrayList<Platform> platforms = new ArrayList<>();
+    public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
 
     public final static int PLATFORM_SIZE = 60;
@@ -66,10 +68,10 @@ public class MapScene extends AbstractScene{
                             break;
                         case '1':
                             //int coordinatesAdjustment = LevelData.levels[previousLevel][i].charAt(j) * previousLevel; //TODO: da fixare.
-                            Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE);
+                            Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '2':
-                            //TODO: coins
+                            Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '3':
                             //TODO: obstacles
