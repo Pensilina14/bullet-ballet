@@ -27,6 +27,14 @@ public class GameEnvironment implements Environment {
 	private final Optional<List<PhysicalObject>> obstacles;
 	private final Optional<List<Item>> items;
 	
+	public GameEnvironment() {
+		this.gravity = GravityConstants.EARTH.getValue();
+		this.player = Optional.empty();
+		this.enemies = Optional.of(new ArrayList<>());
+		this.obstacles = Optional.of(new ArrayList<>());
+		this.items = Optional.of(new ArrayList<>());
+	}
+	
 	public GameEnvironment(final double gravity, final Optional<Player> player) {
 		this.gravity = gravity;
 		this.player = player;
@@ -44,6 +52,40 @@ public class GameEnvironment implements Environment {
 	public Optional<List<PhysicalObject>> getObjsList() {
 		return this.mergeLists();
 	}
+	
+	@Override
+	public Optional<Player> getPlayer() {
+		return this.player;
+	}
+	
+	@Override
+	public Optional<List<Enemy>> getEnemies() {
+		if (this.enemies.isPresent()) {
+			return Optional.of(List.copyOf(this.enemies.get()));
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<List<PhysicalObject>> getObstacles() {
+		if (this.obstacles.isPresent()) {
+			return Optional.of(List.copyOf(this.obstacles.get()));
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<List<Item>> getItems() {
+		if (this.items.isPresent()) {
+			return Optional.of(List.copyOf(this.items.get()));
+		}
+		return Optional.empty();
+	}
+	
+    @Override
+	public void setPlayer(final Player player) {
+		this.player = Optional.ofNullable(player);
+	}
 
 	@Override
 	public boolean addEnemy(final Enemy enemy) {
@@ -53,11 +95,6 @@ public class GameEnvironment implements Environment {
 			this.enemies.get().add(enemy);
 			return true;
 		}
-	}
-	
-	@Override
-	public void setPlayer(Player player) {
-		this.player = Optional.ofNullable(player);
 	}
 	
 	@Override
@@ -108,7 +145,7 @@ public class GameEnvironment implements Environment {
 				} else if (obj instanceof Item) {
 					this.items.get().remove(obj); //Requires Item interface inheritance to be changed
 					return true;
-				}
+				} 
 			}
 		}
 		return false;
@@ -130,12 +167,16 @@ public class GameEnvironment implements Environment {
 
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
-		mergedList.get().addAll(List.of(this.player.get()));
-		mergedList.get().addAll(this.enemies.get());
-		mergedList.get().addAll(this.obstacles.get());
+		if (this.player.isPresent()) {
+			mergedList.get().addAll(List.of(this.player.get()));
+		}
+		if (this.enemies.isPresent()) {
+			mergedList.get().addAll(this.enemies.get());
+		}
+		if (this.obstacles.isPresent()) {
+			mergedList.get().addAll(this.obstacles.get());
+		}
 		//mergedList.get().addAll(this.items.get());   #to be added when Item class is changed
 		return mergedList;
 	}
-
-	
 }
