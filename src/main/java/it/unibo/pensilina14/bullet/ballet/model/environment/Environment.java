@@ -1,13 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
-import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
