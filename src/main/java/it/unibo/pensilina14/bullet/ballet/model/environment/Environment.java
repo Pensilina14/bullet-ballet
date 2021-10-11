@@ -23,7 +23,28 @@ public interface Environment {
 	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
 	 */
 	Optional<List<PhysicalObject>> getObjsList();
+	
+	/**
+	 * @return player of environment.
+	 */
+	Optional<Player> getPlayer();
 
+	/**
+	 * @return {@link List} of enemies({@link Enemy}) present in the environment.
+	 */
+	Optional<List<Enemy>> getEnemies();
+	
+	/**
+	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
+	 * present in the environment.
+	 */
+	Optional<List<PhysicalObject>> getObstacles();
+	
+	/**
+	 * @return {@link List} of items({@link Item}) present in the environment.
+	 */
+	Optional<List<Item>> getItems();
+	
 	/**
 	 * Sets the player.
 	 * 
@@ -64,7 +85,7 @@ public interface Environment {
 	 * 
 	 * @return true if a {@link PhysicalObject} has been deleted.
 	 * 		   false otherwise. 
-	 * 		   Could be false, for example, if there was no object at position.
+	 * 		   Could be false if there was no object at position..
 	 */
 	boolean deleteObjByPosition(ImmutablePosition2D position);
 	
@@ -75,4 +96,23 @@ public interface Environment {
 	 * in order to update the whole environment. 
 	 */
 	void updateState(int dt);
+	
+	/**
+	 * Provides important constants for gravity representation.
+	 * EARTH and MOON's provided.
+	 */
+	enum GravityConstants {
+		EARTH(9.81),
+		MOON(6.673);
+		
+		private final double value;
+
+		private GravityConstants(final double value) {
+			this.value = value;
+		}
+		
+		public double getValue() {
+			return this.value;
+		}
+	}
 }
