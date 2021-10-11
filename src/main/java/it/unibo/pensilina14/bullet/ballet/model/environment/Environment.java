@@ -3,10 +3,12 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import java.util.List;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 /**
@@ -18,6 +20,11 @@ public interface Environment {
 	 * @return environment's gravity.
 	 */
 	double getGravity();
+	
+	/**
+	 * @return game environment dimension: height and width.
+	 */
+	Dimension2D getDimension();
 
 	/**
 	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
@@ -96,6 +103,14 @@ public interface Environment {
 	 * in order to update the whole environment. 
 	 */
 	void updateState(int dt);
+	
+	/**
+	 * Sets the event listener for the environment, so it
+	 * can notify events to the listener aka the controller.
+	 * 
+	 * @param listener to be set
+	 */
+	void setEventListener(GameEventListener listener);
 	
 	/**
 	 * Provides important constants for gravity representation.

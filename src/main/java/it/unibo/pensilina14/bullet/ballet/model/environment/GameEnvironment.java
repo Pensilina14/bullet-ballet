@@ -1,10 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
@@ -13,7 +16,6 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 /**
  * Implementation of {@link Environment}.
  * 
@@ -21,31 +23,43 @@ import java.util.Optional;
  */
 public class GameEnvironment implements Environment {
 
+    public static final double DEFAULT_DIM = 20.0;
+	
 	private final double gravity;
+	private final Dimension2D dimension;
 	private Optional<Player> player;
 	private final Optional<List<Enemy>> enemies;
 	private final Optional<List<PhysicalObject>> obstacles;
 	private final Optional<List<Item>> items;
+	private Optional<GameEventListener> eventListener;
 	
 	public GameEnvironment() {
 		this.gravity = GravityConstants.EARTH.getValue();
+		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
 		this.items = Optional.of(new ArrayList<>());
+		this.eventListener = Optional.empty();
 	}
 	
-	public GameEnvironment(final double gravity, final Optional<Player> player) {
+	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
 		this.gravity = gravity;
+		this.dimension = new Dimension2Dimpl(height, width);
 		this.player = player;
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
 		this.items = Optional.of(new ArrayList<>());
+		this.eventListener = Optional.of(l);
 	}
 	
 	@Override
 	public double getGravity() {
 		return this.gravity;
+	}
+	
+	public Dimension2D getDimension() {
+		return this.dimension;
 	}
 
 	@Override
@@ -164,6 +178,11 @@ public class GameEnvironment implements Environment {
 						.map(i -> (DynamicPickupItem) i)
 						.forEach(i -> i.updateState(dt));
 	}
+	
+	@Override
+	public void setEventListener(final GameEventListener listener) {
+		this.eventListener = Optional.ofNullable(listener);
+	}
 
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
@@ -176,7 +195,11 @@ public class GameEnvironment implements Environment {
 		if (this.obstacles.isPresent()) {
 			mergedList.get().addAll(this.obstacles.get());
 		}
-		//mergedList.get().addAll(this.items.get());   #to be added when Item class is changed
+		if (this.obstacles.isPresent()) {
+            mergedList.get().addAll(this.items.get());   
+		}
 		return mergedList;
 	}
+	
+	//TODO: add checkBoundaries() and checkCollisions()
 }
