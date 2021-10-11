@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class MapScene extends AbstractScene{
 
@@ -139,6 +140,27 @@ public class MapScene extends AbstractScene{
             this.mainPlayer.playerVelocity = this.mainPlayer.playerVelocity.add(0,1);
         }
         this.mainPlayer.moveY((int)this.mainPlayer.playerVelocity.getY());
+
+        for(Coin coin: coins){ //TODO: fix coin collisions
+            if(this.mainPlayer.getBoundsInParent().intersects(coin.getBoundsInParent())){
+                coin.getProperties().put("alive", false);
+            }
+        }
+
+        /*for(Iterator<Coin> coinIt = coins.iterator(); coinIt.hasNext();){
+            Coin coin = coinIt.next();
+            if(!(Boolean)coin.getProperties().get("alive")){
+                coinIt.remove();
+                MapScene.gamePane.getChildren().remove(coin);
+            }
+        }*/
+
+        for(Coin coin : coins){ //TODO: fix, it gives warnings
+            if(!(Boolean)coin.getProperties().get("alive")){
+                coins.remove(coin);
+                MapScene.gamePane.getChildren().remove(coin);
+            }
+        }
     }
 
     @Override
