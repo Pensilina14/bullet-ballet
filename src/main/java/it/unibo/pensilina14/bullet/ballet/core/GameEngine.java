@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.core;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -7,25 +9,30 @@ import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 
-public class GameEngine implements Controller {
+public class GameEngine implements Controller, GameEventListener {
 	
 	private static final int QUEUE_CAPACITY = 100;
 	
 	private final long period = 20;
 	
-	private Environment world;
 	/*
 	 * TODO: add view
 	 */
+	private GameState gameState;
 	private final BlockingQueue<Command> cmdQueue;
+	private final List<GameEvent> eventQueue;
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
+		this.eventQueue = new LinkedList<>();
 	}
 	
 	public void setup() {
-		this.world = new GameEnvironment();
+		this.gameState = new GameState();
 		/*
 		 * TODO: add entities to the world
 		 */
@@ -61,12 +68,12 @@ public class GameEngine implements Controller {
 	private void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.world);
+			cmd.execute(this.gameState);
 		}
 	}
 	
 	private void updateGame(final int elapsed) {
-		this.world.updateState(elapsed);
+		this.gameState.update(elapsed);
 	}
 	
 	private void render() {
@@ -80,4 +87,10 @@ public class GameEngine implements Controller {
         this.cmdQueue.add(cmd);
 	}
 
+	@Override
+	public void notifyEvent(final GameEvent e) {
+		this.eventQueue.add(e);
+	}
+
+	//TODO: create checkEvents() method and modify update()
 }
