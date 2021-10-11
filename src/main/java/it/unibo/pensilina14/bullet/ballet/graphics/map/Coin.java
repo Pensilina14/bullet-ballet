@@ -61,6 +61,7 @@ public class Coin extends Pane {
                 this.coinView = new ImageView(new Image(Files.newInputStream(Paths.get(Coins.GOLD_COIN.getPath()))));
                 this.setTranslateX(x);
                 this.setTranslateY(y);
+                this.getProperties().put("alive",true);
                 this.coinView.setViewport(new Rectangle2D(minX,minY,coinWidth,coinHeight));
                 break;
                 //TODO: Add other coin types
