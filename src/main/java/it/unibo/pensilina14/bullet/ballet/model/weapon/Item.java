@@ -1,8 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
-public interface Item {
+public interface Item extends PhysicalObject{
     
         /**
          * 
