@@ -3,7 +3,6 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
@@ -12,8 +11,6 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactory;
-import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment.GravityConstants;
@@ -21,18 +18,13 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -44,6 +36,7 @@ public class GameEnvironmentTest {
   
   private final FactoryCharacters characterFactory = new FactoryCharactersImpl();
   private final ObstacleFactory obstacleFactory = new ObstacleFactoryImpl();
+  private final ItemFactory itemFactory = new ItemFactoryImpl();
 
   @Test
   public void testGameEnvironment() {
@@ -59,7 +52,7 @@ public class GameEnvironmentTest {
   @Test
   public void testGameEnvironmentWithArgs() {
 	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
-    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), Optional.of(player));
+    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player));
 
     assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
     assertEquals(gameEnv.getPlayer(), Optional.of(player));
@@ -70,12 +63,18 @@ public class GameEnvironmentTest {
 
   @Test
   public void testDeleteObjByPosition() {
+	/*
+	 * DECLARATION
+	 */
 	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
-	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), Optional.of(player));
-	
+	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player));
+	/*
+	 * ELABORATION
+	 * #subtest1 -- player
+	 */
 	final ImmutablePosition2D pos = new ImmutablePosition2Dimpl(0, 0);
 	gameEnv.deleteObjByPosition(pos);
-	
+	// #subtest2 -- obstacles
 	final ImmutablePosition2D pos2 = new ImmutablePosition2Dimpl(100, 0);
 	final DynamicObstacle obstacle = this.obstacleFactory.createDynamicObstacle(gameEnv, 
 			new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 0), DEFAULT_SPEED));
@@ -83,10 +82,24 @@ public class GameEnvironmentTest {
 	final Optional<List<PhysicalObject>> obstaclesBefore = gameEnv.getObstacles();
 	gameEnv.deleteObjByPosition(pos2);
 	final Optional<List<PhysicalObject>> obstaclesAfter = gameEnv.getObstacles();
-	
+	// #subtest3 -- items
+	final ImmutablePosition2D pos3 = new ImmutablePosition2Dimpl(0, 100);
+	final Item item = this.itemFactory.createDamagingItem(gameEnv, 
+			new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 100), DEFAULT_SPEED));
+	gameEnv.addItem(item);
+	final Optional<List<Item>> itemsBefore = gameEnv.getItems();
+	gameEnv.deleteObjByPosition(pos3);
+	final Optional<List<Item>> itemsAfter = gameEnv.getItems();
+	/*
+	 * ASSERTIONS
+	 * #subtestassert1 -- player
+	 */
 	assertTrue(gameEnv.getPlayer().isEmpty());
+	// #subtestassert2 -- obstacles
 	assertEquals(obstaclesBefore, Optional.of(List.of(obstacle)));
-	System.out.println(obstaclesAfter);
 	assertTrue(obstaclesAfter.isPresent());
+	// #subtestassert3 -- items
+	assertEquals(itemsBefore, Optional.of(List.of(item)));
+	assertTrue(itemsAfter.isPresent());
   }
 }
