@@ -37,6 +37,8 @@ public class Map {
 
         this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
 
+        this.coinType = Coin.Coins.GOLD_COIN; //TODO: default coin, ma poi dovrà essere scelto in maniera casuale.
+
     }
 
     public Map(Maps map){
@@ -53,6 +55,7 @@ public class Map {
     private final Random rand = new Random();
 
     private Platform.Platforms platformType;
+    private Coin.Coins coinType;
 
     private void initMap() {
         switch(this.map){
@@ -107,6 +110,10 @@ public class Map {
 
     public Platform.Platforms getPlatformType(){
         return this.platformType;
+    }
+
+    public Coin.Coins getCoinType(){
+        return this.coinType;
     }
 
 }

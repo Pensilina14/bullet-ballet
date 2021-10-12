@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class MapScene extends AbstractScene{
 
@@ -34,6 +36,7 @@ public class MapScene extends AbstractScene{
     private MainPlayer mainPlayer;
 
     public static ArrayList<Platform> platforms = new ArrayList<>();
+    public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
 
     public final static int PLATFORM_SIZE = 60;
@@ -66,10 +69,10 @@ public class MapScene extends AbstractScene{
                             break;
                         case '1':
                             //int coordinatesAdjustment = LevelData.levels[previousLevel][i].charAt(j) * previousLevel; //TODO: da fixare.
-                            Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE);
+                            Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '2':
-                            //TODO: coins
+                            Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '3':
                             //TODO: obstacles
@@ -137,6 +140,27 @@ public class MapScene extends AbstractScene{
             this.mainPlayer.playerVelocity = this.mainPlayer.playerVelocity.add(0,1);
         }
         this.mainPlayer.moveY((int)this.mainPlayer.playerVelocity.getY());
+
+        for(Coin coin: coins){ //TODO: fix coin collisions
+            if(this.mainPlayer.getBoundsInParent().intersects(coin.getBoundsInParent())){
+                coin.getProperties().put("alive", false);
+            }
+        }
+
+        /*for(Iterator<Coin> coinIt = coins.iterator(); coinIt.hasNext();){
+            Coin coin = coinIt.next();
+            if(!(Boolean)coin.getProperties().get("alive")){
+                coinIt.remove();
+                MapScene.gamePane.getChildren().remove(coin);
+            }
+        }*/
+
+        for(Coin coin : coins){ //TODO: fix, it gives warnings
+            if(!(Boolean)coin.getProperties().get("alive")){
+                coins.remove(coin);
+                MapScene.gamePane.getChildren().remove(coin);
+            }
+        }
     }
 
     @Override
