@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
@@ -32,9 +35,6 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	public void setup() {
 		this.gameState = new GameState();
-		/*
-		 * TODO: add entities to the world
-		 */
 		this.view = new MapScene();
 		/*
 		 * TODO: call rengo.
@@ -95,13 +95,16 @@ public class GameEngine implements Controller, GameEventListener {
 		final Environment env = this.gameState.getGameEnvironment();
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof CharacterHitsPickupObjEvent) {
+				// Apply item effect on character
 				e = (CharacterHitsPickupObjEvent) e;
 				((CharacterHitsPickupObjEvent) e).getPickupObj()
 												 .getEffect()
 												 .applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
+				// Update environment
+				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
+				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
 			}
 		});
+		this.eventQueue.clear();
 	}
-
-	//TODO: create checkEvents() method and modify update()
 }
