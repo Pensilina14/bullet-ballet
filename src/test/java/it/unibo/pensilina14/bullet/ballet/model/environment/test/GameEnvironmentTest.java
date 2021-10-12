@@ -7,6 +7,7 @@ import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
@@ -15,6 +16,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment.GravityConstants;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
@@ -37,6 +39,7 @@ public class GameEnvironmentTest {
   private final FactoryCharacters characterFactory = new FactoryCharactersImpl();
   private final ObstacleFactory obstacleFactory = new ObstacleFactoryImpl();
   private final ItemFactory itemFactory = new ItemFactoryImpl();
+  private final GameEventListener evListener = new GameEngine();
 
   @Test
   public void testGameEnvironment() {
@@ -52,7 +55,7 @@ public class GameEnvironmentTest {
   @Test
   public void testGameEnvironmentWithArgs() {
 	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
-    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player));
+	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
 
     assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
     assertEquals(gameEnv.getPlayer(), Optional.of(player));
@@ -67,7 +70,7 @@ public class GameEnvironmentTest {
 	 * DECLARATION
 	 */
 	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
-	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player));
+	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
 	/*
 	 * ELABORATION
 	 * #subtest1 -- player
