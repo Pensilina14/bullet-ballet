@@ -16,7 +16,14 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private final int limitBullets;
 	private final int limitChargers;
 	private final String name;
+	
+	///it keeps the index of ammo left in the current charger
 	private int currentAmmo;
+	
+	/// it keeps the index of charger in the bandolier
+	private int indexCharger = 0;
+	
+	/// This is the first charger in the bandolier
 	private List<Bullet> spareCharger;
 	private List<List<Bullet>> bandolier;
 	
@@ -44,21 +51,33 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		this.name = weaponType.getName();
 		this.limitBullets = weaponType.getLimBullets();
 		this.limitChargers = weaponType.getLimChargers();
+		this.currentAmmo = limitBullets;
 		this.initializeWeapon();
 	}	
 	
 	private void initializeWeapon() {
-		((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
-		this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
-		((ArrayList<List<Bullet>>) this.bandolier).ensureCapacity(this.limitChargers);
+		this.spareCharger = new ArrayList<>();
+		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
+		for(int i = 0; i < this.limitBullets; i++) {
+			this.spareCharger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
+		}
+		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
+		this.bandolier = new ArrayList<>();
+		//((ArrayList<List<Bullet>>) this.bandolier).ensureCapacity(this.limitChargers);
 		this.bandolier.add(this.spareCharger);
-		this.bandolier.add(new ArrayList<>());
-		this.bandolier.add(new ArrayList<>());
+		for(int y = 1; y < this.limitChargers; y++) {
+			this.bandolier.add(new ArrayList<>());
+		}
 	}
 	
 	@Override
 	public int getAmmoLeft() {
-		return this.bandolier.stream().map(x -> x.size()).reduce((x, y) -> x+y).get();
+		int sum = 0;
+		for(final List<Bullet> x : this.bandolier) {
+			sum += x.size();
+		}
+		return sum;
+		//return this.bandolier.stream().map(x -> x.size()).distinct().reduce((x, y) -> x+y).get();
 	}
 	
 	@Override
@@ -66,28 +85,70 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		return this.limitBullets*this.limitChargers;
 	}
 	
+	public EntityList.BulletType getTypeOfBulletInUse(){
+		if(!this.hasAmmo()) {
+			this.switchCharger();
+			if(!this.hasAmmo()) {
+				System.out.println("ERROR: finished bullets");
+				return null;
+			}
+		}
+		/// Index of current ammo in the list charger(start from 0 to limitBullets)
+		int indexAmmo = this.currentAmmo;
+		indexAmmo--;
+
+		if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
+				new BulletImpl(EntityList.BulletType.CLASSICAL).getName()) {
+			 return EntityList.BulletType.CLASSICAL;
+		}else if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
+				new BulletImpl(EntityList.BulletType.SOPORIFIC).getName()){
+			return EntityList.BulletType.SOPORIFIC;
+		}
+		else if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
+				new BulletImpl(EntityList.BulletType.TOXIC).getName()){
+			return EntityList.BulletType.TOXIC;
+		}
+		return null;
+	}
+	
+	public int getLimitBullets() {
+		return this.limitBullets;
+	}
+	
+	public int getLimitChargers() {
+		return this.limitChargers;
+	}
+	
 	@Override
 	public void decreaseAmmo() {
-		if(hasAmmo()) {
+		if(this.hasAmmo()) {
 			this.currentAmmo--;
-			this.spareCharger.remove(this.currentAmmo--);
+		}else {
+			this.switchCharger();
+			System.out.println(this.bandolier);
+			this.currentAmmo--;
 		}
+		this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 		//this.bandolier.stream().filter(x -> x.size()>0).findFirst().get().remove(this.currentAmmo--);
 	}
 	
 	@Override
 	public boolean hasAmmo() {
-		if(this.currentAmmo == 0){
-			switchCharger();
+		if(this.bandolier.get(this.indexCharger).size() == 0){
+			this.switchCharger();
+			this.currentAmmo = this.bandolier.get(this.indexCharger).size();
+			//this.currentAmmo = this.spareCharger.size();
 		}
-		return !this.spareCharger.isEmpty();
+		return !this.bandolier.get(this.indexCharger).isEmpty();
 	}
 	
+	public boolean hasAmmo(final List<Bullet> charger) {
+		return !charger.isEmpty();
+	}
 	@Override
 	public String getName() {
 		return this.name;
 	}
-	
 	@Override
 	public Effect getEffect() {
 		return null;
@@ -95,18 +156,34 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	
 	@Override
 	public void recharge(final ArrayList<Bullet> charger) {
-		this.bandolier.stream().filter(x -> x.isEmpty()).findFirst().get().addAll(charger);
+		this.switchCharger().addAll(charger);
+		if(this.indexCharger == 0) {
+			this.indexCharger=this.limitChargers;
+		}
+		this.indexCharger--;
+		this.currentAmmo = this.bandolier.get(this.indexCharger).size();
+		//this.bandolier.stream().filter(x -> x.isEmpty()).distinct().findFirst().get().addAll(charger);
 	}
 
     @Override
     public ITEM_ID getItemId() {
-        // TODO Auto-generated method stub
-        return null;
+    	return ITEM_ID.WEAPON;
     }
     
-    private void switchCharger() {
-    	this.currentAmmo = limitBullets;
-    	this.spareCharger = this.bandolier.stream().filter(x -> x.size()>0).findFirst().get();
+    private List<Bullet> switchCharger() {
+    	if(this.indexCharger==this.limitChargers-1) {
+    		this.indexCharger = 0;
+    	}
+    	else{
+    		this.indexCharger++;
+    	}
+    	this.currentAmmo = this.bandolier.get(this.indexCharger).size();
+    	return this.bandolier.get(this.indexCharger);
+    }
+    
+    @Override
+    public String toString() {
+    	return "name: " + this.name + "\t num of charger: ";
     }
 
 }
