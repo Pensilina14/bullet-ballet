@@ -11,6 +11,9 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.effects.EffectsUtils.Deltas;
+import it.unibo.pensilina14.bullet.ballet.model.effects.EffectsUtils.Durations;
+import it.unibo.pensilina14.bullet.ballet.model.effects.EffectsUtils.Steps;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
@@ -20,14 +23,14 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 public class EffectFactoryImplTest {
 
 	private final EffectFactory factory = new EffectFactoryImpl();
-	private static final double FACTOR = 10.0;
+	private static final double FACTOR = Deltas.LIGHT.getValue(); 
 	private static final double HEALTH = 100.0;
 	private static final double MANA = 150.0;
 	private static final int DEFAULT_DIM = 20;
 	private static final double SPEED = 50.0;
 	private static final double MASS = 15.0;
-	private static final long STEP = 1000;
-	private static final long DURATION = 5000;
+	private static final long STEP = Steps.SHORT.getValue();
+	private static final long DURATION = Durations.SHORT.getValue();
 	
 	@Test
 	public void testHealEffect() {

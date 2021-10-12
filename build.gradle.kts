@@ -30,8 +30,6 @@ val jUnitVersion = "5.7.1"
 val kotlinVersion = "1.3.41"
 
 dependencies {
-    // Example library: Guava. Add what you need (and remove Guava if you don't use it)
-    // implementation("com.google.guava:guava:28.1-jre")
 	implementation("org.apache.commons:commons-configuration2:2.7")
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
@@ -39,7 +37,7 @@ dependencies {
             implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
         }
     }
-    
+     
     /* for cross-platform jar: */
     runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:win")
     runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:linux")

@@ -1,12 +1,15 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 /**
  * This interface wraps all the virtual game world and permits interaction
@@ -17,57 +20,81 @@ public interface Environment {
 	 * @return environment's gravity.
 	 */
 	double getGravity();
-
+	
 	/**
-	 * @return environment's dimension composed by height and width, they refer to
-	 * the imaginary grid that fills the virtual map.
+	 * @return game environment dimension: height and width.
 	 */
 	Dimension2D getDimension();
 
 	/**
-	 * @return a {@link #Map} of coordinates and {@link PhysicalObject}s
-	 * representing the map.
+	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
 	 */
-	Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap();
+	Optional<List<PhysicalObject>> getObjsList();
+	
+	/**
+	 * @return player of environment.
+	 */
+	Optional<Player> getPlayer();
 
 	/**
-	 * @param obj is the object that will be added to the map along with its head
-	 * position in the map.
-	 * 
-	 * @param head represents the head position of the given PhysicalObject.
-	 * 
-	 * The head of a {@link PhysicalObject} is meant to represent the upper-left
-	 * corner of the imaginary box that wraps it up.
-	 * 
-	 * @return true only if obj has been succesfully put in the map.
-	 *         false if it's not possible to do that. 
-	 *         Example: {@link ImmutablePosition2D} already occupied by another {@link PhysicalObject}.
+	 * @return {@link List} of enemies({@link Enemy}) present in the environment.
 	 */
-	boolean addObjToMap(PhysicalObject obj, ImmutablePosition2D head);
+	Optional<List<Enemy>> getEnemies();
+	
+	/**
+	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
+	 * present in the environment.
+	 */
+	Optional<List<PhysicalObject>> getObstacles();
+	
+	/**
+	 * @return {@link List} of items({@link Item}) present in the environment.
+	 */
+	Optional<List<Item>> getItems();
+	
+	/**
+	 * Sets the player.
+	 * 
+	 * @param player is the main character of the game.
+	 */
+	void setPlayer(Player player);
+	
+	/**
+	 * @param enemy which is the {@link Enemy} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if character is already present.
+	 */
+	boolean addEnemy(Enemy enemy);
+	
+	/**
+	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if obstacle is already present and in case of a wrong parameter.
+	 * 
+	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
+	 */
+	boolean addObstacle(PhysicalObject obstacle);
+	
+	/**
+	 * @param item which is the {@link item} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if item is already present.
+	 */
+	boolean addItem(Item item);
 
 	/**
-	 * @param position is the position of the object to be deleted.
+	 * @param position of the object to be deleted.
 	 * 
-	 * The {@link PhysicalObject} to be deleted is first searched and then removed
-	 * from the map.
-	 */
-	void deleteObjByPosition(ImmutablePosition2D position);
-
-	/**
-	 * Finds the given {@link PhysicalObject} in the map.
+	 * The {@link PhysicalObject} to be deleted is first searched and then removed.
 	 * 
-	 * @param obj is the {@link PhysicalObject} in input.
-	 * 
-	 * @return location in coordinates; else @return {@link
-	 * Optional#Empty}.
+	 * @return true if a {@link PhysicalObject} has been deleted.
+	 * 		   false otherwise. 
+	 * 		   Could be false if there was no object at position..
 	 */
-	Optional<ImmutablePosition2D> findObjInMap(PhysicalObject obj);
-
-	/**
-	 * @return {@link Set} containing all the current game objects present in the
-	 * game map.
-	 */
-	Optional<Set<PhysicalObject>> getObjSetInMap();
+	boolean deleteObjByPosition(ImmutablePosition2D position);
 	
 	/**
 	 * @param dt is the given time instant when the environment must be updated
@@ -76,4 +103,31 @@ public interface Environment {
 	 * in order to update the whole environment. 
 	 */
 	void updateState(int dt);
+	
+	/**
+	 * Sets the event listener for the environment, so it
+	 * can notify events to the listener aka the controller.
+	 * 
+	 * @param listener to be set
+	 */
+	void setEventListener(GameEventListener listener);
+	
+	/**
+	 * Provides important constants for gravity representation.
+	 * EARTH and MOON's provided.
+	 */
+	enum GravityConstants {
+		EARTH(9.81),
+		MOON(6.673);
+		
+		private final double value;
+
+		private GravityConstants(final double value) {
+			this.value = value;
+		}
+		
+		public double getValue() {
+			return this.value;
+		}
+	}
 }

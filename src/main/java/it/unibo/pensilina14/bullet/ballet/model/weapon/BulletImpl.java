@@ -1,6 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 
 public class BulletImpl implements Bullet {
@@ -33,5 +37,29 @@ public class BulletImpl implements Bullet {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public MutablePosition2D getPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean isCollidingWith(PhysicalObject other) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Dimension2D getDimension() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Environment getGameEnvironment() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

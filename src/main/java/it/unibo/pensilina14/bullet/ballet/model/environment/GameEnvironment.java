@@ -3,18 +3,23 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.NoDynamicObjectsException;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 /**
  * Implementation of {@link Environment}.
  * 
@@ -22,162 +27,218 @@ import java.util.stream.Collectors;
  */
 public class GameEnvironment implements Environment {
 
+    public static final double DEFAULT_DIM = 20.0;
+	
 	private final double gravity;
-	private final Dimension2D gameMapDim;
-	private final Map<ImmutablePosition2D, Optional<PhysicalObject>> gameMap;
-	/**
-	 * DEFAULT_DIM is the default size used to create a new
-	 * {@link Dimension2D}.
-	 */
-	public static final int DEFAULT_DIM = 500;
-	/**
-	 * EARTH_GRAVITY represents earth's {@link gravity} value.
-	 */
-	public static final double EARTH_GRAVITY = 9.81;
-
-	/**
-	 * Constructor method in which {@link gravity} is set at earth one's value and
-	 * {@link gameMap}'s coordinates are automatically set. {@link gameMapSize} set
-	 * to 500 by default.
-	 */
+	private final Dimension2D dimension;
+	private Optional<Player> player;
+	private final Optional<List<Enemy>> enemies;
+	private final Optional<List<PhysicalObject>> obstacles;
+	private final Optional<List<Item>> items;
+	private Optional<GameEventListener> eventListener;
+	
 	public GameEnvironment() {
-		this.gravity = EARTH_GRAVITY;
-		this.gameMapDim = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
-		// generate virtual map's coordinates as gameMap keys
-		this.gameMap = new HashMap<>();
-		this.initializeMap(this.gameMap, this.gameMapDim);
+		this.gravity = GravityConstants.EARTH.getValue();
+		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+		this.player = Optional.empty();
+		this.enemies = Optional.of(new ArrayList<>());
+		this.obstacles = Optional.of(new ArrayList<>());
+		this.items = Optional.of(new ArrayList<>());
+		this.eventListener = Optional.empty();
 	}
-
-	/**
-	 * Constructor method in which {@link gravity} is set at @param gravity and
-	 * {@link Dimension2D} is set at @param size {@link gameMap} is initialized
-	 */
-	public GameEnvironment(final double gravity, final Dimension2D size) {
+	
+	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
 		this.gravity = gravity;
-		this.gameMapDim = size;
-		this.gameMap = new HashMap<>();
-		this.initializeMap(this.gameMap, this.gameMapDim);
+		this.dimension = new Dimension2Dimpl(height, width);
+		this.player = player;
+		this.enemies = Optional.of(new ArrayList<>());
+		this.obstacles = Optional.of(new ArrayList<>());
+		this.items = Optional.of(new ArrayList<>());
+		this.eventListener = Optional.of(l);
 	}
-
-	/**
-	 * Generates virtual map's coordinates as gameMap keys.
-	 */
-	private void initializeMap(final Map<ImmutablePosition2D, Optional<PhysicalObject>> map, final Dimension2D mapDim) {
-		for (int x = 0; x < mapDim.getWidth(); x++) {
-			for (int y = 0; y < mapDim.getHeight(); y++) {
-				map.put(new ImmutablePosition2Dimpl(x, y), Optional.empty());
-			}
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
-	public final double getGravity() {
+	public double getGravity() {
 		return this.gravity;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final Dimension2D getDimension() {
-		return this.gameMapDim;
+	
+	public Dimension2D getDimension() {
+		return this.dimension;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final Map<ImmutablePosition2D, Optional<PhysicalObject>> getMap() {
-		return Map.copyOf(this.gameMap);
+	public Optional<List<PhysicalObject>> getObjsList() {
+		return this.mergeLists();
+	}
+	
+	@Override
+	public Optional<Player> getPlayer() {
+		return this.player;
+	}
+	
+	@Override
+	public Optional<List<Enemy>> getEnemies() {
+		if (this.enemies.isPresent()) {
+			return Optional.of(List.copyOf(this.enemies.get()));
+		}
+		return Optional.empty();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final boolean addObjToMap(final PhysicalObject obj, final ImmutablePosition2D head) {
-		if (this.gameMap.containsKey(head) && this.gameMap.get(head).equals(Optional.empty())) {
-			this.gameMap.put(head, Optional.ofNullable(obj));
+	public Optional<List<PhysicalObject>> getObstacles() {
+		if (this.obstacles.isPresent()) {
+			return Optional.of(List.copyOf(this.obstacles.get()));
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<List<Item>> getItems() {
+		if (this.items.isPresent()) {
+			return Optional.of(List.copyOf(this.items.get()));
+		}
+		return Optional.empty();
+	}
+	
+    @Override
+	public void setPlayer(final Player player) {
+		this.player = Optional.ofNullable(player);
+	}
+
+	@Override
+	public boolean addEnemy(final Enemy enemy) {
+		if (this.enemies.get().contains(enemy)) {
+			return false;
+		} else {
+			this.enemies.get().add(enemy);
 			return true;
+		}
+	}
+	
+	@Override
+	public boolean addObstacle(final PhysicalObject obstacle) {
+		/*
+		 * Type validity check: 
+		 * 	verify if obstacle is a StaticObstacle or DynamicObstacle since 
+		 * 	parameter type is open to all PhysicalObject.
+		 * 	Use wisely.
+		 */
+		if (obstacle instanceof StaticObstacle || obstacle instanceof DynamicObstacle) {
+			if (this.obstacles.get().contains(obstacle)) {
+				return false;
+			} else {
+				this.obstacles.get().add(obstacle);
+				return true;
+			}
 		} else {
 			return false;
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final void deleteObjByPosition(final ImmutablePosition2D position) {
-		this.gameMap.remove(position);
+	public boolean addItem(final Item item) {
+		if (this.items.get().contains(item)) {
+			return false;
+		} else {
+			this.items.get().add(item);
+			return true;
+		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final Optional<ImmutablePosition2D> findObjInMap(final PhysicalObject obj) {
-		for (final Map.Entry<ImmutablePosition2D, Optional<PhysicalObject>> entry : this.gameMap.entrySet()) {
-			if (entry.getValue().isPresent() && entry.getValue().get().equals(obj)) {
-				return Optional.of(new ImmutablePosition2Dimpl(obj.getPosition().getX(), obj.getPosition().getY()));
+	public boolean deleteObjByPosition(final ImmutablePosition2D position) {
+		final List<PhysicalObject> allObjsList = this.mergeLists().get();
+		for (final PhysicalObject obj : allObjsList) {
+			final MutablePosition2D objPos = obj.getPosition();
+			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
+				if (obj instanceof Player) {
+					this.player = Optional.empty();
+					return true;
+				} else if (obj instanceof Enemy) {
+					this.enemies.get().remove(obj);
+					return true;
+				} else if (obj instanceof StaticObstacle || obj instanceof DynamicObstacle) {
+					this.obstacles.get().remove(obj);
+					return true;
+				} else if (obj instanceof Item) {
+					this.items.get().remove(obj); //Requires Item interface inheritance to be changed
+					return true;
+				} 
 			}
 		}
-		return Optional.empty();
+		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final Optional<Set<PhysicalObject>> getObjSetInMap() {
-		return Optional.ofNullable(this.gameMap.entrySet().stream()
-				.filter(e -> e.getValue().isPresent())
-				.map(e -> e.getValue().get())
-				.collect(Collectors.toSet()));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updateState(final int dt) { 
-		final Optional<Set<PhysicalObject>> gameObjs = this.getObjSetInMap();
-		if (gameObjs.isPresent()) {
-			try {
-				final Optional<List<AbstractDynamicComponent>> dynamicObjs = this.getDynamicObjs(gameObjs.get());
-				if (dynamicObjs.isPresent()) {
-	            	dynamicObjs.get().stream().forEach(obj -> obj.updateState(dt));
-	            }
-		    } catch (final NoDynamicObjectsException e) {
-				e.printStackTrace();
-			} 
-		}
+	public void updateState(final int dt) {
+		this.player.get().updateState(dt);
+		this.enemies.get().stream().forEach(e -> e.updateState(dt));
+		this.obstacles.get().stream()
+							.filter(o -> o instanceof DynamicObstacle)
+							.map(o -> (DynamicObstacle) o)
+							.forEach(o -> o.updateState(dt));
+		this.items.get().stream()
+						.filter(i -> i instanceof DynamicPickupItem)
+						.map(i -> (DynamicPickupItem) i)
+						.forEach(i -> i.updateState(dt));
+		this.checkCollisions();
 	}
 	
-	/**
-	 * Given a {@link List} of objects that extend(in this case implement) {@link PhysicalObject} interface.
-	 * 
-	 * @param gameObjs
-	 * @return an {@link Optional} {@link List} of {@link AbstractDynamicComponent} 
-	 * @throws NoDynamicObjectsException
-	 */
-	private Optional<List<AbstractDynamicComponent>> getDynamicObjs(final Set<? extends PhysicalObject> gameObjs) throws NoDynamicObjectsException {
-		try {
-			final Optional<List<AbstractDynamicComponent>> dynamicObjs = Optional.ofNullable(
-					(List<AbstractDynamicComponent>) gameObjs.stream()
-	        		.filter(obj -> obj instanceof AbstractDynamicComponent)
-	        		.map(obj -> (AbstractDynamicComponent) obj)
-	        		.collect(Collectors.toList()));
-			if (dynamicObjs.isEmpty()) {
-				throw new NoDynamicObjectsException(this);
-			} 
-			return dynamicObjs;
-		} catch (final ClassCastException e) {
-			e.printStackTrace();
-			return Optional.empty();
-		}
+	@Override
+	public void setEventListener(final GameEventListener listener) {
+		this.eventListener = Optional.ofNullable(listener);
 	}
+
+	private Optional<List<PhysicalObject>> mergeLists() {
+		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
+		if (this.player.isPresent()) {
+			mergedList.get().addAll(List.of(this.player.get()));
+		}
+		if (this.enemies.isPresent()) {
+			mergedList.get().addAll(this.enemies.get());
+		}
+		if (this.obstacles.isPresent()) {
+			mergedList.get().addAll(this.obstacles.get());
+		}
+		if (this.obstacles.isPresent()) {
+            mergedList.get().addAll(this.items.get());   
+		}
+		return mergedList;
+	}
+	
+	private void checkCollisions() {
+		Optional<Item> playerCollectedItem = Optional.empty();
+		final List<GameEvent> enemiesPickupEvents = new LinkedList<>();
+		
+		// Check collisions between player and an item.
+		for (final Item item : this.items.get()) {
+			if (this.player.get().isCollidingWith(item)) {
+				playerCollectedItem = Optional.ofNullable(item);
+				break;
+			} 
+		}
+		
+		// Check collisions between enemies and items.
+		for (final Item item : this.items.get()) {
+			for (final Enemy enemy : this.enemies.get()) {
+				if (enemy.isCollidingWith(item)) {
+					enemiesPickupEvents.add(new CharacterHitsPickupObjEvent(enemy, item));
+				}
+			}
+		}
+		
+		// Notify everything to the {@link GameEventListener}.
+		if (playerCollectedItem.isPresent()) {
+			this.eventListener.get().notifyEvent(new CharacterHitsPickupObjEvent(this.player.get(), playerCollectedItem.get()));
+		} 
+		if (!enemiesPickupEvents.isEmpty()) {
+			for (final GameEvent event : enemiesPickupEvents) {
+				this.eventListener.get().notifyEvent(event);
+			}
+		}
+		
+		//TODO: add player/obstacles, enemies/obstacles, player/enemies collisions.
+	}
+	
+	//TODO: add checkBoundaries()
 }

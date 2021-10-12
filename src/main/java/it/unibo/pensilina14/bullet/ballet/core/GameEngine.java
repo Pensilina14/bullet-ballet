@@ -1,36 +1,43 @@
 package it.unibo.pensilina14.bullet.ballet.core;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 
-public class GameEngine implements Controller {
+public class GameEngine implements Controller, GameEventListener {
 	
 	private static final int QUEUE_CAPACITY = 100;
 	
 	private final long period = 20;
 	
-	private Environment world;
-	/*
-	 * TODO: add view
-	 */
+	private MapScene view;
+	private GameState gameState;
 	private final BlockingQueue<Command> cmdQueue;
+	private final List<GameEvent> eventQueue;
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
+		this.eventQueue = new LinkedList<>();
 	}
 	
 	public void setup() {
-		this.world = new GameEnvironment();
+		this.gameState = new GameState();
+		this.view = new MapScene();
 		/*
-		 * TODO: add entities to the world
-		 */
-		/*
-		 * TODO: init view
+		 * TODO: call rengo.
 		 */
 	}
 	
@@ -61,24 +68,43 @@ public class GameEngine implements Controller {
 	private void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.world);
+			cmd.execute(this.gameState);
 		}
 	}
 	
 	private void updateGame(final int elapsed) {
-		this.world.updateState(elapsed);
+		this.gameState.update(elapsed);
+		this.checkEvents();
 	}
 	
 	private void render() {
-		/*
-		 * TODO: call view's render method
-		 */
+		this.view.draw();
 	}
-	
 	
 	@Override
 	public void notifyCommand(final Command cmd) {
         this.cmdQueue.add(cmd);
 	}
 
+	@Override
+	public void notifyEvent(final GameEvent e) {
+		this.eventQueue.add(e);
+	}
+	
+	private void checkEvents() {
+		final Environment env = this.gameState.getGameEnvironment();
+		this.eventQueue.stream().forEach(e -> {
+			if (e instanceof CharacterHitsPickupObjEvent) {
+				// Apply item effect on character
+				e = (CharacterHitsPickupObjEvent) e;
+				((CharacterHitsPickupObjEvent) e).getPickupObj()
+												 .getEffect()
+												 .applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
+				// Update environment
+				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
+				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
+			}
+		});
+		this.eventQueue.clear();
+	}
 }

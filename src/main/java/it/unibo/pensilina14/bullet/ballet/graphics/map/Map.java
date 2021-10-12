@@ -1,18 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
-import javafx.util.Pair;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Map {
 
-    private final static int WIDTH = 1280;
-    private final static int HEIGHT = 720;
-
-    private final Set<Pair<Integer,Integer>> tiles = new HashSet<>();
-
-    public enum Maps {
+    public enum Maps { //TODO: mettere questo enum a parte.
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
         JUNGLE2("res/assets/maps/Backgrounds/jungle_background2.jpg"),
@@ -35,14 +27,93 @@ public class Map {
         public String getPath(){
             return this.path;
         }
+
     }
 
-    //TODO: metodo da tenere qui o da mettere in MapScene
-    public void generate(){
-        //TODO: posizionare a y : 0 (ovvero, HEIGHT : 0 + qualcosa) le piastrelle, capire quante piastrelle ci stanno nella larghezza della mappa
-        //TODO: quindi fare HEIGHT / larghezza_di_una_piastrella = numero_piastrelle che ci stanno nello schermo.
-        //TODO: aggiungere le coordinate di queste piastrelle in un Unmodifiable Set.
-        //TODO: però quando il player arriva a metà della mappa, la mappa si deve aggiornare mostrando nuove piastrelle (tiles) in nuove posizioni.
-        //TODO: Le posizioni delle piastrelle dovranno essere aggiunte alle entità fisiche e quindi ci sarà una collisione/fisica che fa stare il player sopra esse.
+    private Maps map;
+
+    public Map(){
+        this.map = Map.DEFAULT_MAP; //TODO: al posto della default map, mettere mapChooser()
+
+        this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
+
+        this.coinType = Coin.Coins.GOLD_COIN; //TODO: default coin, ma poi dovrà essere scelto in maniera casuale.
+
     }
+
+    public Map(Maps map){
+        this.map = map;
+
+        setMap(this.map);
+    }
+
+    private final static int MAP_WIDTH = 1280;
+    private final static int MAP_HEIGHT = 720;
+
+    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
+
+    private final Random rand = new Random();
+
+    private Platform.Platforms platformType;
+    private Coin.Coins coinType;
+
+    private void initMap() {
+        switch(this.map){
+            case DESERT:
+                this.platformType = Platform.Platforms.DESERT_PLATFORM;
+                break;
+                //TODO: add other platform types.
+            case CAVE:
+                break;
+            case HALLOWEEN:
+                break;
+            case LAVA:
+                break;
+            case JUNGLE:
+                break;
+            case FUTURISTIC:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public String mapChooser(){ //TODO: far restituire una Maps al posto di una stringa.
+        final int max = Maps.values().length;
+        final int min = 0;
+        final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
+        for(Maps m : Maps.values()){
+            if(m.ordinal() == randomMap){
+                return m.getPath();
+            }
+        }
+        return Map.DEFAULT_MAP.getPath();
+    }
+
+    public Maps getMap(){
+        return this.map;
+    }
+
+    public void setMap(Maps map) { //TODO: renome in mapSetter
+        this.map = map;
+
+        initMap();
+    }
+
+    public int getMapWidth(){
+        return Map.MAP_WIDTH;
+    }
+
+    public int getMapHeight(){
+        return Map.MAP_HEIGHT;
+    }
+
+    public Platform.Platforms getPlatformType(){
+        return this.platformType;
+    }
+
+    public Coin.Coins getCoinType(){
+        return this.coinType;
+    }
+
 }

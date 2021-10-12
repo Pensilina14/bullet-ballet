@@ -1,62 +1,45 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
-public class SpriteAnimation extends Sprite{
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.ImageView;
 
-    public enum Direction{
-        RIGHT(0),
-        LEFT(1),
-        UP(2),
-        DOWN(3);
+import javafx.util.Duration;
 
-        int index;
+public class SpriteAnimation extends Transition {
 
-        Direction(int index){
-            this.index = index;
-        }
+    private final ImageView imgView;
+    private final int count;
+    private final int columns;
+    private int offsetX;
+    private int offsetY;
+    private final int imgViewWidth;
+    private final int imgViewHeight;
 
-        public int getIndex(){
-            return this.index;
-        }
+    public SpriteAnimation(ImageView imgView, Duration duration, int count, int columns, int offsetX, int offsetY, int imgViewWidth, int imgViewHeight){
+        this.imgView = imgView;
+        this.count = count;
+        this.columns = columns;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.imgViewWidth = imgViewWidth;
+        this.imgViewHeight = imgViewHeight;
+
+        setCycleDuration(duration);
+        setCycleCount(Animation.INDEFINITE);
+        setInterpolator(Interpolator.LINEAR);
+
+        this.imgView.setViewport(new Rectangle2D(offsetX, offsetY, imgViewWidth, imgViewHeight));
     }
 
-    private static final int SPRITE_FRAMES = 4; //TODO: Direction.values().length;
-    private final static int SPRITE_STEP = 5;
+    @Override
+    protected void interpolate(double frac) {
+        final int index = Math.min((int)Math.floor(this.count * frac), this.count - 1);
+        final int x = (index % this.columns) * this.imgViewWidth + this.offsetX;
+        final int y = (index / this.columns) * this.imgViewHeight + this.offsetY;
 
-    /*private final int totalFrames;
-    private final int cols;
-    private final int rows;
-
-    private final int frameWidth;
-    private final int frameHeight;*/
-
-    protected int[][] spriteX = new int[SpriteAnimation.SPRITE_FRAMES][];
-    protected int[][] spriteY = new int[SpriteAnimation.SPRITE_FRAMES][];
-
-    private Direction currentDirection = Direction.RIGHT;
-    private int currentSprite = 0;
-    private int currentSpriteStep = 0;
-
-    public SpriteAnimation(int width, int height) {
-        super(width, height);
-    }
-
-    public void animate(Direction direction){
-        if(direction == this.currentDirection){
-            this.currentSpriteStep++;
-            if(this.currentSpriteStep >= SpriteAnimation.SPRITE_STEP){
-                this.currentSprite = ((this.currentSprite + 1) % this.spriteX[this.currentDirection.getIndex()].length);
-            }
-        } else {
-            this.currentDirection = direction;
-            this.currentSprite = 0;
-            this.currentSpriteStep = 0;
-        }
-
-        updateSprite();
-    }
-
-    protected void updateSprite(){
-        x = this.spriteX[this.currentDirection.getIndex()][this.currentSprite];
-        y = this.spriteY[this.currentDirection.getIndex()][this.currentSprite];
+        this.imgView.setViewport(new Rectangle2D(x, y, this.imgViewWidth, this.imgViewHeight));
     }
 }
