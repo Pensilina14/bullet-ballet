@@ -8,13 +8,17 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 /**
  * Implementation of {@link Environment}.
@@ -177,6 +181,7 @@ public class GameEnvironment implements Environment {
 						.filter(i -> i instanceof DynamicPickupItem)
 						.map(i -> (DynamicPickupItem) i)
 						.forEach(i -> i.updateState(dt));
+		this.checkCollisions();
 	}
 	
 	@Override
@@ -201,5 +206,39 @@ public class GameEnvironment implements Environment {
 		return mergedList;
 	}
 	
-	//TODO: add checkBoundaries() and checkCollisions()
+	private void checkCollisions() {
+		Optional<Item> playerCollectedItem = Optional.empty();
+		final List<GameEvent> enemiesPickupEvents = new LinkedList<>();
+		
+		// Check collisions between player and an item.
+		for (final Item item : this.items.get()) {
+			if (this.player.get().isCollidingWith(item)) {
+				playerCollectedItem = Optional.ofNullable(item);
+				break;
+			} 
+		}
+		
+		// Check collisions between enemies and items.
+		for (final Item item : this.items.get()) {
+			for (final Enemy enemy : this.enemies.get()) {
+				if (enemy.isCollidingWith(item)) {
+					enemiesPickupEvents.add(new CharacterHitsPickupObjEvent(enemy, item));
+				}
+			}
+		}
+		
+		// Notify everything to the {@link GameEventListener}.
+		if (playerCollectedItem.isPresent()) {
+			this.eventListener.get().notifyEvent(new CharacterHitsPickupObjEvent(this.player.get(), playerCollectedItem.get()));
+		} 
+		if (!enemiesPickupEvents.isEmpty()) {
+			for (final GameEvent event : enemiesPickupEvents) {
+				this.eventListener.get().notifyEvent(event);
+			}
+		}
+		
+		//TODO: add player/obstacles, enemies/obstacles, player/enemies collisions.
+	}
+	
+	//TODO: add checkBoundaries()
 }
