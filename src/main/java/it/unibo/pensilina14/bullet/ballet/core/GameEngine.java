@@ -43,7 +43,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	public void mainLoop() {
 	    long lastTime = System.currentTimeMillis();
-		while (true) {
+		while (this.gameState.isGameOver()) {
 			final long current = System.currentTimeMillis();
 			final int elapsed = (int) (current - lastTime);
 			this.processInput();
@@ -52,6 +52,7 @@ public class GameEngine implements Controller, GameEventListener {
 			this.waitForNextFrame(elapsed);
 			lastTime = current;
 		}
+		// GAME OVER
 	}
 	
 	private void waitForNextFrame(final long current) {
@@ -96,10 +97,9 @@ public class GameEngine implements Controller, GameEventListener {
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof CharacterHitsPickupObjEvent) {
 				// Apply item effect on character
-				e = (CharacterHitsPickupObjEvent) e;
 				((CharacterHitsPickupObjEvent) e).getPickupObj()
-												 .getEffect()
-												 .applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
+					.getEffect()
+					.applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
 				// Update environment
 				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
 				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
