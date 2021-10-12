@@ -142,7 +142,7 @@ public class MapScene extends AbstractScene{
         this.mainPlayer.moveY((int)this.mainPlayer.playerVelocity.getY());
 
         for(Coin coin: coins){ //TODO: fix coin collisions
-            if(this.mainPlayer.getBoundsInParent().intersects(coin.getBoundsInParent())){
+            if(this.mainPlayer.getBoundsInParent().intersects(coin.getBoundsInParent())) {
                 coin.getProperties().put("alive", false);
             }
         }
