@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 
@@ -17,9 +20,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private final long period = 20;
 	
-	/*
-	 * TODO: add view
-	 */
+	private MapScene view;
 	private GameState gameState;
 	private final BlockingQueue<Command> cmdQueue;
 	private final List<GameEvent> eventQueue;
@@ -34,8 +35,9 @@ public class GameEngine implements Controller, GameEventListener {
 		/*
 		 * TODO: add entities to the world
 		 */
+		this.view = new MapScene();
 		/*
-		 * TODO: init view
+		 * TODO: call rengo.
 		 */
 	}
 	
@@ -72,12 +74,11 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private void updateGame(final int elapsed) {
 		this.gameState.update(elapsed);
+		this.checkEvents();
 	}
 	
 	private void render() {
-		/*
-		 * TODO: call view's render method
-		 */
+		this.view.draw();
 	}
 	
 	@Override
@@ -88,6 +89,18 @@ public class GameEngine implements Controller, GameEventListener {
 	@Override
 	public void notifyEvent(final GameEvent e) {
 		this.eventQueue.add(e);
+	}
+	
+	private void checkEvents() {
+		final Environment env = this.gameState.getGameEnvironment();
+		this.eventQueue.stream().forEach(e -> {
+			if (e instanceof CharacterHitsPickupObjEvent) {
+				e = (CharacterHitsPickupObjEvent) e;
+				((CharacterHitsPickupObjEvent) e).getPickupObj()
+												 .getEffect()
+												 .applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
+			}
+		});
 	}
 
 	//TODO: create checkEvents() method and modify update()
