@@ -1,6 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Weapon extends Item {
 	
@@ -32,5 +33,5 @@ public interface Weapon extends Item {
 	/*
 	 * @return True if recharging takes place correctly
 	 */
-	void recharge(ArrayList<Bullet> charger);
+	void recharge(List<Bullet> charger);
 }

@@ -134,7 +134,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	
 	@Override
 	public boolean hasAmmo() {
-		if(this.bandolier.get(this.indexCharger).size() == 0){
+		if(this.bandolier.get(this.indexCharger).isEmpty()){
 			this.switchCharger();
 			this.currentAmmo = this.bandolier.get(this.indexCharger).size();
 			//this.currentAmmo = this.spareCharger.size();
@@ -155,7 +155,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	}
 	
 	@Override
-	public void recharge(final ArrayList<Bullet> charger) {
+	public void recharge(final List<Bullet> charger) {
 		this.switchCharger().addAll(charger);
 		if(this.indexCharger == 0) {
 			this.indexCharger=this.limitChargers;
