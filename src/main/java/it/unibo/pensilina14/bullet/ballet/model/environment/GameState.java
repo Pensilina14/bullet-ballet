@@ -27,6 +27,10 @@ public class GameState {
 		return this.score;
 	}
 	
+	public boolean isGameOver() {
+		return this.env.getPlayer().get().getHealth() == 0;
+	}
+	
 	public void update(final int dt) {
 		this.env.updateState(dt);
 	}
