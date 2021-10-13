@@ -42,7 +42,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	public void mainLoop() {
 	    long lastTime = System.currentTimeMillis();
-		while (this.gameState.isGameOver()) {
+		while (!this.gameState.isGameOver()) {
 			final long current = System.currentTimeMillis();
 			final int elapsed = (int) (current - lastTime);
 			this.processInput();
