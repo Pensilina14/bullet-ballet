@@ -10,14 +10,17 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 
 public class GameEngine implements Controller, GameEventListener {
 	
@@ -108,8 +111,12 @@ public class GameEngine implements Controller, GameEventListener {
 			} else if (e instanceof PlayerHitsEnemyEvent) {
 				final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
-				final double actualHealth = player.getHealth();
-				// TODO: player.setHealth(actualHealth - CONFLICT_DAMAGE);
+				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
+				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+			} else if (e instanceof PlayerHitsObstacleEvent) {
+				final Characters player = ((PlayerHitsObstacleEvent) e).getPlayer();
+				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
+				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
 			}
 		});
 		this.eventQueue.clear();
