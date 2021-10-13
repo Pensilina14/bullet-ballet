@@ -9,7 +9,9 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
@@ -19,7 +21,6 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 /**
  * Implementation of {@link Environment}.
@@ -211,6 +212,8 @@ public class GameEnvironment implements Environment {
 		Optional<Item> playerCollectedItem = Optional.empty();
 		final List<GameEvent> enemiesPickupEvents = new LinkedList<>();
 		Optional<Enemy> playerHitEnemy = Optional.empty();
+		Optional<PhysicalObject> playerHitObstacle = Optional.empty();
+		final List<GameEvent> enemiesHitObstaclesEvents = new LinkedList<>();
 		
 		// Check collisions between player and an item.
 		for (final Item item : this.items.get()) {
@@ -237,6 +240,23 @@ public class GameEnvironment implements Environment {
 			}
 		}
 		
+		// Check collisions between player and an obstacle.
+		for (final PhysicalObject obs : this.obstacles.get()) {
+			if (this.player.get().isCollidingWith(obs)) {
+				playerHitObstacle = Optional.ofNullable(obs);
+				break;
+			}
+		}
+		
+		// Check collisions between enemies and obstacles.
+		for (final Enemy enemy : this.enemies.get()) {
+			for (final PhysicalObject obs : this.obstacles.get()) {
+				if (enemy.isCollidingWith(obs)) {
+					enemiesHitObstaclesEvents.add(new EnemyHitsObstacleEvent(enemy, obs));
+				}
+			}
+		}
+		
 		// Notify everything to the {@link GameEventListener}.
 		if (playerCollectedItem.isPresent()) {
 			this.eventListener.get().notifyEvent(new CharacterHitsPickupObjEvent(this.player.get(), playerCollectedItem.get()));
@@ -249,7 +269,14 @@ public class GameEnvironment implements Environment {
 		if (playerHitEnemy.isPresent()) {
 			this.eventListener.get().notifyEvent(new PlayerHitsEnemyEvent(this.player.get(), playerHitEnemy.get()));
 		}
-		//TODO: add player/obstacles, enemies/obstacles.
+		if (playerHitObstacle.isPresent()) {
+			this.eventListener.get().notifyEvent(new PlayerHitsObstacleEvent(this.player.get(), playerHitObstacle.get()));
+		}
+		if (!enemiesHitObstaclesEvents.isEmpty()) {
+			for (final GameEvent event : enemiesHitObstaclesEvents) {
+				this.eventListener.get().notifyEvent(event);
+			}
+		}
 	}
 	
 	//TODO: add checkBoundaries()
