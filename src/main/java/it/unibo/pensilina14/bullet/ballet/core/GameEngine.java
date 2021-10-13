@@ -17,6 +17,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
@@ -117,6 +118,10 @@ public class GameEngine implements Controller, GameEventListener {
 				final Characters player = ((PlayerHitsObstacleEvent) e).getPlayer();
 				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
+			} else if (e instanceof EnemyHitsObstacleEvent) {
+				final Characters enemy = ((EnemyHitsObstacleEvent) e).getEnemy();
+				final PhysicalObject obstacle = ((EnemyHitsObstacleEvent) e).getObstacle();
+				// TODO: enemy.setHealth(enemy.getHealth() - obstacle.COLLISION_DAMAGE);
 			}
 		});
 		this.eventQueue.clear();
