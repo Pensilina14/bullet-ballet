@@ -8,6 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
@@ -209,6 +210,7 @@ public class GameEnvironment implements Environment {
 	private void checkCollisions() {
 		Optional<Item> playerCollectedItem = Optional.empty();
 		final List<GameEvent> enemiesPickupEvents = new LinkedList<>();
+		Optional<Enemy> playerHitEnemy = Optional.empty();
 		
 		// Check collisions between player and an item.
 		for (final Item item : this.items.get()) {
@@ -227,6 +229,14 @@ public class GameEnvironment implements Environment {
 			}
 		}
 		
+		// Check collisions between player and an enemy.
+		for (final Enemy enemy : this.enemies.get()) {
+			if (this.player.get().isCollidingWith(enemy)) {
+				playerHitEnemy = Optional.ofNullable(enemy);
+				break;
+			}
+		}
+		
 		// Notify everything to the {@link GameEventListener}.
 		if (playerCollectedItem.isPresent()) {
 			this.eventListener.get().notifyEvent(new CharacterHitsPickupObjEvent(this.player.get(), playerCollectedItem.get()));
@@ -236,8 +246,10 @@ public class GameEnvironment implements Environment {
 				this.eventListener.get().notifyEvent(event);
 			}
 		}
-		
-		//TODO: add player/obstacles, enemies/obstacles, player/enemies collisions.
+		if (playerHitEnemy.isPresent()) {
+			this.eventListener.get().notifyEvent(new PlayerHitsEnemyEvent(this.player.get(), playerHitEnemy.get()));
+		}
+		//TODO: add player/obstacles, enemies/obstacles.
 	}
 	
 	//TODO: add checkBoundaries()

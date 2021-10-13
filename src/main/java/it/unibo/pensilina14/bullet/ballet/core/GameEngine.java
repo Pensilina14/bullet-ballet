@@ -10,11 +10,14 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 
 public class GameEngine implements Controller, GameEventListener {
 	
@@ -102,6 +105,11 @@ public class GameEngine implements Controller, GameEventListener {
 				// Update environment
 				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
 				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
+			} else if (e instanceof PlayerHitsEnemyEvent) {
+				final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
+				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
+				final double actualHealth = player.getHealth();
+				// TODO: player.setHealth(actualHealth - CONFLICT_DAMAGE);
 			}
 		});
 		this.eventQueue.clear();
