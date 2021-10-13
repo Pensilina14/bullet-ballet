@@ -19,10 +19,6 @@ public class GameState {
 		this.score++;
 	}
 	
-	public void decScore() {
-		this.score--;
-	}
-	
 	public int getScore() {
 		return this.score;
 	}
