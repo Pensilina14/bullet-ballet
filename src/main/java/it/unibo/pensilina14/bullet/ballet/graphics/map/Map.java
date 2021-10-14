@@ -33,13 +33,12 @@ public class Map {
     private Maps map;
 
     public Map(){
-        //this.map = Map.DEFAULT_MAP; //TODO: al posto della default map, mettere mapChooser()
         this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
 
         this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
 
-        this.coinType = Coin.Coins.EMERALD_COIN; //TODO: default coin, ma poi dovrà essere scelto in maniera casuale.
-        //this.coinType = this.coin.coinChooser();
+        Coin coin = new Coin();
+        this.coinType = coin.coinChooser();
 
         //TODO: initMap();
 
@@ -58,7 +57,6 @@ public class Map {
 
     private Platform.Platforms platformType;
     private Coin.Coins coinType;
-    //private Coin coin; //TODO: uncomment
 
     private void initMap() {
         switch(this.map){
