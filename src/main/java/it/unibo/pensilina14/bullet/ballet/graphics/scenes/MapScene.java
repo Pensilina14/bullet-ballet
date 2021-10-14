@@ -6,7 +6,10 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+<<<<<<< HEAD
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+=======
+>>>>>>> 178fa651dc852bf3f28bebe05148d3e76df37e95
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.animation.AnimationTimer;
@@ -44,6 +47,8 @@ public class MapScene extends AbstractScene{
     public static ArrayList<Platform> platforms = new ArrayList<>();
     public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    
+    private GameState gameState = new GameState();
 
     public final static int PLATFORM_SIZE = 60;
 
@@ -107,6 +112,7 @@ public class MapScene extends AbstractScene{
                             Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '3':
+<<<<<<< HEAD
                             //TODO: obstacles
                             /*List<PhysicalObject> obstacles = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
                             MutablePosition2D obstacle;
@@ -117,6 +123,16 @@ public class MapScene extends AbstractScene{
                             }*/
                             // Sprite dell'obstacle
 
+=======
+                        	final List<PhysicalObject> obstacles = this.gameState.getGameEnvironment().getObstacles().get();
+                        	PhysicalObject appropriateObstacle;
+                        	for (final PhysicalObject obs : obstacles) {
+                        		if (obs.getPosition().getX() == j && obs.getPosition().getY() == i) {
+                        			appropriateObstacle = obs;
+                        		}
+                        	}
+                        	//TODO instantiate obstacle sprite..
+>>>>>>> 178fa651dc852bf3f28bebe05148d3e76df37e95
                             break;
                         case '4':
                             //TODO:
