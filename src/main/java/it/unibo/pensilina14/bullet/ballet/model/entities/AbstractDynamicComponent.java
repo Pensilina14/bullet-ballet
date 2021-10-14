@@ -29,7 +29,10 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
 
     @Override
     public Boolean isCollidingWith(final PhysicalObject other) {
-        return null;
+        return (this.getPosition().getX() * this.dimension.getWidth() / 2 > other.getPosition().getX() &&
+        		this.getPosition().getX() < other.getPosition().getX() * other.getDimension().getWidth() / 2 &&
+        		this.getPosition().getY() * this.getDimension().getHeight() / 2 > other.getPosition().getY() &&
+        		this.getPosition().getY() < other.getPosition().getY() * other.getDimension().getWidth() / 2);
     }
 
     @Override
