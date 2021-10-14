@@ -1,4 +1,4 @@
-package it.unibo.pensiliina14.bullet.ballet.model.model.obstacle.test;
+package it.unibo.pensiliina14.bullet.ballet.model.obstacle.test;
 
 import static org.junit.Assert.assertEquals;
 
