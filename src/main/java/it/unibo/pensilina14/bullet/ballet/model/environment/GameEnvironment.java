@@ -49,6 +49,16 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.empty();
 	}
 	
+	public GameEnvironment(final double height, final double width) {
+		this.gravity = GravityConstants.EARTH.getValue();
+		this.dimension = new Dimension2Dimpl(height, width);
+		this.player = Optional.empty();
+		this.enemies = Optional.of(new ArrayList<>());
+		this.obstacles = Optional.of(new ArrayList<>());
+		this.items = Optional.of(new ArrayList<>());
+		this.eventListener = Optional.empty();
+	}
+	
 	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
 		this.gravity = gravity;
 		this.dimension = new Dimension2Dimpl(height, width);
