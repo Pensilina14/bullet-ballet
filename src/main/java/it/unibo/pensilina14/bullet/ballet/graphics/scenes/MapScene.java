@@ -1,15 +1,20 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class MapScene extends AbstractScene{
 
@@ -41,6 +47,11 @@ public class MapScene extends AbstractScene{
 
     public final static int PLATFORM_SIZE = 60;
 
+    private GameState gs; //TODO: rename in gameState
+    private Controller inputController; //TODO: rename in controller
+
+    private Pair<Integer,Integer> lastPos;
+
     public MapScene(){
 
         MapScene.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // casomai la mappa fosse più grande o anche più piccola.
@@ -63,19 +74,49 @@ public class MapScene extends AbstractScene{
             for(int i = 0; i < LevelData.levels[this.currentLevel].length; i++){
                 String line = LevelData.levels[this.currentLevel][i];
                 //int previousLevel = ((this.currentLevel - 1) < 0 ? this.currentLevel : (this.currentLevel - 1)); //TODO: unccoment
+                //this.lastPos = new Pair<>(line.length() - 1,LevelData.levels[this.currentLevel].length - 1); //TODO: - 1
                 for(int j = 0; j < line.length(); j++){
                     switch(line.charAt(j)){
                         case '0':
                             break;
                         case '1':
                             //int coordinatesAdjustment = LevelData.levels[previousLevel][i].charAt(j) * previousLevel; //TODO: da fixare.
+                            //int coordsAppend = previousLevel * lastPos.getKey().intValue(); //TODO: uncomment.
+
+                            // Model
+                            /*List<PhysicalObject> platforms = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
+                            MutablePosition2D platformPosition;
+                            for(PhysicalObject pf : platforms){
+                                if(pf.getPosition().getX() == j && pf.getPosition().getY() == i){
+                                    platformPosition = pf.getPosition();
+                                }
+                            }*/
+
+                            // Platform Sprite
                             Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '2':
+                            /*List<PhysicalObject> coins = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
+                            MutablePosition2D coinPosition;
+                            for(PhysicalObject c : coins){
+                                if(c.getPosition().getX() == j && c.getPosition().getY() == i){
+                                    coinPosition = c.getPosition();
+                                }
+                            }*/
+
                             Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '3':
                             //TODO: obstacles
+                            /*List<PhysicalObject> obstacles = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
+                            MutablePosition2D obstacle;
+                            for(PhysicalObject obs : obstacles){
+                                if(obs.getPosition().getX() == j && obs.getPosition().getY() == i){
+                                    obstacle = obs.getPosition();
+                                }
+                            }*/
+                            // Sprite dell'obstacle
+
                             break;
                         case '4':
                             //TODO:
@@ -85,6 +126,15 @@ public class MapScene extends AbstractScene{
                             break;
                         case '*':
                             //TODO: items
+                            /*List<PhysicalObject> items = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
+                            MutablePosition2D itemPosition;
+                            for(PhysicalObject it : items){
+                                if(it.getPosition().getX() == j && it.getPosition().getY() == i){
+                                    itemPosition = it.getPosition();
+                                }
+                            }*/
+
+                            // Sprite dell'item
                             break;
                         case '!':
                             //TODO: nemici
@@ -106,8 +156,7 @@ public class MapScene extends AbstractScene{
 
             // this.map.getWidth() / 2 = metà della mappa.
             if(playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)){
-                MapScene.gamePane.setLayoutX(-(playerPosition - (this.map.getMapWidth() / 2)));
-                //this.backgroundView.setLayoutX(-(playerPosition- (this.map.getMapWidth() / 2)));
+                MapScene.gamePane.setLayoutX(-(playerPosition - (int)(this.map.getMapWidth() / 2)));
             }
         });
 
@@ -120,7 +169,7 @@ public class MapScene extends AbstractScene{
     }
 
     private void update(){
-        if(isPressed(KeyCode.UP) && this.mainPlayer.getTranslateY() >= 5){
+        if(isPressed(KeyCode.UP) && this.mainPlayer.getTranslateY() >= 5){ //TODO: usare Command
             this.mainPlayer.jumpPlayer();
         }
 
