@@ -33,11 +33,15 @@ public class Map {
     private Maps map;
 
     public Map(){
-        this.map = Map.DEFAULT_MAP; //TODO: al posto della default map, mettere mapChooser()
+        //this.map = Map.DEFAULT_MAP; //TODO: al posto della default map, mettere mapChooser()
+        this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
 
         this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
 
-        this.coinType = Coin.Coins.GOLD_COIN; //TODO: default coin, ma poi dovrà essere scelto in maniera casuale.
+        this.coinType = Coin.Coins.EMERALD_COIN; //TODO: default coin, ma poi dovrà essere scelto in maniera casuale.
+        //this.coinType = this.coin.coinChooser();
+
+        //TODO: initMap();
 
     }
 
@@ -52,10 +56,9 @@ public class Map {
 
     private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
 
-    private final Random rand = new Random();
-
     private Platform.Platforms platformType;
     private Coin.Coins coinType;
+    //private Coin coin; //TODO: uncomment
 
     private void initMap() {
         switch(this.map){
@@ -78,16 +81,17 @@ public class Map {
         }
     }
 
-    public String mapChooser(){ //TODO: far restituire una Maps al posto di una stringa.
+    public Maps mapChooser(){ //TODO: far restituire una Maps al posto di una stringa.
+        final Random rand = new Random();
         final int max = Maps.values().length;
         final int min = 0;
         final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
         for(Maps m : Maps.values()){
             if(m.ordinal() == randomMap){
-                return m.getPath();
+                return m;
             }
         }
-        return Map.DEFAULT_MAP.getPath();
+        return Map.DEFAULT_MAP;
     }
 
     public Maps getMap(){
