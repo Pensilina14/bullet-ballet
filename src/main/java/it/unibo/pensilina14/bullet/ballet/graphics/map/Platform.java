@@ -13,12 +13,13 @@ import java.nio.file.Paths;
 public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto in Map. (tranne le enum che metterei apparte)
 
     public enum Platforms { //TODO: Add paths of other platform images.
-        HALLOWEEN_PLATFORM(""),
+        HALLOWEEN_PLATFORM("res/assets/maps/Tiles/halloween_tile.png"),
         CAVE_PLATFORM(""),
         JUNGLE_PLATFORM(""),
         LAVA_PLATFORM(""),
         DESERT_PLATFORM("res/assets/maps/Tiles/tmw_desert_spacing.png"),
-        FUTURISTIC_PLATFORM("");
+        FUTURISTIC_PLATFORM(""),
+        ICE_PLATFORM("res/assets/maps/Tiles/ice_tile3.png");
 
         String path;
 
@@ -69,19 +70,32 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
                 break;
                 //TODO: Add other platform types
             case HALLOWEEN_PLATFORM:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
+                minX = 60; // 60
+                minY = 40; // 40
+                platformWidth = 60; // 15
+                platformHeight = 60; // 16
+                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.HALLOWEEN_PLATFORM.getPath()))));
+                this.setTranslateX(x);
+                this.setTranslateY(y);
+
                 break;
             case FUTURISTIC_PLATFORM:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case JUNGLE_PLATFORM:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case LAVA_PLATFORM:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
                 break;
             case CAVE_PLATFORM:
-                //this.platformSprite.getSpriteView().setViewport(new Rectangle2D());
+                break;
+            case ICE_PLATFORM:
+                minX = 0;
+                minY = 0;
+                platformWidth = 60;
+                platformHeight = 60;
+                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.ICE_PLATFORM.getPath()))));
+                this.setTranslateX(x);
+                this.setTranslateY(y);
+
                 break;
             default:
                 break;
