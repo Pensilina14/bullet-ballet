@@ -11,7 +11,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventList
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsObstacleEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
@@ -219,73 +221,43 @@ public class GameEnvironment implements Environment {
 	}
 	
 	private void checkCollisions() {
-		Optional<Item> playerCollectedItem = Optional.empty();
-		final List<GameEvent> enemiesPickupEvents = new LinkedList<>();
-		Optional<Enemy> playerHitEnemy = Optional.empty();
-		Optional<PhysicalObject> playerHitObstacle = Optional.empty();
-		final List<GameEvent> enemiesHitObstaclesEvents = new LinkedList<>();
+		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
+		final EventChecker checkEnemiesItems = new CollisionEventChecker(this.enemies.get(), this.items.get());
+		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
+		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
+		final EventChecker checkEnemiesObstacles = new CollisionEventChecker(this.enemies.get(), this.obstacles.get());
 		
-		// Check collisions between player and an item.
-		for (final Item item : this.items.get()) {
-			if (this.player.get().isCollidingWith(item)) {
-				playerCollectedItem = Optional.ofNullable(item);
-				break;
-			} 
-		}
-		
-		// Check collisions between enemies and items.
-		for (final Item item : this.items.get()) {
-			for (final Enemy enemy : this.enemies.get()) {
-				if (enemy.isCollidingWith(item)) {
-					enemiesPickupEvents.add(new CharacterHitsPickupObjEvent(enemy, item));
-				}
-			}
-		}
-		
-		// Check collisions between player and an enemy.
-		for (final Enemy enemy : this.enemies.get()) {
-			if (this.player.get().isCollidingWith(enemy)) {
-				playerHitEnemy = Optional.ofNullable(enemy);
-				break;
-			}
-		}
-		
-		// Check collisions between player and an obstacle.
-		for (final PhysicalObject obs : this.obstacles.get()) {
-			if (this.player.get().isCollidingWith(obs)) {
-				playerHitObstacle = Optional.ofNullable(obs);
-				break;
-			}
-		}
-		
-		// Check collisions between enemies and obstacles.
-		for (final Enemy enemy : this.enemies.get()) {
-			for (final PhysicalObject obs : this.obstacles.get()) {
-				if (enemy.isCollidingWith(obs)) {
-					enemiesHitObstaclesEvents.add(new EnemyHitsObstacleEvent(enemy, obs));
-				}
-			}
-		}
+		checkPlayerItem.check();
+		checkEnemiesItems.check();
+		checkPlayerEnemy.check();
+		checkPlayerObstacle.check();
+		checkEnemiesObstacles.check();
 		
 		// Notify everything to the {@link GameEventListener}.
-		if (playerCollectedItem.isPresent()) {
-			this.eventListener.get().notifyEvent(new CharacterHitsPickupObjEvent(this.player.get(), playerCollectedItem.get()));
+		if (!checkPlayerItem.getBuffer().getEvents().isEmpty()) {
+			checkPlayerItem.getBuffer().getEvents().stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
 		} 
-		if (!enemiesPickupEvents.isEmpty()) {
-			for (final GameEvent event : enemiesPickupEvents) {
-				this.eventListener.get().notifyEvent(event);
-			}
+		if (!checkEnemiesItems.getBuffer().getEvents().isEmpty()) {
+			checkEnemiesItems.getBuffer().getEvents().stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
 		}
-		if (playerHitEnemy.isPresent()) {
-			this.eventListener.get().notifyEvent(new PlayerHitsEnemyEvent(this.player.get(), playerHitEnemy.get()));
+		if (!checkPlayerEnemy.getBuffer().getEvents().isEmpty()) {
+			checkPlayerEnemy.getBuffer().getEvents().stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
 		}
-		if (playerHitObstacle.isPresent()) {
-			this.eventListener.get().notifyEvent(new PlayerHitsObstacleEvent(this.player.get(), playerHitObstacle.get()));
+		if (!checkPlayerObstacle.getBuffer().getEvents().isEmpty()) {
+			checkPlayerObstacle.getBuffer().getEvents().stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
 		}
-		if (!enemiesHitObstaclesEvents.isEmpty()) {
-			for (final GameEvent event : enemiesHitObstaclesEvents) {
-				this.eventListener.get().notifyEvent(event);
-			}
+		if (!checkEnemiesObstacles.getBuffer().getEvents().isEmpty()) {
+			checkEnemiesObstacles.getBuffer().getEvents().stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
 		}
 	}
 	
