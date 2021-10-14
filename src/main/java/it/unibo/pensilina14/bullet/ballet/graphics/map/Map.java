@@ -16,7 +16,9 @@ public class Map {
         LAVA("res/assets/maps/Backgrounds/lava_background.png"),
         DESERT("res/assets/maps/Backgrounds/desert_background.jpg"),
         DESERT2("res/assets/maps/Backgrounds/desert_background2.jpg"),
-        FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg");
+        FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg"),
+        ICE("res/assets/maps/Backgrounds/ice_background.jpg"),
+        ICE2("res/assets/maps/Backgrounds/ice_background2.png");
 
         String path;
 
@@ -35,7 +37,7 @@ public class Map {
     public Map(){
         this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
 
-        this.platformType = Platform.Platforms.DESERT_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
+        this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
 
         Coin coin = new Coin();
         this.coinType = coin.coinChooser();
@@ -60,13 +62,11 @@ public class Map {
 
     private void initMap() {
         switch(this.map){
-            case DESERT:
-                this.platformType = Platform.Platforms.DESERT_PLATFORM;
-                break;
-                //TODO: add other platform types.
+            //TODO: add other platform types.
             case CAVE:
                 break;
             case HALLOWEEN:
+                this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM;
                 break;
             case LAVA:
                 break;
@@ -74,7 +74,13 @@ public class Map {
                 break;
             case FUTURISTIC:
                 break;
+            case ICE:
+            case ICE2:
+                this.platformType = Platform.Platforms.ICE_PLATFORM;
+                break;
+            case DESERT:
             default:
+                this.platformType = Platform.Platforms.DESERT_PLATFORM;
                 break;
         }
     }
