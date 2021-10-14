@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.model.entities.test;
+package it.unibo.pensilina14.bullet.ballet.model.item.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,10 +14,8 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 
+public class PickupItemTest {
 
-
-public class ItemTest {
-    
     private static final int DIMENSION = 1;
     private static final int POSITION = -5;
     private static final int MASS = 10;
