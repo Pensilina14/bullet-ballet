@@ -3,29 +3,47 @@
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
-Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
-%
-Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
-%
-Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
-
-\subsection*{Elementi positivi}
+Per il seguente progetto software è stato largamente sfruttato il testing automatizzato, dal momento che è stato scelto un approccio TDD(test-driven-development). Il nostro gruppo ha considerato opportuno testare prevalentemente la componente di logica(model) oltre ai vari controller.
+Abbiamo inoltre attribuito importanza alla "pulizia" dei test, per garantire la loro manutenibilità, effettuando i seguenti accorgimenti : 
 
 \begin{itemize}
-	\item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
-	\item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
-	\item Se sono stati eseguiti test manuali di rilievo, si elencano descrivendo brevemente la ragione per cui non sono stati automatizzati. Ad esempio, se tutto il team sviluppa e testa su uno stesso sistema operativo e si sono svolti test manuali per verificare, ad esempio, il corretto funzionamento dell'interfaccia grafica o di librerie native su altri sistemi operativi, può avere senso menzionare la cosa.
+	\item Utilizzo di una struttura fissa secondo il quale in primis si preparano i dati del test, successivamente si opera su di essi ed infine si controlla che i risultati siano quelli previsti. 
+	\item Tentativo di mantenere i test indipendenti, in modo da poter individuare gli errori in modo preciso ed analitico.
+	\item Dichiarazione dei metodi di test con nomi autoesplicativi, in modo da poter individuare lo scopo del test senza la necessità di inserire commenti ridondanti e voluminosi.
 \end{itemize}
 
-\subsection*{Elementi negativi}
+\subsection*{Alessandro Pioggia}
+
 \begin{itemize}
-	\item Non si realizza alcun test automatico.
-	\item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
-	\item Si descrive un testing di tipo manuale in maniera prolissa.
-	\item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
-	\item Si descrivono test non presenti nei sorgenti del progetto.
-	\item I test, quando eseguiti, falliscono.
+	\item StaticObstacleTest
+	\item DynamicObstacleTest
+	\item ObstacleFactoryTest
+	\item SpeedVector2DTest
+	\item Dimension2DTest
+	\item PickupItemTest
+	\item ItemFactoryTest
+	\item MainMenuControllerTest
 \end{itemize}
+
+\subsection*{Leon Baiocchi}
+
+\begin{itemize}
+	\item todo : scrivere le classi di test utilizzate
+\end{itemize}
+
+\subsection*{Federico Brunelli}
+
+\begin{itemize}
+	\item todo : scrivere le classi di test utilizzate
+\end{itemize}
+
+\subsection*{Luca Rengo}
+
+\begin{itemize}
+	\item todo : scrivere le classi di test utilizzate
+\end{itemize}
+
+
 
 \section{Metodologia di lavoro}
 
