@@ -32,7 +32,6 @@ public class Launcher extends Application {
 
         // MAP GENERATION
 
-        this.mapScene.setMap(Map.Maps.LAVA); // Per settare il background e di conseguenza la piattaforma verrà settata in base al background.
         this.mapScene.generateMap();
 
         Scene scene = new Scene(MapScene.appPane); //TODO: this.mapScene.getAppPane()
