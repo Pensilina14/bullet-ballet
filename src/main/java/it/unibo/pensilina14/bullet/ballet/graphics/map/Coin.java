@@ -45,6 +45,10 @@ public class Coin extends Pane {
 
     public static Coins DEFAULT_COIN = Coins.GOLD_COIN;
 
+    public Coin(){
+        this.coinType = DEFAULT_COIN;
+    }
+
     public Coin(Coins coinType, int x, int y) throws IOException {
 
         this.coinType = coinType;
