@@ -1,10 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class MapScene extends AbstractScene{
 
@@ -38,6 +42,8 @@ public class MapScene extends AbstractScene{
     public static ArrayList<Platform> platforms = new ArrayList<>();
     public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    
+    private GameState gameState = new GameState();
 
     public final static int PLATFORM_SIZE = 60;
 
@@ -75,7 +81,14 @@ public class MapScene extends AbstractScene{
                             Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
                             break;
                         case '3':
-                            //TODO: obstacles
+                        	final List<PhysicalObject> obstacles = this.gameState.getGameEnvironment().getObstacles().get();
+                        	PhysicalObject appropriateObstacle;
+                        	for (final PhysicalObject obs : obstacles) {
+                        		if (obs.getPosition().getX() == j && obs.getPosition().getY() == i) {
+                        			appropriateObstacle = obs;
+                        		}
+                        	}
+                        	//TODO instantiate obstacle sprite..
                             break;
                         case '4':
                             //TODO:
