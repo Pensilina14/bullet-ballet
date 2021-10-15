@@ -8,14 +8,16 @@ public class Map {
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
         JUNGLE2("res/assets/maps/Backgrounds/jungle_background2.jpg"),
-        JUNGLE3("res/assets/maps/Backgrounds/jungle_background3.png"),
-        //FOREST("res/assets/maps/Backgrounds/"),
+        FOREST("res/assets/maps/Backgrounds/forest_background.png"),
+        SWAMP("res/assets/maps/Backgrounds/swamp_background.jpg"),
         CAVE("res/assets/maps/Backgrounds/cave_background.png"),
         CAVE2("res/assets/maps/Backgrounds/cave_background2.jpg"),
         CAVE3("res/assets/maps/Backgrounds/cave_background3.jpg"),
         LAVA("res/assets/maps/Backgrounds/lava_background.png"),
         DESERT("res/assets/maps/Backgrounds/desert_background.jpg"),
         DESERT2("res/assets/maps/Backgrounds/desert_background2.jpg"),
+        DESERT3("res/assets/maps/Backgrounds/desert_background3.jpg"),
+        DESERT4("res/assets/maps/Backgrounds/desert_background4.png"),
         FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg"),
         ICE("res/assets/maps/Backgrounds/ice_background.jpg"),
         ICE2("res/assets/maps/Backgrounds/ice_background2.png");
@@ -37,12 +39,12 @@ public class Map {
     public Map(){
         this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
 
-        this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
+        //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform
 
         Coin coin = new Coin();
         this.coinType = coin.coinChooser();
 
-        //TODO: initMap();
+        initMap();
 
     }
 
@@ -62,21 +64,46 @@ public class Map {
 
     private void initMap() {
         switch(this.map){
-            //TODO: add other platform types.
             case CAVE:
+                this.platformType = Platform.Platforms.CAVE_PLATFORM;
+                break;
+            case CAVE2:
+                this.platformType = Platform.Platforms.CAVE_PLATFORM2;
+                break;
+            case CAVE3:
+                this.platformType = Platform.Platforms.CAVE_PLATFORM3;
                 break;
             case HALLOWEEN:
                 this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM;
                 break;
             case LAVA:
+                this.platformType = Platform.Platforms.LAVA_PLATFORM;
                 break;
             case JUNGLE:
+            case JUNGLE2:
+                this.platformType = Platform.Platforms.JUNGLE_PLATFORM;
+                break;
+            case FOREST:
+                this.platformType = Platform.Platforms.FOREST_PLATFORM;
                 break;
             case FUTURISTIC:
+                this.platformType = Platform.Platforms.FUTURISTIC_PLATFORM;
                 break;
             case ICE:
             case ICE2:
                 this.platformType = Platform.Platforms.ICE_PLATFORM;
+                break;
+            case SWAMP:
+                this.platformType = Platform.Platforms.SWAMP_PLATFORM;
+                break;
+            case DESERT2:
+                this.platformType = Platform.Platforms.DESERT_PLATFORM2;
+                break;
+            case DESERT3:
+                this.platformType = Platform.Platforms.DESERT_PLATFORM3;
+                break;
+            case DESERT4:
+                this.platformType = Platform.Platforms.DESERT_PLATFORM4;
                 break;
             case DESERT:
             default:
