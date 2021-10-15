@@ -97,7 +97,7 @@ public class Coin extends Pane {
 
     public Coins coinChooser(){
         final Random rand = new Random();
-        final int max = Map.Maps.values().length;
+        final int max = Coin.Coins.values().length;
         final int min = 0;
         final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
         for(Coins c : Coins.values()){
