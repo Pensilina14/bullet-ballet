@@ -18,30 +18,15 @@ import java.nio.file.Paths;
 
 public class MainPlayer extends Pane {
 
-    Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png"))); //TODO: add player path.
+    Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png")));
     ImageView playerView = new ImageView(this.playerImg);
 
-    //TODO: modify values.
-    /*int count = 4; //TODO: rename in number of frames
-    int columns = 4; // (quanti fotogrammi ci sono in una riga dell'immagine).
-    int offsetX = 0; // 32 o 33 (ma se considero solo le righe sono 130)
-    int offsetY = 0; //48 o 49  (ma se consideriamo soltanto le colonne sono 194) // offset della prima immagine.
-    int playerViewWidth = 27; // 27 o 28
-    int playerViewHeight = 43; // 43 o 44*/
-
-    /*int count = 6;
-    int columns = 2;
-    int offsetX = 9;
-    int offsetY = 0;
-    int playerViewWidth = 104;
-    int playerViewHeight = 118;*/
-
-    int count = 4;
-    int columns = 2;
+    int count = 3; // 4
+    int columns = 16;
     int offsetX = 0;
     int offsetY = 0;
-    int playerViewWidth = 105;
-    int playerViewHeight = 120;
+    int playerViewWidth = 107; // 105
+    int playerViewHeight = 118; // 120
 
     public SpriteAnimation animation;
     public Point2D playerVelocity = new Point2D(0,0);
