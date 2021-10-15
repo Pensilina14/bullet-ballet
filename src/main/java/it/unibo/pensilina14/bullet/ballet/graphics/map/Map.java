@@ -8,8 +8,8 @@ public class Map {
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
         JUNGLE2("res/assets/maps/Backgrounds/jungle_background2.jpg"),
-        JUNGLE3("res/assets/maps/Backgrounds/jungle_background3.png"),
-        //FOREST("res/assets/maps/Backgrounds/"),
+        FOREST("res/assets/maps/Backgrounds/forest_background.png"),
+        SWAMP("res/assets/maps/Backgrounds/swamp_background.jpg"),
         CAVE("res/assets/maps/Backgrounds/cave_background.png"),
         CAVE2("res/assets/maps/Backgrounds/cave_background2.jpg"),
         CAVE3("res/assets/maps/Backgrounds/cave_background3.jpg"),
@@ -37,7 +37,7 @@ public class Map {
     public Map(){
         this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
 
-        this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM; //TODO: per ora default, ma poi dovrà essere casuale.
+        this.platformType = Platform.Platforms.CAVE_PLATFORM3; //TODO: per ora default, ma poi dovrà essere casuale.
 
         Coin coin = new Coin();
         this.coinType = coin.coinChooser();
