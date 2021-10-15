@@ -17,12 +17,15 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
         CAVE_PLATFORM("res/assets/maps/Tiles/rock_tile2.png"),
         CAVE_PLATFORM2("res/assets/maps/Tiles/rock_tile4.png"),
         CAVE_PLATFORM3("res/assets/maps/Tiles/rock_tile.jpg"),
-        JUNGLE_PLATFORM(""),
+        JUNGLE_PLATFORM("res/assets/maps/Tiles/jungle_rock_tile.png"),
+        FOREST_PLATFORM("res/assets/maps/Tiles/grass_tile.png"),
         SWAMP_PLATFORM("res/assets/maps/Tiles/Swamp-tile.jpg"),
-        LAVA_PLATFORM("res/assets/maps/Tiles/brick_wall-red.png"), //TODO: change it
-        DESERT_PLATFORM("res/assets/maps/Tiles/tmw_desert_spacing.png"),
+        LAVA_PLATFORM("res/assets/maps/Tiles/brick_wall-red.png"),
+        DESERT_PLATFORM("res/assets/maps/Tiles/desert_platform2.png"),
         DESERT_PLATFORM2("res/assets/maps/Tiles/desert-tile.png"),
-        FUTURISTIC_PLATFORM(""),
+        DESERT_PLATFORM3("res/assets/maps/Tiles/desert_platform3.png"),
+        DESERT_PLATFORM4("res/assets/maps/Tiles/desert_platform4.png"),
+        FUTURISTIC_PLATFORM("res/assets/maps/Tiles/crates_tile.png"), //TODO: change it
         ICE_PLATFORM("res/assets/maps/Tiles/ice_tile3.png");
 
         String path;
@@ -57,108 +60,16 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
     }
 
     private void setPlatform(int x, int y) throws IOException {
-        switch(this.platformType){
-            //TODO: settare uno per tutti.
-            case DESERT_PLATFORM:
-                minX = 20;
-                minY = 20;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.DESERT_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
+        minX = 0;
+        minY = 0;
+        platformWidth = 60;
+        platformHeight = 60;
+        this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(this.platformType.getPath()))));
+        this.setTranslateX(x);
+        this.setTranslateY(y);
 
-                /*this.platformView.setFitWidth(MapScene.MAP_LENGTH);
-                this.platformView.setFitHeight(MapScene.MAP_LENGTH);*/
-
-                this.platformView.setViewport(new Rectangle2D(minX,minY,platformWidth,platformHeight));
-                break;
-            case DESERT_PLATFORM2:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.DESERT_PLATFORM2.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-                this.platformView.setViewport(new Rectangle2D(minX,minY,platformWidth,platformHeight));
-                break;
-                //TODO: Add other platform types
-            case HALLOWEEN_PLATFORM:
-                minX = 60; // 60
-                minY = 40; // 40
-                platformWidth = 60; // 15
-                platformHeight = 60; // 16
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.HALLOWEEN_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                break;
-            case FUTURISTIC_PLATFORM:
-                break;
-            case JUNGLE_PLATFORM:
-                break;
-            case LAVA_PLATFORM:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.LAVA_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                break;
-            case CAVE_PLATFORM:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.CAVE_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                this.platformView.setFitWidth(MapScene.PLATFORM_SIZE);
-                this.platformView.setFitHeight(MapScene.PLATFORM_SIZE);
-
-                break;
-            case CAVE_PLATFORM3:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.CAVE_PLATFORM3.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                this.platformView.setFitWidth(MapScene.PLATFORM_SIZE);
-                this.platformView.setFitHeight(MapScene.PLATFORM_SIZE);
-                break;
-            case ICE_PLATFORM:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.ICE_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                break;
-            case SWAMP_PLATFORM:
-                minX = 0;
-                minY = 0;
-                platformWidth = 60;
-                platformHeight = 60;
-                this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(Platforms.SWAMP_PLATFORM.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-
-                this.platformView.setFitWidth(MapScene.PLATFORM_SIZE);
-                this.platformView.setFitHeight(MapScene.PLATFORM_SIZE);
-
-                break;
-            default:
-                break;
-        }
+        this.platformView.setFitWidth(MapScene.PLATFORM_SIZE);
+        this.platformView.setFitHeight(MapScene.PLATFORM_SIZE);
     }
 
 }
