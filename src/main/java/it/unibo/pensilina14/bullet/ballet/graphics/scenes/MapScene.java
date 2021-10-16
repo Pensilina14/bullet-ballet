@@ -179,23 +179,23 @@ public class MapScene extends AbstractScene{
     }
 
     private void update(){
-        if(isPressed(KeyCode.UP) && this.mainPlayer.getTranslateY() >= 5){ //TODO: usare Command
+        if (isPressed(KeyCode.UP) && this.mainPlayer.getTranslateY() >= 5){ //TODO: usare Command
             this.mainPlayer.jumpPlayer();
         }
 
-        if(isPressed(KeyCode.LEFT) && this.mainPlayer.getTranslateX() >= 5){
+        if (isPressed(KeyCode.LEFT) && this.mainPlayer.getTranslateX() >= 5){
             this.mainPlayer.setScaleX(-1);
             this.mainPlayer.animation.play();
             this.mainPlayer.moveX(-5);
         }
 
-        if(isPressed(KeyCode.RIGHT) && this.mainPlayer.getTranslateX() + 40 <= this.levelWidth - 5){
+        if (isPressed(KeyCode.RIGHT) && this.mainPlayer.getTranslateX() + 40 <= this.levelWidth - 5){
             this.mainPlayer.setScaleX(1);
             this.mainPlayer.animation.play();
             this.mainPlayer.moveX(5);
         }
 
-        if(this.mainPlayer.playerVelocity.getY() < 10){
+        if (this.mainPlayer.playerVelocity.getY() < 10){
             this.mainPlayer.playerVelocity = this.mainPlayer.playerVelocity.add(0,1);
         }
         this.mainPlayer.moveY((int)this.mainPlayer.playerVelocity.getY());
