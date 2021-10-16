@@ -21,8 +21,18 @@ public class FactoryCharactersImpl implements FactoryCharacters{
     }
 
     @Override
+    public Player createRandomPlayer() {
+        return new Player(this.dimension, this.vector, this.environment, FactoryCharactersImpl.DEFAULT_MASS);
+    }
+
+    @Override
     public Enemy createEnemy(EntityList.Characters.Enemy enemyType) {
         return new Enemy(enemyType, this.dimension, this.vector, this.environment, FactoryCharactersImpl.DEFAULT_MASS);
+    }
+
+    @Override
+    public Enemy createRandomEnemy() {
+        return new Enemy(this.dimension, this.vector, this.environment, FactoryCharactersImpl.DEFAULT_MASS);
     }
 
 }
