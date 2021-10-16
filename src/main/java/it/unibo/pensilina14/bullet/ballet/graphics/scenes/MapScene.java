@@ -129,7 +129,7 @@ public class MapScene extends AbstractScene{
                         	//TODO instantiate obstacle sprite..
                             break;
                         case '4':
-                            //TODO:
+                            //TODO: weapons
                             break;
                         case '5':
                             //TODO:
