@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
@@ -8,6 +7,8 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.input.Right;
+import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.animation.AnimationTimer;
@@ -21,15 +22,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class MapScene extends AbstractScene{
 
-    public static Pane appPane = new Pane();
-    public static Pane gamePane = new Pane();
-    public static Pane uiPane = new Pane(); //TODO: add UI.
+    private final Pane appPane = new Pane();
+    private final Pane gamePane = new Pane();
+    private final Pane uiPane = new Pane(); 
 
     private int levelWidth;
     private int currentLevel = 0;
@@ -45,12 +44,11 @@ public class MapScene extends AbstractScene{
     public static ArrayList<Platform> platforms = new ArrayList<>();
     public static ArrayList<WeaponSprite> weapons = new ArrayList<>();
     public static ArrayList<Coin> coins = new ArrayList<>();
-    private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     
     public final static int PLATFORM_SIZE = 60;
 
     private GameState gameState;
-    private Controller controller; //TODO: rename in controller
+    private Controller controller; 
 
     private Pair<Integer,Integer> lastPos;
 
@@ -174,44 +172,49 @@ public class MapScene extends AbstractScene{
         MapScene.appPane.getChildren().addAll(this.backgroundView, MapScene.gamePane, MapScene.uiPane);
     }
 
-    private boolean isPressed(KeyCode key){
-        return this.keys.getOrDefault(key, false);
-    }
-
-    private void update(){
-        if (isPressed(KeyCode.UP) && this.mainPlayer.getTranslateY() >= 5){ //TODO: usare Command
-            this.mainPlayer.jumpPlayer();
+    private void update() {
+        if (this.keysPressed.contains(KeyCode.UP)) { 
+            this.controller.notifyCommand(new Up());
         }
 
-        if (isPressed(KeyCode.LEFT) && this.mainPlayer.getTranslateX() >= 5){
-            this.mainPlayer.setScaleX(-1);
-            this.mainPlayer.animation.play();
-            this.mainPlayer.moveX(-5);
+        if (this.keysPressed.contains(KeyCode.RIGHT)) {
+            this.mainPlayer.getSpriteAnimation().play();
+            this.controller.notifyCommand(new Right());
         }
 
-        if (isPressed(KeyCode.RIGHT) && this.mainPlayer.getTranslateX() + 40 <= this.levelWidth - 5){
-            this.mainPlayer.setScaleX(1);
-            this.mainPlayer.animation.play();
-            this.mainPlayer.moveX(5);
+        if (this.keysReleased.contains(KeyCode.UP)) {
+        	this.keysReleased.remove(KeyCode.UP);
+        }
+
+        if (this.keysReleased.contains(KeyCode.RIGHT)) {
+        	this.keysReleased.remove(KeyCode.RIGHT);
         }
     }
 
     @Override
-    public void draw() {
-        AnimationTimer timer = new AnimationTimer() {
+    public final void draw() {
+        final AnimationTimer timer = new AnimationTimer() {
             @Override
-            public void handle(long now) {
+            public void handle(final long now) {
                 update();
             }
         };
         timer.start();
     }
 
-    public void setMap(Map.Maps map){
+    public final void setMap(final Map.Maps map) {
         this.map.setMap(map);
     }
 
-    public MainPlayer getMainPlayer(){
-        return this.mainPlayer;
+    public final Pane getAppPane() {
+    	return this.appPane;
+    }
+
+    public final Pane getGamePane() {
+    	return this.gamePane;
+    }
+
+    public final Pane getUiPane() {
+    	return this.uiPane;
     }
 }
