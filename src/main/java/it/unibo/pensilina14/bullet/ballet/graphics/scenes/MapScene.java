@@ -72,13 +72,13 @@ public class MapScene extends AbstractScene{
         //TODO: però, se sta generando il primo livello non serve aggiungere le coordinate dall'ultima piattaforma del livello precedente
         //TODO: quindi alle coordinate da aggiungere, metto un int previousLevel = ((this.currentLevel - 1) < 0 ? this.currentLevel : (this.currentLevel - 1));
         this.levelWidth = LevelData.levels[this.currentLevel][0].length() * MapScene.PLATFORM_SIZE;
-        while(this.currentLevel < MapScene.MAX_LEVELS){
-            for(int i = 0; i < LevelData.levels[this.currentLevel].length; i++){
+        while (this.currentLevel < MapScene.MAX_LEVELS){
+            for (int i = 0; i < LevelData.levels[this.currentLevel].length; i++){
                 String line = LevelData.levels[this.currentLevel][i];
                 //int previousLevel = ((this.currentLevel - 1) < 0 ? this.currentLevel : (this.currentLevel - 1)); //TODO: unccoment
                 //this.lastPos = new Pair<>(line.length() - 1,LevelData.levels[this.currentLevel].length - 1); //TODO: - 1
-                for(int j = 0; j < line.length(); j++){
-                    switch(line.charAt(j)){
+                for (int j = 0; j < line.length(); j++){
+                    switch(line.charAt(j)) {
                         case '0':
                             break;
                         case '1':
@@ -193,32 +193,6 @@ public class MapScene extends AbstractScene{
             this.mainPlayer.setScaleX(1);
             this.mainPlayer.animation.play();
             this.mainPlayer.moveX(5);
-        }
-
-        if (this.mainPlayer.playerVelocity.getY() < 10){
-            this.mainPlayer.playerVelocity = this.mainPlayer.playerVelocity.add(0,1);
-        }
-        this.mainPlayer.moveY((int)this.mainPlayer.playerVelocity.getY());
-
-        for(Coin coin: coins){ //TODO: fix coin collisions
-            if(this.mainPlayer.getBoundsInParent().intersects(coin.getBoundsInParent())) {
-                coin.getProperties().put("alive", false);
-            }
-        }
-
-        /*for(Iterator<Coin> coinIt = coins.iterator(); coinIt.hasNext();){
-            Coin coin = coinIt.next();
-            if(!(Boolean)coin.getProperties().get("alive")){
-                coinIt.remove();
-                MapScene.gamePane.getChildren().remove(coin);
-            }
-        }*/
-
-        for(Coin coin : coins){ //TODO: fix, it gives warnings
-            if(!(Boolean)coin.getProperties().get("alive")){
-                coins.remove(coin);
-                MapScene.gamePane.getChildren().remove(coin);
-            }
         }
     }
 
