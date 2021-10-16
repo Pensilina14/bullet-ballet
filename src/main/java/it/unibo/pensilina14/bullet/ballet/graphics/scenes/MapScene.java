@@ -6,6 +6,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
@@ -42,6 +43,7 @@ public class MapScene extends AbstractScene{
     private MainPlayer mainPlayer;
 
     public static ArrayList<Platform> platforms = new ArrayList<>();
+    public static ArrayList<WeaponSprite> weapons = new ArrayList<>();
     public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     
@@ -127,7 +129,7 @@ public class MapScene extends AbstractScene{
                         	//TODO instantiate obstacle sprite..
                             break;
                         case '4':
-                            //TODO:
+                            //TODO: weapons
                             break;
                         case '5':
                             //TODO:

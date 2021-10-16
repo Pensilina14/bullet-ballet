@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
@@ -41,7 +42,6 @@ public class WeaponSprite extends Pane {
 	final Image weaponImg;
 	
 	final ImageView weaponView;
-	boolean attached = false;
     int columns = 2;
     int minY;
     int minX;
@@ -49,7 +49,7 @@ public class WeaponSprite extends Pane {
     int weaponHeight;
     Weapon weapon;
     
-    public WeaponSprite(final WeaponsImg img, final double x, final double y, final Weapon weapon) throws  IOException{
+    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Weapon weapon) throws  IOException{
     	
     	this.weapon = weapon;
     	this.weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
@@ -63,6 +63,8 @@ public class WeaponSprite extends Pane {
     	this.weaponView.setViewport(new Rectangle2D(this.minX, this.minY, this.weaponWidth, this.weaponHeight));
     	
     	getChildren().addAll(this);
+    	MapScene.weapons.add(this);
+    	MapScene.gamePane.getChildren().add(this);
     }
     
     
