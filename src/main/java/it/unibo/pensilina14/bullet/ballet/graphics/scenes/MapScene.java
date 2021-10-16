@@ -54,16 +54,16 @@ public class MapScene extends AbstractScene{
 
     public MapScene(){
 
-        MapScene.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // casomai la mappa fosse più grande o anche più piccola.
-        MapScene.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // casomai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
     }
 
     public void generateMap() throws IOException {
 
         this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
 
-        this.backgroundView.fitWidthProperty().bind(MapScene.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
-        this.backgroundView.fitHeightProperty().bind(MapScene.appPane.heightProperty());
+        this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
+        this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
 
         //TODO: al momento mostra soltanto l'ultimo livello (ovvero il secondo). (perchè si sovrappongono)
         //TODO: da fixare aggiungendo alla coordinate del secondo livello la distanza dall'ultima piattaforma del primo livello (per appendare il livello 2 al livello 1)
@@ -164,12 +164,12 @@ public class MapScene extends AbstractScene{
 
             // this.map.getWidth() / 2 = metà della mappa.
             if(playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)){
-                MapScene.gamePane.setLayoutX(-(playerPosition - (int)(this.map.getMapWidth() / 2)));
+                this.gamePane.setLayoutX(-(playerPosition - (int)(this.map.getMapWidth() / 2)));
             }
         });
 
-        MapScene.gamePane.getChildren().add(this.mainPlayer);
-        MapScene.appPane.getChildren().addAll(this.backgroundView, MapScene.gamePane, MapScene.uiPane);
+        this.gamePane.getChildren().add(this.mainPlayer);
+        this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
     }
 
     private void update() {
