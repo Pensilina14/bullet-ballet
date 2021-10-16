@@ -88,4 +88,18 @@ public interface Characters {
 
     void increaseMana(double increaseValue);
 
+    /**
+     *
+     * @param increaseHealth: increases health by increaseHealth amount.
+     */
+
+    void increaseHealth(double increaseHealth);
+
+    /**
+     *
+     * @param decreaseHealth: decreases health by decreaseHealth amount.
+     */
+
+    void decreaseHealth(double decreaseHealth);
+
 }
