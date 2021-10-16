@@ -17,6 +17,7 @@ val javaFXModules = listOf(
     "base",
     "controls",
     "fxml",
+    "media",
     "swing",
     "graphics"
 )
@@ -58,7 +59,7 @@ application {
 
 javafx {
     version = "15"
-    modules("javafx.controls", "javafx.fxml", "javafx.swing")
+    modules("javafx.media","javafx.controls", "javafx.fxml", "javafx.swing")
 }
 
 java {
