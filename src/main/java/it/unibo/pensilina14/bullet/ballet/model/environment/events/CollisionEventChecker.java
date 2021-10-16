@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
@@ -27,7 +28,7 @@ public class CollisionEventChecker implements EventChecker {
 		final boolean isSingleElemList = (this.otherObjects.size() == 1) ? true : false;
 		for (final PhysicalObject a : this.objects) {
 			for (final PhysicalObject b : this.otherObjects) {
-				if (a.isCollidingWith(b)) {
+				if (new CollisionImpl(a).isCollidingWith(b)) {
 					if (a instanceof Item && b instanceof Characters) {
 						final Characters player = (Characters) b;
 						final Item item = (Item) a;
