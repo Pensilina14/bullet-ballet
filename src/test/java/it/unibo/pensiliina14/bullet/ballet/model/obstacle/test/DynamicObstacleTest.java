@@ -23,9 +23,10 @@ public class DynamicObstacleTest {
     private final static double POSITION = -5;
     private final static double TIME = 10;
     private final static double MS_TO_S = 0.001;
+    private final static double ENV_DIM = 500.0;
     
     private final DynamicObstacle dynamicObstacle = new DynamicObstacle(new Dimension2Dimpl(SIZE, SIZE),
-            new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED)); 
+            new GameEnvironment(ENV_DIM, ENV_DIM), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED)); 
     
     @Test
     public void testMutablePosition2D() {
