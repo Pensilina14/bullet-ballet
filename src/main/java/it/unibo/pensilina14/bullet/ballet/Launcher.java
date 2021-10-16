@@ -39,7 +39,7 @@ public class Launcher extends Application {
         scene.setOnKeyPressed(event -> this.mapScene.setKeys(event.getCode(), true));
         scene.setOnKeyReleased(event -> {
             this.mapScene.setKeys(event.getCode(), false);
-            this.mapScene.getMainPlayer().animation.stop();
+            this.mapScene.getMainPlayer().getSpriteAnimation().stop();
         });
 
         Launcher.stage.setTitle("Bullet Ballet");

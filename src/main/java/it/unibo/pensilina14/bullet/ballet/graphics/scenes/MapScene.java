@@ -45,12 +45,10 @@ public class MapScene extends AbstractScene{
     public static ArrayList<Coin> coins = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     
-    private GameState gameState = new GameState();
-
     public final static int PLATFORM_SIZE = 60;
 
-    private GameState gs; //TODO: rename in gameState
-    private Controller inputController; //TODO: rename in controller
+    private GameState gameState;
+    private Controller controller; //TODO: rename in controller
 
     private Pair<Integer,Integer> lastPos;
 
@@ -235,10 +233,6 @@ public class MapScene extends AbstractScene{
 
     public void setMap(Map.Maps map){
         this.map.setMap(map);
-    }
-
-    public void setKeys(KeyCode key, Boolean pressed){
-        this.keys.put(key, pressed);
     }
 
     public MainPlayer getMainPlayer(){
