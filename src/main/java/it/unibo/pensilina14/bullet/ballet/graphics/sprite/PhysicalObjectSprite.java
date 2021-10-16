@@ -22,7 +22,8 @@ public class PhysicalObjectSprite extends Pane{
         this.setTranslateX(x);
         this.setTranslateY(y);
         getChildren().addAll(this);
-        MapScene.gamePane.getChildren().add(this);
+        final MapScene mapScene = new MapScene();
+        mapScene.getGamePane().getChildren().add(this);
     }
 
     public ImageView getWeaponView() {
