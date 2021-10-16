@@ -6,6 +6,7 @@ import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
@@ -87,7 +88,6 @@ public class CharactersTest {
         final String name = "Enemy";
         double health = 100.0;
         Optional<Double> mana = Optional.of(50.0);
-        //final int numberOfEnemies = 1;
         final double mass = 35.0;
 
         final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, vector, environment, mass);
@@ -130,5 +130,34 @@ public class CharactersTest {
         assertTrue(enemy1.getName() == "Enemy1");
 
         assertEquals("AK-47",enemy1.getWeapon().getName());*/
+    }
+
+    @Test
+    public void factoryCharactersImplTest(){
+        final FactoryCharactersImpl factoryCharacters = new FactoryCharactersImpl();
+        Player player = factoryCharacters.createRandomPlayer();
+        Enemy enemy = factoryCharacters.createRandomEnemy();
+
+        // Non conosco i valori della vita e resto a priori, perchè sono casuali.
+
+        // HEALTH
+        double playerHealth = player.getHealth();
+        double enemyHealth = enemy.getHealth();
+        player.increaseHealth(20.0);
+        enemy.increaseHealth(15.0);
+
+        assertEquals(player.getHealth(), (playerHealth + 20.0), 0.0);
+        assertEquals(enemy.getHealth(), (enemyHealth + 15.0), 0.0);
+
+        playerHealth = player.getHealth();
+        enemyHealth = enemy.getHealth();
+
+        player.decreaseHealth(10.0);
+        enemy.decreaseHealth(5.0);
+
+        assertEquals(player.getHealth(), (playerHealth - 10.0), 0.0);
+        assertEquals(enemy.getHealth(), (enemyHealth - 5.0), 0.0);
+
+
     }
 }

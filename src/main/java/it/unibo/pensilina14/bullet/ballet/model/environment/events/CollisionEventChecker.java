@@ -28,7 +28,7 @@ public class CollisionEventChecker implements EventChecker {
 		final boolean isSingleElemList = (this.otherObjects.size() == 1) ? true : false;
 		for (final PhysicalObject a : this.objects) {
 			for (final PhysicalObject b : this.otherObjects) {
-				if (new CollisionImpl(a).isCollidingWith(b)) {
+				if (new CollisionImpl().isCollidingWith(a, b)) {
 					if (a instanceof Item && b instanceof Characters) {
 						final Characters player = (Characters) b;
 						final Item item = (Item) a;

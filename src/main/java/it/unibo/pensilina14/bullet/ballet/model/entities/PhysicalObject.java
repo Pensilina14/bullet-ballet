@@ -9,25 +9,28 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
  *
  */
 public interface PhysicalObject {
-	/*
-	 * @return position in coordinates.
+	/**
+	 * 
+	 * @return object's coordinates
 	 */
 	MutablePosition2D getPosition();
 
-	/*
-	 * @return true if this PhysicalObject is colliding with {@param other},
+	/**
 	 * 
-	 * @return false otherwise.
+	 * @param other
+	 * @return true if physicalObject is colliding with another one
 	 */
 	Boolean isCollidingWith(PhysicalObject other);
 
-	/*
-	* 
-	*/
+	/**
+	 * 
+	 * @return object's dimension
+	 */
 	Dimension2D getDimension();
 
-	/*
+	/**
 	 * 
-	*/
+	 * @return gameEnvironment istance
+	 */
 	Environment getGameEnvironment();
 }

@@ -12,9 +12,23 @@ public interface FactoryCharacters {
 
     /**
      *
+     * @return : a random Player. It creates a random PlayerType.
+     */
+
+    Player createRandomPlayer();
+
+    /**
+     *
      * @param enemyType : an enum with the name of the enemy that you want to create.
      * @return : an Enemy.
      */
 
     Enemy createEnemy(EntityList.Characters.Enemy enemyType);
+
+    /**
+     *
+     * @return : a random Enemy. It creates a random enemyType.
+     */
+
+    Enemy createRandomEnemy();
 }
