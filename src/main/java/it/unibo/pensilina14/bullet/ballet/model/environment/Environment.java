@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
  * This interface wraps all the virtual game world and permits interaction
@@ -53,6 +54,18 @@ public interface Environment {
 	Optional<List<Item>> getItems();
 	
 	/**
+	 * 
+	 * @return {@link List} of platforms{@link Platform}) that compose the game trail.
+	 */
+	Optional<List<Platform>> getPlatforms();
+	
+	/**
+	 * 
+	 * @return {@link List} of weapons({@link Weapon}) present in the environment.
+	 */
+	Optional<List<Weapon>> getWeapons();
+	
+	/**
 	 * Sets the player.
 	 * 
 	 * @param player is the main character of the game.
@@ -78,12 +91,28 @@ public interface Environment {
 	boolean addObstacle(PhysicalObject obstacle);
 	
 	/**
-	 * @param item which is the {@link item} to be added.
+	 * @param item which is the {@link Item} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if item is already present.
 	 */
 	boolean addItem(Item item);
+	
+	/**
+	 * @param platform indicates the {@link Platform} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if platform is already present.
+	 */
+	boolean addPlatform(Platform platform);
+	
+	/**
+	 * @param weapon is the {@link Weapon} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if weapon is already present.
+	 */
+	boolean addWeapon(Weapon weapon);
 
 	/**
 	 * @param position of the object to be deleted.
