@@ -116,6 +116,8 @@ In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
 \section{Design dettagliato}
 
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  INIZIO -----------------------------------
+
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %
 Mentre ci attendiamo principalmente (o solo) interfacce negli schemi UML delle sezioni precedenti, in questa sezione è necessario scendere in maggior dettaglio presentando la struttura di alcune sottoparti rilevanti dell'applicazione.
@@ -249,3 +251,57 @@ Questo schema è fatto male perché:
 	\caption{Schema UML mal fatto e con una pessima descrizione, che non aiuta a capire. Don't try this at home.}
 	\label{img:badarch}
 \end{figure}
+
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  FINE -----------------------------------
+
+% ----------------- ALESSANDRO PIOGGIA -----------------------------------------
+
+\newpage
+
+\subsection*{Alessandro Pioggia}
+
+% ----------------- LEON BAIOCCHI -----------------------------------------
+
+\newpage
+
+\subsection*{Leon Baiocchi}
+
+% ----------------- FEDERICO BRUNELLI -----------------------------------------
+
+\newpage
+
+\subsection*{Federico Brunelli}
+
+% ----------------- LUCA RENGO -----------------------------------------
+
+\newpage
+
+\subsection*{Luca Rengo}
+
+\textsf{\small La mia parte riguardava l'implementazione dei personaggi di gioco e dei diversi aspetti riguardanti la generazione della mappa e dei suoi componenti a livello di \emph{View}.}\\
+
+\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore.}\\ 
+%della generazione della mappa a livello di \emph{View}.}\\
+
+\subsubsection*{Characters}
+
+\textsf{\small Per quanto concerne l'implementazione dei personaggi di gioco, ho sviluppato un'interfaccia \emph{Characters} che pone a tutte le figure l'implementazione di un contratto con le varie azioni comuni, i vari metodi che un personaggio può eseguire.}\\
+
+\textsf{\small Questo è stato trattato dalle classi \emph{Player} ed \emph{Enemy} che contengono le proprietà e caratteristiche dei personaggi come la loro vita, il mana, il nome, le loro abilità e capacità come quella di muoversi e saltare.}\\
+
+\textsf{\small Ho utilizzato poi un enum, \emph{EntityList}, per poter rappresentare diversi tipi di personaggi con diverse caratteristiche che ho settato nel metodo \emph{setPlayerType()} e \emph{setEnemyType()} delle rispettive classi. }\\
+
+\textsf{\small Mi sono avvalso, inoltre, del pattern architetturale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
+
+%TODO: immagine Model
+
+\begin{figure}[h]
+	\centering{} %TODO: aggiungere immagine UML
+	%\includegraphics[width=\textwidth]{} 
+	\caption{Schema UML del \emph{Model} relativo ai \emph{Characters}.}
+	\label{img:uml_model_characters}
+\end{figure}
+
+\subsubsection*{Mappa di gioco}
+
+%TODO: parlare della Mappa (Map, MapScene, AbstractScene), del MainPlayer, SpriteAnimation, MainEnemy, Platform, Coin.
