@@ -5,12 +5,14 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
@@ -45,6 +47,8 @@ public class MapScene extends AbstractScene{
     private ImageView backgroundView;
 
     private MainPlayer mainPlayer;
+    //private MainEnemy mainEnemy;
+    //private MainEnemy[] mainEnemies;
 
     public static ArrayList<Platform> platforms = new ArrayList<>();
     public static ArrayList<WeaponSprite> weapons = new ArrayList<>();
@@ -102,6 +106,7 @@ public class MapScene extends AbstractScene{
                         break;
                     case '4':
                         //TODO: add model link
+
                         //TODO: weapons
                         break;
                     case '5':
@@ -115,6 +120,9 @@ public class MapScene extends AbstractScene{
                     case '!':
                         //TODO: add model link
                         //TODO: nemici
+                        MainEnemy mainEnemy = new MainEnemy(j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE);
+                        //this.mainEnemy = new MainEnemy(j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE);
+                        MapScene.gamePane.getChildren().add(mainEnemy);
                         break;
                 }
             }
