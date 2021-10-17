@@ -90,13 +90,13 @@ public class MapScene extends AbstractScene{
                         Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE);
                         break;
                     case '3':
-                        final List<PhysicalObject> obstacles = this.gameState.getGameEnvironment().getObstacles().get();
+                        /*final List<PhysicalObject> obstacles = this.gameState.getGameEnvironment().getObstacles().get(); //TODO: uncomment, da errore
                         PhysicalObject appropriateObstacle;
                         for (final PhysicalObject obs : obstacles) {
                             if (obs.getPosition().getX() == j && obs.getPosition().getY() == i) {
                                 appropriateObstacle = obs;
                             }
-                        }
+                        }*/
 
                         //TODO: add obstacle sprite
                         break;
