@@ -8,6 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
+import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class WeaponImpl extends DynamicPickupItem implements Weapon {
@@ -24,7 +25,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private int indexCharger = 0;
 	
 	/// This is the first charger in the bandolier
-	private List<Bullet> spareCharger;
+	private List<Bullet> spareCharger = new ArrayList<>();
 	private List<List<Bullet>> bandolier;
 	
 	public WeaponImpl(final String nameOfWeapon, final int limitBullets,
@@ -38,10 +39,6 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		this.limitChargers = limitChargers;
 		this.currentAmmo = limitBullets;
 		this.initializeWeapon();
-
-		//for(int i=0; i<limitBullets; i++) {
-		//	spareCharger.add(new BulletImpl(BulletType.CLASSICAL));
-		//}
 	}
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
