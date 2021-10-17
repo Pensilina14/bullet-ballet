@@ -29,12 +29,7 @@ public class MapScene extends AbstractScene{
     private final Pane appPane = new Pane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
-
-    private int levelWidth;
-    private int currentLevel = 0;
-
-    private static final int MAX_LEVELS = LevelData.levels.length;
-
+    
     private Map map = new Map();
 
     private ImageView backgroundView;
@@ -44,10 +39,8 @@ public class MapScene extends AbstractScene{
     public static ArrayList<Platform> platforms = new ArrayList<>();
     public static ArrayList<WeaponSprite> weapons = new ArrayList<>();
     public static ArrayList<Coin> coins = new ArrayList<>();
-    
-    public final static int PLATFORM_SIZE = 60;
 
-    private GameState gameState;
+    private final GameState gameState;
     private Controller controller; 
 
     private Pair<Integer,Integer> lastPos;
@@ -58,101 +51,13 @@ public class MapScene extends AbstractScene{
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public void generateMap() throws IOException {
+    public void setup() throws IOException {
 
         this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
 
         this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
 
-        //TODO: al momento mostra soltanto l'ultimo livello (ovvero il secondo). (perchè si sovrappongono)
-        //TODO: da fixare aggiungendo alla coordinate del secondo livello la distanza dall'ultima piattaforma del primo livello (per appendare il livello 2 al livello 1)
-        //TODO: però, se sta generando il primo livello non serve aggiungere le coordinate dall'ultima piattaforma del livello precedente
-        //TODO: quindi alle coordinate da aggiungere, metto un int previousLevel = ((this.currentLevel - 1) < 0 ? this.currentLevel : (this.currentLevel - 1));
-        this.levelWidth = LevelData.levels[this.currentLevel][0].length() * MapScene.PLATFORM_SIZE;
-        while (this.currentLevel < MapScene.MAX_LEVELS){
-            for (int i = 0; i < LevelData.levels[this.currentLevel].length; i++){
-                String line = LevelData.levels[this.currentLevel][i];
-                //int previousLevel = ((this.currentLevel - 1) < 0 ? this.currentLevel : (this.currentLevel - 1)); //TODO: unccoment
-                //this.lastPos = new Pair<>(line.length() - 1,LevelData.levels[this.currentLevel].length - 1); //TODO: - 1
-                for (int j = 0; j < line.length(); j++){
-                    switch(line.charAt(j)) {
-                        case '0':
-                            break;
-                        case '1':
-                            //int coordinatesAdjustment = LevelData.levels[previousLevel][i].charAt(j) * previousLevel; //TODO: da fixare.
-                            //int coordsAppend = previousLevel * lastPos.getKey().intValue(); //TODO: uncomment.
-
-                            // Model
-                            /*List<PhysicalObject> platforms = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
-                            MutablePosition2D platformPosition;
-                            for(PhysicalObject pf : platforms){
-                                if(pf.getPosition().getX() == j && pf.getPosition().getY() == i){
-                                    platformPosition = pf.getPosition();
-                                }
-                            }*/
-
-                            // Platform Sprite
-                            Platform platform = new Platform(this.map.getPlatformType(), (j * MapScene.PLATFORM_SIZE), i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
-                            break;
-                        case '2':
-                            /*List<PhysicalObject> coins = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
-                            MutablePosition2D coinPosition;
-                            for(PhysicalObject c : coins){
-                                if(c.getPosition().getX() == j && c.getPosition().getY() == i){
-                                    coinPosition = c.getPosition();
-                                }
-                            }*/
-
-                            Coin coin = new Coin(this.map.getCoinType(), j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE); //TODO: nella j + qualcosa
-                            break;
-                        case '3':
-                            //TODO: obstacles
-                            /*List<PhysicalObject> obstacles = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
-                            MutablePosition2D obstacle;
-                            for(PhysicalObject obs : obstacles){
-                                if(obs.getPosition().getX() == j && obs.getPosition().getY() == i){
-                                    obstacle = obs.getPosition();
-                                }
-                            }*/
-                            // Sprite dell'obstacle
-
-                        	final List<PhysicalObject> obstacles = this.gameState.getGameEnvironment().getObstacles().get();
-                        	PhysicalObject appropriateObstacle;
-                        	for (final PhysicalObject obs : obstacles) {
-                        		if (obs.getPosition().getX() == j && obs.getPosition().getY() == i) {
-                        			appropriateObstacle = obs;
-                        		}
-                        	}
-                        	//TODO instantiate obstacle sprite..
-                            break;
-                        case '4':
-                            //TODO: weapons
-                            break;
-                        case '5':
-                            //TODO:
-                            break;
-                        case '*':
-                            //TODO: items
-                            /*List<PhysicalObject> items = gs.getGameEnvironment().getObstacles().get(); //TODO: uncomment
-                            MutablePosition2D itemPosition;
-                            for(PhysicalObject it : items){
-                                if(it.getPosition().getX() == j && it.getPosition().getY() == i){
-                                    itemPosition = it.getPosition();
-                                }
-                            }*/
-
-                            // Sprite dell'item
-                            break;
-                        case '!':
-                            //TODO: nemici
-                            break;
-                    }
-                }
-            }
-            this.currentLevel++;
-            //TODO: salvare le coordinate dell'ultima piattaforma del livello precedente.
-        }
 
         this.mainPlayer = new MainPlayer();
 
@@ -174,6 +79,7 @@ public class MapScene extends AbstractScene{
 
     private void update() {
         if (this.keysPressed.contains(KeyCode.UP)) { 
+        	this.mainPlayer.getSpriteAnimation().play();
             this.controller.notifyCommand(new Up());
         }
 
@@ -183,10 +89,12 @@ public class MapScene extends AbstractScene{
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
+        	this.mainPlayer.getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
         if (this.keysReleased.contains(KeyCode.RIGHT)) {
+        	this.mainPlayer.getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
     }
