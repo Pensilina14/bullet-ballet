@@ -1,6 +1,17 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
+import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
+import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 
 public class EnvironmentGenerator implements Generator {
 
@@ -11,9 +22,15 @@ public class EnvironmentGenerator implements Generator {
     private final static int PLATFORM_SIZE = 60;
     
 	private final Environment env;
+	private final FactoryCharacters charactersFactory;
+	private final ObstacleFactory obstacleFactory;
+	private final ItemFactory itemFactory;
 	
 	public EnvironmentGenerator(final Environment environment) {
 		this.env = environment;
+		this.charactersFactory = new FactoryCharactersImpl();
+		this.obstacleFactory = new ObstacleFactoryImpl();
+		this.itemFactory = new ItemFactoryImpl();
 	}
 	
 	@Override
@@ -33,13 +50,13 @@ public class EnvironmentGenerator implements Generator {
                         case '0':
                             break;
                         case '1':
-                            // TODO: add platform.
+                            this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
                             break;
                         case '2':
                             // TODO: add coin.
                             break;
                         case '3':
-                            // TODO: ad obstacle.
+                            this.env.addObstacle(this.obstacleFactory.createStaticObstacle(this.env, new MutablePosition2Dimpl(j, i)));
                             break;
                         case '4':
                             //TODO: add weapon
@@ -48,7 +65,7 @@ public class EnvironmentGenerator implements Generator {
                             //TODO:
                             break;
                         case '*':
-                            //TODO: add items.
+                            this.env.addItem(this.itemFactory.createDamagingItem(env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
                             break;
                         case '!':
                             //TODO: add enemies.
