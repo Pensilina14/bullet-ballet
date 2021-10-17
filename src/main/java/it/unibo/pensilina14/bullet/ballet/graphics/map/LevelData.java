@@ -80,7 +80,7 @@ public class LevelData {
     public int getRandomLevel(){
         final Random rand = new Random();
         final int min = 0;
-        final int randLevel = rand.nextInt(((MAX_LEVELS - min) + 1 ) + min);
+        final int randLevel = rand.nextInt(((MAX_LEVELS - min)) + min); //TODO: min ridondante in questo caso.
         return randLevel;
     }
 
