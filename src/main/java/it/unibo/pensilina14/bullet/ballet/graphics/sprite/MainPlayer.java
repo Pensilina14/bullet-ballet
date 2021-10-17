@@ -1,11 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
-import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

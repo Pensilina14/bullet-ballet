@@ -21,8 +21,6 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapScene extends AbstractScene{
 
@@ -43,7 +41,7 @@ public class MapScene extends AbstractScene{
 
     public MapScene(){
 
-        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // casomai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
     }
 
@@ -54,17 +52,11 @@ public class MapScene extends AbstractScene{
         this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
 
-
-        this.mainPlayer = new MainPlayer();
-
-        this.mainPlayer.setTranslateX(0); // spawn coordinates
-        this.mainPlayer.setTranslateY(400);
-
         this.mainPlayer.translateXProperty().addListener((obs, oldPosition, newPosition) -> {
             int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
-            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)){
+            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)) {
                 this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
             }
         });
