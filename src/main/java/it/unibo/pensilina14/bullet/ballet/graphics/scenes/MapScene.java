@@ -1,15 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
-import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
@@ -27,7 +22,7 @@ public class MapScene extends AbstractScene{
     private final Pane appPane = new Pane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
-    
+
     private Map map = new Map();
 
     private ImageView backgroundView;

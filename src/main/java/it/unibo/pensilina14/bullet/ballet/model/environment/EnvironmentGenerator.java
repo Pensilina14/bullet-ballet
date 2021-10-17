@@ -65,7 +65,7 @@ public class EnvironmentGenerator implements Generator {
                             this.env.addItem(this.itemFactory.createDamagingItem(env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
                             break;
                         case '!':
-                            //TODO: add enemies.
+                            this.env.addEnemy(this.charactersFactory.createRandomEnemy());
                             break;
                     }
                 }
