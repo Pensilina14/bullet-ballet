@@ -36,10 +36,6 @@ public class MapScene extends AbstractScene{
 
     private MainPlayer mainPlayer;
 
-    public static ArrayList<Platform> platforms = new ArrayList<>();
-    public static ArrayList<WeaponSprite> weapons = new ArrayList<>();
-    public static ArrayList<Coin> coins = new ArrayList<>();
-
     private final GameState gameState;
     private Controller controller; 
 
@@ -51,7 +47,7 @@ public class MapScene extends AbstractScene{
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public void setup() throws IOException {
+    public final void setup() throws IOException {
 
         this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
 
@@ -68,8 +64,8 @@ public class MapScene extends AbstractScene{
             int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
-            if(playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)){
-                this.gamePane.setLayoutX(-(playerPosition - (int)(this.map.getMapWidth() / 2)));
+            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)){
+                this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
             }
         });
 
