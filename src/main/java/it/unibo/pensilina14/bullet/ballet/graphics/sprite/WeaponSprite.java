@@ -9,9 +9,11 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -49,9 +51,14 @@ public class WeaponSprite extends Pane {
     int weaponHeight;
     Weapon weapon;
     
-    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Weapon weapon) throws  IOException{
-    	
-    	this.weapon = weapon;
+    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Environment gameEnv) throws  IOException{
+    	if (img.equals(WeaponsImg.GUN)) {
+    		this.weapon = new WeaponFactoryImpl().createGun(gameEnv);
+    	}else if (img.equals(WeaponsImg.SHOTGUN)) {
+    		this.weapon = new WeaponFactoryImpl().createShotGun(gameEnv);
+    	}else if (img.equals(WeaponsImg.AUTO)) {
+    		this.weapon = new WeaponFactoryImpl().createAuto(gameEnv);
+    	}
     	this.weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
     	this.weaponView = new ImageView(this.weaponImg);
     	this.minX = 0;
@@ -62,7 +69,7 @@ public class WeaponSprite extends Pane {
     	this.setTranslateY(y);
     	this.weaponView.setViewport(new Rectangle2D(this.minX, this.minY, this.weaponWidth, this.weaponHeight));
     	
-    	getChildren().addAll(this);
+    	getChildren().add(this.weaponView);
     	MapScene.weapons.add(this);
     	MapScene.gamePane.getChildren().add(this);
     }
