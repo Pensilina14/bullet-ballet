@@ -32,15 +32,9 @@ public class Launcher extends Application {
 
         // MAP GENERATION
 
-        this.mapScene.generateMap();
+        this.mapScene.setup();
 
-        Scene scene = new Scene(MapScene.appPane); //TODO: this.mapScene.getAppPane()
-
-        scene.setOnKeyPressed(event -> this.mapScene.setKeys(event.getCode(), true));
-        scene.setOnKeyReleased(event -> {
-            this.mapScene.setKeys(event.getCode(), false);
-            this.mapScene.getMainPlayer().getSpriteAnimation().stop();
-        });
+        Scene scene = new Scene(this.mapScene.getAppPane()); 
 
         Launcher.stage.setTitle("Bullet Ballet");
         Launcher.stage.setScene(scene);
