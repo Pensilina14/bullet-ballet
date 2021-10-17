@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.LevelData;
@@ -8,19 +7,17 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 
 public class EnvironmentGenerator implements Generator {
 
 	private int levelWidth;
     private int currentLevel = 0;
-    
+
     private static final int MAX_LEVELS = LevelData.levels.length;
     private final static int PLATFORM_SIZE = 60;
-    
+
 	private final Environment env;
 	private final FactoryCharacters charactersFactory;
 	private final ObstacleFactory obstacleFactory;
@@ -50,7 +47,7 @@ public class EnvironmentGenerator implements Generator {
                         case '0':
                             break;
                         case '1':
-                            this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
+                            //this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
                             break;
                         case '2':
                             // TODO: add coin.
