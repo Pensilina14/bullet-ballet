@@ -2,6 +2,7 @@
 
 \chapter{Design}
 
+\begin{comment}
 In questo capitolo si spiegano le strategie messe in campo per realizzare la soluzione ai problemi identificati nell'analisi.
 
 Si parte da una visione architetturale, il cui scopo è informare il lettore di quale sia il funzionamento dell'applicativo realizzato ad alto livello.
@@ -9,8 +10,33 @@ Si parte da una visione architetturale, il cui scopo è informare il lettore di 
 In particolare, è necessario descrivere accuratamente in che modo i componenti principali del sistema si coordinano fra loro.
 %
 A seguire, si dettagliano alcune parti del design, quelle maggiormente rilevanti al fine di chiarificare la logica con cui sono stati risolti i problemi dell'applicazione.
+\end{comment}
 
 \section{Architettura}
+
+\textsf{\small L'obiettivo del team era quello di poter lavorare ognuno alla propria parte indipendentemente ed evitando conflitti, per poi poterle collegare tutte assieme alla fine.}\\
+
+\textsf{\small Il progetto sfrutta quindi il pattern architetturale \textbf{MVC} (\emph{M}odel \emph{V}iew \emph{C}ontroller) che permette di suddividere la gestione dell'applicativo in tre parti separate: }\\
+
+\begin{itemize} %TODO: ingrandire questa parte oppure scrivere di più nell'introduzione del Design.
+	\item \textsf{\small \textbf{Model}: dove vengono effettivamente modellate le entità di gioco. In questa parte vengono gestiti tutti gli aspetti riguardanti la logica, la gestione, la fisica, le caratteristiche e il comportamento delle componenti di gioco.}
+	%si occupa dell'interfaccia grafica
+	\item \textsf{\small \textbf{View}: si occupa degli aspetti grafici, quali esporre le effettive entità del \emph{Model} sullo schermo di gioco. La \emph{View} comprende anche il menù di gioco e la schermata di fine partita per esaminare i risultati della classifica. Riguarda, inoltre, anche la parte di generazione delle mappa che comprende vari tipi di sfondi e relative piattaforme in tema, monete, oggetti, armi e nemici.}
+	% Inoltre, riguarda anche
+	\item \textsf{\small \textbf{Controller}: è il concreto ponte, tra il \emph{Model} e la \emph{View}, consente di collegare la parte logica con quella visiva. La sua funzione è quella di ricevere input della tastiera dall'utente, inviarlo al \emph{Model} per essere elaborato e alla \emph{View} per avere un riscontro visivo.}
+\end{itemize}
+
+\textsf{\small Di seguito, un UML riguardante il pattern architetturale \textbf{MVC} utilizzato:}\\
+
+\begin{figure}[htp]
+	\includegraphics[width=1.2\linewidth]{./img/mvc.png}
+	\caption{Schema UML del pattern architetturale MVC.}
+	\label{img:mvc}
+\end{figure}
+
+%\newpage
+
+\begin{comment}
 
 Questa sezione spiega come le componenti principali del software interagiscono fra loro.
 %
@@ -85,6 +111,8 @@ Questo è dovuto al fatto che nuovi Input rappresentano di fatto nuovi elementi 
 logic, la cui alterazione od espansione inevitabilmente impatta il controller del progetto.
 
 In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
+
+\end{comment}
 
 \section{Design dettagliato}
 
