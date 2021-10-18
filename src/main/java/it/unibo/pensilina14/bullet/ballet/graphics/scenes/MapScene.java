@@ -2,8 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
@@ -13,7 +16,10 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
@@ -133,12 +139,21 @@ public class MapScene extends AbstractScene implements GameView{
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
+    		if(x instanceof DynamicObstacle) {
+    			
+    		}
     		// TODO add implementation Obstacle view
     	}
 
     	for (final Item x : world.getItems().get()) {
     		// TODO add implementation Item view
-    	}
+    		for (final Images y : Images.values()) {
+    			if (x.getItemId().toString().equals(y.getObjectName())) {
+    				new PhysicalObjectSprite(y,(int) x.getPosition().getX(),
+    						(int) x.getPosition().getY(), x, this);
+    			}
+    		}
+    	}	
     }
 
     public final void setMap(final Map.Maps map) {
