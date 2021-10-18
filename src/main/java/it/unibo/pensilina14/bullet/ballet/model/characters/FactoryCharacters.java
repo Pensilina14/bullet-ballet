@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+
 public interface FactoryCharacters {
 
     /**
@@ -8,14 +10,14 @@ public interface FactoryCharacters {
      * @return : a Player.
      */
 
-    Player createPlayer(EntityList.Characters.Player playerType);
+    Player createPlayer(EntityList.Characters.Player playerType, SpeedVector2D vector);
 
     /**
      *
      * @return : a random Player. It creates a random PlayerType.
      */
 
-    Player createRandomPlayer();
+    Player createRandomPlayer(SpeedVector2D vector);
 
     /**
      *
@@ -23,12 +25,12 @@ public interface FactoryCharacters {
      * @return : an Enemy.
      */
 
-    Enemy createEnemy(EntityList.Characters.Enemy enemyType);
+    Enemy createEnemy(EntityList.Characters.Enemy enemyType, SpeedVector2D vector);
 
     /**
      *
      * @return : a random Enemy. It creates a random enemyType.
      */
 
-    Enemy createRandomEnemy();
+    Enemy createRandomEnemy(SpeedVector2D vector);
 }
