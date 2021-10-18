@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MapScene extends AbstractScene{
+public class MapScene extends AbstractScene implements GameView{
 
     private final Pane appPane = new Pane();
     private final Pane gamePane = new Pane();
