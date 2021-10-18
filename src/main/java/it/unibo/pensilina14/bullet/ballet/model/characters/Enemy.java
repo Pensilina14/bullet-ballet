@@ -54,12 +54,14 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         final int max = EntityList.Characters.Enemy.values().length;
         final int min = 0;
 
-        final int randomEnemy = rand.nextInt(((max - min) + 1 ) + min);
-        for(EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
-            if(e.ordinal() == randomEnemy){
+        //TODO: enemyType remains empty, to be fixed..
+        /*final int randomEnemy = rand.nextInt(((max - min) + 1 ) + min);
+        for (EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
+            if (e.ordinal() == randomEnemy) {
                 this.enemyType = e;
             }
-        }
+        }*/
+        this.enemyType = EntityList.Characters.Enemy.ENEMY1;
 
         setEnemyType();
     }
