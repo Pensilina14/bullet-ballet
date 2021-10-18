@@ -1,9 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
@@ -13,6 +17,8 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import javafx.animation.AnimationTimer;
@@ -88,7 +94,7 @@ public class MapScene extends AbstractScene implements GameView{
 					render();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+				} 
             }
         };
         timer.start();
@@ -118,22 +124,33 @@ public class MapScene extends AbstractScene implements GameView{
     
     private void render() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
+    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+    	
+    	final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
-    				new WeaponSprite(y, (int) x.getPosition().getX(),(int) x.getPosition().getY(), 
+    				new WeaponSprite(y, (int) x.getPosition().getX(), (int) x.getPosition().getY(), 
     						x);
     			}
     		}
     	}
 
     	for (final Enemy x : world.getEnemies().get()) {
-    		new MainEnemy((int) x.getPosition().getX(),(int) x.getPosition().getY());
+    		new MainEnemy((int) x.getPosition().getX(), (int) x.getPosition().getY());
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
-    		// TODO add implementation Obstacle view
+    		final MutablePosition2D xPos = x.getPosition();
+    		if (x instanceof StaticObstacle) {
+    			final PhysicalObjectSprite staticObstacle = physObjSpriteFactory.generateStaticObstacleSprite((int) xPos.getX() * platformSize, (int) xPos.getY() * platformSize);
+    			this.gamePane.getChildren().add(staticObstacle);
+    		} 
+    		if (x instanceof DynamicObstacle) {
+    			final PhysicalObjectSprite dynamicObstacle = physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			this.gamePane.getChildren().add(dynamicObstacle);
+    		}
     	}
 
     	for (final Item x : world.getItems().get()) {
