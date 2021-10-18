@@ -10,7 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class BulletImpl implements Bullet {
 
 	private final String name;
-	private final double damage;
+	private double damage;
 	
 	public BulletImpl(final EntityList.BulletType bulletType) {
 		this.name = bulletType.description();
@@ -40,12 +40,11 @@ public class BulletImpl implements Bullet {
 
 	@Override
 	public MutablePosition2D getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getPosition();
 	}
 
 	@Override
-	public Boolean isCollidingWith(PhysicalObject other) {
+	public Boolean isCollidingWith(final PhysicalObject other) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -60,6 +59,10 @@ public class BulletImpl implements Bullet {
 	public Environment getGameEnvironment() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void setDamage(final double factor) {
+		this.damage *= factor;
 	}
 
 }

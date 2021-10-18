@@ -6,4 +6,6 @@ public interface Bullet extends Item {
 	
 	double getDamage();
 	
+	void setDamage(double factor);
+	
 }

@@ -11,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class WeaponImpl extends DynamicPickupItem implements Weapon {
 
+	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
 	//set for each weapon the total number of available bullets
 	private final int limitBullets;
 	private final int limitChargers;
@@ -23,21 +24,8 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private int indexCharger;
 	
 	private List<List<Bullet>> bandolier;
-	/*
-	public WeaponImpl(final String nameOfWeapon, final int limitBullets,
-			final int limitChargers, final Dimension2D dimension, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final ITEM_ID id, 
-            final Effect effect) {
-		super(dimension, gameEnvironment, mass, vector, id, effect);
-		
-		this.name = nameOfWeapon;
-		this.limitBullets = limitBullets;
-		this.limitChargers = limitChargers;
-		this.currentAmmo = limitBullets;
-		this.initializeWeapon();
-	}
-	*/
-
+	private final EntityList.Weapons weaponType;
+	private double damageFactor;
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
             final double mass, final SpeedVector2D vector, final ITEM_ID id, 
@@ -47,15 +35,27 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		this.limitBullets = weaponType.getLimBullets();
 		this.limitChargers = weaponType.getLimChargers();
 		this.currentAmmo = limitBullets;
+		this.weaponType = weaponType;
 		this.initializeWeapon();
 	}	
 	
 	private void initializeWeapon() {
+		switch (this.weaponType) {
+			case GUN:
+				this.damageFactor = 1.0;
+			case SHOTGUN:
+				this.damageFactor = 1.5;
+			case AUTO:
+				this.damageFactor = 0.75;
+			default:
+				this.damageFactor = 1.0;
+		}
 		final List<Bullet> charger = new ArrayList<>();
 		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
 		for(int i = 0; i < this.limitBullets; i++) {
 			charger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
 		}
+		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
 		this.bandolier = new ArrayList<>();
 		//((ArrayList<List<Bullet>>) this.bandolier).ensureCapacity(this.limitChargers);
@@ -152,6 +152,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	
 	@Override
 	public void recharge(final List<Bullet> charger) {
+		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		this.switchCharger().addAll(charger);
 		if(this.indexCharger == 0) {
 			this.indexCharger=this.limitChargers;
