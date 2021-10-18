@@ -4,36 +4,33 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
 public class WeaponSprite extends Pane {
 	
-	private enum WeaponsImg {
+	public enum WeaponsImg {
 		
-		GUN("res/assets/sprites/weapons/...png"),
-		SHOTGUN("res/assets/sprites/weapons/...png"),
-		AUTO("res/assets/sprites/weapons/...png\"");
+		GUN("Gun", "res/assets/sprites/weapons/...png"),
+		SHOTGUN("shotgun", "res/assets/sprites/weapons/...png"),
+		AUTO("Auto", "res/assets/sprites/weapons/...png\"");
 		
 		String path;
+		String name;
 		
-		WeaponsImg(final String path){
+		WeaponsImg(final String name,final String path){
+			this.name = name;
 			this.path = path;
+		}
+		
+		public String getName() {
+			return this.name;
 		}
 		
 		public String getPath() {

@@ -2,13 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class WeaponImpl extends DynamicPickupItem implements Weapon {
@@ -22,12 +20,10 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private int currentAmmo;
 	
 	/// it keeps the index of charger in the bandolier
-	private int indexCharger = 0;
+	private int indexCharger;
 	
-	/// This is the first charger in the bandolier
-	private List<Bullet> spareCharger = new ArrayList<>();
 	private List<List<Bullet>> bandolier;
-	
+	/*
 	public WeaponImpl(final String nameOfWeapon, final int limitBullets,
 			final int limitChargers, final Dimension2D dimension, final Environment gameEnvironment, 
             final double mass, final SpeedVector2D vector, final ITEM_ID id, 
@@ -40,6 +36,8 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		this.currentAmmo = limitBullets;
 		this.initializeWeapon();
 	}
+	*/
+
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
             final double mass, final SpeedVector2D vector, final ITEM_ID id, 
@@ -53,15 +51,15 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	}	
 	
 	private void initializeWeapon() {
-		this.spareCharger = new ArrayList<>();
+		final List<Bullet> charger = new ArrayList<>();
 		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
 		for(int i = 0; i < this.limitBullets; i++) {
-			this.spareCharger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
+			charger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
 		}
 		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
 		this.bandolier = new ArrayList<>();
 		//((ArrayList<List<Bullet>>) this.bandolier).ensureCapacity(this.limitChargers);
-		this.bandolier.add(this.spareCharger);
+		this.bandolier.add(charger);
 		for(int y = 1; y < this.limitChargers; y++) {
 			this.bandolier.add(new ArrayList<>());
 		}
