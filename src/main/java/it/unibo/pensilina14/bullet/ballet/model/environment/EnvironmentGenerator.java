@@ -49,8 +49,8 @@ public class EnvironmentGenerator implements LevelGenerator {
                     case '4':
                         //TODO: add weapon
                         break;
-                    case '5':
-                        //TODO:
+                    case 'P':
+                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
                     	break;
                     case '*':
                         this.env.addItem(this.itemFactory.createDamagingItem(env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
