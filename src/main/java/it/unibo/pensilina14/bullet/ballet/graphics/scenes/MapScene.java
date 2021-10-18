@@ -24,11 +24,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class MapScene extends AbstractScene implements GameView{
 
@@ -41,9 +37,6 @@ public class MapScene extends AbstractScene implements GameView{
     private ImageView backgroundView;
 
     private MainPlayer mainPlayer;
-
-    private final Set<Platform> platforms = new HashSet<>();
-    private final Set<WeaponSprite> weapons = new HashSet<>();
 
     private final GameState gameState;
     private Optional<Controller> controller; 
@@ -91,7 +84,11 @@ public class MapScene extends AbstractScene implements GameView{
             @Override
             public void handle(final long now) {
                 update();
-                render();
+                try {
+					render();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
             }
         };
         timer.start();
