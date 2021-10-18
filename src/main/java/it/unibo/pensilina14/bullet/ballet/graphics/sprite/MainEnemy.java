@@ -23,13 +23,13 @@ public class MainEnemy extends Pane {
     private final int enemyViewHeight = 51;
 
     private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
-    private final Enemy enemy;
+    //private final Enemy enemy;
 
     private final static int ENEMY_SIZE = 40;
 
     public MainEnemy(int x, int y) throws IOException {
 
-        this.enemy = this.characters.createRandomEnemy();
+        //this.enemy = this.characters.createRandomEnemy(); //TODO: da rimuovere perchè dovrà essere messo nel model.
 
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
@@ -43,7 +43,7 @@ public class MainEnemy extends Pane {
         //MapScene.gamePane.getChildren().add(this);
     }
 
-    public Enemy getEnemy(){
+    /*public Enemy getEnemy(){
         return this.enemy;
-    }
+    }*/
 }

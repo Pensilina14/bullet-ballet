@@ -36,15 +36,12 @@ public class MainPlayer extends Pane {
 
     private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
 
-    private final Player player;
+    //private final Player player;
 
 
     public MainPlayer() throws IOException {
-<<<<<<< HEAD
+
         //this.player = this.characters.createPlayer(EntityList.Characters.Player.PLAYER1); //TODO: da rimuovere perchè dovrà essere messo nel model.
-=======
-        this.player = this.characters.createRandomPlayer(); //TODO: chiamare il costruttore e creare un player casuale senza dover passare il tipo.
->>>>>>> main
 
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
@@ -111,7 +108,7 @@ public class MainPlayer extends Pane {
         }
     }
 
-    public Player getPlayer(){
+    /*public Player getPlayer(){
         return this.player;
-    }
+    }*/
 }
