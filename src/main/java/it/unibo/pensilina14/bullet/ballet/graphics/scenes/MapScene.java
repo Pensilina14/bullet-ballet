@@ -144,12 +144,10 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		if (x instanceof StaticObstacle) {
-    			final PhysicalObjectSprite staticObstacle = physObjSpriteFactory.generateStaticObstacleSprite((int) xPos.getX() * platformSize, (int) xPos.getY() * platformSize);
-    			this.gamePane.getChildren().add(staticObstacle);
+    			final PhysicalObjectSprite staticObstacle = physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
     		} 
     		if (x instanceof DynamicObstacle) {
     			final PhysicalObjectSprite dynamicObstacle = physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
-    			this.gamePane.getChildren().add(dynamicObstacle);
     		}
     	}
 
