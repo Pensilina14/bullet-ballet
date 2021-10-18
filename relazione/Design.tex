@@ -2,6 +2,7 @@
 
 \chapter{Design}
 
+\begin{comment}
 In questo capitolo si spiegano le strategie messe in campo per realizzare la soluzione ai problemi identificati nell'analisi.
 
 Si parte da una visione architetturale, il cui scopo è informare il lettore di quale sia il funzionamento dell'applicativo realizzato ad alto livello.
@@ -9,8 +10,33 @@ Si parte da una visione architetturale, il cui scopo è informare il lettore di 
 In particolare, è necessario descrivere accuratamente in che modo i componenti principali del sistema si coordinano fra loro.
 %
 A seguire, si dettagliano alcune parti del design, quelle maggiormente rilevanti al fine di chiarificare la logica con cui sono stati risolti i problemi dell'applicazione.
+\end{comment}
 
 \section{Architettura}
+
+\textsf{\small L'obiettivo del team era quello di poter lavorare ognuno alla propria parte indipendentemente ed evitando conflitti, per poi poterle collegare tutte assieme alla fine.}\\
+
+\textsf{\small Il progetto sfrutta quindi il pattern architetturale \textbf{MVC} (\emph{M}odel \emph{V}iew \emph{C}ontroller) che permette di suddividere la gestione dell'applicativo in tre parti separate: }\\
+
+\begin{itemize} %TODO: ingrandire questa parte oppure scrivere di più nell'introduzione del Design.
+	\item \textsf{\small \textbf{Model}: dove vengono effettivamente modellate le entità di gioco. In questa parte vengono gestiti tutti gli aspetti riguardanti la logica, la gestione, la fisica, le caratteristiche e il comportamento delle componenti di gioco.}
+	%si occupa dell'interfaccia grafica
+	\item \textsf{\small \textbf{View}: si occupa degli aspetti grafici, quali esporre le effettive entità del \emph{Model} sullo schermo di gioco. La \emph{View} comprende anche il menù di gioco e la schermata di fine partita per esaminare i risultati della classifica. Riguarda, inoltre, anche la parte di generazione delle mappa che comprende vari tipi di sfondi e relative piattaforme in tema, monete, oggetti, armi e nemici.}
+	% Inoltre, riguarda anche
+	\item \textsf{\small \textbf{Controller}: è il concreto ponte, tra il \emph{Model} e la \emph{View}, consente di collegare la parte logica con quella visiva. La sua funzione è quella di ricevere input della tastiera dall'utente, inviarlo al \emph{Model} per essere elaborato e alla \emph{View} per avere un riscontro visivo.}
+\end{itemize}
+
+\textsf{\small Di seguito, un UML riguardante il pattern architetturale \textbf{MVC} utilizzato:}\\
+
+\begin{figure}[htp]
+	\includegraphics[width=1.2\linewidth]{./img/mvc.png}
+	\caption{Schema UML del pattern architetturale MVC.}
+	\label{img:mvc}
+\end{figure}
+
+%\newpage
+
+\begin{comment}
 
 Questa sezione spiega come le componenti principali del software interagiscono fra loro.
 %
@@ -86,7 +112,11 @@ logic, la cui alterazione od espansione inevitabilmente impatta il controller de
 
 In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
+\end{comment}
+
 \section{Design dettagliato}
+
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  INIZIO -----------------------------------
 
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %
@@ -221,3 +251,57 @@ Questo schema è fatto male perché:
 	\caption{Schema UML mal fatto e con una pessima descrizione, che non aiuta a capire. Don't try this at home.}
 	\label{img:badarch}
 \end{figure}
+
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  FINE -----------------------------------
+
+% ----------------- ALESSANDRO PIOGGIA -----------------------------------------
+
+\newpage
+
+\subsection*{Alessandro Pioggia}
+
+% ----------------- LEON BAIOCCHI -----------------------------------------
+
+\newpage
+
+\subsection*{Leon Baiocchi}
+
+% ----------------- FEDERICO BRUNELLI -----------------------------------------
+
+\newpage
+
+\subsection*{Federico Brunelli}
+
+% ----------------- LUCA RENGO -----------------------------------------
+
+\newpage
+
+\subsection*{Luca Rengo}
+
+\textsf{\small La mia parte riguardava l'implementazione dei personaggi di gioco e dei diversi aspetti riguardanti la generazione della mappa e dei suoi componenti a livello di \emph{View}.}\\
+
+\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore.}\\ 
+%della generazione della mappa a livello di \emph{View}.}\\
+
+\subsubsection*{Characters}
+
+\textsf{\small Per quanto concerne l'implementazione dei personaggi di gioco, ho sviluppato un'interfaccia \emph{Characters} che pone a tutte le figure l'implementazione di un contratto con le varie azioni comuni, i vari metodi che un personaggio può eseguire.}\\
+
+\textsf{\small Questo è stato trattato dalle classi \emph{Player} ed \emph{Enemy} che contengono le proprietà e caratteristiche dei personaggi come la loro vita, il mana, il nome, le loro abilità e capacità come quella di muoversi e saltare.}\\
+
+\textsf{\small Ho utilizzato poi un enum, \emph{EntityList}, per poter rappresentare diversi tipi di personaggi con diverse caratteristiche che ho settato nel metodo \emph{setPlayerType()} e \emph{setEnemyType()} delle rispettive classi. }\\
+
+\textsf{\small Mi sono avvalso, inoltre, del pattern architetturale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
+
+%TODO: immagine Model
+
+\begin{figure}[h]
+	\centering{} %TODO: aggiungere immagine UML
+	%\includegraphics[width=\textwidth]{} 
+	\caption{Schema UML del \emph{Model} relativo ai \emph{Characters}.}
+	\label{img:uml_model_characters}
+\end{figure}
+
+\subsubsection*{Mappa di gioco}
+
+%TODO: parlare della Mappa (Map, MapScene, AbstractScene), del MainPlayer, SpriteAnimation, MainEnemy, Platform, Coin.

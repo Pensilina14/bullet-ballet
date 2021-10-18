@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractScene extends Scene {
+public abstract class AbstractScene extends Scene implements GameView {
 
     public static final int SCENE_WIDTH = 1280;
     public static final int SCENE_HEIGHT = 720;
@@ -42,7 +42,7 @@ public abstract class AbstractScene extends Scene {
         });
 
         this.setOnKeyReleased( k -> {
-            this.keysPressed.add(k.getCode());
+            this.keysPressed.remove(k.getCode());
             this.keysReleased.add(k.getCode());
         });
     }

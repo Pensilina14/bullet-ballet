@@ -1,10 +1,12 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+
 public interface WeaponFactory {
 
-	Weapon createGun();
+	Weapon createGun(Environment gameEnv);
 	
-	Weapon createShotGun();
+	Weapon createShotGun(Environment gameEnv);
 	
-	Weapon createAuto();
+	Weapon createAuto(Environment gameEnv);
 }

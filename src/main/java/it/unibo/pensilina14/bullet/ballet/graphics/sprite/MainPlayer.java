@@ -18,15 +18,15 @@ import java.nio.file.Paths;
 
 public class MainPlayer extends Pane {
 
-    Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png")));
-    ImageView playerView = new ImageView(this.playerImg);
+    private Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png")));
+    private ImageView playerView = new ImageView(this.playerImg);
 
-    int count = 3; // 4
-    int columns = 16;
-    int offsetX = 0;
-    int offsetY = 0;
-    int playerViewWidth = 107; // 105
-    int playerViewHeight = 118; // 120
+    private final int count = 3; // 4
+    private final int columns = 16;
+    private final int offsetX = 0;
+    private final int offsetY = 0;
+    private final int playerViewWidth = 107; // 105
+    private final int playerViewHeight = 118; // 120
 
     public SpriteAnimation animation;
     public Point2D playerVelocity = new Point2D(0,0);
@@ -36,11 +36,15 @@ public class MainPlayer extends Pane {
 
     private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
 
-    private Player player;
+    private final Player player;
 
 
     public MainPlayer() throws IOException {
+<<<<<<< HEAD
         //this.player = this.characters.createPlayer(EntityList.Characters.Player.PLAYER1); //TODO: da rimuovere perchè dovrà essere messo nel model.
+=======
+        this.player = this.characters.createRandomPlayer(); //TODO: chiamare il costruttore e creare un player casuale senza dover passare il tipo.
+>>>>>>> main
 
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
