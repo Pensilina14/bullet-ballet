@@ -9,6 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import javafx.animation.AnimationTimer;
@@ -114,6 +115,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
     
     private void render() {
+    	final Environment world = this.gameState.getGameEnvironment();
     	/* Wait branch feature-graphics merge with main
     	for (final Weapon x : this.gs.getGameEnvironment().getWeapons().get()) {
     		for (WeaponsImg y : WeaponsImg.values()) {
@@ -123,16 +125,16 @@ public class MapScene extends AbstractScene implements GameView{
     	}
     	*/
     	
-    	for (final Enemy x : this.gameState.getGameEnvironment().getEnemies().get()) {
+    	for (final Enemy x : world.getEnemies().get()) {
     		// Wait branch feature-graphics merge with main
     		//new MainEnemy((int) x.getPosition().getX(), x.getPosition().getY());
     	}
     	
-    	for (final PhysicalObject x : this.gameState.getGameEnvironment().getObstacles().get()) {
+    	for (final PhysicalObject x : world.getObstacles().get()) {
     		// TODO add implementation Obstacle view
     	}
     	
-    	for (final Item x : this.gameState.getGameEnvironment().getItems().get()) {
+    	for (final Item x : world.getItems().get()) {
     		// TODO add implementation Item view
     	}
     }
