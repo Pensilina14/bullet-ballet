@@ -105,11 +105,12 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		}
 		return null;
 	}
-	
+	@Override
 	public int getLimitBullets() {
 		return this.limitBullets;
 	}
 	
+	@Override
 	public int getLimitChargers() {
 		return this.limitChargers;
 	}

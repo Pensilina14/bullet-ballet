@@ -12,11 +12,13 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 public class WeaponTest {
@@ -25,14 +27,17 @@ public class WeaponTest {
 	private static final int POSITION = -5;
 	private static final int MASS = 10;
 	private static final int SPEED = 1;
+	private final Environment gameEnv = new GameEnvironment();
 	
-	private final WeaponImpl weapon_first = new WeaponImpl("Classic", 10, 4, new Dimension2Dimpl(DIMENSION, DIMENSION),
+	private final Weapon weapon_first = new WeaponFactoryImpl().createGun(this.gameEnv);
+			/*
+	 new WeaponImpl("Classic", 10, 4, new Dimension2Dimpl(DIMENSION, DIMENSION),
 			new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
 					ITEM_ID.WEAPON, null);
-	
+	*/
 	@Test
 	public void ammoLeftTest() {
-		final WeaponImpl weapon_second = this.weapon_first;
+		final Weapon weapon_second = new WeaponFactoryImpl().createGun(this.gameEnv);
 		assertEquals(weapon_second.getAmmoLeft(), 10);
 		for (int i=2; i < weapon_second.getLimitBullets(); i++) {
 			weapon_second.decreaseAmmo();
@@ -43,9 +48,7 @@ public class WeaponTest {
 	
 	@Test
 	public void rechargeWeaponTest() {
-		final WeaponImpl weapon_third = new WeaponImpl(EntityList.Weapons.GUN, new Dimension2Dimpl(DIMENSION, DIMENSION),
-				new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
-				ITEM_ID.WEAPON, null);
+		final Weapon weapon_third = new WeaponFactoryImpl().createGun(this.gameEnv);
 		final ArrayList<Bullet> charger = new ArrayList<>();
 		for(int i = 0; i < weapon_third.getLimitBullets(); i++) {
 			charger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
@@ -58,9 +61,7 @@ public class WeaponTest {
 	
 	@Test
 	public void simulateGameAction() {
-		final WeaponImpl weapon_fourth = new WeaponImpl(EntityList.Weapons.SHOTGUN, new Dimension2Dimpl(DIMENSION, DIMENSION),
-				new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
-				ITEM_ID.WEAPON, null);
+		final Weapon weapon_fourth = new  WeaponFactoryImpl().createShotGun(this.gameEnv);
 		final ArrayList<Bullet> charger_1 = new ArrayList<>();
 		for(int i = 0; i < weapon_fourth.getLimitBullets(); i++) {
 			charger_1.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
