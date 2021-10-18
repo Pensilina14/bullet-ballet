@@ -23,34 +23,33 @@ import javafx.util.Duration;
 public class WeaponSprite extends Pane {
 	
 	private enum WeaponsImg {
-		
+
 		GUN("res/assets/sprites/weapons/...png"),
 		SHOTGUN("res/assets/sprites/weapons/...png"),
 		AUTO("res/assets/sprites/weapons/...png\"");
-		
-		String path;
-		
+
+		private final String path;
+
 		WeaponsImg(final String path){
 			this.path = path;
 		}
-		
+
 		public String getPath() {
 			return this.path;
 		}
 	}
 	/// Add image for weapon
-	final Image weaponImg;
+	private final Image weaponImg;
 	
-	final ImageView weaponView;
-    int columns = 2;
-    int minY;
-    int minX;
-    int weaponWidth;
-    int weaponHeight;
-    Weapon weapon;
-    
+	private final ImageView weaponView;
+    private int columns = 2;
+    private int minY;
+    private int minX;
+    private int weaponWidth;
+    private int weaponHeight;
+    private final Weapon weapon;
+
     public WeaponSprite(final WeaponsImg img, final int x, final int y, final Weapon weapon) throws  IOException{
-    	
     	this.weapon = weapon;
     	this.weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
     	this.weaponView = new ImageView(this.weaponImg);
@@ -61,31 +60,7 @@ public class WeaponSprite extends Pane {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
     	this.weaponView.setViewport(new Rectangle2D(this.minX, this.minY, this.weaponWidth, this.weaponHeight));
-    	
+
     	getChildren().addAll(this);
-    	MapScene.weapons.add(this);
-    	MapScene.gamePane.getChildren().add(this);
     }
-    
-    
-    
- /*    
-    public Point2D weaponVelocity = new Point2D(0,0);
-    
-    public static final int WEAPON_SIZE = 20;
-    public static final int MASS = 10;
-    
-    final Weapon weapon;
-    
-    public WeaponSprite() {
-    	this.weapon = new WeaponImpl(EntityList.Weapons.GUN,  new Dimension2Dimpl(WEAPON_SIZE, WEAPON_SIZE),
-    			new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(this.offsetX, this.offsetY), 0),
-				ITEM_ID.WEAPON, null);
-    	this.weaponView.setFitHeight(WeaponSprite.WEAPON_SIZE);
-    	this.weaponView.setFitWidth(WeaponSprite.WEAPON_SIZE);
-    	this.weaponView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.weaponViewWidth, this.weaponViewHeight));
-    	
-    	getChildren().addAll(this.weaponView);
-    }
-   */
 }
