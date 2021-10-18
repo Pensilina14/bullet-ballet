@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
@@ -118,20 +119,20 @@ public class MapScene extends AbstractScene implements GameView{
         }
     }
     
-    private void render() {
+    private void render() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
 
-    	// TODO: if missing.. @fedebr1
     	for (final Weapon x : world.getWeapons().get()) {
-    		for (WeaponsImg y : WeaponsImg.values()) {
-    			new WeaponSprite(y, (int) x.getPosition().getX(),(int) x.getPosition().getY(), 
-    					world);
+    		for (final WeaponsImg y : WeaponsImg.values()) {
+    			if (x.getName().equals(y.getName())) {
+    				new WeaponSprite(y, (int) x.getPosition().getX(),(int) x.getPosition().getY(), 
+    						x);
+    			}
     		}
     	}
 
     	for (final Enemy x : world.getEnemies().get()) {
-    		// Wait branch feature-graphics merge with main
-    		//new MainEnemy((int) x.getPosition().getX(), x.getPosition().getY());
+    		new MainEnemy((int) x.getPosition().getX(),(int) x.getPosition().getY());
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
