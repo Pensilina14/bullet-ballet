@@ -147,19 +147,18 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		if (x instanceof StaticObstacle) {
-    			final PhysicalObjectSprite staticObstacle = physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
     		} 
     		if (x instanceof DynamicObstacle) {
-    			final PhysicalObjectSprite dynamicObstacle = physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
     		}
     	}
 
     	for (final Item x : world.getItems().get()) {
-    		// TODO add implementation Item view
     		for (final Images y : Images.values()) {
     			if (x.getItemId().toString().equals(y.getObjectName())) {
-    				new PhysicalObjectSprite(y,(int) x.getPosition().getX(),
-    						(int) x.getPosition().getY(), x, this);
+    				new PhysicalObjectSprite(y, (int) (x.getPosition().getX() * platformSize),
+    						(int) (x.getPosition().getY() * platformSize), x, this);
     			}
     		}
     	}	
