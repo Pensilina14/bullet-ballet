@@ -4,6 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
@@ -12,6 +13,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,24 +118,24 @@ public class MapScene extends AbstractScene implements GameView{
     
     private void render() {
     	final Environment world = this.gameState.getGameEnvironment();
-    	/* Wait branch feature-graphics merge with main
-    	for (final Weapon x : this.gs.getGameEnvironment().getWeapons().get()) {
+
+    	// TODO: if missing.. @fedebr1
+    	for (final Weapon x : world.getWeapons().get()) {
     		for (WeaponsImg y : WeaponsImg.values()) {
     			new WeaponSprite(y, (int) x.getPosition().getX(),(int) x.getPosition().getY(), 
-    					this.gs.getGameEnvironment());
+    					world);
     		}
     	}
-    	*/
-    	
+
     	for (final Enemy x : world.getEnemies().get()) {
     		// Wait branch feature-graphics merge with main
     		//new MainEnemy((int) x.getPosition().getX(), x.getPosition().getY());
     	}
-    	
+
     	for (final PhysicalObject x : world.getObstacles().get()) {
     		// TODO add implementation Obstacle view
     	}
-    	
+
     	for (final Item x : world.getItems().get()) {
     		// TODO add implementation Item view
     	}
