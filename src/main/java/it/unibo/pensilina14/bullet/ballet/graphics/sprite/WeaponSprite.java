@@ -17,9 +17,9 @@ public class WeaponSprite extends Pane {
 	
 	public enum WeaponsImg {
 		
-		GUN("Gun", "res/assets/sprites/weapons/...png"),
-		SHOTGUN("shotgun", "res/assets/sprites/weapons/...png"),
-		AUTO("Auto", "res/assets/sprites/weapons/...png\"");
+		GUN("Gun", "res/assets/sprites/weapons/gun.jpeg"),
+		SHOTGUN("shotgun", "res/assets/sprites/weapons/shotgun.jpeg"),
+		AUTO("Auto", "res/assets/sprites/weapons/auto.jpeg");
 		
 		String path;
 		String name;
