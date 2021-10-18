@@ -5,7 +5,10 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -88,9 +91,34 @@ public class MapScene extends AbstractScene{
             @Override
             public void handle(final long now) {
                 update();
+                render();
             }
         };
         timer.start();
+    }
+    
+    private void render() {
+    	/* Wait branch feature-graphics merge with main
+    	for (final Weapon x : this.gs.getGameEnvironment().getWeapons().get()) {
+    		for (WeaponsImg y : WeaponsImg.values()) {
+    			new WeaponSprite(y, (int) x.getPosition().getX(),(int) x.getPosition().getY(), 
+    					this.gs.getGameEnvironment());
+    		}
+    	}
+    	*/
+    	
+    	for (final Enemy x : this.gameState.getGameEnvironment().getEnemies().get()) {
+    		// Wait branch feature-graphics merge with main
+    		//new MainEnemy((int) x.getPosition().getX(), x.getPosition().getY());
+    	}
+    	
+    	for (final PhysicalObject x : this.gameState.getGameEnvironment().getObstacles().get()) {
+    		// TODO add implementation Obstacle view
+    	}
+    	
+    	for (final Item x : this.gameState.getGameEnvironment().getItems().get()) {
+    		// TODO add implementation Item view
+    	}
     }
 
     public final void setMap(final Map.Maps map) {
