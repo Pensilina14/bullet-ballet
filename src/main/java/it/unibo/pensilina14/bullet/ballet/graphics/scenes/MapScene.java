@@ -134,14 +134,14 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
-    				new WeaponSprite(y, (int) x.getPosition().getX(), (int) x.getPosition().getY(), 
+    				new WeaponSprite(y, (int) (x.getPosition().getX() * platformSize), (int) (x.getPosition().getY() * platformSize), 
     						x);
     			}
     		}
     	}
 
     	for (final Enemy x : world.getEnemies().get()) {
-    		new MainEnemy((int) x.getPosition().getX(), (int) x.getPosition().getY());
+    		new MainEnemy((int) (x.getPosition().getX() * platformSize), (int) (x.getPosition().getY() * platformSize));
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
