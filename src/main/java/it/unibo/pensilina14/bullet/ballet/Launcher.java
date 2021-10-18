@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet;
 
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
@@ -34,20 +33,21 @@ public class Launcher extends Application {
         final GameState state = new GameState();
         final GameView view = new MapScene(state);
         final Scene scene = new Scene(view.getAppPane());
+        Launcher.stage.setTitle("Bullet Ballet");
+        Launcher.stage.setScene(scene);
+        stage.show();  
+        
         
         final GameEngine engine = new GameEngine(view, state);
         engine.setup();
         engine.mainLoop();
 
         
-
-        Launcher.stage.setTitle("Bullet Ballet");
-        Launcher.stage.setScene(scene);
         //setScene(Scenes.MAP_SCENE.getIndex()); //TODO: uncomment
 
         //this.mapScene.draw();
 
-        stage.show();
+        
     }
 
     public static void setScene(int currentScene){
