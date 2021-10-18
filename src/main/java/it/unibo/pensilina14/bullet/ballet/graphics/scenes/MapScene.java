@@ -1,7 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
@@ -11,11 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class MapScene extends AbstractScene{
 
@@ -28,58 +32,47 @@ public class MapScene extends AbstractScene{
     private ImageView backgroundView;
 
     private MainPlayer mainPlayer;
+    private final List<Platform> platforms = new ArrayList<>();
+    private final List<WeaponSprite> weapons = new ArrayList<>();
 
     private final GameState gameState;
-    private Controller controller; 
+    private Optional<Controller> controller; 
 
-    private Pair<Integer,Integer> lastPos;
-
-    public MapScene(){
-
+    public MapScene(final GameState gameState) {
+        this.gameState = gameState;
+        this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public final void setup() throws IOException {
+    public MapScene(final GameState gameState, final Controller ctrlr) {
+        this.gameState = gameState;
+        this.controller = Optional.of(ctrlr);
+        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+    }
 
-        this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
-
+    public final void setup() {
+        try {
+			this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
 
-        this.mainPlayer.translateXProperty().addListener((obs, oldPosition, newPosition) -> {
-            int playerPosition = newPosition.intValue();
-
-            // this.map.getWidth() / 2 = metà della mappa.
-            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < this.levelWidth - (this.map.getMapWidth() / 2)) {
-                this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
-            }
-        });
-
-        this.gamePane.getChildren().add(this.mainPlayer);
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
     }
 
-    private void update() {
-        if (this.keysPressed.contains(KeyCode.UP)) { 
-        	this.mainPlayer.getSpriteAnimation().play();
-            this.controller.notifyCommand(new Up());
-        }
+    private void addCameraListenerToPlayer() {
+        this.mainPlayer.translateXProperty().addListener((obs, oldPosition, newPosition) -> {
+            final int playerPosition = newPosition.intValue();
 
-        if (this.keysPressed.contains(KeyCode.RIGHT)) {
-            this.mainPlayer.getSpriteAnimation().play();
-            this.controller.notifyCommand(new Right());
-        }
-
-        if (this.keysReleased.contains(KeyCode.UP)) {
-        	this.mainPlayer.getSpriteAnimation().stop();
-        	this.keysReleased.remove(KeyCode.UP);
-        }
-
-        if (this.keysReleased.contains(KeyCode.RIGHT)) {
-        	this.mainPlayer.getSpriteAnimation().stop();
-        	this.keysReleased.remove(KeyCode.RIGHT);
-        }
+            // this.map.getWidth() / 2 = metà della mappa.
+            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
+                this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
+            }
+        });
     }
 
     @Override
@@ -91,6 +84,28 @@ public class MapScene extends AbstractScene{
             }
         };
         timer.start();
+    }
+
+    private void update() {
+        if (this.keysPressed.contains(KeyCode.UP)) { 
+        	this.mainPlayer.getSpriteAnimation().play();
+            this.controller.get().notifyCommand(new Up());
+        }
+
+        if (this.keysPressed.contains(KeyCode.RIGHT)) {
+            this.mainPlayer.getSpriteAnimation().play();
+            this.controller.get().notifyCommand(new Right());
+        }
+
+        if (this.keysReleased.contains(KeyCode.UP)) {
+        	this.mainPlayer.getSpriteAnimation().stop();
+        	this.keysReleased.remove(KeyCode.UP);
+        }
+
+        if (this.keysReleased.contains(KeyCode.RIGHT)) {
+        	this.mainPlayer.getSpriteAnimation().stop();
+        	this.keysReleased.remove(KeyCode.RIGHT);
+        }
     }
 
     public final void setMap(final Map.Maps map) {
@@ -108,4 +123,9 @@ public class MapScene extends AbstractScene{
     public final Pane getUiPane() {
     	return this.uiPane;
     }
+
+	@Override
+	public void setInputController(final Controller controller) {
+		this.controller = Optional.of(controller);
+	}
 }
