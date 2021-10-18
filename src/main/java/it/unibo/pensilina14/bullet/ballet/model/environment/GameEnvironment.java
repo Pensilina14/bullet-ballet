@@ -8,13 +8,8 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
@@ -22,7 +17,6 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -305,6 +299,4 @@ public class GameEnvironment implements Environment {
 			});
 		}
 	}
-	
-	//TODO: add checkBoundaries()
 }

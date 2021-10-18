@@ -21,8 +21,8 @@ public class WeaponSprite extends Pane {
 		SHOTGUN("shotgun", "res/assets/sprites/weapons/shotgun.jpeg"),
 		AUTO("Auto", "res/assets/sprites/weapons/auto.jpeg");
 		
-		String path;
-		String name;
+		private final String path;
+		private final String name;
 		
 		WeaponsImg(final String name,final String path){
 			this.name = name;
@@ -38,16 +38,17 @@ public class WeaponSprite extends Pane {
 		}
 	}
 	/// Add image for weapon
-	final Image weaponImg;
+	private final Image weaponImg;
 	
-	final ImageView weaponView;
-    int columns = 2;
-    int minY;
-    int minX;
-    int weaponWidth;
-    int weaponHeight;
-    Weapon weapon;
-    
+	private final ImageView weaponView;
+    private int columns = 2;
+    private int minY;
+    private int minX;
+    private int weaponWidth;
+    private int weaponHeight;
+    private final Weapon weapon;
+
+    /*
     public WeaponSprite(final WeaponsImg img, final int x, final int y, final Environment gameEnv) throws  IOException{
     	if (img.equals(WeaponsImg.GUN)) {
     		this.weapon = new WeaponFactoryImpl().createGun(gameEnv);
@@ -55,7 +56,11 @@ public class WeaponSprite extends Pane {
     		this.weapon = new WeaponFactoryImpl().createShotGun(gameEnv);
     	}else if (img.equals(WeaponsImg.AUTO)) {
     		this.weapon = new WeaponFactoryImpl().createAuto(gameEnv);
-    	}
+    	}	
+    }*/
+
+    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Weapon weapon) throws  IOException{
+    	this.weapon = weapon;
     	this.weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
     	this.weaponView = new ImageView(this.weaponImg);
     	this.minX = 0;
@@ -65,31 +70,10 @@ public class WeaponSprite extends Pane {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
     	this.weaponView.setViewport(new Rectangle2D(this.minX, this.minY, this.weaponWidth, this.weaponHeight));
-    	
     	getChildren().add(this.weaponView);
-    	MapScene.weapons.add(this);
-    	MapScene.gamePane.getChildren().add(this);
     }
-    
-    
-    
- /*    
-    public Point2D weaponVelocity = new Point2D(0,0);
-    
-    public static final int WEAPON_SIZE = 20;
-    public static final int MASS = 10;
-    
-    final Weapon weapon;
-    
-    public WeaponSprite() {
-    	this.weapon = new WeaponImpl(EntityList.Weapons.GUN,  new Dimension2Dimpl(WEAPON_SIZE, WEAPON_SIZE),
-    			new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(this.offsetX, this.offsetY), 0),
-				ITEM_ID.WEAPON, null);
-    	this.weaponView.setFitHeight(WeaponSprite.WEAPON_SIZE);
-    	this.weaponView.setFitWidth(WeaponSprite.WEAPON_SIZE);
-    	this.weaponView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.weaponViewWidth, this.weaponViewHeight));
-    	
-    	getChildren().addAll(this.weaponView);
-    }
-   */
 }
+    
+    
+    
+ 
