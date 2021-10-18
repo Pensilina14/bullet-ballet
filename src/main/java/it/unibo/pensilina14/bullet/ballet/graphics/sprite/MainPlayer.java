@@ -40,7 +40,7 @@ public class MainPlayer extends Pane {
 
 
     public MainPlayer() throws IOException {
-        this.player = this.characters.createPlayer(EntityList.Characters.Player.PLAYER1); //TODO: chiamare il costruttore e creare un player casuale senza dover passare il tipo.
+        //this.player = this.characters.createPlayer(EntityList.Characters.Player.PLAYER1); //TODO: da rimuovere perchè dovrà essere messo nel model.
 
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
