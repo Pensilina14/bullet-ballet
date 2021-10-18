@@ -9,20 +9,17 @@ public class Save {
     public void save(String playerName, int playerScore){
 
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("save_file.txt"));
+            FileWriter file = new FileWriter("save_file.txt", true); // true sta a significare di appendere se il file esiste
+            BufferedWriter bufferedWriter = new BufferedWriter(file);
 
             bufferedWriter.write(playerName);
             bufferedWriter.newLine();
 
-            bufferedWriter.write(playerScore);
+            bufferedWriter.write(String.valueOf(playerScore));
             bufferedWriter.newLine();
-
-            /*bufferedWriter.append(playerName); //TODO: uncomment, i nuovi salvataggi non dovrebbero cancellare quelli precedenti.
-            bufferedWriter.newLine();
-            bufferedWriter.append(playerScore);
-            bufferedWriter.newLine();*/
 
             bufferedWriter.close();
+            file.close();
 
         } catch(Exception e){
             e.printStackTrace();
@@ -38,9 +35,6 @@ public class Save {
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("save_file.txt"));
-
-            //String playerName = bufferedReader.readLine();
-            //int playerScore = Integer.parseInt(bufferedReader.readLine());
 
             String line;
             String playerName;
@@ -61,6 +55,18 @@ public class Save {
 
 
         return data;
+    }
+
+    public void resetSaveFile(){
+
+        try {
+
+            FileWriter fileWriter = new FileWriter("save_file.txt", false); // mettendo false ricrea il file, cancellando quello che c'era prima.
+            fileWriter.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
