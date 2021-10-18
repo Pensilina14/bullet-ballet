@@ -254,6 +254,4 @@ public class GameEnvironment implements Environment {
 			});
 		}
 	}
-	
-	//TODO: add checkBoundaries()
 }
