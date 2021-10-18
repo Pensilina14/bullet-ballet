@@ -8,6 +8,7 @@ public interface FactoryCharacters {
     /**
      *
      * @param playerType : an enum with the name of the player that you want to create.
+     * @param vector : a vector which has speed and position.
      * @return : a Player.
      */
 
@@ -16,6 +17,7 @@ public interface FactoryCharacters {
     /**
      *
      * @return : a random Player. It creates a random PlayerType.
+     * @param vector : a vector which has speed and position.
      */
 
     Player createRandomPlayer(SpeedVector2D vector);
@@ -23,6 +25,7 @@ public interface FactoryCharacters {
     /**
      *
      * @param enemyType : an enum with the name of the enemy that you want to create.
+     * @param vector : a vector which has speed and position.
      * @return : an Enemy.
      */
 
@@ -31,6 +34,7 @@ public interface FactoryCharacters {
     /**
      *
      * @return : a random Enemy. It creates a random enemyType.
+     * @param vector : a vector which has speed and position.
      */
 
     Enemy createRandomEnemy(SpeedVector2D vector);
