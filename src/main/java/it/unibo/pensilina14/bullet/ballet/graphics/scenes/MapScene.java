@@ -10,6 +10,8 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
@@ -108,6 +110,7 @@ public class MapScene extends AbstractScene{
                         //TODO: add model link
 
                         //TODO: weapons
+                        WeaponSprite weaponSprite = new WeaponSprite(WeaponSprite.WeaponsImg.GUN, j * MapScene.PLATFORM_SIZE, i * MapScene.PLATFORM_SIZE, new GameEnvironment());
                         break;
                     case '5':
                         //TODO: add model link
