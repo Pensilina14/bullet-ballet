@@ -54,7 +54,7 @@ public class GameEnvironmentTest {
 
   @Test
   public void testGameEnvironmentWithArgs() {
-	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
+	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
 	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
 
     assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
@@ -69,7 +69,7 @@ public class GameEnvironmentTest {
 	/*
 	 * DECLARATION
 	 */
-	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1);
+	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
 	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
 	/*
 	 * ELABORATION
