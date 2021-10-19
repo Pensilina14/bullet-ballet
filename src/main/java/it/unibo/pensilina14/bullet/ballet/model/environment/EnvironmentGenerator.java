@@ -50,13 +50,13 @@ public class EnvironmentGenerator implements LevelGenerator {
                         //TODO: add weapon
                         break;
                     case 'P':
-                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
+                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0), this.env));
                     	break;
                     case '*':
-                        this.env.addItem(this.itemFactory.createDamagingItem(env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
+                        this.env.addItem(this.itemFactory.createDamagingItem(this.env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
                         break;
                     case '!':
-                        this.env.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
+                        this.env.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0), this.env));
                         break;
                 }
             }
