@@ -33,7 +33,7 @@ public class ItemFactoryImpl implements ItemFactory{
     @Override
     public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
-                environment, MASS, speedVector, ITEM_ID.HEART,
+                environment, MASS, speedVector, ITEM_ID.DAMAGE,
                 effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()));
     }
 
