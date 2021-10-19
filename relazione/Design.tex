@@ -262,6 +262,64 @@ Questo schema è fatto male perché:
 \textbf{Physical objects} \\ \\
 Lo scopo iniziale del progetto è stato quello di creare delle vere e proprie entità di gioco(Players, Enemies, Obstacles, Items), che potessero popolare la mappa e interagire fra loro.
 La mia parte richiedeva che io costruissi il core delle entità fisiche di gioco(oltre all'implementazione di alcune di esse), in modo da poter creare una struttura solida alla quale potessero fare riferimento i colleghi, sfruttando il principio della generalizzazione.
+L'interfaccia PhysicalObject rappresenta la struttura base di una entità di gioco, la quale è composta da una dimensione, una posizione e contiene un riferimento all'ambiente di gioco. \\ \\
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/physicalObject}
+	\label{img:physicalObject}
+	\caption{Schema UML rappresentante l'interfaccia PhysicalObject con relative dipendenze. \\}
+\end{figure}
+
+\newpage
+
+\textbf{AbstractStaticComponent e AbstractDynamicComponent} \\ \\
+A livello implementativo è stato scelto di separare le entità di gioco statiche da quelle dinamiche.
+Le entità statiche una volta istanziate non possono cambiare posizione, mentre quelle dinamiche possono muoversi in qualsiasi momento e sono dotate di una propria velocità. A questo proposito ho scelto di implementare le due componenti creando due classi astratte che implementassero l'interfaccia PhysicalObject, semplificando la creazione di classi di specializzazione.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/components}
+	\label{img:components.png}
+	\caption{Schema UML rappresentante le classi astratte riguardanti le entità fisiche statiche e dinamiche. \\}
+\end{figure}
+
+\newpage
+
+\textbf{Item} \\ \\
+Gli Item sono entità presenti all'interno dell'ambiente di gioco, i quali possono essere raccolti dal main player, il quale ne subisce l'effetto.
+In questa situazione ho deciso di creare due DynamicPickupItem e StaticPickupItem che estendono rispettivamente AbstractDynamicComponent e AbstractStaticComponent.
+Similmente ho creato gli staticObstacle e dynamicObstacle.
+Per semplificare l'istanziamento ho deciso di utilizzare il factory pattern, il quale è tornato molto utile e ha ridotto la verbosità.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/item}
+	\label{img:item.png}
+	\caption{Schema UML rappresentante gli Item di gioco\\}
+\end{figure}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ItemFactory}
+	\label{img:ItemFactory.png}
+	\caption{Schema UML rappresentante il factory pattern applicato agli Item\\}
+\end{figure}
+
+\newpage
+
+\textbf{Main menu} \\ \\
+
+Il main menu non è altro che il menù principale, ovvero quello che viene visualizzato all'avvio dell'applicazione e permette all'utente di decidere se e quando iniziare a giocare.
+Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permesso di generare i file fxml, ai quali sono stati associati dei controller, permettendomi di solidificare il concetto di separation of concerns. \\ \\
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/main_menu}
+	\label{img:main_menu.png}
+	\caption{Schema UML rappresentante il main menu\\}
+\end{figure}
+
 
 % ----------------- LEON BAIOCCHI -----------------------------------------
 
