@@ -3,13 +3,16 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.core.Game;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class HomePageController {
     
@@ -31,7 +34,10 @@ public class HomePageController {
     
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
-        
+        final Game game = new Game();
+        final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+        stage.setScene(game.getScene());
+        game.start();
     }
 
     @FXML
