@@ -16,7 +16,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;

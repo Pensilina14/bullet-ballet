@@ -12,7 +12,7 @@ import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 
 public class PickupItemTest {
 
@@ -23,7 +23,7 @@ public class PickupItemTest {
     
     private final DynamicPickupItem dynItem = new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION),
             new GameEnvironment(), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED),
-            ITEM_ID.HEART, null);
+            Items.HEART, null);
     
     @Test
     public void yAxisMovementTest() {

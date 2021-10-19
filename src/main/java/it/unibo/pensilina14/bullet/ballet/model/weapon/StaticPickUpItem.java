@@ -8,11 +8,11 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class StaticPickUpItem extends AbstractStaticComponent implements Item{
 
-    private final ITEM_ID id;
+    private final Items id;
     private final Effect effect;
     
     public StaticPickUpItem(final Dimension2D dimension, final MutablePosition2D position
-            , final Environment gameEnvironment, final ITEM_ID id,
+            , final Environment gameEnvironment, final Items id,
             final Effect effect) {
         super(dimension, position, gameEnvironment);
         this.id = id;
@@ -20,7 +20,7 @@ public class StaticPickUpItem extends AbstractStaticComponent implements Item{
     }
 
     @Override
-    public ITEM_ID getItemId() {
+    public Items getItemId() {
         return this.id;
     }
 

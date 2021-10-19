@@ -1,6 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
-public enum ITEM_ID {
+public enum Items {
 
     HEART("heart"),
     WEAPON("weapon"),
@@ -9,7 +9,7 @@ public enum ITEM_ID {
     
     private final String itemID;
     
-    ITEM_ID(final String itemID) {
+    Items(final String itemID) {
         this.itemID = itemID; 
     }
     
