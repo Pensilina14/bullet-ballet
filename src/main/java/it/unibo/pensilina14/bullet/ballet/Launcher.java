@@ -1,16 +1,29 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
 
+    @Override
+    public void start(final Stage primaryStage) throws Exception {
+        final Parent root = FXMLLoader.load(getClass().getResource(Frames.HOMEPAGE.toString()));
+        final Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+    }
+    
+    public static void main(final String[] args) {
+        launch(args);
+    }
+    
+    
+    /*
     private final static int MAX_SCENES = 2;
 
     public static final AbstractScene[] scenes = new AbstractScene[MAX_SCENES];
@@ -63,4 +76,5 @@ public class Launcher extends Application {
 
         launch(args);
     }
+    */
 }
