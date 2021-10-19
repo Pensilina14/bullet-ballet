@@ -54,9 +54,10 @@ public class GameEnvironmentTest {
 
   @Test
   public void testGameEnvironmentWithArgs() {
-	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
-	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
-
+    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.empty(), this.evListener);
+    final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0), gameEnv);
+    gameEnv.setPlayer(player);
+    
     assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
     assertEquals(gameEnv.getPlayer(), Optional.of(player));
     assertEquals(gameEnv.getEnemies().get(), new ArrayList<>());
@@ -69,8 +70,8 @@ public class GameEnvironmentTest {
 	/*
 	 * DECLARATION
 	 */
-	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
-	final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.of(player), this.evListener);
+	final Environment gameEnv = new GameEnvironment();
+	final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0), gameEnv);
 	/*
 	 * ELABORATION
 	 * #subtest1 -- player
