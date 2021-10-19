@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class PageLoader {
 
-    public void goToSelectedPage(final FRAME frame, final MouseEvent event) throws IOException {
+    public void goToSelectedPage(final Frames frame, final MouseEvent event) throws IOException {
             
             Platform.runLater(() -> {
                     Parent page = null;

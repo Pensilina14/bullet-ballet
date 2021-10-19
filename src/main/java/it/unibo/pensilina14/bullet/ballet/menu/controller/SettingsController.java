@@ -21,7 +21,7 @@ public class SettingsController {
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
         final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage(FRAME.HOMEPAGE, event);
+        loader.goToSelectedPage(Frames.HOMEPAGE, event);
     }
 
     @FXML

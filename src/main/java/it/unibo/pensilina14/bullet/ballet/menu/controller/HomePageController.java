@@ -31,15 +31,13 @@ public class HomePageController {
     
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
-        final GameEngine game = new GameEngine();
-        game.setup();
-        game.mainLoop();
+        
     }
 
     @FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
         final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage(FRAME.SETTINGS, event);
+        loader.goToSelectedPage(Frames.SETTINGS, event);
     }
 
     @FXML
