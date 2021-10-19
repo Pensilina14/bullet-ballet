@@ -1,8 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,8 +16,6 @@ public class Launcher extends Application {
     public static final AbstractScene[] scenes = new AbstractScene[MAX_SCENES];
 
     private static Stage stage;
-
-    public MapScene mapScene = new MapScene();
 
     public enum Scenes {
         MENU_SCENE,
@@ -30,27 +30,24 @@ public class Launcher extends Application {
         //Launcher.scenes[Scenes.MENU_SCENE.ordinal()] = new Menu();
         //Launcher.scenes[Scenes.MAP_SCENE.ordinal()] = this.mapScene; //TODO: uncomment
 
-        // MAP GENERATION
-
-        this.mapScene.generateMap();
-
-        Scene scene = new Scene(MapScene.appPane); //TODO: this.mapScene.getAppPane()
-
-        scene.setOnKeyPressed(event -> this.mapScene.setKeys(event.getCode(), true));
-        scene.setOnKeyReleased(event -> {
-            this.mapScene.setKeys(event.getCode(), false);
-            this.mapScene.getMainPlayer().animation.stop();
-        });
-
+        final GameState state = new GameState();
+        final GameView view = new MapScene(state);
+        final Scene scene = new Scene(view.getAppPane());
         Launcher.stage.setTitle("Bullet Ballet");
         Launcher.stage.setScene(scene);
+        stage.show();  
+        
+        
+        final GameEngine engine = new GameEngine(view, state);
+        engine.setup();
+        engine.mainLoop();
+
+        
         //setScene(Scenes.MAP_SCENE.getIndex()); //TODO: uncomment
 
         //this.mapScene.draw();
 
-        stage.show();
-
-        this.mapScene.draw();
+        
     }
 
     public static void setScene(int currentScene){
@@ -65,11 +62,5 @@ public class Launcher extends Application {
     public static void main(String[] args) {
 
         launch(args);
-        /*
-                final GameEngine game = new GameEngine();
-                game.setup();
-                game.mainLoop();
-
-           */
     }
 }

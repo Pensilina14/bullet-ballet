@@ -305,6 +305,37 @@ La mia parte richiedeva che io costruissi il core delle entità fisiche di gioco
 	\label{img:uml_model_characters}
 \end{figure}
 
-\subsubsection*{Mappa di gioco}
+\subsubsection*{Mappa di gioco} %TODO: approfondire la spiegazione. Descrivere le difficoltà incontrate e le soluzioni.
 
-%TODO: parlare della Mappa (Map, MapScene, AbstractScene), del MainPlayer, SpriteAnimation, MainEnemy, Platform, Coin.
+\textsf{\small Per quanto riguarda la \emph{Mappa} mi sono occupato degli aspetti della \emph{View}.}\\
+
+\textsf{\small E' presente l'interfaccia \emph{GameView} che viene implementata dalla classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena del gioco, come la mappa o i crediti del gioco. Questa è ereditata dalla Classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo.}\\
+
+\textsf{\small In \emph{MapScene} vengono generate le sprites dalle classi \emph{Platform}, \emph{Coin}, \emph{MainEnemy}, \emph{MainPlayer} con la sua animazione implementata in \emph{SpriteAnimation}.}\\
+
+\textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trova nella classe \emph{LevelData}.} %TODO: sistemare, scrivere meglio.
+
+\textsf{\small Ad ogni entità del gioco è associato un carattere che si trova nell'array di stringhe in \emph{LevelData}.}\\ %TODO: anche qui.
+
+\textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
+
+\textsf{\small \emph{MainEnemy} è una semplice ImageView statica mentre \emph{MainPlayer} è una ImageView dinamica, ovvero con un'animazione.}
+\textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc..) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
+
+\textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{Map} che tiene traccia di questi elementi della View.}\\
+
+%TODO: inserire UML della parte della mappa di gioco.
+
+%TODO: parlare della Mappa (Map, MapScene, AbstractScene), del MainPlayer, SpriteAnimation, MainEnemy, Platform, Coin. LevelData
+
+\subsubsection*{Salvataggio}
+
+\textsf{\small Per quanto riguarda l'operazione di salvataggio delle statistiche di gioco, mi sono avvalso della classe \emph{Save} che crea un file di salvataggio in cui vengono contenuti il nome dei giocatori e i loro relativi punteggi.}\\
+
+\textsf{\small Per fare questo, usufruisco di un \emph{BufferedWriter} per creare il file qualora questo non esista già. Altrimenti, mi limito ad aggiungere i dati in coda al file per evitare di eliminare ciò che era stato precedentemente memorizzato.}\\
+
+\textsf{\small Poi mi avvalgo di un \emph{BufferedReader} per leggere dal file e memorizzare i dati e restituire un \emph{HashMap<String, Integer>} con il nome del player e il suo relativo punteggio.}\\
+
+\textsf{\small Infine, ho un metodo per resettare il file e cancellare tutti i dati che erano stati immagazzinati.}\\
+
+%TODO: aggiungere UML del salvataggio.

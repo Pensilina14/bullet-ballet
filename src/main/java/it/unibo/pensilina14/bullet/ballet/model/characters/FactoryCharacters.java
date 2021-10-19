@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 
 public interface FactoryCharacters {
