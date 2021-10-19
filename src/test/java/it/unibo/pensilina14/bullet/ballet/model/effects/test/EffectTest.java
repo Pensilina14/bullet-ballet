@@ -14,7 +14,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 
@@ -44,9 +44,9 @@ public class EffectTest {
 			    new Dimension2Dimpl(25, 5), new SpeedVector2DImpl(new MutablePosition2Dimpl(10, 30), DEFAULT_SPEED), 
 			    env, CHARACTER_MASS);
 		final Item poisonItem = new StaticPickUpItem(new Dimension2Dimpl(25, 5),
-				new MutablePosition2Dimpl(150, 50), env, ITEM_ID.POISON, e -> e.setHealth(e.getHealth() - DAMAGE));
+				new MutablePosition2Dimpl(150, 50), env, Items.POISON, e -> e.setHealth(e.getHealth() - DAMAGE));
 		final Item heartItem = new StaticPickUpItem(new Dimension2Dimpl(30, 30),
-				new MutablePosition2Dimpl(150, 300), env, ITEM_ID.HEART, e -> e.setHealth(e.getHealth() + DAMAGE));
+				new MutablePosition2Dimpl(150, 300), env, Items.HEART, e -> e.setHealth(e.getHealth() + DAMAGE));
 		/*
 		 * ELABORATION
 		 */
@@ -69,13 +69,13 @@ public class EffectTest {
 			    new Dimension2Dimpl(25, 5), new SpeedVector2DImpl(new MutablePosition2Dimpl(10, 30), DEFAULT_SPEED),
 			    env, CHARACTER_MASS);
 		final Item poisonItem = new StaticPickUpItem(new Dimension2Dimpl(25, 5),
-				new MutablePosition2Dimpl(150, 50), env, ITEM_ID.POISON, e -> {
+				new MutablePosition2Dimpl(150, 50), env, Items.POISON, e -> {
 					e.setHealth(e.getHealth() - DAMAGE);
 					IntStream.iterate(0, x -> x + 1).limit(ITERATIONS)
 						.forEach(x -> e.decreaseMana(MANA_DAMAGE));
 				});
 		final Item heartItem = new StaticPickUpItem(new Dimension2Dimpl(30, 30),
-				new MutablePosition2Dimpl(150, 300), env, ITEM_ID.HEART, e -> {
+				new MutablePosition2Dimpl(150, 300), env, Items.HEART, e -> {
 					e.setHealth(e.getHealth() + DAMAGE);
 					IntStream.iterate(0, x -> x + 1).limit(ITERATIONS)
 						.forEach(x -> e.increaseMana(MANA_DAMAGE));

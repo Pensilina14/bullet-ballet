@@ -33,7 +33,7 @@ public class BulletImpl implements Bullet {
 	}
 
     @Override
-    public ITEM_ID getItemId() {
+    public Items getItemId() {
         // TODO Auto-generated method stub
         return null;
     }

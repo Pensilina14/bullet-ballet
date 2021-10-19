@@ -28,7 +28,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private double damageFactor;
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final ITEM_ID id, 
+            final double mass, final SpeedVector2D vector, final Items id, 
             final Effect effect) {
 		super(dimension, gameEnvironment, mass, vector, id, effect);
 		this.name = weaponType.getName();
@@ -163,8 +163,8 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	}
 
     @Override
-    public ITEM_ID getItemId() {
-    	return ITEM_ID.WEAPON;
+    public Items getItemId() {
+    	return Items.WEAPON;
     }
     
     private List<Bullet> switchCharger() {

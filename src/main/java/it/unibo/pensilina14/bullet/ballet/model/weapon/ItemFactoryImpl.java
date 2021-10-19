@@ -17,7 +17,7 @@ public class ItemFactoryImpl implements ItemFactory{
     @Override
     public Item createPoisoningItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
-                environment, MASS, speedVector, ITEM_ID.POISON,
+                environment, MASS, speedVector, Items.POISON,
                 effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue(),
                         SpecialEffects.POISON.getMsStep().getValue(),
                         SpecialEffects.POISON.getMsDuration().getValue()));
@@ -26,14 +26,14 @@ public class ItemFactoryImpl implements ItemFactory{
     @Override
     public Item createHealingItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
-                environment, MASS, speedVector, ITEM_ID.HEART,
+                environment, MASS, speedVector, Items.HEART,
                 effectFact.createHealEffect(Effects.HEALTHY.getDelta().getValue()));
     }
 
     @Override
     public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
         return new DynamicPickupItem(new Dimension2Dimpl(DIMENSION, DIMENSION), 
-                environment, MASS, speedVector, ITEM_ID.DAMAGE,
+                environment, MASS, speedVector, Items.DAMAGE,
                 effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()));
     }
 
