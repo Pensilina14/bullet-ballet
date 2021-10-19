@@ -135,8 +135,8 @@ public class CharactersTest {
     @Test
     public void factoryCharactersImplTest(){
         final FactoryCharactersImpl factoryCharacters = new FactoryCharactersImpl();
-        Player player = factoryCharacters.createRandomPlayer(vector);
-        Enemy enemy = factoryCharacters.createRandomEnemy(vector);
+        Player player = factoryCharacters.createRandomPlayer(vector, environment);
+        Enemy enemy = factoryCharacters.createRandomEnemy(vector, environment);
 
         // Non conosco i valori della vita e resto a priori, perchè sono casuali.
 
