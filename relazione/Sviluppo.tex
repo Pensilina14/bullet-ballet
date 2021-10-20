@@ -22,7 +22,6 @@ Abbiamo inoltre attribuito importanza alla "pulizia" dei test, per garantire la 
 	\item Dimension2DTest
 	\item PickupItemTest
 	\item ItemFactoryTest
-	\item MainMenuControllerTest
 \end{itemize}
 
 \subsection*{Leon Baiocchi}
@@ -90,69 +89,29 @@ Lavoro svolto :
 
 \section{Note di sviluppo}
 
-Questa sezione, come quella riguardante il design dettagliato va svolta \textbf{singolarmente da ogni membro del gruppo}.
-
-Ciascuno dovrà mettere in evidenza eventuali particolarità del suo metodo di sviluppo, ed in particolare:
-\begin{itemize}
-	\item \textbf{Elencare} (fare un semplice elenco per punti, non un testo!) le feature \textit{avanzate} del linguaggio e dell'ecosistema Java che sono state
-	utilizzate. Le feature di interesse sono:
-	\begin{itemize}
-		\item Progettazione con generici, ad esempio costruzione di nuovi tipi generici, e uso di generici bounded. Uso di classi generiche di libreria non è considerato avanzato.
-		\item Uso di lambda expressions
-		\item Uso di \texttt{Stream}, di \texttt{Optional} o di altri costrutti funzionali
-		\item Uso della reflection
-		\item Definizione ed uso di nuove annotazioni
-		\item Uso del Java Platform Module System
-		\item Uso di parti di libreria non spiegate a lezione (networking, compressione, parsing XML, eccetera...)
-		\item Uso di librerie di terze parti (incluso JavaFX): Google Guava, Apache Commons...
-		\item Uso di build systems
-	\end{itemize}
-	Si faccia molta attenzione a non scrivere banalità, elencando qui features di tipo ``core'', come le eccezioni, le enumerazioni, o le inner class: nessuna di queste è considerata avanzata.
-	\item Descrivere \textit{molto brevemente} le librerie utilizzate nella propria parte di progetto, se non trattate a lezione (ossia, se librerie di terze parti e/o se componenti del JDK non visti, come le socket). Si ricorda che l'utilizzo di librerie è valutato \emph{positivamente}.
-	\item Sviluppo di algoritmi particolarmente interessanti \emph{non forniti da alcuna libreria} (spesso può convenirvi chiedere sul forum se ci sia una libreria per fare una certa cosa, prima di gettarvi a capofitto per scriverla voi stessi).
-\end{itemize}
-%
-In questa sezione, \textit{dopo l'elenco}, è anche bene evidenziare eventuali pezzi di codice ``riadattati'' (o scopiazzati...) da Internet o da altri progetti, pratica che tolleriamo ma che non raccomandiamo.
-%
-I pattern di design, invece \textbf{non} vanno messi qui.
-%
-L'uso di pattern di design (come suggerisce il nome) è un aspetto avanzato di design, non di implementazione,
-e non va in questa sezione.
-
-\subsection*{Elementi positivi}
+\subsection*{Alessandro}
 
 \begin{itemize}
-	\item Si elencano gli aspetti avanzati di linguaggio che sono stati impiegati
-	\item Si elencano le librerie che sono state utilizzate
-	\item Si descrivono aspetti particolarmente complicati o rilevanti relativi all'implementazione,
-	ad esempio, in un'applicazione performance critical, un uso particolarmente avanzato di meccanismi
-	di caching, oppure l'implementazione di uno specifico algoritmo.
-	\item Se si è utilizzato un particolare algoritmo, se ne cita la fonte originale. Ad esempio, se
-	si è usato Mersenne Twister per la generazione dei numeri pseudo-random, si cita \cite{mersenne}.
-	\item Si identificano parti di codice prese da altri progetti, dal web, o comunque scritte in forma originale da altre persone. In tal senso, si ricorda che agli ingegneri non è richiesto di re-inventare la ruota continuamente: se si cita debitamente la sorgente è tollerato fare uso di di snippet di codice per risolvere velocemente problemi non banali. Nel caso in cui si usino snippet di codice di qualità discutibile, oltre a menzionarne l'autore originale si invitano gli studenti ad adeguare tali parti di codice agli standard e allo stile del progetto. Contestualmente, si fa presente che è largamente meglio fare uso di una libreria che copiarsi pezzi di codice: qualora vi sia scelta (e tipicamente c'è), si preferisca la prima via.
+	\item  \textbf{\textit{JavaFx}} : utilizzato per la realizzazione del menù.
+	\item \textbf{\textit{Optionals}} : per evitare di ritornare valori null.
+	\item \textbf{\textit{Apache library}} : libreria che ho importato per l'utilizzo delle classi Pair preimplementate.
+	\item \textbf{\textit{Gradle}} : strumento che ho utilizzato per importare le varie componenti di javafx.
 \end{itemize}
 
-\subsection*{Elementi negativi}
+\subsection*{Leon Baiocchi}
+
 \begin{itemize}
-	\item Si elencano feature core del linguaggio invece di quelle segnalate. Esempi di feature
-	core da non menzionare sono:
-	\begin{itemize}
-		\item eccezioni;
-		\item classi innestate;
-		\item enumerazioni;
-		\item interfacce.
-	\end{itemize}
-	\item Si elencano applicazioni di terze parti (peggio se per usarle occorre licenza, e lo
-	studente ne è sprovvisto) che non c'entrano nulla con lo sviluppo, ad esempio:
-	\begin{itemize}
-		\item Editor di grafica vettoriale come Inkscape o Adobe Illustrator;
-		\item Editor di grafica scalare come GIMP o Adobe Photoshop;
-		\item Editor di audio come Audacity;
-		\item Strumenti di design dell'interfaccia grafica come SceneBuilder: il codice è in ogni caso inteso come sviluppato da voi.
-	\end{itemize}
-	\item Si descrivono aspetti di scarsa rilevanza, o si scende in dettagli inutili.
-	\item Sono presenti parti di codice sviluppate originalmente da altri che non vengono
-	debitamente segnalate. In tal senso, si ricorda agli studenti che i docenti hanno accesso a tutti i
-	progetti degli anni passati, a Stack Overflow, ai principali blog di sviluppatori ed esperti Java (o sedicenti tali), ai blog dedicati allo sviluppo di soluzioni e applicazioni (inclusi blog dedicati ad Android e allo sviluppo di videogame), nonché ai social network. Conseguentemente, è \emph{molto} conveniente \emph{citare} una fonte ed usarla invece di tentare di spacciare per proprio il lavoro di altri.
-	\item Si elencano design pattern
+	\item  todo : scrivere quello che si è fatto nel progetto.
+\end{itemize}
+
+\subsection*{Federico Brunelli}
+
+\begin{itemize}
+	\item  todo : scrivere quello che si è fatto nel progetto.
+\end{itemize}
+
+\subsection*{Luca Rengo}
+
+\begin{itemize}
+	\item  todo : scrivere quello che si è fatto nel progetto.
 \end{itemize}

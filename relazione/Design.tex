@@ -114,10 +114,8 @@ In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
 \end{comment}
 
-\section{Design dettagliato}
-
 %TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  INIZIO -----------------------------------
-
+\begin{comment}
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %
 Mentre ci attendiamo principalmente (o solo) interfacce negli schemi UML delle sezioni precedenti, in questa sezione è necessario scendere in maggior dettaglio presentando la struttura di alcune sottoparti rilevanti dell'applicazione.
@@ -253,16 +251,20 @@ Questo schema è fatto male perché:
 \end{figure}
 
 %TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  FINE -----------------------------------
+	content...
+\end{comment}
 
 % ----------------- ALESSANDRO PIOGGIA -----------------------------------------
 
 \newpage
 
+\section{Design dettagliato}
+
 \subsection*{Alessandro Pioggia}
 \textbf{Physical objects} \\ \\
 Lo scopo iniziale del progetto è stato quello di creare delle vere e proprie entità di gioco(Players, Enemies, Obstacles, Items), che potessero popolare la mappa e interagire fra loro.
 La mia parte richiedeva che io costruissi il core delle entità fisiche di gioco(oltre all'implementazione di alcune di esse), in modo da poter creare una struttura solida alla quale potessero fare riferimento i colleghi, sfruttando il principio della generalizzazione.
-L'interfaccia PhysicalObject rappresenta la struttura base di una entità di gioco, la quale è composta da una dimensione, una posizione e contiene un riferimento all'ambiente di gioco. \\ \\
+L'interfaccia \textbf{PhysicalObject} rappresenta la struttura base di una entità di gioco, la quale è composta da una dimensione, una posizione e contiene un riferimento all'ambiente di gioco. \\ \\
 
 \begin{figure}[H]
 	\centering{}
@@ -274,8 +276,8 @@ L'interfaccia PhysicalObject rappresenta la struttura base di una entità di gio
 \newpage
 
 \textbf{AbstractStaticComponent e AbstractDynamicComponent} \\ \\
-A livello implementativo è stato scelto di separare le entità di gioco statiche da quelle dinamiche.
-Le entità statiche una volta istanziate non possono cambiare posizione, mentre quelle dinamiche possono muoversi in qualsiasi momento e sono dotate di una propria velocità. A questo proposito ho scelto di implementare le due componenti creando due classi astratte che implementassero l'interfaccia PhysicalObject, semplificando la creazione di classi di specializzazione.
+A livello implementativo è stato scelto di separare le entità di gioco \textbf{statiche} da quelle \textbf{dinamiche}.
+Le entità statiche una volta istanziate non possono cambiare posizione, mentre quelle dinamiche possono muoversi in qualsiasi momento e sono dotate di una propria velocità. A questo proposito ho scelto di implementare le due componenti creando due classi astratte che implementassero l'interfaccia \textbf{PhysicalObject}, semplificando la creazione di classi di specializzazione.
 
 \begin{figure}[H]
 	\centering{}
@@ -287,9 +289,9 @@ Le entità statiche una volta istanziate non possono cambiare posizione, mentre 
 \newpage
 
 \textbf{Item} \\ \\
-Gli Item sono entità presenti all'interno dell'ambiente di gioco, i quali possono essere raccolti dal main player, il quale ne subisce l'effetto.
-In questa situazione ho deciso di creare due DynamicPickupItem e StaticPickupItem che estendono rispettivamente AbstractDynamicComponent e AbstractStaticComponent.
-Similmente ho creato gli staticObstacle e dynamicObstacle.
+Gli \textbf{Item} sono entità presenti all'interno dell'ambiente di gioco, le quali possono essere raccolte dal main player, il quale ne subisce l'effetto.
+In questa situazione ho deciso di creare due \textbf{DynamicPickupItem} e \textbf{StaticPickupItem} che estendono rispettivamente \textbf{AbstractDynamicComponent} e \textbf{AbstractStaticComponent}.
+Similmente ho creato gli \textbf{staticObstacle} e\textbf{ dynamicObstacle}.
 Per semplificare l'istanziamento ho deciso di utilizzare il factory pattern, il quale è tornato molto utile e ha ridotto la verbosità.
 
 \begin{figure}[H]
