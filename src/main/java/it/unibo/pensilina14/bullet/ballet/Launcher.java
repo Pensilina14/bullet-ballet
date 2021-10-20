@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet;
 
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import javafx.application.Application;
@@ -11,10 +12,12 @@ public class Launcher extends Application {
     
     @Override
     public void start(final Stage primaryStage) throws Exception {
+    	AppLogger.getAppLogger().debug("Inside Launcher start() method, it's been called.");
         loader.loadFirstScene(primaryStage);
     }
     
     public static void main(final String[] args) {
+    	AppLogger.getAppLogger().info("Application has started.");
         launch(args);
     }
     /*
