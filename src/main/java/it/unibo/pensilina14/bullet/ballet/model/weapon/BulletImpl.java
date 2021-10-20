@@ -11,10 +11,12 @@ public class BulletImpl implements Bullet {
 
 	private final String name;
 	private double damage;
+	private boolean fired;
 	
 	public BulletImpl(final EntityList.BulletType bulletType) {
 		this.name = bulletType.description();
 		this.damage = bulletType.damage();
+		this.fired = false;
 	}
 	
 	@Override
@@ -63,6 +65,16 @@ public class BulletImpl implements Bullet {
 	@Override
 	public void setDamage(final double factor) {
 		this.damage *= factor;
+	}
+	
+	@Override
+	public void fire() {
+		this.fired = true;
+	}
+	
+	@Override
+	public boolean isShot() {
+		return this.fired;
 	}
 
 }
