@@ -38,6 +38,7 @@ public class HomePageController {
         final Game game = new Game();
         final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
         stage.setScene(game.getScene());
+        stage.show();
         game.start();
     }
 
