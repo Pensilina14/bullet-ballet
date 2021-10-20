@@ -124,8 +124,8 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 			System.out.println(this.bandolier);
 			this.currentAmmo--;
 		}
+		this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
 		this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
-		//this.bandolier.stream().filter(x -> x.size()>0).findFirst().get().remove(this.currentAmmo--);
 	}
 	
 	@Override

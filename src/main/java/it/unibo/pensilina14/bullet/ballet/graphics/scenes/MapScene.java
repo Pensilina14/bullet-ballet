@@ -20,6 +20,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -133,8 +134,7 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
-    				new WeaponSprite(y, (int) (x.getPosition().getX() * platformSize), (int) (x.getPosition().getY() * platformSize), 
-    						x);
+    				new WeaponSprite(y, x, platformSize);
     			}
     		}
     	}
@@ -160,7 +160,12 @@ public class MapScene extends AbstractScene implements GameView{
     						(int) (x.getPosition().getY() * platformSize), x, this);
     			}
     		}
-    	}	
+    	}
+    	/*
+    	for (final Bullet x : this.gameState.getGameEnvironment().getBullets().get().subList()) {
+    		// TODO add algorithm for bullets
+    	}
+    	 */
     }
 
     public final void setMap(final Map.Maps map) {

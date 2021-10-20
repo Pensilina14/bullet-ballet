@@ -54,9 +54,9 @@ public enum EntityList {
     
     public enum BulletType {
 
-    	CLASSICAL("Normal bullet", 10),
-    	TOXIC("Toxic bullet", 10),
-    	SOPORIFIC("Soporific bullet", 10);
+    	CLASSICAL("Normal", 10),
+    	TOXIC("Toxic", 10),
+    	SOPORIFIC("Soporific", 10);
 	
     	private final String description;
     	private final double damage;
