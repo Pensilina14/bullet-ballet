@@ -15,7 +15,7 @@ import java.util.Random;
 public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private double health;
-    private Optional<Double> mana; //TODO: remove?
+    private Optional<Double> mana;
     private String name;
 
     private Weapon weapon;
@@ -45,7 +45,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         super(dimension, environment, mass, vector);
 
         setRandomEnemy();
-
+        setEnemyType();
     }
 
     private void setRandomEnemy() {
@@ -53,16 +53,13 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         final int max = EntityList.Characters.Enemy.values().length;
         final int min = 0;
 
-        //TODO: enemyType remains empty, to be fixed..
-        /*final int randomEnemy = rand.nextInt(((max - min) + 1 ) + min);
+        final int randomEnemy = rand.nextInt(((max - min)) + min);
         for (EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
             if (e.ordinal() == randomEnemy) {
                 this.enemyType = e;
             }
-        }*/
-        this.enemyType = EntityList.Characters.Enemy.ENEMY1;
+        }
 
-        setEnemyType();
     }
 
     private void setEnemyType(){
@@ -172,5 +169,9 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     @Override
     public void decreaseHealth(double decreaseHealth) {
         this.health -= decreaseHealth;
+    }
+
+    public EntityList.Characters.Enemy getEnemyType() {
+        return this.enemyType;
     }
 }
