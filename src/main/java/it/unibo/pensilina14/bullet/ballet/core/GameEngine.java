@@ -12,6 +12,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
@@ -54,26 +55,34 @@ public class GameEngine implements Controller, GameEventListener {
 		if (this.view.isEmpty()) {
 			this.view = Optional.of(new MapScene(this.gameState.get(), this));
 			this.view.get().setup();
+			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
 			this.view.get().setInputController(this);
+			AppLogger.getAppLogger().debug("View input controller set.");
 		}
 
 		if (this.gameState.isEmpty()) {
 			this.gameState = Optional.of(new GameState());
 			this.gameState.get().setEventListener(this);
+			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
 		} else {
 			this.gameState.get().setEventListener(this);
+			AppLogger.getAppLogger().debug("Game state present, event listener set only.");
 		}
 	}
 	
 	public void mainLoop() {
+		AppLogger.getAppLogger().info("Main loop starts now.");
 	    long lastTime = System.currentTimeMillis();
 		while (!this.gameState.get().isGameOver()) {
 			final long current = System.currentTimeMillis();
 			final int elapsed = (int) (current - lastTime);
 			this.processInput();
+			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame(elapsed);
+			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
+			AppLogger.getAppLogger().debug("Rendering ultimated.");
 			this.waitForNextFrame(elapsed);
 			lastTime = current;
 		}
