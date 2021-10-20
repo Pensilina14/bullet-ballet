@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,39 +35,17 @@ public class WeaponSprite extends Pane {
 		}
 	}
 	/// Add image for weapon
-	private final Image weaponImg;
-	
-	private final ImageView weaponView;
-    private int columns = 2;
-    private int minY;
-    private int minX;
-    private int weaponWidth;
-    private int weaponHeight;
-    private final Weapon weapon;
+	private final static int DEFAULT_VALUE = 0;
 
-    /*
-    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Environment gameEnv) throws  IOException{
-    	if (img.equals(WeaponsImg.GUN)) {
-    		this.weapon = new WeaponFactoryImpl().createGun(gameEnv);
-    	}else if (img.equals(WeaponsImg.SHOTGUN)) {
-    		this.weapon = new WeaponFactoryImpl().createShotGun(gameEnv);
-    	}else if (img.equals(WeaponsImg.AUTO)) {
-    		this.weapon = new WeaponFactoryImpl().createAuto(gameEnv);
-    	}	
-    }*/
-
-    public WeaponSprite(final WeaponsImg img, final int x, final int y, final Weapon weapon) throws  IOException{
-    	this.weapon = weapon;
-    	this.weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
-    	this.weaponView = new ImageView(this.weaponImg);
-    	this.minX = 0;
-    	this.minY = 0;
-    	this.weaponHeight = 25;
-    	this.weaponWidth = 50;
-    	this.setTranslateX(x);
-    	this.setTranslateY(y);
-    	this.weaponView.setViewport(new Rectangle2D(this.minX, this.minY, this.weaponWidth, this.weaponHeight));
-    	getChildren().add(this.weaponView);
+    public WeaponSprite(final WeaponsImg img, final Weapon weapon, final int platformSize) throws  IOException{
+		final Image weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
+    	final ImageView weaponView= new ImageView(weaponImg);
+    	final double weaponWidth = weapon.getDimension().getWidth();
+    	final double weaponHeight = weapon.getDimension().getHeight();
+    	this.setTranslateX(weapon.getPosition().getX() * platformSize);
+    	this.setTranslateY(weapon.getPosition().getY() * platformSize);
+    	weaponView.setViewport(new Rectangle2D(DEFAULT_VALUE, DEFAULT_VALUE, weaponWidth, weaponHeight));
+    	getChildren().add(weaponView);
     }
 }
     
