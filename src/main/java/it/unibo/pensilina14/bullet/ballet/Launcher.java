@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 public class Launcher extends Application {
 	
     private final PageLoader loader = new PageLoaderImpl();
-    
+
     @Override
-    public void start(final Stage primaryStage) throws Exception {
+    public final void start(final Stage primaryStage) throws Exception {
     	AppLogger.getAppLogger().debug("Inside Launcher start() method, it's been called.");
         loader.loadFirstScene(primaryStage);
     }
-    
+
     public static void main(final String[] args) {
     	AppLogger.getAppLogger().info("Application has started.");
         launch(args);
