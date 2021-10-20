@@ -1,22 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.core.Game;
-import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
 	
+    private final PageLoader loader = new PageLoader();
+    
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        final Parent root = FXMLLoader.load(getClass().getResource(Frames.HOMEPAGE.toString()));
-        final Scene scene = new Scene(root);
-        primaryStage.setTitle("bullet-ballet");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        loader.loadFirstScene(primaryStage);
     }
     
     public static void main(final String[] args) {
