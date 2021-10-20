@@ -123,7 +123,7 @@ public class Coin extends Pane {
         final Random rand = new Random();
         final int max = Coin.Coins.values().length;
         final int min = 0;
-        final int randomMap = rand.nextInt(((max - min) + 1) + min);
+        final int randomMap = rand.nextInt(((max - min)) + min); // nextInt : 0 incluso, max escluso.
         for (final Coins c : Coins.values()) {
             if (c.ordinal() == randomMap) {
                 return c;

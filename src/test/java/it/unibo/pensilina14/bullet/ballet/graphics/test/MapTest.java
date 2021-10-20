@@ -47,8 +47,6 @@ public class MapTest {
         Map map = new Map();
         map.setMap(Map.Maps.CAVE);
 
-        //String caveMapPath = "res/assets/maps/Backgrounds/cave_background.png";
-
         assertEquals(Map.Maps.CAVE.getPath(), map.getMap().getPath());
         assertEquals(Platform.Platforms.CAVE_PLATFORM, map.getPlatformType());
 
@@ -57,6 +55,40 @@ public class MapTest {
 
         assertEquals(width, map.getMapWidth());
         assertEquals(height, map.getMapHeight());
+
+        //Check whether map, platform and coin are in range of enum.
+        // MAP TYPE CHECK
+        boolean mapTypeChecker = false;
+        for(Map.Maps m : Map.Maps.values()){
+            if(m == map.getMap()){
+                mapTypeChecker = true;
+            }
+        }
+
+        assertTrue(mapTypeChecker);
+
+        // PLATFORM TYPE CHECK
+
+        boolean platformTypeChecker = false;
+        for(Platform.Platforms p : Platform.Platforms.values()){
+            if(p == map.getPlatformType()){
+                platformTypeChecker = true;
+            }
+        }
+
+        assertTrue(platformTypeChecker);
+
+
+        // COIN TYPE CHECK
+
+        boolean coinTypeChecker = false;
+        for(Coin.Coins c : Coin.Coins.values()){
+            if(c == map.getCoinType()){
+                coinTypeChecker = true;
+            }
+        }
+
+        assertTrue(coinTypeChecker);
     }
 
     @Test

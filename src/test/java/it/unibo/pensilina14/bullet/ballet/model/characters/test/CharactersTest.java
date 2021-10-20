@@ -158,6 +158,27 @@ public class CharactersTest {
         assertEquals(player.getHealth(), (playerHealth - 10.0), 0.0);
         assertEquals(enemy.getHealth(), (enemyHealth - 5.0), 0.0);
 
+        // Checking whether player/enemy Type is in range.
+
+        boolean playerTypeChecker = false;
+        for(EntityList.Characters.Player p : EntityList.Characters.Player.values()){
+            if(p == player.getPlayerType()){
+                assertSame(p, player.getPlayerType());
+                //playerTypeChecker++;
+                playerTypeChecker = true;
+            }
+        }
+        //assertTrue(playerTypeChecker > 0);
+        assertTrue(playerTypeChecker);
+
+        boolean enemyTypeChecker = false;
+        for(EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
+            if(e == enemy.getEnemyType()){
+                enemyTypeChecker = true;
+            }
+        }
+
+        assertTrue(enemyTypeChecker);
 
     }
 }

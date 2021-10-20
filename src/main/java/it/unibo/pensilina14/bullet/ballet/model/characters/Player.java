@@ -15,7 +15,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 public class Player extends AbstractDynamicComponent implements Characters{
 
     private double health;
-    private Optional<Double> mana; //TODO: remove?
+    private Optional<Double> mana;
 
     private String name;
 
@@ -53,6 +53,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
         super(dimension, environment, mass, vector);
 
         setRandomPlayer();
+        setPlayerType();
 
     }
 
@@ -61,18 +62,13 @@ public class Player extends AbstractDynamicComponent implements Characters{
         final int max = EntityList.Characters.Player.values().length;
         final int min = 0;
 
-        //TODO: playerType remains empty, to be fixed..
-        /*
-        final int randomPlayer = rand.nextInt(((max - min) + 1 ) + min);
+        final int randomPlayer = rand.nextInt(((max - min)) + min);
         for(EntityList.Characters.Player p : EntityList.Characters.Player.values()){
             if(p.ordinal() == randomPlayer){
                 this.playerType = p;
             }
         }
-        */
-        this.playerType = EntityList.Characters.Player.PLAYER1;
 
-        setPlayerType();
     }
 
     private void setPlayerType(){
@@ -177,5 +173,9 @@ public class Player extends AbstractDynamicComponent implements Characters{
     @Override
     public void decreaseHealth(double decreaseHealth) {
         this.health -= decreaseHealth;
+    }
+
+    public EntityList.Characters.Player getPlayerType() {
+        return this.playerType;
     }
 }

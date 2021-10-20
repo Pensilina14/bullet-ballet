@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.core.Game;
-import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class HomePageController {
+    
+    private final PageLoader loader = new PageLoaderImpl();
     
     @FXML
     void exitOnMouseClicked(final MouseEvent event) {
@@ -42,8 +43,7 @@ public class HomePageController {
 
     @FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
-        final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage(Frames.SETTINGS, event);
+        loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
     }
 
     @FXML
