@@ -47,8 +47,6 @@ public class MapTest {
         Map map = new Map();
         map.setMap(Map.Maps.CAVE);
 
-        //String caveMapPath = "res/assets/maps/Backgrounds/cave_background.png";
-
         assertEquals(Map.Maps.CAVE.getPath(), map.getMap().getPath());
         assertEquals(Platform.Platforms.CAVE_PLATFORM, map.getPlatformType());
 
