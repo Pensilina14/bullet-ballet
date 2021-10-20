@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class HomePageController {
     
-    private final PageLoader loader = new PageLoader();
+    private final PageLoader loader = new PageLoaderImpl();
     
     @FXML
     void exitOnMouseClicked(final MouseEvent event) {

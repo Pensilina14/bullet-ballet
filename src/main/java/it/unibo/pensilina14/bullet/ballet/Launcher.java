@@ -1,12 +1,12 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
 	
-    private final PageLoader loader = new PageLoader();
+    private final PageLoaderImpl loader = new PageLoaderImpl();
     
     @Override
     public void start(final Stage primaryStage) throws Exception {

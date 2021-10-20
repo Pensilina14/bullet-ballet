@@ -17,7 +17,7 @@ public class SettingsController {
     private ComboBox<String> resolution;
     @FXML
     private ComboBox<String> difficulty;
-    private final PageLoader loader = new PageLoader();
+    private final PageLoader loader = new PageLoaderImpl();
     
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
