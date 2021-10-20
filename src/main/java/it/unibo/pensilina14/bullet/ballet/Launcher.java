@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.core.Game;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
