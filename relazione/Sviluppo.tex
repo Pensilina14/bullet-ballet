@@ -47,33 +47,45 @@ Abbiamo inoltre attribuito importanza alla "pulizia" dei test, per garantire la 
 
 \section{Metodologia di lavoro}
 
-Ci aspettiamo, leggendo questa sezione, di trovare conferma alla divisione operata nella sezione del design di dettaglio, e di capire come è stato svolto il lavoro di integrazione.
-%
-\textbf{Andrà realizzata una sotto-sezione separata per ciascuno studente} che identifichi le porzioni di progetto sviluppate, separando quelle svolte in autonomia da quelle sviluppate in collaborazione.
-%
-Diversamente dalla sezione di design, in questa è consentito elencare package/classi, se lo studente ritiene sia il modo più efficace di convogliare l'informazione.
-%
-Si ricorda che l'impegno deve giustificare circa 40-50 ore di sviluppo (è normale e fisiologico che approssimativamente la metà del tempo sia impiegata in analisi e progettazione).
-
-\subsection*{Elementi positivi}
+Nella prima fase di realizzazione del progetto ci siamo dedicati all'analisi, in cui abbiamo lavorato in maniera coordinata per definire la struttura e le funzionalità del progetto.
+Successivamente siamo passati al design, in cui è stato deciso di creare uno scheletro in UML che descrivesse a grandi linee le entità principali necessarie per il funzionamento, definendo già le dipendenze fra esse. Il processo descritto ci ha permesso di definire una suddivisione del lavoro in 4 parti, in modo da garantire la prosecuzione del lavoro individuale con la fase di design dettagliato. \\
+Per facilitare lo sviluppo abbiamo sfruttato un real-time-mantained UML, ovvero una repository in cui ciascun membro, una volta terminata una sessione di lavoro, aveva la premura di aggiornare uno schema UML, costruendo/modificando un diagramma delle classi che descrivesse il lavoro svolto. \\
+Per quanto riguarda il DVCS abbiamo optato per l'utilizzo di git, in accordo con le nozioni apprese a lezione. La metodologia utilizzata è stata la seguente:
 
 \begin{itemize}
-	\item Si identifica con precisione il ruolo di ciascuno all'interno del gruppo, ossia su quale parte del progetto ciascuno dei componenti si è concentrato maggiormente.
-	\item La divisione dei compiti è equa, ossia non vi sono membri del gruppo che hanno svolto molto più lavoro di altri.
-	\item La divisione dei compiti è coerente con quanto descritto nelle parti precedenti della relazione.
-	\item La divisione dei compiti è realistica, ossia le dipendenze fra le parti sviluppate sono minime.
-	\item Si identifica quale parte del software è stato sviluppato da tutti i componenti insieme.
-	\item Si spiega in che modo si sono integrate le parti di codice sviluppate separatamente, evidenziando eventuali problemi. Ad esempio, una strategia è convenire sulle interfacce da usare (ossia, occuparsi insieme di stabilire l'architettura) e quindi procedere indipendentemente allo sviluppo di parti differenti. Una possibile problematica potrebbe essere una dimenticanza in fase di design architetturale che ha costretto ad un cambio e a modifiche in fase di integrazione. Una situazione simile è la norma nell'ingegneria di un sistema software non banale, ed il processo di progettazione top-down con raffinamento successivo è il così detto processo ``a spirale''.
-	\item Si descrive in che modo è stato impiegato il DVCS.
+	\item Sviluppo in feature-branches, ovvero branches in cui venivano realizzate singolarmente le feature dell'applicativo.
+	\item Ognuno di noi aveva a disposizione un numero definito di branches indipendenti dagli altri.
+	\item I feature-branches venivano poi confluiti nel main-branch.
 \end{itemize}
 
-\subsection*{Elementi negativi}
+\subsection*{Alessandro Pioggia}
+Lavoro svolto : 
 \begin{itemize}
-	\item Non si chiarisce chi ha fatto cosa.
-	\item C'è discrepanza fra questa sezione e le sezioni che descrivono il design dettagliato.
-	\item Tutto il progetto è stato svolto lavorando insieme invece che assegnando una parte a ciascuno.
-	\item Non viene descritta la metodologia di integrazione delle parti sviluppate indipendentemente.
-	\item Uso superficiale del DVCS.
+	\item Realizzazione del menù principale con relativi reindirizzamenti.
+	\item Creazione dello scheletro per l'implementazione delle entità di gioco fisiche, ovvero la creazione dell'interfaccia PhysicalObject e le classi astratte AbstractDynamic/Static Component.
+	\item Implementazione di oggetti di gioco pickable (Item) e di ostacoli(Obstacles), realizzazione di sprites compresa.
+	\item Creazione di commons, quali Dimension2D e SpeedVector2D.
+	 
+	 
+\end{itemize}
+
+
+\subsection*{Leon Baiocchi}
+
+\begin{itemize}
+	\item  todo : scrivere quello che si è fatto nel progetto.
+\end{itemize}
+
+\subsection*{Federico Brunelli}
+
+\begin{itemize}
+	\item  todo : scrivere quello che si è fatto nel progetto.
+\end{itemize}
+
+\subsection*{Luca Rengo}
+
+\begin{itemize}
+	\item  todo : scrivere quello che si è fatto nel progetto.
 \end{itemize}
 
 \section{Note di sviluppo}
