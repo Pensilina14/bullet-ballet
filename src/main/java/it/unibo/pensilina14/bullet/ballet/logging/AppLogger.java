@@ -13,11 +13,7 @@ public final class AppLogger {
 	private AppLogger() {
 		this.logger = (Logger) LogManager.getLogger("BulletBallet");
 
-		final ConsoleAppender consoleAppender = ConsoleAppender.newBuilder()
-				.setLayout(PatternLayout.newBuilder()
-						.withPattern("%d [%p|%c|%C{1}] %m%n")
-						.build())
-				.build();
+		final ConsoleAppender consoleAppender = ConsoleAppender.createDefaultAppenderForLayout(PatternLayout.createDefaultLayout());
 		this.logger.addAppender(consoleAppender);
 	}
 	
