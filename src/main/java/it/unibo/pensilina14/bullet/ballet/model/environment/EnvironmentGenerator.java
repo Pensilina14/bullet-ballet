@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
+import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
@@ -38,7 +39,7 @@ public class EnvironmentGenerator implements LevelGenerator {
                     case '0':
                     	break;
                     case '1':
-                        //this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
+                        this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
                         break;
                     case '2':
                         // TODO: add coin.
@@ -50,13 +51,13 @@ public class EnvironmentGenerator implements LevelGenerator {
                         //TODO: add weapon
                         break;
                     case 'P':
-                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0), this.env));
+                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env));
                     	break;
                     case '*':
-                        this.env.addItem(this.itemFactory.createDamagingItem(this.env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0)));
+                        this.env.addItem(this.itemFactory.createDamagingItem(this.env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0)));
                         break;
                     case '!':
-                        this.env.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 0.0), this.env));
+                        this.env.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env));
                         break;
                 }
             }

@@ -125,6 +125,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void render() throws IOException {
+    	AppLogger.getAppLogger().debug("Inside render() method.");
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
     	
@@ -135,7 +136,7 @@ public class MapScene extends AbstractScene implements GameView{
     		this.mainPlayer = new MainPlayer((int) (playerPos.getX() * platformSize), 
     				(int) (playerPos.getY() * platformSize));
     		this.gamePane.getChildren().add(this.mainPlayer);
-    		AppLogger.getAppLogger().debug("Player rendered.");
+    		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
     	}
     	
     	for (final Platform x : world.getPlatforms().get()) {
