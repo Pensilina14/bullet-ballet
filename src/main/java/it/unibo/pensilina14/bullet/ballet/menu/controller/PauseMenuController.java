@@ -1,4 +1,4 @@
-package main.java.it.unibo.pensilina14.bullet.ballet.menu.controller;
+package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.util.Optional;
 
