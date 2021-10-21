@@ -102,6 +102,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void update() {
+    	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	this.mainPlayer.getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
