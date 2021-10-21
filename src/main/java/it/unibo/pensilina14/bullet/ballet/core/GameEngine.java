@@ -113,7 +113,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.checkEvents();
 	}
 	
-	private void render() {
+	public void render() {
 		this.view.get().draw();
 	}
 	
