@@ -57,6 +57,7 @@ public class GameEngine implements Controller, GameEventListener {
 			this.view.get().setup();
 			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
+			this.view.get().setup();
 			this.view.get().setInputController(this);
 			AppLogger.getAppLogger().debug("View input controller set.");
 		}

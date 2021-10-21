@@ -43,6 +43,7 @@ public class Game {
     }
 
     public final void start() {
+    	AppLogger.getAppLogger().debug("Inside Game start() method.");
         this.engine.setup();
         AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
         this.engine.mainLoop();

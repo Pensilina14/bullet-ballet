@@ -39,7 +39,8 @@ public class HomePageController {
     	AppLogger.getAppLogger().info("New game.");
         final Game game = new Game();
         AppLogger.getAppLogger().debug("New Game class object instantiated.");
-        final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+        //final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+        final Stage stage = new Stage();
         stage.setScene(game.getScene());
         AppLogger.getAppLogger().debug("Scene changed!");
         stage.show();
