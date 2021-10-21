@@ -149,6 +149,7 @@ public class MapScene extends AbstractScene implements GameView{
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
     				this.gamePane.getChildren().add(new WeaponSprite(y, x, platformSize));
+    				AppLogger.getAppLogger().debug("Weapon rendered");
     			}
     		}
     	}
@@ -156,6 +157,7 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Enemy x : world.getEnemies().get()) {
     		this.gamePane.getChildren().add(new MainEnemy((int) (x.getPosition().getX() * platformSize), 
     				(int) (x.getPosition().getY() * platformSize)));
+    		AppLogger.getAppLogger().debug("Enemy rendered");
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
@@ -163,10 +165,12 @@ public class MapScene extends AbstractScene implements GameView{
     		if (x instanceof StaticObstacle) {
     			this.gamePane.getChildren().add(physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
     					(int) (xPos.getY() * platformSize)));
+    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
     		} 
     		if (x instanceof DynamicObstacle) {
     			this.gamePane.getChildren().add(physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), 
     					(int) (xPos.getY() * platformSize)));
+    			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
     		}
     	}
 
@@ -175,6 +179,7 @@ public class MapScene extends AbstractScene implements GameView{
     			if (x.getItemId().toString().equals(y.getObjectName())) {
     				this.gamePane.getChildren().add(new PhysicalObjectSprite(y, (int) (x.getPosition().getX() * platformSize),
     						(int) (x.getPosition().getY() * platformSize), x, this));
+    				AppLogger.getAppLogger().debug("Item rendered");
     			}
     		}
     	}
