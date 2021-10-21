@@ -2,7 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Platform;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -19,13 +19,11 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -94,19 +92,13 @@ public class MapScene extends AbstractScene implements GameView{
 
     @Override
     public final void draw() {
-        final AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(final long now) {
-                update();
-                try {
-					render();
-				} catch (IOException e) {
-					e.printStackTrace();
-					AppLogger.getAppLogger().error("Couldn't load sprite images.");
-				} 
-            }
-        };
-        timer.start();
+            update();
+            try {
+                render();
+			} catch (IOException e) {
+				e.printStackTrace();
+				AppLogger.getAppLogger().error("Couldn't load sprite images.");
+			} 
     }
 
     private void update() {
@@ -142,8 +134,16 @@ public class MapScene extends AbstractScene implements GameView{
     		this.mainPlayer = new MainPlayer((int) (playerPos.getX() * platformSize), 
     				(int) (playerPos.getY() * platformSize));
     		this.gamePane.getChildren().add(this.mainPlayer);
-    		AppLogger.getAppLogger().debug("Player rendered");
+    		AppLogger.getAppLogger().debug("Player rendered.");
     	}
+    	
+    	for (final Platform x : world.getPlatforms().get()) {
+    		final MutablePosition2D xPos = x.getPosition();
+    		final PlatformSprite sprite = new PlatformSprite(this.map.getPlatformType(), 
+    				(int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    		this.gamePane.getChildren().add(sprite);
+    	}
+    	AppLogger.getAppLogger().debug("Platforms rendered.");
     	
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
