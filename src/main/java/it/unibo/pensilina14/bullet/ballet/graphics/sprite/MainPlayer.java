@@ -45,8 +45,6 @@ public class MainPlayer extends Pane {
         getChildren().addAll(this.playerView);
     }
 
-    }
-
     /*public Player getPlayer(){
         return this.player;
     }*/
