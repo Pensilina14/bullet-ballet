@@ -356,11 +356,10 @@ Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permess
 
 \textsf{\small Mi sono avvalso, inoltre, del pattern architetturale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
 
-%TODO: immagine Model
 %\enlargethispage{1\linewidth}
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=1.2\textwidth]{./img/characters_uml.png} 
+	\includegraphics[width=1.3\textwidth]{./img/characters_uml.png} 
 	\caption{Schema UML del \emph{Model} relativo ai \emph{Characters}.}
 	\label{img:uml_model_characters}
 \end{figure}
@@ -383,8 +382,6 @@ Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permess
 \textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc..) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
 
 \textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{Map} che tiene traccia di questi elementi della View.}\\
-
-%TODO: inserire UML della parte della mappa di gioco.
 
 \begin{figure}[H]
 	\centering{} %TODO: UML MapScene.
