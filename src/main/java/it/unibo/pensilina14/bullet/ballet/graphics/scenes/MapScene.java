@@ -14,6 +14,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsIm
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -65,15 +66,18 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     public final void setup() {
+    	AppLogger.getAppLogger().debug("Inside MapScene setup() method."); 
         try {
 			this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
 		} catch (IOException e) {
 			e.printStackTrace();
+			AppLogger.getAppLogger().error("Failed to load background image.");
 		}
         this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
+        AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
     }
 
     private void addCameraListenerToPlayer() {
@@ -81,7 +85,8 @@ public class MapScene extends AbstractScene implements GameView{
             final int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
-            if (playerPosition > (this.map.getMapWidth() / 2) && playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
+            if (playerPosition > (this.map.getMapWidth() / 2) && 
+            		playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
                 this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
             }
         });
@@ -97,6 +102,7 @@ public class MapScene extends AbstractScene implements GameView{
 					render();
 				} catch (IOException e) {
 					e.printStackTrace();
+					AppLogger.getAppLogger().error("Couldn't load sprite images.");
 				} 
             }
         };
@@ -124,13 +130,21 @@ public class MapScene extends AbstractScene implements GameView{
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
     }
-    
+
     private void render() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
     	
     	final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
+    	if (world.getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
+    		this.mainPlayer = new MainPlayer((int) (playerPos.getX() * platformSize), 
+    				(int) (playerPos.getY() * platformSize));
+    		this.gamePane.getChildren().add(this.mainPlayer);
+    		AppLogger.getAppLogger().debug("Player rendered");
+    	}
+    	
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
@@ -140,16 +154,19 @@ public class MapScene extends AbstractScene implements GameView{
     	}
 
     	for (final Enemy x : world.getEnemies().get()) {
-    		new MainEnemy((int) (x.getPosition().getX() * platformSize), (int) (x.getPosition().getY() * platformSize));
+    		new MainEnemy((int) (x.getPosition().getX() * platformSize), 
+    				(int) (x.getPosition().getY() * platformSize));
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		if (x instanceof StaticObstacle) {
-    			physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
+    					(int) (xPos.getY() * platformSize));
     		} 
     		if (x instanceof DynamicObstacle) {
-    			physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), 
+    					(int) (xPos.getY() * platformSize));
     		}
     	}
 
