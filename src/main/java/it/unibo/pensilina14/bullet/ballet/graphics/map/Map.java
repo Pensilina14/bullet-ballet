@@ -59,55 +59,55 @@ public class Map {
 
     private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
 
-    private Platform.Platforms platformType;
+    private PlatformSprite.Platforms platformType;
     private Coin.Coins coinType;
 
     private void initMap() {
         switch(this.map){
             case CAVE:
-                this.platformType = Platform.Platforms.CAVE_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.CAVE_PLATFORM;
                 break;
             case CAVE2:
-                this.platformType = Platform.Platforms.CAVE_PLATFORM2;
+                this.platformType = PlatformSprite.Platforms.CAVE_PLATFORM2;
                 break;
             case CAVE3:
-                this.platformType = Platform.Platforms.CAVE_PLATFORM3;
+                this.platformType = PlatformSprite.Platforms.CAVE_PLATFORM3;
                 break;
             case HALLOWEEN:
-                this.platformType = Platform.Platforms.HALLOWEEN_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.HALLOWEEN_PLATFORM;
                 break;
             case LAVA:
-                this.platformType = Platform.Platforms.LAVA_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.LAVA_PLATFORM;
                 break;
             case JUNGLE:
             case JUNGLE2:
-                this.platformType = Platform.Platforms.JUNGLE_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.JUNGLE_PLATFORM;
                 break;
             case FOREST:
-                this.platformType = Platform.Platforms.FOREST_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.FOREST_PLATFORM;
                 break;
             case FUTURISTIC:
-                this.platformType = Platform.Platforms.FUTURISTIC_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.FUTURISTIC_PLATFORM;
                 break;
             case ICE:
             case ICE2:
-                this.platformType = Platform.Platforms.ICE_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.ICE_PLATFORM;
                 break;
             case SWAMP:
-                this.platformType = Platform.Platforms.SWAMP_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.SWAMP_PLATFORM;
                 break;
             case DESERT2:
-                this.platformType = Platform.Platforms.DESERT_PLATFORM2;
+                this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM2;
                 break;
             case DESERT3:
-                this.platformType = Platform.Platforms.DESERT_PLATFORM3;
+                this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM3;
                 break;
             case DESERT4:
-                this.platformType = Platform.Platforms.DESERT_PLATFORM4;
+                this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM4;
                 break;
             case DESERT:
             default:
-                this.platformType = Platform.Platforms.DESERT_PLATFORM;
+                this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM;
                 break;
         }
     }
@@ -143,7 +143,7 @@ public class Map {
         return Map.MAP_HEIGHT;
     }
 
-    public Platform.Platforms getPlatformType(){
+    public PlatformSprite.Platforms getPlatformType(){
         return this.platformType;
     }
 
