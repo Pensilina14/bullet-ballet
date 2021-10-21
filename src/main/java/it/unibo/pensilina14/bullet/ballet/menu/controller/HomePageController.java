@@ -53,6 +53,6 @@ public class HomePageController {
 
     @FXML
     void statsOnMouseClick(final MouseEvent event) throws IOException {
-        
+        loader.goToSelectedPageOnInput(Frames.GAMESTATS, event);
     }
 }

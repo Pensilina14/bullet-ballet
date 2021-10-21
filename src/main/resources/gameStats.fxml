@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane columnHalignment="CENTER" orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.SettingsController">
+<FlowPane columnHalignment="CENTER" orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.GameStatsController">
    <children>
       <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="GAME STATS">
          <font>
