@@ -1,6 +1,19 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
-
+import java.io.IOException;
 import java.util.Optional;
+
+import it.unibo.pensilina14.bullet.ballet.Game;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class PauseMenuController {
 	
