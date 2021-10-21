@@ -30,7 +30,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private static final int QUEUE_CAPACITY = 100;
 	
-	private final long period = 1000; //50 FPS 
+	private final long period = 1000; // 20 ms = 50 FPS 
 	
 	private Optional<GameView> view;
 	private Optional<GameState> gameState;

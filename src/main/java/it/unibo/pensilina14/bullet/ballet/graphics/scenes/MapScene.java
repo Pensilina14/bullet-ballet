@@ -95,32 +95,37 @@ public class MapScene extends AbstractScene implements GameView{
     private void update() {
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
         if (this.keysPressed.contains(KeyCode.UP)) { 
+        	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
         }
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
+        	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
             this.mainPlayer.getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
+        	AppLogger.getAppLogger().info("Key 'UP' released.");
         	this.mainPlayer.getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
         if (this.keysReleased.contains(KeyCode.RIGHT)) {
+        	AppLogger.getAppLogger().info("Key 'RIGHT' released.");
         	this.mainPlayer.getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
     }
 
     private void render() throws IOException {
+    	AppLogger.getAppLogger().debug("Inside render() method.");
     	AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
     	AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
+
     	this.gamePane.getChildren().clear();
 
-    	AppLogger.getAppLogger().debug("Inside render() method.");
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 
