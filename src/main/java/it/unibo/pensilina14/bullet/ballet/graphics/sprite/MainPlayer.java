@@ -45,6 +45,17 @@ public class MainPlayer extends Pane {
         getChildren().addAll(this.playerView);
     }
 
+    public MainPlayer(int x, int y) throws IOException {
+        this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
+        this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
+        this.playerView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight));
+        this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+
+        getChildren().addAll(this.playerView);
+    }
+
     /*public Player getPlayer(){
         return this.player;
     }*/
