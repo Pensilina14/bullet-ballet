@@ -30,7 +30,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private static final int QUEUE_CAPACITY = 100;
 	
-	private final long period = 20;
+	private final long period = 1000; //50 FPS 
 	
 	private Optional<GameView> view;
 	private Optional<GameState> gameState;
@@ -72,7 +72,7 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 	}
 	
-	public void mainLoop() {
+	public final void mainLoop() {
 		AppLogger.getAppLogger().info("Main loop starts now.");
 	    long lastTime = System.currentTimeMillis();
 		while (!this.gameState.get().isGameOver()) {
@@ -84,7 +84,7 @@ public class GameEngine implements Controller, GameEventListener {
 			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
-			this.waitForNextFrame(elapsed);
+			this.waitForNextFrame(current);
 			lastTime = current;
 		}
 		// GAME OVER
@@ -92,6 +92,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private void waitForNextFrame(final long current) {
 		final long dt = System.currentTimeMillis() - current;
+		AppLogger.getAppLogger().debug(String.format("dt: %d\tperiod: %d", dt, this.period));
 		if (dt < this.period) {
 			try {
 				Thread.sleep(period - dt);
@@ -113,17 +114,17 @@ public class GameEngine implements Controller, GameEventListener {
 		this.checkEvents();
 	}
 	
-	public void render() {
+	private void render() {
 		this.view.get().draw();
 	}
 	
 	@Override
-	public void notifyCommand(final Command cmd) {
+	public final void notifyCommand(final Command cmd) {
         this.cmdQueue.add(cmd);
 	}
 
 	@Override
-	public void notifyEvent(final GameEvent e) {
+	public final void notifyEvent(final GameEvent e) {
 		this.eventQueue.add(e);
 	}
 	
