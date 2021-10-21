@@ -148,33 +148,33 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Weapon x : world.getWeapons().get()) {
     		for (final WeaponsImg y : WeaponsImg.values()) {
     			if (x.getName().equals(y.getName())) {
-    				new WeaponSprite(y, x, platformSize);
+    				this.gamePane.getChildren().add(new WeaponSprite(y, x, platformSize));
     			}
     		}
     	}
 
     	for (final Enemy x : world.getEnemies().get()) {
-    		new MainEnemy((int) (x.getPosition().getX() * platformSize), 
-    				(int) (x.getPosition().getY() * platformSize));
+    		this.gamePane.getChildren().add(new MainEnemy((int) (x.getPosition().getX() * platformSize), 
+    				(int) (x.getPosition().getY() * platformSize)));
     	}
 
     	for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		if (x instanceof StaticObstacle) {
-    			physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
-    					(int) (xPos.getY() * platformSize));
+    			this.gamePane.getChildren().add(physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
+    					(int) (xPos.getY() * platformSize)));
     		} 
     		if (x instanceof DynamicObstacle) {
-    			physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), 
-    					(int) (xPos.getY() * platformSize));
+    			this.gamePane.getChildren().add(physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), 
+    					(int) (xPos.getY() * platformSize)));
     		}
     	}
 
     	for (final Item x : world.getItems().get()) {
     		for (final Images y : Images.values()) {
     			if (x.getItemId().toString().equals(y.getObjectName())) {
-    				new PhysicalObjectSprite(y, (int) (x.getPosition().getX() * platformSize),
-    						(int) (x.getPosition().getY() * platformSize), x, this);
+    				this.gamePane.getChildren().add(new PhysicalObjectSprite(y, (int) (x.getPosition().getX() * platformSize),
+    						(int) (x.getPosition().getY() * platformSize), x, this));
     			}
     		}
     	}
