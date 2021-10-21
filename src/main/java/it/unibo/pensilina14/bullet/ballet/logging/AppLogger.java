@@ -25,7 +25,7 @@ public final class AppLogger implements SimpleLogger {
 	}
 	
 	public void error(final String msg) {
-		System.out.println(Headers.ERROR.get() + UNIFIER + msg);
+		System.err.println(Headers.ERROR.get() + UNIFIER + msg);
 	}
 	
 	public void fatal(final String msg) {
