@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto in Map. (tranne le enum che metterei apparte)
+public class PlatformSprite extends Pane { //TODO: Lasciare tutto qui o mettere tutto in Map. (tranne le enum che metterei apparte)
 
     public enum Platforms { //TODO: Add paths of other platform images.
     	/**
@@ -89,7 +89,7 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
     private int platformWidth;
     private int platformHeight;
 
-    public Platform(Platforms platformType, int x, int y) throws IOException {
+    public PlatformSprite(Platforms platformType, int x, int y) throws IOException {
 
         this.platformType = platformType;
 
@@ -107,8 +107,8 @@ public class Platform extends Pane { //TODO: Lasciare tutto qui o mettere tutto 
         this.setTranslateX(x);
         this.setTranslateY(y);
 
-        this.platformView.setFitWidth(Platform.SIZE);
-        this.platformView.setFitHeight(Platform.SIZE);
+        this.platformView.setFitWidth(PlatformSprite.SIZE);
+        this.platformView.setFitHeight(PlatformSprite.SIZE);
     }
 
 }
