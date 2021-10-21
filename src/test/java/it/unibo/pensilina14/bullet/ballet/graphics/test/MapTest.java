@@ -32,7 +32,7 @@ public class MapTest {
     @Test
     public void mainPlayerTest() throws IOException { //TODO: lasciare solo mapTest
         //TODO: mainPlayer test
-        MainPlayer mainPlayer = new MainPlayer();
+        //MainPlayer mainPlayer = new MainPlayer();
     }
 
     @Test
