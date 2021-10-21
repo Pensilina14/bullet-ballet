@@ -9,7 +9,7 @@ public interface Item extends PhysicalObject{
          * 
          * @return ITEM_ID
          */
-        ITEM_ID getItemId();
+        Items getItemId();
 	/**
 	* @return item's effect when it collides with another physical object
 	*/

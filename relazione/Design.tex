@@ -2,6 +2,7 @@
 
 \chapter{Design}
 
+\begin{comment}
 In questo capitolo si spiegano le strategie messe in campo per realizzare la soluzione ai problemi identificati nell'analisi.
 
 Si parte da una visione architetturale, il cui scopo è informare il lettore di quale sia il funzionamento dell'applicativo realizzato ad alto livello.
@@ -9,8 +10,33 @@ Si parte da una visione architetturale, il cui scopo è informare il lettore di 
 In particolare, è necessario descrivere accuratamente in che modo i componenti principali del sistema si coordinano fra loro.
 %
 A seguire, si dettagliano alcune parti del design, quelle maggiormente rilevanti al fine di chiarificare la logica con cui sono stati risolti i problemi dell'applicazione.
+\end{comment}
 
 \section{Architettura}
+
+\textsf{\small L'obiettivo del team era quello di poter lavorare ognuno alla propria parte indipendentemente ed evitando conflitti, per poi poterle collegare tutte assieme alla fine.}\\
+
+\textsf{\small Il progetto sfrutta quindi il pattern architetturale \textbf{MVC} (\emph{M}odel \emph{V}iew \emph{C}ontroller) che permette di suddividere la gestione dell'applicativo in tre parti separate: }\\
+
+\begin{itemize} %TODO: ingrandire questa parte oppure scrivere di più nell'introduzione del Design.
+	\item \textsf{\small \textbf{Model}: dove vengono effettivamente modellate le entità di gioco. In questa parte vengono gestiti tutti gli aspetti riguardanti la logica, la gestione, la fisica, le caratteristiche e il comportamento delle componenti di gioco.}
+	%si occupa dell'interfaccia grafica
+	\item \textsf{\small \textbf{View}: si occupa degli aspetti grafici, quali esporre le effettive entità del \emph{Model} sullo schermo di gioco. La \emph{View} comprende anche il menù di gioco e la schermata di fine partita per esaminare i risultati della classifica. Riguarda, inoltre, anche la parte di generazione delle mappa che comprende vari tipi di sfondi e relative piattaforme in tema, monete, oggetti, armi e nemici.}
+	% Inoltre, riguarda anche
+	\item \textsf{\small \textbf{Controller}: è il concreto ponte, tra il \emph{Model} e la \emph{View}, consente di collegare la parte logica con quella visiva. La sua funzione è quella di ricevere input della tastiera dall'utente, inviarlo al \emph{Model} per essere elaborato e alla \emph{View} per avere un riscontro visivo.}
+\end{itemize}
+
+\textsf{\small Di seguito, un UML riguardante il pattern architetturale \textbf{MVC} utilizzato:}\\
+
+\begin{figure}[htp]
+	\includegraphics[width=1.2\linewidth]{./img/mvc.png}
+	\caption{Schema UML del pattern architetturale MVC.}
+	\label{img:mvc}
+\end{figure}
+
+%\newpage
+
+\begin{comment}
 
 Questa sezione spiega come le componenti principali del software interagiscono fra loro.
 %
@@ -86,8 +112,10 @@ logic, la cui alterazione od espansione inevitabilmente impatta il controller de
 
 In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
-\section{Design dettagliato}
+\end{comment}
 
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  INIZIO -----------------------------------
+\begin{comment}
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %
 Mentre ci attendiamo principalmente (o solo) interfacce negli schemi UML delle sezioni precedenti, in questa sezione è necessario scendere in maggior dettaglio presentando la struttura di alcune sottoparti rilevanti dell'applicazione.
@@ -220,4 +248,171 @@ Questo schema è fatto male perché:
 	\includegraphics[width=\textwidth]{img/badarch}
 	\caption{Schema UML mal fatto e con una pessima descrizione, che non aiuta a capire. Don't try this at home.}
 	\label{img:badarch}
+\end{figure}
+
+%TODO: commentare questa parte del prof. quando avremo tutti finito di scrivere la nostra. -----------------  FINE -----------------------------------
+	content...
+\end{comment}
+
+% ----------------- ALESSANDRO PIOGGIA -----------------------------------------
+
+\newpage
+
+\section{Design dettagliato}
+
+\subsection*{Alessandro Pioggia}
+\textbf{Physical objects} \\ \\
+Lo scopo iniziale del progetto è stato quello di creare delle vere e proprie entità di gioco(Players, Enemies, Obstacles, Items), che potessero popolare la mappa e interagire fra loro.
+La mia parte richiedeva che io costruissi il core delle entità fisiche di gioco(oltre all'implementazione di alcune di esse), in modo da poter creare una struttura solida alla quale potessero fare riferimento i colleghi, sfruttando il principio della generalizzazione.
+L'interfaccia \textbf{PhysicalObject} rappresenta la struttura base di una entità di gioco, la quale è composta da una dimensione, una posizione e contiene un riferimento all'ambiente di gioco. \\ \\
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/physicalObject}
+	\label{img:physicalObject}
+	\caption{Schema UML rappresentante l'interfaccia PhysicalObject con relative dipendenze. \\}
+\end{figure}
+
+\newpage
+
+\textbf{AbstractStaticComponent e AbstractDynamicComponent} \\ \\
+A livello implementativo è stato scelto di separare le entità di gioco \textbf{statiche} da quelle \textbf{dinamiche}.
+Le entità statiche una volta istanziate non possono cambiare posizione, mentre quelle dinamiche possono muoversi in qualsiasi momento e sono dotate di una propria velocità. A questo proposito ho scelto di implementare le due componenti creando due classi astratte che implementassero l'interfaccia \textbf{PhysicalObject}, semplificando la creazione di classi di specializzazione.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/components}
+	\label{img:components.png}
+	\caption{Schema UML rappresentante le classi astratte riguardanti le entità fisiche statiche e dinamiche. \\}
+\end{figure}
+
+\newpage
+
+\textbf{Item} \\ \\
+Gli \textbf{Item} sono entità presenti all'interno dell'ambiente di gioco, le quali possono essere raccolte dal main player, il quale ne subisce l'effetto.
+In questa situazione ho deciso di creare due \textbf{DynamicPickupItem} e \textbf{StaticPickupItem} che estendono rispettivamente \textbf{AbstractDynamicComponent} e \textbf{AbstractStaticComponent}.
+Similmente ho creato gli \textbf{staticObstacle} e\textbf{ dynamicObstacle}.
+Per semplificare l'istanziamento ho deciso di utilizzare il factory pattern, il quale è tornato molto utile e ha ridotto la verbosità.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/item}
+	\label{img:item.png}
+	\caption{Schema UML rappresentante gli Item di gioco\\}
+\end{figure}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ItemFactory}
+	\label{img:ItemFactory.png}
+	\caption{Schema UML rappresentante il factory pattern applicato agli Item\\}
+\end{figure}
+
+\newpage
+
+\textbf{Main menu} \\ \\
+
+Il main menu non è altro che il menù principale, ovvero quello che viene visualizzato all'avvio dell'applicazione e permette all'utente di decidere se e quando iniziare a giocare.
+Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permesso di generare i file fxml, ai quali sono stati associati dei controller, permettendomi di solidificare il concetto di separation of concerns. \\ \\
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/main_menu}
+	\label{img:main_menu.png}
+	\caption{Schema UML rappresentante il main menu\\}
+\end{figure}
+
+
+% ----------------- LEON BAIOCCHI -----------------------------------------
+
+\newpage
+
+\subsection*{Leon Baiocchi}
+
+% ----------------- FEDERICO BRUNELLI -----------------------------------------
+
+\newpage
+
+\subsection*{Federico Brunelli}
+
+% ----------------- LUCA RENGO -----------------------------------------
+
+\newpage
+
+\subsection*{Luca Rengo}
+
+\textsf{\small La mia parte riguardava l'implementazione dei personaggi di gioco e dei diversi aspetti riguardanti la generazione della mappa e dei suoi componenti a livello di \emph{View}.}\\
+
+\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore.}\\ 
+%della generazione della mappa a livello di \emph{View}.}\\
+
+\subsubsection*{Characters}
+
+\textsf{\small Per quanto concerne l'implementazione dei personaggi di gioco, ho sviluppato un'interfaccia \emph{Characters} che pone a tutte le figure l'implementazione di un contratto con le varie azioni comuni, i vari metodi che un personaggio può eseguire.}\\
+
+\textsf{\small Questo è stato trattato dalle classi \emph{Player} ed \emph{Enemy} che contengono le proprietà e caratteristiche dei personaggi come la loro vita, il mana, il nome, le loro abilità e capacità come quella di muoversi e saltare.}\\
+
+\textsf{\small Ho utilizzato poi un enum, \emph{EntityList}, per poter rappresentare diversi tipi di personaggi con diverse caratteristiche che ho settato nel metodo \emph{setPlayerType()} e \emph{setEnemyType()} delle rispettive classi. }\\
+
+\textsf{\small Mi sono avvalso, inoltre, del pattern architetturale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
+
+%\enlargethispage{1\linewidth}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=1.3\textwidth]{./img/characters_uml.png} 
+	\caption{Schema UML del \emph{Model} relativo ai \emph{Characters}.}
+	\label{img:uml_model_characters}
+\end{figure}
+
+\subsubsection*{Mappa di gioco} %TODO: approfondire la spiegazione. Descrivere le difficoltà incontrate e le soluzioni.
+
+\textsf{\small Per quanto riguarda la \emph{Mappa} mi sono occupato degli aspetti della \emph{View}.}\\
+
+\textsf{\small E' presente l'interfaccia \emph{GameView} che viene implementata dalla classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena del gioco, come la mappa o i crediti del gioco. Questa è ereditata dalla Classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo.}\\
+
+\textsf{\small In \emph{MapScene} vengono generate le sprites dalle classi \emph{Platform}, \emph{Coin}, \emph{MainEnemy}, \emph{MainPlayer} con la sua animazione implementata in \emph{SpriteAnimation}.}\\
+
+\textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trova nella classe \emph{LevelData}.} %TODO: sistemare, scrivere meglio.
+
+\textsf{\small Ad ogni entità del gioco è associato un carattere che si trova nell'array di stringhe in \emph{LevelData}.}\\ %TODO: anche qui.
+
+\textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
+
+\textsf{\small \emph{MainEnemy} è una semplice ImageView statica mentre \emph{MainPlayer} è una ImageView dinamica, ovvero con un'animazione.}
+\textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc..) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
+
+\textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{Map} che tiene traccia di questi elementi della View.}\\
+
+\begin{figure}[H]
+	\centering{} %TODO: UML MapScene.
+	%\includegraphics[width=1.2\textwidth]{./img/characters_uml.png} 
+	\caption{Schema UML della \emph{View} relativa alla \emph{AbstractScene}, \emph{MapScene}, \emph{MainPlayer} e \emph{MainEnemy}.}
+	\label{img}
+\end{figure}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=1.3\textwidth]{./img/map_uml.png} 
+	\caption{Schema UML della \emph{View} relativa alla \emph{Map}, alle \emph{Platform} e ai \emph{Coin}.}
+	\label{img:map_uml}
+\end{figure}
+
+%TODO: parlare della Mappa (Map, MapScene, AbstractScene), del MainPlayer, SpriteAnimation, MainEnemy, Platform, Coin. LevelData
+
+\subsubsection*{Salvataggio}
+
+\textsf{\small Per quanto riguarda l'operazione di salvataggio delle statistiche di gioco, mi sono avvalso della classe \emph{Save} che crea un file di salvataggio in cui vengono contenuti il nome dei giocatori e i loro relativi punteggi.}\\
+
+\textsf{\small Per fare questo, usufruisco di un \emph{BufferedWriter} per creare il file qualora questo non esista già. Altrimenti, mi limito ad aggiungere i dati in coda al file per evitare di eliminare ciò che era stato precedentemente memorizzato.}\\
+
+%TODO: spostare questo nello Sviluppo.
+\textsf{\small Poi mi avvalgo di un \emph{BufferedReader} per leggere dal file e memorizzare i dati e restituire un \emph{HashMap<String, Integer>} con il nome del player e il suo relativo punteggio.}\\
+
+\textsf{\small Infine, ho un metodo per resettare il file e cancellare tutti i dati che erano stati immagazzinati.}\\
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=.5\textwidth]{./img/save_uml.png} 
+	\caption{Schema UML del \emph{Model} relativo al \emph{Salvataggio} del gioco.}
+	\label{img:save_uml}
 \end{figure}

@@ -17,11 +17,11 @@ public class SettingsController {
     private ComboBox<String> resolution;
     @FXML
     private ComboBox<String> difficulty;
-
+    private final PageLoader loader = new PageLoaderImpl();
+    
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-        final PageLoader loader = new PageLoader();
-        loader.goToSelectedPage(FRAME.HOMEPAGE, event);
+        loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
     @FXML

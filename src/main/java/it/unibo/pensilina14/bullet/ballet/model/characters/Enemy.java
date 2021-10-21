@@ -6,7 +6,6 @@ import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
@@ -17,7 +16,6 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     private double health;
     private Optional<Double> mana;
-    //private int numberOfEnemies;
     private String name;
 
     private Weapon weapon;
@@ -34,25 +32,44 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         this.name = name;
         this.health = health;
         this.mana = mana;
-        //this.numberOfEnemies = numberOfEnemies;
 
     }
 
     public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
         super(dimension, environment, mass, vector);
         this.enemyType = enemyType;
-        setEnemyType(this.enemyType);
+        setEnemyType();
     }
 
-    private void setEnemyType(EntityList.Characters.Enemy enemyType){ //, EntityList.Weapons, Dimension2D dimension, SpeedVector2D vector, Environment environment,double mass, ITEM_ID id,final Effect effect
+    public Enemy(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+        super(dimension, environment, mass, vector);
+
+        setRandomEnemy();
+        setEnemyType();
+    }
+
+    private void setRandomEnemy() {
+        Random rand = new Random();
+        final int max = EntityList.Characters.Enemy.values().length;
+        final int min = 0;
+
+        final int randomEnemy = rand.nextInt(((max - min)) + min);
+        for (EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
+            if (e.ordinal() == randomEnemy) {
+                this.enemyType = e;
+            }
+        }
+
+    }
+
+    private void setEnemyType(){
         double minHealth;
         double minMana;
-        switch(enemyType){
+        switch(this.enemyType){
             case ENEMY1:
                 minHealth = 80.0; // 70.0
                 minMana = 40.0;
                 this.name = "Enemy1";
-                //this.numberOfEnemies = 0;
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
                 //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect);
@@ -142,5 +159,19 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }
+    }
+
+    @Override
+    public void increaseHealth(double increaseHealth) {
+        this.health += increaseHealth;
+    }
+
+    @Override
+    public void decreaseHealth(double decreaseHealth) {
+        this.health -= decreaseHealth;
+    }
+
+    public EntityList.Characters.Enemy getEnemyType() {
+        return this.enemyType;
     }
 }

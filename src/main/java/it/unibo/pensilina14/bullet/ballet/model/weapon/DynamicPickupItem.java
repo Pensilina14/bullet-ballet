@@ -8,11 +8,11 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
 
-    private final ITEM_ID id;
+    private final Items id;
     private final Effect effect;
     
     public DynamicPickupItem(final Dimension2D dimension, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final ITEM_ID id, 
+            final double mass, final SpeedVector2D vector, final Items id, 
             final Effect effect) {
         super(dimension, gameEnvironment, mass, vector);
         this.id = id;
@@ -25,7 +25,7 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
     }
 
     @Override
-    public ITEM_ID getItemId() {
+    public Items getItemId() {
         return this.id;
     }
     

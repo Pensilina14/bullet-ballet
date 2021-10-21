@@ -6,4 +6,13 @@ public interface Bullet extends Item {
 	
 	double getDamage();
 	
+	void setDamage(double factor);
+	
+	/*
+	 * @return true if the bullet was shot
+	 */
+	boolean isShot();
+	
+	void fire();
+	
 }

@@ -116,7 +116,7 @@ public class Map {
         final Random rand = new Random();
         final int max = Maps.values().length;
         final int min = 0;
-        final int randomMap = rand.nextInt(((max - min) + 1 ) + min);
+        final int randomMap = rand.nextInt(((max - min)) + min);
         for(Maps m : Maps.values()){
             if(m.ordinal() == randomMap){
                 return m;

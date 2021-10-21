@@ -8,20 +8,15 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
-import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -39,6 +34,8 @@ public class GameEnvironment implements Environment {
 	private final Optional<List<Enemy>> enemies;
 	private final Optional<List<PhysicalObject>> obstacles;
 	private final Optional<List<Item>> items;
+	private final Optional<List<Platform>> platforms;
+	private final Optional<List<Weapon>> weapons;
 	private Optional<GameEventListener> eventListener;
 	
 	public GameEnvironment() {
@@ -48,6 +45,8 @@ public class GameEnvironment implements Environment {
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
 		this.items = Optional.of(new ArrayList<>());
+		this.platforms = Optional.of(new ArrayList<>());
+		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -58,6 +57,8 @@ public class GameEnvironment implements Environment {
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
 		this.items = Optional.of(new ArrayList<>());
+		this.platforms = Optional.of(new ArrayList<>());
+		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -68,6 +69,8 @@ public class GameEnvironment implements Environment {
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
 		this.items = Optional.of(new ArrayList<>());
+		this.platforms = Optional.of(new ArrayList<>());
+		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.of(l);
 	}
 	
@@ -114,6 +117,22 @@ public class GameEnvironment implements Environment {
 		return Optional.empty();
 	}
 	
+	@Override
+	public Optional<List<Platform>> getPlatforms() {
+		if (this.platforms.isPresent()) {
+			return Optional.of(List.copyOf(this.platforms.get()));
+		}
+		return Optional.empty();
+	}
+	
+	@Override
+	public Optional<List<Weapon>> getWeapons() {
+		if (this.weapons.isPresent()) {
+			return Optional.of(List.copyOf(this.weapons.get()));
+		}
+		return Optional.empty();
+	}
+	
     @Override
 	public void setPlayer(final Player player) {
 		this.player = Optional.ofNullable(player);
@@ -155,6 +174,26 @@ public class GameEnvironment implements Environment {
 			return false;
 		} else {
 			this.items.get().add(item);
+			return true;
+		}
+	}
+	
+	@Override
+	public boolean addPlatform(final Platform platform) {
+		if (this.platforms.get().contains(platform)) {
+			return false;
+		} else {
+			this.platforms.get().add(platform);
+			return true;
+		}
+	}
+	
+	@Override
+	public boolean addWeapon(final Weapon weapon) {
+		if (this.weapons.get().contains(weapon)) {
+			return false;
+		} else {
+			this.weapons.get().add(weapon);
 			return true;
 		}
 	}
@@ -260,6 +299,4 @@ public class GameEnvironment implements Environment {
 			});
 		}
 	}
-	
-	//TODO: add checkBoundaries()
 }

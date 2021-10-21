@@ -1,13 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
-public enum FRAME {
+public enum Frames {
 
     HOMEPAGE("/homepage.fxml"),
     SETTINGS("/settings.fxml");
     
     private final String fileName;
     
-    FRAME(final String fileName) {
+    Frames(final String fileName) {
         this.fileName = fileName;
     }
 

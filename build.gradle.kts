@@ -32,6 +32,7 @@ val kotlinVersion = "1.3.41"
 
 dependencies {
 	implementation("org.apache.commons:commons-configuration2:2.7")
+	
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
@@ -54,7 +55,7 @@ tasks.withType<JavaCompile> {
 
 application {
     // Define the main class for the application
-    mainClassName = "it.unibo.pensilina14.bullet.ballet.Launcher"
+    mainClassName = "it.unibo.pensilina14.bullet.ballet.Main"
 }
 
 javafx {
@@ -71,7 +72,7 @@ tasks.withType<Jar> {
     duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.WARN
 
   manifest {
-    attributes["Main-Class"] = "it.unibo.pensilina14.bullet.ballet.Launcher"
+    attributes["Main-Class"] = "it.unibo.pensilina14.bullet.ballet.Main"
   }
 
   from(sourceSets.main.get().output)

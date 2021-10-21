@@ -34,6 +34,7 @@ comportamento dell'applicazione) da quelli non funzionali (requisiti che non rig
 aspetti comportamentali, come sicurezza, performance, eccetera).
 \end{comment}
 
+\begin{comment}
 \subsection*{Elementi positivi}
 \begin{itemize}
 	\item Si fornisce una descrizione in linguaggio naturale di ciò che il software dovrà fare.
@@ -54,11 +55,12 @@ aspetti comportamentali, come sicurezza, performance, eccetera).
 Il software, commissionato dal gestore del centro di ricerca ``Aperture Laboratories Inc.''\footnote{\url{http://aperturescience.com/}}, mira alla costruzione di una intelligenza artificiale di nome GLaDOS (Genetic Lifeform and Disk Operating System).
 %
 Per intelligenza artificiale si intende un software in grado di assumere decisioni complesse in maniera semi autonoma sugli argomenti di sua competenza, a partire dai vincoli e dagli obiettivi datigli dall'utente.
+\end{comment}
 
 \subsubsection{Requisiti funzionali}
 
 \begin{itemize}
-	\item \textsf{\small \emph{Mappa scorrevole}: Il giocatore potrà muoversi in una mappa infinita a scorrimento orizzontale con uno sfondo statico.}
+	\item \textsf{\small \emph{Mappa scorrevole}: Il giocatore potrà muoversi in una mappa a scorrimento orizzontale con uno sfondo statico.}
 	\item \textsf{\small \emph{Menù di gioco}: Non appena lanciata l'applicazione, l'utente vedrà un menù di gioco con diverse opzioni tra cui potrà scegliere.}
 	\item \textsf{\small \emph{Menù di pausa}: Il giocatore potrà mettere il gioco in pausa attraverso un dato pulsante della tastiera, scelto nelle impostazioni.}
 	\item \textsf{\small \emph{Personaggio}: Il giocatore potrà scegliere un personaggio e muoverlo in partita.}
@@ -110,6 +112,35 @@ conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di tes
 \end{comment}
 
 \section{Analisi e modello del dominio}
+
+\textsf{\small L'applicazione fornisce un giocatore che tramite input dell'utente può essere spostato a destra, a sinistra e farlo saltare. Il quale, potrà interagire con le varie entità, sia statiche che dinamiche del gioco, quali \emph{nemici}, \emph{armi}, \emph{monete}, \emph{items}, \emph{ostacoli}.
+Ognuna di queste entità interagirà in maniere differenti col player: }\\
+
+\begin{itemize}
+	\item \textsf{\small \emph{Enemy}, ostacolerà il player a colpi di mitra.} %TODO: da modificare.
+	\item \textsf{\small \emph{Item}, una volta raccolta dal player, gli fornirà o un \textbf{bonus}, come una vita extra oppure un \textbf{malus} come un effetto di volevo per tot tempo.}
+	\item \textsf{\small \emph{monete}, faranno aumentare il punteggio e il numero di monete del gioco da usare nel mercato per poter comprare nuove skins, in game-items, ecc..}
+	\item \textsf{\small \emph{Armi}, dopo essere state raccolte verranno equipaggiate al giocatore.}
+	\item \textsf{\small \emph{Ostacoli}, se il player ci colliderà, subirà del danno.}
+\end{itemize}
+
+\textsf{\small Il gioco si conclude quando e se il player riesce a raggiungere la fine della mappa senza morire.}
+\textsf{\small Se il player viene ucciso prima di raggiungere la fine, allora viene eliminato e la partita è persa.}\\
+
+\textsf{\small Ogni round è a sè stante, finita la partita, al player verrà assegnato un punteggio e potrà scegliere se rigiocare od uscire.}\\
+
+%TODO: aggiungere UML.
+
+%\begin{landscape}
+	\begin{figure}[h]
+		\centering{}
+		%\\includegraphics[width=1.2\linewidth]{./img/model.png} %TODO: cambiare UML
+		\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro.}
+		\label{img:analysis}
+	\end{figure}
+%\end{landscape}
+
+\begin{comment}
 
 In questa sezione si descrive il modello del \textit{dominio
 	applicativo}, descrivendo le \textit{entità} in gioco ed i rapporti fra loro.
@@ -173,3 +204,5 @@ Il requisito non funzionale riguardante il consumo energetico richiederà studi 
 	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
 	\label{img:analysis}
 \end{figure}
+
+\end{comment}

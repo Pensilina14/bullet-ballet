@@ -16,8 +16,8 @@ import it.unibo.pensilina14.bullet.ballet.model.effects.EffectsUtils.Durations;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectsUtils.Steps;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.StaticPickUpItem;
 
 public class EffectFactoryImplTest {
@@ -43,7 +43,7 @@ public class EffectFactoryImplTest {
 				new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM), new SpeedVector2DImpl(
 						new MutablePosition2Dimpl(0, 0), SPEED), env, MASS);
 		final Item healthItem = new StaticPickUpItem(new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM), new MutablePosition2Dimpl(0, 0), 
-				env, ITEM_ID.HEART, heal);
+				env, Items.HEART, heal);
 		/*
 		 * ELABORATION
 		 */
@@ -68,7 +68,7 @@ public class EffectFactoryImplTest {
 				new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM), new SpeedVector2DImpl(
 						new MutablePosition2Dimpl(0, 0), SPEED), env, MASS);
 		final Item damageItem = new StaticPickUpItem(new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM), new MutablePosition2Dimpl(0, 0),
-				env, ITEM_ID.POISON, damage);
+				env, Items.POISON, damage);
 		/*
 		 * ELABORATION
 		 */

@@ -21,8 +21,8 @@ public abstract class AbstractScene extends Scene {
     protected StackPane root = new StackPane();
     protected GraphicsContext gfx;
 
-    protected Set<KeyCode> keysPressed;
-    protected Set<KeyCode> keysReleased;
+    protected final Set<KeyCode> keysPressed;
+    protected final Set<KeyCode> keysReleased;
 
     public AbstractScene() {
 
@@ -31,18 +31,18 @@ public abstract class AbstractScene extends Scene {
         this.root = new StackPane();
         this.setRoot(this.root);
 
-        Canvas canvas = new Canvas(this.width, this.height);
+        final Canvas canvas = new Canvas(this.width, this.height);
         this.root.getChildren().add(canvas);
         this.gfx = canvas.getGraphicsContext2D();
 
         this.keysPressed = new HashSet<>();
         this.keysReleased = new HashSet<>();
-        this.setOnKeyPressed( k -> {
+        
+        this.setOnKeyPressed(k -> {
             this.keysPressed.add(k.getCode());
         });
-
-        this.setOnKeyReleased( k -> {
-            this.keysPressed.add(k.getCode());
+        this.setOnKeyReleased(k -> {
+            this.keysPressed.remove(k.getCode());
             this.keysReleased.add(k.getCode());
         });
     }

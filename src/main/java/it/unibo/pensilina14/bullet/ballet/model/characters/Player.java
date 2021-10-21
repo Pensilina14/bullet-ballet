@@ -9,7 +9,6 @@ import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ITEM_ID;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
@@ -47,13 +46,35 @@ public class Player extends AbstractDynamicComponent implements Characters{
         super(dimension, environment, mass, vector);
 
         this.playerType = playerType;
-        setPlayerType(this.playerType);
+        setPlayerType();
     }
 
-    private void setPlayerType(EntityList.Characters.Player playerType){ //, EntityList.Weapons weaponType, Dimension2D dimension, SpeedVector2D vector, Environment environment,double mass, ITEM_ID id, final Effect effect
+    public Player(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+        super(dimension, environment, mass, vector);
+
+        setRandomPlayer();
+        setPlayerType();
+
+    }
+
+    private void setRandomPlayer() {
+        Random rand = new Random();
+        final int max = EntityList.Characters.Player.values().length;
+        final int min = 0;
+
+        final int randomPlayer = rand.nextInt(((max - min)) + min);
+        for(EntityList.Characters.Player p : EntityList.Characters.Player.values()){
+            if(p.ordinal() == randomPlayer){
+                this.playerType = p;
+            }
+        }
+
+    }
+
+    private void setPlayerType(){
         double minHealth;
         double minMana;
-        switch(playerType){
+        switch(this.playerType){
             case PLAYER1:
                 minHealth = 80.0;
                 minMana = 50.0;
@@ -142,5 +163,19 @@ public class Player extends AbstractDynamicComponent implements Characters{
         if(this.mana.isPresent()){
             this.mana = Optional.of(this.mana.get() + increaseValue);
         }
+    }
+
+    @Override
+    public void increaseHealth(double increaseHealth) {
+        this.health += increaseHealth;
+    }
+
+    @Override
+    public void decreaseHealth(double decreaseHealth) {
+        this.health -= decreaseHealth;
+    }
+
+    public EntityList.Characters.Player getPlayerType() {
+        return this.playerType;
     }
 }

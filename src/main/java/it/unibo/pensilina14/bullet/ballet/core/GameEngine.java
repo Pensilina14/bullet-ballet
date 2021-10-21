@@ -2,14 +2,17 @@ package it.unibo.pensilina14.bullet.ballet.core;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
@@ -29,32 +32,57 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private final long period = 20;
 	
-	private MapScene view;
-	private GameState gameState;
+	private Optional<GameView> view;
+	private Optional<GameState> gameState;
 	private final BlockingQueue<Command> cmdQueue;
 	private final List<GameEvent> eventQueue;
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
+		this.view = Optional.empty();
+		this.gameState = Optional.empty();
 	}
 	
-	public void setup() {
-		this.gameState = new GameState();
-		this.view = new MapScene();
-		/*
-		 * TODO: call rengo.
-		 */
+	public GameEngine(final GameView view, final GameState game) {
+		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
+		this.eventQueue = new LinkedList<>();
+		this.view = Optional.of(view);
+		this.gameState = Optional.of(game);
+	}
+	
+	public final void setup() {
+		if (this.view.isEmpty()) {
+			this.view = Optional.of(new MapScene(this.gameState.get(), this));
+			this.view.get().setup();
+			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
+		} else {
+			this.view.get().setInputController(this);
+			AppLogger.getAppLogger().debug("View input controller set.");
+		}
+
+		if (this.gameState.isEmpty()) {
+			this.gameState = Optional.of(new GameState());
+			this.gameState.get().setEventListener(this);
+			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
+		} else {
+			this.gameState.get().setEventListener(this);
+			AppLogger.getAppLogger().debug("Game state present, event listener set only.");
+		}
 	}
 	
 	public void mainLoop() {
+		AppLogger.getAppLogger().info("Main loop starts now.");
 	    long lastTime = System.currentTimeMillis();
-		while (!this.gameState.isGameOver()) {
+		while (!this.gameState.get().isGameOver()) {
 			final long current = System.currentTimeMillis();
 			final int elapsed = (int) (current - lastTime);
 			this.processInput();
+			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame(elapsed);
+			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
+			AppLogger.getAppLogger().debug("Rendering ultimated.");
 			this.waitForNextFrame(elapsed);
 			lastTime = current;
 		}
@@ -75,17 +103,17 @@ public class GameEngine implements Controller, GameEventListener {
 	private void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.gameState);
+			cmd.execute(this.gameState.get());
 		}
 	}
 	
 	private void updateGame(final int elapsed) {
-		this.gameState.update(elapsed);
+		this.gameState.get().update(elapsed);
 		this.checkEvents();
 	}
 	
 	private void render() {
-		this.view.draw();
+		this.view.get().draw();
 	}
 	
 	@Override
@@ -99,7 +127,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void checkEvents() {
-		final Environment env = this.gameState.getGameEnvironment();
+		final Environment env = this.gameState.get().getGameEnvironment();
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof CharacterHitsPickupObjEvent) {
 				// Apply item effect on character
