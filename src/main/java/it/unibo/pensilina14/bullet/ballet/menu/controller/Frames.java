@@ -3,7 +3,8 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 public enum Frames {
 
     HOMEPAGE("/homepage.fxml"),
-    SETTINGS("/settings.fxml");
+    SETTINGS("/settings.fxml"),
+	PAUSEMENU("/pausemenu.fxml");
     
     private final String fileName;
     
