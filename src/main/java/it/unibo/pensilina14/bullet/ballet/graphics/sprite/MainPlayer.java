@@ -33,11 +33,14 @@ public class MainPlayer extends Pane {
     //private final Player player;
 
 
-    public MainPlayer() throws IOException {
+    public MainPlayer(final int x, final int y) throws IOException {
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
         this.playerView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight));
         this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
+
+        this.playerView.setTranslateX(x);
+        this.playerView.setTranslateY(y);
 
         getChildren().addAll(this.playerView);
     }
