@@ -53,34 +53,31 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.mass;
     }
     
-    public boolean moveUP(final double y) {
-        return this.move(0, Math.abs(y));
+    public void moveUP(final double y) {
+        this.move(0, -y);
     }
     
-    public boolean moveDOWN(final double y) {
-        return this.move(0, -Math.abs(y));
+    public void moveDOWN(final double y) {
+        this.move(0, y);
     }
     
-    public boolean moveRIGHT(final double x) {
-        return this.move(Math.abs(x), 0);
+    public void moveRIGHT(final double x) {
+        this.move(x, 0);
     }
     
-    public boolean moveLEFT(final double x) {
-        return this.move(-Math.abs(x), 0);
+    public void moveLEFT(final double x) {
+        this.move(-x, 0);
     }
     
-    public boolean move(final double x, final double y) {
-        if (isWithinMapBoundaries(x * this.vector.getSpeed(), y * this.vector.getSpeed())) {
-            this.vector.vectorSum(x, y);
-            return true;
-        }
-        return false;
+    public void move(final double x, final double y) {
+        this.vector.vectorSum(x, y);
     }
     
     public void updateState(final double dt) {
         this.vector.noSpeedVectorSum(dt * MS_TO_S, dt * MS_TO_S);
     }
     
+    /*
     private boolean isWithinMapBoundaries(final double x, final double y) {    
         return isWithinXaxis(x) && isWithinYaxis(y);
     }
@@ -96,7 +93,7 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         return this.vector.getPosition().getY() + y <= 0
                 && this.vector.getPosition().getY() + y - this.dimension.getHeight() >= -envDimension.getHeight();
     }
-    
+    */
     public double getGravityForce() {
         return gameEnvironment.getGravity() * this.mass;
     }

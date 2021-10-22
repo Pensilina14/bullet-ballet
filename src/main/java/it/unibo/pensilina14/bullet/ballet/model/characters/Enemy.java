@@ -117,6 +117,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
         this.health = setHealth;
     }
 
+    /*
     @Override
     public boolean jump() { //TODO: add a parameter
         return super.moveUP(10.0);
@@ -126,6 +127,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     public boolean crouch() { //TODO: add a parameter
         return super.moveDOWN(10.0);
     }
+    */
 
     @Override
     public Weapon getWeapon() {

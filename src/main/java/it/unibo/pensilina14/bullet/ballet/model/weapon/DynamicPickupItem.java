@@ -33,13 +33,9 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
      *TODO = refactor with java streams 
     */
     public void yAxisMovement() {
-        while (this.moveUP(1)) {};
-        while (this.moveDOWN(1)) {};
     }
 
     public void xAxisMovement() {
-        while (this.moveRIGHT(1)) {};
-        while (this.moveLEFT(1)) {};
     }
     
     @Override

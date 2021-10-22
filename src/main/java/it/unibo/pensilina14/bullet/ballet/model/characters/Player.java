@@ -121,15 +121,17 @@ public class Player extends AbstractDynamicComponent implements Characters{
         this.health = setHealth;
     }
 
+    /*
     @Override
     public boolean jump() { //TODO: add parameter
-        return super.moveUP(10.0);
+        return super.moveUP(0);
     }
 
     @Override
     public boolean crouch() { //TODO: add parameter
         return super.moveDOWN(10.0);
     }
+    */
 
     @Override
     public Weapon getWeapon() {

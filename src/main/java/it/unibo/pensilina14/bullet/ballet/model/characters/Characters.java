@@ -38,14 +38,14 @@ public interface Characters {
      * @return whether the character has jumped
      */
 
-    boolean jump();
+   // boolean jump();
 
     /**
      *
      * @return whether is crouching
      */
 
-    boolean crouch();
+ //   boolean crouch();
 
     /**
      * @return the Weapon that the character is using.
