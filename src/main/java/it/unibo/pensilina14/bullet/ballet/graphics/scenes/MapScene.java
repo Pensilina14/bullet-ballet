@@ -142,7 +142,7 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.LEFT)) {
         	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
-        	this.keysReleased.remove(KeyCode.LEFT);
+        	this.keysReleased.remove(KeyCode.LEFT); 
         }
     }
 
