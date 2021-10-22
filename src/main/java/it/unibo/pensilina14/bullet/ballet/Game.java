@@ -5,7 +5,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
-import javafx.scene.Scene;
 
 public class Game {
     private final GameState state;
@@ -37,12 +36,13 @@ public class Game {
 
     public final void start() {
     	AppLogger.getAppLogger().debug("Inside Game start() method.");
-        this.engine.setup();
-        AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
-        this.engine.mainLoop();
+            this.engine.setup();
+            AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
+            this.engine.mainLoop();
     }
 
     public final GameView getView() {
     	return this.view;
     }
+
 }
