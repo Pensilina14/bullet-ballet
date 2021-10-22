@@ -125,7 +125,7 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
     	this.gamePane.getChildren().clear();
-
+    	this.addCameraListenerToPlayer();
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 
