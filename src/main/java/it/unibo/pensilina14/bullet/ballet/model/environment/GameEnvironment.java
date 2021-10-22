@@ -253,8 +253,14 @@ public class GameEnvironment implements Environment {
 		if (this.obstacles.isPresent()) {
 			mergedList.get().addAll(this.obstacles.get());
 		}
-		if (this.obstacles.isPresent()) {
-            mergedList.get().addAll(this.items.get());   
+		if (this.items.isPresent()) {
+            mergedList.get().addAll(this.items.get());
+		}
+		if (this.platforms.isPresent()) {
+			mergedList.get().addAll(this.platforms.get());
+		}
+		if (this.weapons.isPresent()) {
+			mergedList.get().addAll(this.weapons.get());
 		}
 		return mergedList;
 	}

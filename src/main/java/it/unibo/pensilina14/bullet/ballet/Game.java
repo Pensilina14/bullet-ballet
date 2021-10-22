@@ -9,7 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 public class Game {
     private final GameState state;
     private final GameView view;
-    private final GameEngine engine;
+    public final GameEngine engine;
 
     public enum Scenes {
     	/**

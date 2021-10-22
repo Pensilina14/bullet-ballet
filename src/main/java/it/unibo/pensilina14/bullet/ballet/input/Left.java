@@ -3,18 +3,18 @@ package it.unibo.pensilina14.bullet.ballet.input;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
-public class Right implements Command {
+public class Left implements Command {
 
 	/**
-	 * Factor every time Right command is executed
+	 * Factor every time Left command is executed
 	 * the player moves by.
 	 */
-	public static final int MOVEMENT_DELTA = 0.1;
+	public static final double MOVEMENT_DELTA = 0.1;
 	
 	@Override
-	public final void execute(final GameState env) {
+	public void execute(final GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveRIGHT(Right.MOVEMENT_DELTA);
+		player.moveLEFT(Left.MOVEMENT_DELTA);
 	}
 
 }

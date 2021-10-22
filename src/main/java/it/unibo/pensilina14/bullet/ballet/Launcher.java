@@ -3,7 +3,9 @@ package it.unibo.pensilina14.bullet.ballet;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -12,8 +14,15 @@ public class Launcher extends Application {
 
     @Override
     public final void start(final Stage primaryStage) throws Exception {
-    	AppLogger.getAppLogger().debug("Inside Launcher start() method, it's been called.");
-        loader.loadFirstScene(primaryStage);
+    	final Game game = new Game();
+    	final Scene gameScene = (Scene) game.getView();
+        primaryStage.setScene(gameScene);
+        primaryStage.show();
+        final AnimationTimer timer = new AnimationTimerImpl(game);
+        timer.start();
+//    	AppLogger.getAppLogger().debug("Inside Launcher start() method, it's been called.");
+//        loader.loadFirstScene(primaryStage);
+    	
     }
 
     public static void main(final String[] args) {

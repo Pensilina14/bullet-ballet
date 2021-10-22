@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -37,7 +36,7 @@ public abstract class AbstractScene extends Scene {
 
         this.keysPressed = new HashSet<>();
         this.keysReleased = new HashSet<>();
-        
+
         this.setOnKeyPressed(k -> {
             this.keysPressed.add(k.getCode());
         });

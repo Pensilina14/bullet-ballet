@@ -73,7 +73,6 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public final void mainLoop() {
-		AppLogger.getAppLogger().info("Main loop starts now.");
 	    long lastTime = System.currentTimeMillis();
 		while (!this.gameState.get().isGameOver()) {
 			final long current = System.currentTimeMillis();
@@ -90,31 +89,31 @@ public class GameEngine implements Controller, GameEventListener {
 		// GAME OVER
 	}
 	
-	private void waitForNextFrame(final long current) {
+	public void waitForNextFrame(final long current) {
 		final long dt = System.currentTimeMillis() - current;
 		AppLogger.getAppLogger().debug(String.format("dt: %d\tperiod: %d", dt, this.period));
 		if (dt < this.period) {
 			try {
-				Thread.sleep(period - dt);
+				Thread.sleep(this.period - dt);
 			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	private void processInput() {
+	public void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
 			cmd.execute(this.gameState.get());
 		}
 	}
 	
-	private void updateGame(final int elapsed) {
+	public void updateGame(final int elapsed) {
 		this.gameState.get().update(elapsed);
 		this.checkEvents();
 	}
 	
-	private void render() {
+	public void render() {
 		this.view.get().draw();
 	}
 	

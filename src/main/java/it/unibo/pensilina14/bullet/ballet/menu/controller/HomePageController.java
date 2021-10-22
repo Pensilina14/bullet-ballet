@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
@@ -41,13 +42,11 @@ public class HomePageController {
         final Game game = new Game();
         AppLogger.getAppLogger().debug("New Game class object instantiated.");
         final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
-        stage.getScene().setRoot((Parent) game.getView().getAppPane());
+        final Scene gameScene = (Scene) game.getView();
+        stage.setScene(gameScene);
         AppLogger.getAppLogger().debug("Scene changed!");
         stage.show();
-        Runnable task = () -> {
-            game.start();
-        };
-        new Thread(task);
+        game.start();
     }
 
     @FXML
