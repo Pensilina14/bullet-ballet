@@ -44,10 +44,7 @@ public class HomePageController {
         stage.getScene().setRoot((Parent) game.getView().getAppPane());
         AppLogger.getAppLogger().debug("Scene changed!");
         stage.show();
-        Runnable task = () -> {
-            game.start();
-        };
-        new Thread(task);
+        game.start();
     }
 
     @FXML
