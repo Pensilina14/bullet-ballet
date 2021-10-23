@@ -46,16 +46,14 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private Set<MainEnemy> assEnemy;
-    private Set<PlatformSprite> assPlatform;    
+    private final Set<MainEnemy> enemySprites;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.assEnemy = new HashSet<>();
-        this.assPlatform = new HashSet<>();
+        this.enemySprites = new HashSet<>();
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
@@ -63,8 +61,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.assEnemy = new HashSet<>();
-        this.assPlatform = new HashSet<>();
+        this.enemySprites = new HashSet<>();
     }
 
     public final void setup() {
@@ -79,7 +76,7 @@ public class MapScene extends AbstractScene implements GameView{
 		}
         this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
-        
+
         this.mainPlayer = Optional.empty();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
@@ -108,7 +105,12 @@ public class MapScene extends AbstractScene implements GameView{
     @Override
     public final void draw() {
 	    update();
-	    renderPosition();
+	    try {
+			render();
+		} catch (IOException e) {
+			AppLogger.getAppLogger().error("Couldn't load sprite images..");
+			e.printStackTrace();
+		}
     }
 
     private void update() {
@@ -124,7 +126,7 @@ public class MapScene extends AbstractScene implements GameView{
             this.mainPlayer.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
-        
+
         if (this.keysPressed.contains(KeyCode.DOWN)) { 
         	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
             this.controller.get().notifyCommand(new Down());
@@ -146,7 +148,7 @@ public class MapScene extends AbstractScene implements GameView{
             this.mainPlayer.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
-        
+
         if (this.keysReleased.contains(KeyCode.DOWN)) { 
         	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
         	this.keysReleased.remove(KeyCode.DOWN);
@@ -174,11 +176,11 @@ public class MapScene extends AbstractScene implements GameView{
     		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
     		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
     		if (this.mainPlayer.isEmpty()) {
-    			this.mainPlayer = Optional.of(new MainPlayer((int) (playerPos.getX() * platformSize), 
-    				(int) (playerPos.getY() * platformSize)));
+    			this.mainPlayer = Optional.of(new MainPlayer(playerPos.getX() * platformSize, 
+    				playerPos.getY() * platformSize));
     		} else {
-    			this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
-        				(int) (playerPos.getY() * platformSize));
+    			this.mainPlayer.get().renderPosition(playerPos.getX() * platformSize, 
+        				playerPos.getY() * platformSize);
     		}
     		this.gamePane.getChildren().add(this.mainPlayer.get());
     		this.addCameraListenerToPlayer();
@@ -187,10 +189,9 @@ public class MapScene extends AbstractScene implements GameView{
 
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition();
-    		final PlatformSprite sprite = new PlatformSprite(this.map.getPlatformType(), 
-    				(int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
-    		this.gamePane.getChildren().add(sprite);
-    		this.assPlatform.put(sprite,  x);
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), 
+    				xPos.getX() * platformSize, xPos.getY() * platformSize);
+    		this.gamePane.getChildren().add(newSprite);
     	}
     	AppLogger.getAppLogger().debug("Platforms rendered.");
 //
@@ -207,7 +208,7 @@ public class MapScene extends AbstractScene implements GameView{
     		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
     				(int) (x.getPosition().getY() * platformSize));
     		this.gamePane.getChildren().add(enemySprite);
-    		this.assEnemy.put(enemySprite, x);
+    		this.enemySprites.add(enemySprite);
     		AppLogger.getAppLogger().debug("Enemy rendered");
     	}
 
@@ -243,22 +244,22 @@ public class MapScene extends AbstractScene implements GameView{
 
     }
     
-    private void renderPosition() {
-    	final Environment world = this.gameState.getGameEnvironment();
-    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
-    	
-    	if (world.getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
-    		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
-    		this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
-    				(int) (playerPos.getY() * platformSize));
-    	}
-    	
-    	//this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-    	//this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
-    	//this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-    	//this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
-    }
+//    private void renderPosition() {
+//    	final Environment world = this.gameState.getGameEnvironment();
+//    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+//    	
+//    	if (world.getPlayer().isPresent()) {
+//    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
+//    		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
+//    		this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
+//    				(int) (playerPos.getY() * platformSize));
+//    	}
+//    	
+//    	//this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+//    	//this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
+//    	//this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+//    	//this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
+//    }
 
     public final void setMap(final Map.Maps map) {
         this.map.setMap(map);

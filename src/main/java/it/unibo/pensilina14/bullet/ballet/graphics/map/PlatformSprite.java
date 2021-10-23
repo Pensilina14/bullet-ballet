@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+
 public class PlatformSprite extends Pane { //TODO: Lasciare tutto qui o mettere tutto in Map. (tranne le enum che metterei apparte)
 
     public enum Platforms { //TODO: Add paths of other platform images.
@@ -88,27 +91,31 @@ public class PlatformSprite extends Pane { //TODO: Lasciare tutto qui o mettere 
     private int minX;
     private int platformWidth;
     private int platformHeight;
+    private MutablePosition2D position;
 
-    public PlatformSprite(Platforms platformType, int x, int y) throws IOException {
+    public PlatformSprite(final Platforms platformType, final double x, final double y) throws IOException {
 
         this.platformType = platformType;
-
-        setPlatform(x, y);
-
-        getChildren().add(this.platformView);
-    }
-
-    private void setPlatform(int x, int y) throws IOException {
-        minX = 0;
-        minY = 0;
-        platformWidth = 60;
-        platformHeight = 60;
+        this.minX = 0;
+        this.minY = 0;
+        this.platformWidth = 60;
+        this.platformHeight = 60;
         this.platformView = new ImageView(new Image(Files.newInputStream(Paths.get(this.platformType.getPath()))));
-        this.setTranslateX(x);
-        this.setTranslateY(y);
+
+        this.renderPosition(x, y);
 
         this.platformView.setFitWidth(PlatformSprite.SIZE);
         this.platformView.setFitHeight(PlatformSprite.SIZE);
+        this.getChildren().add(this.platformView);
     }
 
+    public final void renderPosition(final double x, final double y) throws IOException {
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+        this.position = new MutablePosition2Dimpl(x, y);
+    }
+
+    public final MutablePosition2D getPosition() {
+    	return this.position;
+    }
 }
