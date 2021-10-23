@@ -18,6 +18,8 @@ public class Save {
             bufferedWriter.write(String.valueOf(playerScore));
             bufferedWriter.newLine();
 
+            bufferedWriter.flush();
+
             bufferedWriter.close();
             file.close();
 
@@ -80,6 +82,8 @@ public class Save {
                 bufferedWriter.newLine();
             }
 
+            bufferedWriter.flush();
+
             fileWriter.close();
             bufferedWriter.close();
 
@@ -125,6 +129,45 @@ public class Save {
     public int getNumberOfLevels(){
         return Objects.requireNonNull(new File("levels/").listFiles()).length;
         //return Objects.requireNonNull(new File("levels/").list()).length; //TODO: remove
+    }
+
+    public void modifySaveFile(String playerToFind, int oldScore, String newPlayerName, int newScore){ //TODO: playerToSearch ?
+        try {
+            File saveFile = new File("save_file.txt");
+            FileReader fileReader = new FileReader(saveFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            ArrayList<String> modifiedDataList = new ArrayList<>();
+
+            while((line = bufferedReader.readLine()) != null && line.length() != 0){
+                if(line.contains(playerToFind)){
+                    line = line.replace(playerToFind, newPlayerName);
+                }
+                if(line.contains(String.valueOf(oldScore))){
+                    line = line.replace(String.valueOf(oldScore), String.valueOf(newScore));
+                }
+                modifiedDataList.add(line);
+            }
+
+            fileReader.close();
+            bufferedReader.close();
+
+            FileWriter fileWriter = new FileWriter(saveFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for(String s : modifiedDataList){
+                bufferedWriter.write(s);
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.flush();
+
+            fileWriter.close();
+            bufferedWriter.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
