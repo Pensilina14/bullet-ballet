@@ -12,12 +12,10 @@ public class SaveTest {
 
     private final Save data = new Save();
 
-    /*@Test //TODO: remove
-    public void saveTest(){
-    }*/
-
     @Test
     public void saveAndLoadTest(){
+
+        data.resetSaveFile();
 
         final String playerName = "player1";
         final int playerScore = 18;
@@ -58,18 +56,47 @@ public class SaveTest {
     @Test
     public void loadLevelTest(){
         //TODO:
-        Save levelData = new Save();
 
         final int currentLevel = 0;
 
-        final String[] level = levelData.loadLevel(currentLevel);
+        final String[] level = data.loadLevel(currentLevel);
 
         assertTrue(level.length != 0);
 
         final int max_levels = 3;
-        final int numberOfLevels = levelData.getNumberOfLevels();
+        final int numberOfLevels = data.getNumberOfLevels();
 
         assertEquals(max_levels, numberOfLevels);
+    }
+
+    @Test
+    public void modifyDataTest(){
+        data.resetSaveFile();
+
+        final String player = "Pippo";
+        final int playerScore = 14;
+
+        final String player2 = "Giorgio";
+        final int playerScore2 = 8;
+
+        data.save(player, playerScore);
+        data.save(player2, playerScore2);
+
+        HashMap<String, Integer> results = new HashMap<>();
+        results = data.load();
+
+        assertFalse(results.isEmpty());
+
+        final String playerRename = "Marco";
+        final int newPlayerScore = 5;
+
+        data.modifySaveFile(player, playerScore, playerRename, newPlayerScore);
+
+        results.clear();
+        results = data.load();
+
+        assertTrue(results.containsKey(playerRename));
+        assertTrue(results.containsValue(newPlayerScore));
     }
 
 }
