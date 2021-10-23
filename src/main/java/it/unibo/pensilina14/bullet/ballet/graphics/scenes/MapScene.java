@@ -26,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class MapScene extends AbstractScene implements GameView{
@@ -41,13 +42,17 @@ public class MapScene extends AbstractScene implements GameView{
     private Optional<MainPlayer> mainPlayer;
 
     private final GameState gameState;
-    private Optional<Controller> controller; 
+    private Optional<Controller> controller;
+    private HashMap<MainEnemy, Enemy> assEnemy;
+    private HashMap<PlatformSprite, Platform> assPlatform;    
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+        this.assEnemy = new HashMap<>();
+        this.assPlatform = new HashMap<>();
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
@@ -55,6 +60,8 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+        this.assEnemy = new HashMap<>();
+        this.assPlatform = new HashMap<>();
     }
 
     public final void setup() {
@@ -97,12 +104,7 @@ public class MapScene extends AbstractScene implements GameView{
     @Override
     public final void draw() {
 	    update();
-	    try {
-	        render();
-		} catch (IOException e) {
-		    e.printStackTrace();
-			AppLogger.getAppLogger().error("Couldn't load sprite images.");
-		} 
+	    updatePosition();
     }
 
     private void update() {
@@ -232,6 +234,23 @@ public class MapScene extends AbstractScene implements GameView{
     	 */
     	//DEBUG ONLY: throw new NullPointerException();
 
+    }
+    
+    private void updatePosition() {
+    	final Environment world = this.gameState.getGameEnvironment();
+    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+    	
+    	if (world.getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
+    		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
+    		this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
+    				(int) (playerPos.getY() * platformSize));
+    	}
+    	
+    	this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+    	this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
+    	this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+    	this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
     }
 
     public final void setMap(final Map.Maps map) {
