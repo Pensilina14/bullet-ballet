@@ -27,7 +27,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class MapScene extends AbstractScene implements GameView{
 
@@ -43,16 +45,16 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private HashMap<MainEnemy, Enemy> assEnemy;
-    private HashMap<PlatformSprite, Platform> assPlatform;    
+    private Set<MainEnemy> assEnemy;
+    private Set<PlatformSprite> assPlatform;    
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.assEnemy = new HashMap<>();
-        this.assPlatform = new HashMap<>();
+        this.assEnemy = new HashSet<>();
+        this.assPlatform = new HashSet<>();
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
@@ -60,8 +62,8 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.assEnemy = new HashMap<>();
-        this.assPlatform = new HashMap<>();
+        this.assEnemy = new HashSet<>();
+        this.assPlatform = new HashSet<>();
     }
 
     public final void setup() {
@@ -104,7 +106,7 @@ public class MapScene extends AbstractScene implements GameView{
     @Override
     public final void draw() {
 	    update();
-	    updatePosition();
+	    renderPosition();
     }
 
     private void update() {
