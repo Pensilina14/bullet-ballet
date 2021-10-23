@@ -38,7 +38,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     private ImageView backgroundView;
 
-    private MainPlayer mainPlayer;
+    private Optional<MainPlayer> mainPlayer;
 
     private final GameState gameState;
     private Optional<Controller> controller; 
@@ -69,6 +69,8 @@ public class MapScene extends AbstractScene implements GameView{
 		}
         this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
+        
+        this.mainPlayer = Optional.empty();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
@@ -81,7 +83,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void addCameraListenerToPlayer() {
-        this.mainPlayer.translateXProperty().addListener((obs, oldPosition, newPosition) -> {
+        this.mainPlayer.get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
             final int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
@@ -107,13 +109,13 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
-        	//this.mainPlayer.getSpriteAnimation().play();
+        	this.mainPlayer.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
         }
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
         	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
-            //this.mainPlayer.getSpriteAnimation().play();
+            this.mainPlayer.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
         
@@ -129,11 +131,13 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.UP)) {
         	AppLogger.getAppLogger().info("Key 'UP' released.");
+        	this.mainPlayer.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
         if (this.keysReleased.contains(KeyCode.RIGHT)) {
         	AppLogger.getAppLogger().info("Key 'RIGHT' released.");
+            this.mainPlayer.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
         
@@ -157,19 +161,24 @@ public class MapScene extends AbstractScene implements GameView{
 
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
-    	
+
     	final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
     	if (world.getPlayer().isPresent()) {
     		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
     		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
-    		this.mainPlayer = new MainPlayer((int) (playerPos.getX() * platformSize), 
-    				(int) (playerPos.getY() * platformSize));
-    		this.gamePane.getChildren().add(this.mainPlayer);
-    		//this.addCameraListenerToPlayer();
+    		if (this.mainPlayer.isEmpty()) {
+    			this.mainPlayer = Optional.of(new MainPlayer((int) (playerPos.getX() * platformSize), 
+    				(int) (playerPos.getY() * platformSize)));
+    		} else {
+    			this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
+        				(int) (playerPos.getY() * platformSize));
+    		}
+    		this.gamePane.getChildren().add(this.mainPlayer.get());
+    		this.addCameraListenerToPlayer();
     		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
     	}
-    	
+
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		final PlatformSprite sprite = new PlatformSprite(this.map.getPlatformType(), 
