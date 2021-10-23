@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,7 +30,7 @@ import java.util.Optional;
 
 public class MapScene extends AbstractScene implements GameView{
 
-    private final Pane appPane = new Pane();
+    private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
     
@@ -57,22 +58,23 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     public final void setup() {
+    	this.initScene();
         this.root.getChildren().add(this.appPane);
         AppLogger.getAppLogger().debug("Inside MapScene setup() method."); 
         try {
             this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
-		} catch (final IOException e) {
-			e.printStackTrace();
+        } catch (final IOException e) {
+            e.printStackTrace();
 			AppLogger.getAppLogger().error("Failed to load background image.");
 		}
-        this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
-        this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
+        this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
+        this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
         try {
         	this.render();
-        } catch(final IOException exc) {
+        } catch (final IOException exc) {
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
