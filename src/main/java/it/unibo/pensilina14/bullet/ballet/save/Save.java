@@ -98,7 +98,7 @@ public class Save {
         String line;
 
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("level" + levelNumber + ".txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("levels/level" + levelNumber + ".txt"));
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
                 System.out.println("line: " + line);
@@ -112,11 +112,6 @@ public class Save {
         }
 
         level = levelList.toArray(String[]::new);
-        /*String formattedLevel = Arrays.toString(level)
-                        .replace(",", "")
-                        .replace("[", "")
-                        .replace("]", "")
-                        .trim();*/
 
         return level;
     }
@@ -125,6 +120,7 @@ public class Save {
         try {
             FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt", false);
             fileWriter.close();
+
         } catch(Exception e){
             e.printStackTrace();
         }

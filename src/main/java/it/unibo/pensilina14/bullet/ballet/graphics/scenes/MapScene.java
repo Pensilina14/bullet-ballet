@@ -236,7 +236,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     }
     
-    private void updatePosition() {
+    private void renderPosition() {
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
     	
