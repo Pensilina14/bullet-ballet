@@ -41,69 +41,69 @@ public class DynamicObstacleTest {
         assertEquals(gravity * mass, dynamicObstacle.getGravityForce(), APPROXIMATION);
     }
     
-    @Test
-    public void testMove() {
-        boolean isMoving = dynamicObstacle.move(-5, -5);
-        assertTrue(isMoving);
-        isMoving = !dynamicObstacle.move(-506, -506);
-        assertTrue(isMoving);
-    }
+//    @Test
+//    public void testMove() {
+//        boolean isMoving = dynamicObstacle.move(-5, -5);
+//        assertTrue(isMoving);
+//        isMoving = !dynamicObstacle.move(-506, -506);
+//        assertTrue(isMoving);
+//    }
     
-    @Test
-    public void testMoveUP() {
-        boolean isMoving = !dynamicObstacle.moveUP(10);
-        final double yAxisPositionBeforeMovement = dynamicObstacle.getPosition().getY();
-        assertTrue(isMoving);
-        isMoving = dynamicObstacle.moveUP(2);
-        assertTrue(isMoving);
-        assertEquals(yAxisPositionBeforeMovement + (2 * dynamicObstacle.getSpeedVector().getSpeed())
-                , dynamicObstacle.getPosition().getY(), APPROXIMATION);
-    }
-    
-    
-    @Test
-    public void testMoveDOWN() {
-        final double yAxisPositionBeforeMovement = dynamicObstacle.getPosition().getY();
-        boolean isMoving = dynamicObstacle.moveDOWN(10);
-        assertTrue(isMoving);
-        isMoving = !dynamicObstacle.moveDOWN(245);
-        assertTrue(isMoving);
-        assertEquals(yAxisPositionBeforeMovement - (10 * dynamicObstacle.getSpeedVector().getSpeed())
-                , dynamicObstacle.getPosition().getY(), APPROXIMATION);
-        
-    }
-    
-    @Test
-    public void testMoveRIGHT() {
-        boolean isMoving = !dynamicObstacle.moveRIGHT(10);
-        assertTrue(isMoving);
-        dynamicObstacle.getPosition().setPosition(-100, -10);
-        final double xAxisPositionBeforeMovement = dynamicObstacle.getPosition().getX();
-        isMoving = dynamicObstacle.moveRIGHT(10);
-        assertTrue(isMoving);
-        assertEquals(xAxisPositionBeforeMovement + (10 * dynamicObstacle.getSpeedVector().getSpeed())
-                , dynamicObstacle.getPosition().getX(), APPROXIMATION);
-    }
-    
-    @Test
-    public void testMoveLEFT() {
-        final double xAxisPositionBeforeMovement = dynamicObstacle.getPosition().getX();
-        boolean isMoving = dynamicObstacle.moveLEFT(10);
-        assertTrue(isMoving);
-        isMoving = !dynamicObstacle.moveLEFT(243);
-        assertTrue(isMoving);
-        assertEquals(xAxisPositionBeforeMovement - (10 * dynamicObstacle.getSpeedVector().getSpeed())
-                , dynamicObstacle.getPosition().getX(), APPROXIMATION);
-    }
-    
-    @Test
-    public void testUpdateState() {
-        final SpeedVector2D vector = dynamicObstacle.getSpeedVector();
-        final MutablePosition2D prevPosition = vector.getPosition();
-        prevPosition.setPosition(dynamicObstacle.getPosition().getX() + TIME * MS_TO_S, 
-                dynamicObstacle.getPosition().getY() + TIME * MS_TO_S);
-        dynamicObstacle.updateState(TIME);
-        assertEquals(dynamicObstacle.getPosition(), prevPosition); 
-    }
+//    @Test
+//    public void testMoveUP() {
+//        boolean isMoving = !dynamicObstacle.moveUP(10);
+//        final double yAxisPositionBeforeMovement = dynamicObstacle.getPosition().getY();
+//        assertTrue(isMoving);
+//        isMoving = dynamicObstacle.moveUP(2);
+//        assertTrue(isMoving);
+//        assertEquals(yAxisPositionBeforeMovement + (2 * dynamicObstacle.getSpeedVector().getSpeed())
+//                , dynamicObstacle.getPosition().getY(), APPROXIMATION);
+//    }
+//    
+//    
+//    @Test
+//    public void testMoveDOWN() {
+//        final double yAxisPositionBeforeMovement = dynamicObstacle.getPosition().getY();
+//        boolean isMoving = dynamicObstacle.moveDOWN(10);
+//        assertTrue(isMoving);
+//        isMoving = !dynamicObstacle.moveDOWN(245);
+//        assertTrue(isMoving);
+//        assertEquals(yAxisPositionBeforeMovement - (10 * dynamicObstacle.getSpeedVector().getSpeed())
+//                , dynamicObstacle.getPosition().getY(), APPROXIMATION);
+//        
+//    }
+//    
+//    @Test
+//    public void testMoveRIGHT() {
+//        boolean isMoving = !dynamicObstacle.moveRIGHT(10);
+//        assertTrue(isMoving);
+//        dynamicObstacle.getPosition().setPosition(-100, -10);
+//        final double xAxisPositionBeforeMovement = dynamicObstacle.getPosition().getX();
+//        isMoving = dynamicObstacle.moveRIGHT(10);
+//        assertTrue(isMoving);
+//        assertEquals(xAxisPositionBeforeMovement + (10 * dynamicObstacle.getSpeedVector().getSpeed())
+//                , dynamicObstacle.getPosition().getX(), APPROXIMATION);
+//    }
+//    
+//    @Test
+//    public void testMoveLEFT() {
+//        final double xAxisPositionBeforeMovement = dynamicObstacle.getPosition().getX();
+//        boolean isMoving = dynamicObstacle.moveLEFT(10);
+//        assertTrue(isMoving);
+//        isMoving = !dynamicObstacle.moveLEFT(243);
+//        assertTrue(isMoving);
+//        assertEquals(xAxisPositionBeforeMovement - (10 * dynamicObstacle.getSpeedVector().getSpeed())
+//                , dynamicObstacle.getPosition().getX(), APPROXIMATION);
+//    }
+//    
+//    @Test
+//    public void testUpdateState() {
+//        final SpeedVector2D vector = dynamicObstacle.getSpeedVector();
+//        final MutablePosition2D prevPosition = vector.getPosition();
+//        prevPosition.setPosition(dynamicObstacle.getPosition().getX() + TIME * MS_TO_S, 
+//                dynamicObstacle.getPosition().getY() + TIME * MS_TO_S);
+//        dynamicObstacle.updateState(TIME);
+//        assertEquals(dynamicObstacle.getPosition(), prevPosition); 
+//    }
     
 }
