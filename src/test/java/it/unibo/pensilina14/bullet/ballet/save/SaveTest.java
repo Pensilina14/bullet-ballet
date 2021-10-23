@@ -54,4 +54,22 @@ public class SaveTest {
 
         assertTrue(resetResults.isEmpty());
     }
+
+    @Test
+    public void loadLevelTest(){
+        //TODO:
+        Save levelData = new Save();
+
+        final int currentLevel = 0;
+
+        final String[] level = levelData.loadLevel(currentLevel);
+
+        assertTrue(level.length != 0);
+
+        final int max_levels = 3;
+        final int numberOfLevels = levelData.getNumberOfLevels();
+
+        assertEquals(max_levels, numberOfLevels);
+    }
+
 }
