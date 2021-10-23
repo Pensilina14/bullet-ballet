@@ -30,11 +30,11 @@ public class MainPlayer extends Pane {
 
     private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
 
-    public MainPlayer(final int x, final int y) throws IOException {
+    public MainPlayer(final double x, final double y) throws IOException {
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
         this.playerView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight));
-        this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
+        this.animation = new SpriteAnimation(this.playerView, Duration.millis(50), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
 
         this.playerView.setTranslateX(x);
         this.playerView.setTranslateY(y);
@@ -42,7 +42,7 @@ public class MainPlayer extends Pane {
         getChildren().addAll(this.playerView);
     }
     
-    public void renderPosition(final int x, final int y) {
+    public void renderPosition(final double x, final double y) {
     	this.playerView.setTranslateX(x);
     	this.playerView.setTranslateY(y);
     }
