@@ -1,7 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Save {
 
@@ -65,6 +68,64 @@ public class Save {
             fileWriter.close();
 
         }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //TODO: saveLevel not ready.
+    public void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
+        try {
+            FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for(String s : newLevel){
+                bufferedWriter.write(String.valueOf(s));
+                bufferedWriter.newLine();
+            }
+
+            fileWriter.close();
+            bufferedWriter.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String[] loadLevel(int levelNumber){ //TODO: oppure al posto di passare un int si può passare un enum?
+
+        String[] level;
+        ArrayList<String> levelList = new ArrayList<>();
+        String line;
+
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("level" + levelNumber + ".txt"));
+
+            while((line = bufferedReader.readLine()) != null && line.length() != 0){
+                System.out.println("line: " + line);
+                levelList.add(String.valueOf(line));
+            }
+
+            bufferedReader.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        level = levelList.toArray(String[]::new);
+        /*String formattedLevel = Arrays.toString(level)
+                        .replace(",", "")
+                        .replace("[", "")
+                        .replace("]", "")
+                        .trim();*/
+
+        return level;
+    }
+
+    public void resetLevelFile(int levelNumber){
+        try {
+            FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt", false);
+            fileWriter.close();
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
