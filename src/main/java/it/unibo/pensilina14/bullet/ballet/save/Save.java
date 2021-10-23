@@ -1,10 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Save {
 
@@ -75,7 +72,7 @@ public class Save {
     //TODO: saveLevel not ready.
     public void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
         try {
-            FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt");
+            FileWriter fileWriter = new FileWriter("levels/level" + levelNumber + ".txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             for(String s : newLevel){
@@ -101,7 +98,6 @@ public class Save {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("levels/level" + levelNumber + ".txt"));
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
-                System.out.println("line: " + line);
                 levelList.add(String.valueOf(line));
             }
 
@@ -124,6 +120,11 @@ public class Save {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getNumberOfLevels(){
+        return Objects.requireNonNull(new File("levels/").listFiles()).length;
+        //return Objects.requireNonNull(new File("levels/").list()).length; //TODO: remove
     }
 
 }
