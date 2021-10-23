@@ -17,6 +17,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
+import javafx.scene.Camera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -96,6 +97,7 @@ public class MapScene extends AbstractScene implements GameView{
             final int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
+            
             if (playerPosition > (this.map.getMapWidth() / 2) 
             		&&  playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
                 this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
@@ -188,6 +190,7 @@ public class MapScene extends AbstractScene implements GameView{
     		final PlatformSprite sprite = new PlatformSprite(this.map.getPlatformType(), 
     				(int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
     		this.gamePane.getChildren().add(sprite);
+    		this.assPlatform.put(sprite,  x);
     	}
     	AppLogger.getAppLogger().debug("Platforms rendered.");
 //
@@ -201,8 +204,10 @@ public class MapScene extends AbstractScene implements GameView{
 ////    	}
 //
     	for (final Enemy x : world.getEnemies().get()) {
-    		this.gamePane.getChildren().add(new MainEnemy((int) (x.getPosition().getX() * platformSize), 
-    				(int) (x.getPosition().getY() * platformSize)));
+    		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
+    				(int) (x.getPosition().getY() * platformSize));
+    		this.gamePane.getChildren().add(enemySprite);
+    		this.assEnemy.put(enemySprite, x);
     		AppLogger.getAppLogger().debug("Enemy rendered");
     	}
 
@@ -249,10 +254,10 @@ public class MapScene extends AbstractScene implements GameView{
     				(int) (playerPos.getY() * platformSize));
     	}
     	
-    	this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-    	this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
-    	this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-    	this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
+    	//this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+    	//this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
+    	//this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
+    	//this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
     }
 
     public final void setMap(final Map.Maps map) {

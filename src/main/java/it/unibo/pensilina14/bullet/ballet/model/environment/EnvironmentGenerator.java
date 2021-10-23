@@ -11,12 +11,14 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
 
+import java.util.logging.Level;
+
 public class EnvironmentGenerator implements LevelGenerator {
 
-    private final int level;
+    //private final int level; //TODO: remove
 
     private static final int PLATFORM_SIZE = 60;
-    private static final int LEVEL_WIDTH = LevelData.LEVEL_WIDTH;
+    private static final int LEVEL_WIDTH = LevelLoader.LEVEL_WIDTH;
 
     private final Environment env;
 	private final FactoryCharacters charactersFactory;
@@ -24,20 +26,32 @@ public class EnvironmentGenerator implements LevelGenerator {
 	private final ItemFactory itemFactory;
 	
 	public EnvironmentGenerator(final Environment environment) {
-		this.level = LevelData.getRandomLevel();
+		//this.level = LevelData.getRandomLevel(); //TODO: remove
 		this.env = environment;
 		this.charactersFactory = new FactoryCharactersImpl();
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
 	}
+
+    // i: riga.
+    // j: elemento alla riga i.
+
+    //TODO: magari usare un enum per questi.
+    // 1: piattaforma
+    // 2: Moneta
+    // 3: Ostacolo
+    // 4: Arma
+    // P: Player
+    // *: Oggetto (Item)
+    // !: Nemico
 	
 	@Override
 	public final void generate() {
-        for (int i = 0; i < LevelData.levels[this.level].length; i++) {
-            final String line = LevelData.levels[this.level][i];
+        for (int i = 0; i < LevelLoader.level.length; i++) {
+            final String line = LevelLoader.level[i];
             for (int j = 0; j < line.length(); j++){
                 switch(line.charAt(j)) {
-                    case '0':
+                    case '0': //TODO: use an enum?
                     	break;
                     case '1':
                         this.env.addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), env));
