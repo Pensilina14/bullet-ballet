@@ -30,9 +30,6 @@ public class MainPlayer extends Pane {
 
     private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
 
-    //private final Player player;
-
-
     public MainPlayer(final int x, final int y) throws IOException {
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
@@ -43,6 +40,11 @@ public class MainPlayer extends Pane {
         this.playerView.setTranslateY(y);
 
         getChildren().addAll(this.playerView);
+    }
+    
+    public void renderPosition(final int x, final int y) {
+    	this.playerView.setTranslateX(x);
+    	this.playerView.setTranslateY(y);
     }
 
     /*public Player getPlayer(){
