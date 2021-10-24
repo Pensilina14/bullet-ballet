@@ -4,13 +4,10 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 public class Player extends AbstractDynamicComponent implements Characters{
 
@@ -88,7 +85,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("Knife");
+                //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case PLAYER3:
                 minHealth = 50.0;
@@ -96,7 +93,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("AK-47");
+                //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
                 break;
         }
     }
@@ -120,18 +117,6 @@ public class Player extends AbstractDynamicComponent implements Characters{
     public void setHealth(double setHealth) {
         this.health = setHealth;
     }
-
-    /*
-    @Override
-    public boolean jump() { //TODO: add parameter
-        return super.moveUP(0);
-    }
-
-    @Override
-    public boolean crouch() { //TODO: add parameter
-        return super.moveDOWN(10.0);
-    }
-    */
 
     @Override
     public Weapon getWeapon() {

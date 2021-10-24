@@ -34,20 +34,6 @@ public interface Characters {
     void setHealth(double setHealth);
 
     /**
-     *
-     * @return whether the character has jumped
-     */
-
-   // boolean jump();
-
-    /**
-     *
-     * @return whether is crouching
-     */
-
- //   boolean crouch();
-
-    /**
      * @return the Weapon that the character is using.
      */
 

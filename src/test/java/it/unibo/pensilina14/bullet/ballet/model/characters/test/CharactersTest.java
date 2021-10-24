@@ -62,6 +62,7 @@ public class CharactersTest {
         assertFalse(player.manaLeft());
 
         // WEAPON
+        //TODO: weapon test
 
     }
 
@@ -76,6 +77,7 @@ public class CharactersTest {
         assertTrue(player1.getMana().get() >= 50.0 && player1.getMana().get() <= 100.0);
 
         // WEAPON
+        //TODO: weapon test
 
         //assertEquals("AK-47", player1.getWeapon().getName());
         //assertEquals(100, player1.getWeapon().getTotalAmmo());
@@ -114,22 +116,20 @@ public class CharactersTest {
         assertFalse(enemy.manaLeft());
 
         // WEAPON
+        //TODO: weapon test
     }
 
     @Test
     public void testEnemyTypes(){
-        final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
-        final Environment environment = new GameEnvironment();
-        final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
 
-        /*final Enemy enemy1 = new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, vector, environment, DEFAULT_MASS);
+        final Enemy enemy1 = new Enemy(EntityList.Characters.Enemy.ENEMY1, dimension, vector, environment, DEFAULT_MASS);
 
         assertTrue(enemy1.getHealth() >= 80.0 && enemy1.getHealth() <= 100.0);
         assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);
 
-        assertTrue(enemy1.getName() == "Enemy1");
+        assertSame("Enemy1", enemy1.getName());
 
-        assertEquals("AK-47",enemy1.getWeapon().getName());*/
+        //assertEquals("AK-47",enemy1.getWeapon().getName()); //TODO: weapon test
     }
 
     @Test

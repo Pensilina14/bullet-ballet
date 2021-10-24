@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
@@ -11,15 +10,10 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
 
-import java.util.logging.Level;
-
 public class EnvironmentGenerator implements LevelGenerator {
 
-    //private final int level; //TODO: remove
-
     private static final int PLATFORM_SIZE = 60;
-    private final LevelLoader levelLoader; //= new LevelLoader();
-    //private static final int LEVEL_WIDTH = LevelLoader.LEVEL_WIDTH;
+    private final LevelLoader levelLoader;
 
     private final Environment env;
 	private final FactoryCharacters charactersFactory;
@@ -27,7 +21,6 @@ public class EnvironmentGenerator implements LevelGenerator {
 	private final ItemFactory itemFactory;
 	
 	public EnvironmentGenerator(final Environment environment) {
-		//this.level = LevelData.getRandomLevel(); //TODO: remove
         this.levelLoader = new LevelLoader();
 		this.env = environment;
 		this.charactersFactory = new FactoryCharactersImpl();
@@ -49,8 +42,8 @@ public class EnvironmentGenerator implements LevelGenerator {
 	
 	@Override
 	public final void generate() {
-        for (int i = 0; i < this.levelLoader.getLevel().length; i++) { //LevelLoader.level.length
-            final String line = this.levelLoader.getLevel()[i]; //LevelLoader.level[i]
+        for (int i = 0; i < this.levelLoader.getLevel().length; i++) {
+            final String line = this.levelLoader.getLevel()[i];
             for (int j = 0; j < line.length(); j++){
                 switch(line.charAt(j)) {
                     case '0': //TODO: use an enum?
@@ -84,7 +77,6 @@ public class EnvironmentGenerator implements LevelGenerator {
 
 	@Override
 	public int getLevelWidth() {
-		//return EnvironmentGenerator.LEVEL_WIDTH;
         return levelLoader.getLevelWidth();
 	}
 
