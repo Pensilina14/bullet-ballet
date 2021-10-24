@@ -87,6 +87,7 @@ public class MapScene extends AbstractScene implements GameView{
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
+        this.addCameraListenerToPlayer();
     }
 
     private void addCameraListenerToPlayer() {
@@ -97,7 +98,7 @@ public class MapScene extends AbstractScene implements GameView{
             
             if (playerPosition > (this.map.getMapWidth() / 2) 
             		&&  playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
-                this.gamePane.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
+                this.root.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
             }
         });
     }
@@ -183,7 +184,6 @@ public class MapScene extends AbstractScene implements GameView{
         				playerPos.getY() * platformSize);
     		}
     		this.gamePane.getChildren().add(this.mainPlayer.get());
-    		this.addCameraListenerToPlayer();
     		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
     	}
 
