@@ -62,7 +62,7 @@ public class EnvironmentGenerator implements LevelGenerator {
                         break;
                     case 'P':
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
-                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 5.0), this.env));
+                        this.env.setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env));
                     	break;
                     case '*':
                         this.env.addItem(this.itemFactory.createDamagingItem(this.env, new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0)));
