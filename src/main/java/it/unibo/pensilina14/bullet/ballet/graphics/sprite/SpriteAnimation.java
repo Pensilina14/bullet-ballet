@@ -13,8 +13,8 @@ public class SpriteAnimation extends Transition {
     private final ImageView imgView;
     private final int count;
     private final int columns;
-    private int offsetX;
-    private int offsetY;
+    private final int offsetX;
+    private final int offsetY;
     private final int imgViewWidth;
     private final int imgViewHeight;
 
