@@ -100,9 +100,9 @@ public class MapScene extends AbstractScene implements GameView{
     				playerPos.getY() * platformSize)));
     		this.mainPlayer.setRight(playerPos);
     		
-        		this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
-        		this.addCameraListenerToPlayer();
-        		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
+        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
+        	this.addCameraListenerToPlayer();
+       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
     	}
     	
     	for (final Platform x : world.getPlatforms().get()) {
@@ -140,11 +140,10 @@ public class MapScene extends AbstractScene implements GameView{
 
     @Override
     public final void draw() {
-	    update();
+	    this.update();
 	    try {
-			render();
+			this.render();
 		} catch (IOException e) {
-			AppLogger.getAppLogger().error("Couldn't load sprite images..");
 			e.printStackTrace();
 		}
     }
@@ -200,19 +199,16 @@ public class MapScene extends AbstractScene implements GameView{
 
     private void render() throws IOException {
     	AppLogger.getAppLogger().debug("Inside render() method.");
-    	AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
-    	AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
-
-    	this.gamePane.getChildren().clear();
+    	//AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
+    	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 
-    	final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
+    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
-    	 
-   		this.mainPlayer.getLeft().get().setTranslateX(this.mainPlayer.right.getX() * platformSize);
-    	this.mainPlayer.getLeft().get().setTranslateY(this.mainPlayer.right.getY() * platformSize);
+    	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
+    			this.mainPlayer.getRight().getY() * platformSize);
     	AppLogger.getAppLogger().debug("Player sprite position updated");
     	    	
     	//if (this.enemySprites.size() > this.gameState.getGameEnvironment().getEnemies().size()) {}
