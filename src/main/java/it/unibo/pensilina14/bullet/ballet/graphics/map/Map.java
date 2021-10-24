@@ -4,12 +4,15 @@ import java.util.*;
 
 public class Map {
 
-    public enum Maps { //TODO: mettere questo enum a parte.
+    public enum Maps { //TODO: mettere questo enum a parte?
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
         JUNGLE("res/assets/maps/Backgrounds/jungle_background.jpg"),
         JUNGLE2("res/assets/maps/Backgrounds/jungle_background2.jpg"),
         FOREST("res/assets/maps/Backgrounds/forest_background.png"),
+        FOREST2("res/assets/maps/Backgrounds/forest_background2.jpg"),
+        COUNTRYSIDE("res/assets/maps/Backgrounds/countryside_background.jpg"),
         SWAMP("res/assets/maps/Backgrounds/swamp_background.jpg"),
+        SWAMP2("res/assets/maps/Backgrounds/swamp_background2.jpg"),
         CAVE("res/assets/maps/Backgrounds/cave_background.png"),
         CAVE2("res/assets/maps/Backgrounds/cave_background2.jpg"),
         CAVE3("res/assets/maps/Backgrounds/cave_background3.jpg"),
@@ -18,9 +21,19 @@ public class Map {
         DESERT2("res/assets/maps/Backgrounds/desert_background2.jpg"),
         DESERT3("res/assets/maps/Backgrounds/desert_background3.jpg"),
         DESERT4("res/assets/maps/Backgrounds/desert_background4.png"),
-        FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg"),
         ICE("res/assets/maps/Backgrounds/ice_background.jpg"),
-        ICE2("res/assets/maps/Backgrounds/ice_background2.png");
+        ICE2("res/assets/maps/Backgrounds/ice_background2.png"),
+        FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg"),
+        //FUTURISTIC3("res/assets/maps/Backgrounds/futuristic_city_background.gif"), //TODO: mi da la nausea, da rimuovere
+        SCIFI("res/assets/maps/Backgrounds/scifi_background.jpg"),
+        PLANET("res/assets/maps/Backgrounds/scifi_martian_background.jpg"),
+        PLANET2("res/assets/maps/Backgrounds/scifi_alien_planet_background.jpg"),
+        SPACESHIP("res/assets/maps/Backgrounds/spaceship_interior_background.jpg"),
+        SPACE("res/assets/maps/Backgrounds/space_background6.png"),
+        //SPACE2("res/assets/maps/Backgrounds/space_pixel_art_background.jpg"), //TODO: ci potrebbe stare
+        //SPACE3("res/assets/maps/Backgrounds/space_pixel_art_background2.gif"), //TODO: ci potrebbe quasi stare
+        CITY("res/assets/maps/Backgrounds/city_background2.png"),
+        CITY2("res/assets/maps/Backgrounds/city_background4.jpg");
 
         String path;
 
@@ -37,9 +50,10 @@ public class Map {
     private Maps map;
 
     public Map(){
-        this.map = mapChooser(); //TODO: o scelgo la piattaforma a caso, oppure chiamo initMap ed in base alla mappa setto la piattaforma.
+        this.map = mapChooser();
+        //this.map = Maps.SPACESHIP; //TODO: questo solo per testare una specifica mappa. (commentare this.map = mapChooser())
 
-        //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform
+        //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform (commentare initMap())
 
         Coin coin = new Coin();
         this.coinType = coin.coinChooser();
@@ -84,16 +98,32 @@ public class Map {
                 this.platformType = PlatformSprite.Platforms.JUNGLE_PLATFORM;
                 break;
             case FOREST:
+            case FOREST2:
+            case COUNTRYSIDE:
                 this.platformType = PlatformSprite.Platforms.FOREST_PLATFORM;
                 break;
             case FUTURISTIC:
                 this.platformType = PlatformSprite.Platforms.FUTURISTIC_PLATFORM;
+                break;
+            case SCIFI:
+                this.platformType = PlatformSprite.Platforms.SCIFI_PLATFORM;
+                break;
+            case PLANET:
+            case PLANET2:
+                this.platformType = PlatformSprite.Platforms.SCIFI_PLATFORM3;
+                break;
+            case SPACE:
+                this.platformType = PlatformSprite.Platforms.SPACE_PLATFORM;
+                break;
+            case SPACESHIP:
+                this.platformType = PlatformSprite.Platforms.SCIFI_PLATFORM2;
                 break;
             case ICE:
             case ICE2:
                 this.platformType = PlatformSprite.Platforms.ICE_PLATFORM;
                 break;
             case SWAMP:
+            case SWAMP2:
                 this.platformType = PlatformSprite.Platforms.SWAMP_PLATFORM;
                 break;
             case DESERT2:
@@ -105,6 +135,10 @@ public class Map {
             case DESERT4:
                 this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM4;
                 break;
+            case CITY:
+            case CITY2:
+                this.platformType = PlatformSprite.Platforms.CRATE_PLATFORM;
+                break;
             case DESERT:
             default:
                 this.platformType = PlatformSprite.Platforms.DESERT_PLATFORM;
@@ -112,7 +146,7 @@ public class Map {
         }
     }
 
-    public Maps mapChooser(){ //TODO: far restituire una Maps al posto di una stringa.
+    public Maps mapChooser(){
         final Random rand = new Random();
         final int max = Maps.values().length;
         final int min = 0;
