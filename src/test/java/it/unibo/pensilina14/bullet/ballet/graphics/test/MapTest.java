@@ -60,8 +60,9 @@ public class MapTest {
         // MAP TYPE CHECK
         boolean mapTypeChecker = false;
         for(Map.Maps m : Map.Maps.values()){
-            if(m == map.getMap()){
+            if (m == map.getMap()) {
                 mapTypeChecker = true;
+                break;
             }
         }
 
@@ -71,8 +72,9 @@ public class MapTest {
 
         boolean platformTypeChecker = false;
         for(PlatformSprite.Platforms p : PlatformSprite.Platforms.values()){
-            if(p == map.getPlatformType()){
+            if (p == map.getPlatformType()) {
                 platformTypeChecker = true;
+                break;
             }
         }
 
@@ -83,8 +85,9 @@ public class MapTest {
 
         boolean coinTypeChecker = false;
         for(Coin.Coins c : Coin.Coins.values()){
-            if(c == map.getCoinType()){
+            if (c == map.getCoinType()) {
                 coinTypeChecker = true;
+                break;
             }
         }
 

@@ -17,7 +17,6 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
-import javafx.scene.Camera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -28,9 +27,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
+
+import org.apache.commons.lang3.tuple.MutablePair;
 
 public class MapScene extends AbstractScene implements GameView{
 
@@ -42,18 +41,18 @@ public class MapScene extends AbstractScene implements GameView{
 
     private ImageView backgroundView;
 
-    private Optional<MainPlayer> mainPlayer;
+    private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private final Set<MainEnemy> enemySprites;
+    private HashMap<MainEnemy, MutablePosition2D> enemySprites;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.enemySprites = new HashSet<>();
+        this.enemySprites = new HashMap<>();
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
@@ -61,7 +60,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.enemySprites = new HashSet<>();
+        this.enemySprites = new HashMap<>();
     }
 
     public final void setup() {
@@ -77,21 +76,58 @@ public class MapScene extends AbstractScene implements GameView{
         this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
 
-        this.mainPlayer = Optional.empty();
+        this.mainPlayer = new MutablePair<>();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
         try {
-        	this.render();
+        	this.initialize();
         } catch (final IOException exc) {
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
         this.addCameraListenerToPlayer();
     }
+    
+    private void initialize() throws IOException {
+    	final Environment world = this.gameState.getGameEnvironment();
+    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+
+    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
+    	
+    	if (world.getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
+    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX() * platformSize, 
+    				playerPos.getY() * platformSize)));
+    		this.mainPlayer.setRight(playerPos);
+    		
+        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
+        	this.addCameraListenerToPlayer();
+       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
+    	}
+    	
+    	for (final Platform x : world.getPlatforms().get()) {
+    		final MutablePosition2D xPos = x.getPosition();
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), 
+    				xPos.getX() * platformSize, xPos.getY() * platformSize);
+    		this.gamePane.getChildren().add(newSprite);
+    	}
+    	AppLogger.getAppLogger().debug("Platforms rendered.");
+    	
+    	for (final Enemy x : world.getEnemies().get()) {
+    		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
+    				(int) (x.getPosition().getY() * platformSize));
+    		this.gamePane.getChildren().add(enemySprite);
+    		this.enemySprites.put(enemySprite, x.getPosition());
+    		AppLogger.getAppLogger().debug("Enemy rendered");
+    	}
+    	
+    	
+    	
+    }
 
     private void addCameraListenerToPlayer() {
-        this.mainPlayer.get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
+        this.mainPlayer.left.get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
             final int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.
@@ -105,11 +141,10 @@ public class MapScene extends AbstractScene implements GameView{
 
     @Override
     public final void draw() {
-	    update();
+	    this.update();
 	    try {
-			render();
+			this.render();
 		} catch (IOException e) {
-			AppLogger.getAppLogger().error("Couldn't load sprite images..");
 			e.printStackTrace();
 		}
     }
@@ -118,13 +153,13 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
-        	this.mainPlayer.get().getSpriteAnimation().play();
+        	this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
         }
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
         	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
-            this.mainPlayer.get().getSpriteAnimation().play();
+            this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
 
@@ -140,13 +175,13 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.UP)) {
         	AppLogger.getAppLogger().info("Key 'UP' released.");
-        	this.mainPlayer.get().getSpriteAnimation().stop();
+        	this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
         if (this.keysReleased.contains(KeyCode.RIGHT)) {
         	AppLogger.getAppLogger().info("Key 'RIGHT' released.");
-            this.mainPlayer.get().getSpriteAnimation().stop();
+            this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
 
@@ -160,40 +195,35 @@ public class MapScene extends AbstractScene implements GameView{
         	this.keysReleased.remove(KeyCode.LEFT); 
         }
     }
+    
+    
 
     private void render() throws IOException {
     	AppLogger.getAppLogger().debug("Inside render() method.");
-    	AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
-    	AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
-
-    	this.gamePane.getChildren().clear();
+    	//AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
+    	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
     	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 
-    	final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
+    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
-    	if (world.getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
-    		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
-    		if (this.mainPlayer.isEmpty()) {
-    			this.mainPlayer = Optional.of(new MainPlayer(playerPos.getX() * platformSize, 
-    				playerPos.getY() * platformSize));
-    		} else {
-    			this.mainPlayer.get().renderPosition(playerPos.getX() * platformSize, 
-        				playerPos.getY() * platformSize);
-    		}
-    		this.gamePane.getChildren().add(this.mainPlayer.get());
-    		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
+    	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
+    			this.mainPlayer.getRight().getY() * platformSize);
+    	AppLogger.getAppLogger().debug("Player sprite position updated");
+    	    	
+    	//if (this.enemySprites.size() > this.gameState.getGameEnvironment().getEnemies().size()) {}
+    	//this.enemySprites.forEach((x, y) -> x.);
+    	for (int i = 0; i < this.enemySprites.size(); i++) {
+    		this.enemySprites.forEach((x, y) -> {
+    			x.setTranslateX(y.getX() * platformSize);
+    			x.setTranslateY(y.getY() * platformSize);
+    			AppLogger.getAppLogger().debug("Enemy sprite position updated");
+    		});
     	}
+    	
+    	
 
-    	for (final Platform x : world.getPlatforms().get()) {
-    		final MutablePosition2D xPos = x.getPosition();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), 
-    				xPos.getX() * platformSize, xPos.getY() * platformSize);
-    		this.gamePane.getChildren().add(newSprite);
-    	}
-    	AppLogger.getAppLogger().debug("Platforms rendered.");
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
 ////    		for (final WeaponsImg y : WeaponsImg.values()) {
@@ -204,14 +234,6 @@ public class MapScene extends AbstractScene implements GameView{
 ////    		}
 ////    	}
 //
-    	for (final Enemy x : world.getEnemies().get()) {
-    		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
-    				(int) (x.getPosition().getY() * platformSize));
-    		this.gamePane.getChildren().add(enemySprite);
-    		this.enemySprites.add(enemySprite);
-    		AppLogger.getAppLogger().debug("Enemy rendered");
-    	}
-
 //    	for (final PhysicalObject x : world.getObstacles().get()) {
 //    		final MutablePosition2D xPos = x.getPosition();
 //    		if (x instanceof StaticObstacle) {
@@ -260,6 +282,8 @@ public class MapScene extends AbstractScene implements GameView{
 //    	//this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
 //    	//this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
 //    }
+    
+    
 
     public final void setMap(final Map.Maps map) {
         this.map.setMap(map);

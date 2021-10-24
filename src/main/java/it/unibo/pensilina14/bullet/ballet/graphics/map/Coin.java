@@ -12,38 +12,14 @@ import java.util.Random;
 
 public class Coin extends Pane {
 
-    public enum Coins {
-    	/**
-    	 * 
-    	 */
+    public enum Coins {//TODO: mettere l'enum a parte?
         GOLD_COIN("res/assets/sprites/coins/MonedaD.png"),
-        /**
-         * 
-         */
         SILVER_COIN("res/assets/sprites/coins/MonedaP.png"),
-        /**
-         * 
-         */
         RED_COIN("res/assets/sprites/coins/MonedaR.png"),
-        /**
-         * 
-         */
         EMERALD_COIN("res/assets/sprites/coins/spr_coin_strip4.png"),
-        /**
-         * 
-         */
         LIGHT_BLUE_COIN("res/assets/sprites/coins/spr_coin_azu.png"),
-        /**
-         * 
-         */
         YELLOW_COIN("res/assets/sprites/coins/spr_coin_ama.png"),
-        /**
-         * 
-         */
         GREY_COIN("res/assets/sprites/coins/spr_coin_gri.png"),
-        /**
-         * 
-         */
         RED_COIN2("res/assets/sprites/coins/spr_coin_roj.png"); //TODO: rename it differently
 
         private final String path;
@@ -59,17 +35,9 @@ public class Coin extends Pane {
 
     private ImageView coinView;
 
-    private Coins coinType;
+    private final Coins coinType;
 
-    private int minY;
-    private int minX;
-    private int coinWidth;
-    private int coinHeight;
-
-    /**
-     * 
-     */
-    public static Coins DEFAULT_COIN = Coins.GOLD_COIN;
+    private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
 
     public Coin(){
         this.coinType = DEFAULT_COIN;
@@ -85,6 +53,11 @@ public class Coin extends Pane {
     }
 
     private void setCoin(final int x, final int y) throws IOException {
+        final int minX;
+        final int minY;
+        final int coinWidth;
+        final int coinHeight;
+
         switch(this.coinType){
             case GOLD_COIN:
             case SILVER_COIN:
@@ -115,7 +88,7 @@ public class Coin extends Pane {
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
                 break;
             default:
-                break;
+                break; //TODO: default case
         }
     }
 
