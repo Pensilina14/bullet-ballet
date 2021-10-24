@@ -10,31 +10,29 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
-
 public class MainPlayer extends Pane {
 
-    private Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png")));
-    private ImageView playerView = new ImageView(this.playerImg);
+    private final Image playerImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/player/player_sprite.png")));
+    private final ImageView playerView = new ImageView(this.playerImg);
 
-    private final int count = 3; // 4
-    private final int columns = 16;
-    private final int offsetX = 0;
-    private final int offsetY = 0;
-    private final int playerViewWidth = 107; // 105
-    private final int playerViewHeight = 118; // 120
-
-    private SpriteAnimation animation;
+    private final SpriteAnimation animation;
 
     public static final int PLAYER_SIZE = 40;
-
-    private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
 
     public MainPlayer(final double x, final double y) throws IOException {
         this.playerView.setFitHeight(MainPlayer.PLAYER_SIZE);
         this.playerView.setFitWidth(MainPlayer.PLAYER_SIZE);
-        this.playerView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight));
-        this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
+
+        int count = 3; // 4
+        int columns = 16;
+        int offsetX = 0;
+        int offsetY = 0;
+        int playerViewWidth = 107; // 105
+        int playerViewHeight = 118; // 120
+
+        this.playerView.setViewport(new Rectangle2D(offsetX, offsetY, playerViewWidth, playerViewHeight));
+
+        this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), count, columns, offsetX, offsetY, playerViewWidth, playerViewHeight);
 
         this.playerView.setTranslateX(x);
         this.playerView.setTranslateY(y);
@@ -46,10 +44,6 @@ public class MainPlayer extends Pane {
     	this.playerView.setTranslateX(x);
     	this.playerView.setTranslateY(y);
     }
-
-    /*public Player getPlayer(){
-        return this.player;
-    }*/
 
     public final SpriteAnimation getSpriteAnimation() {
         return animation;
