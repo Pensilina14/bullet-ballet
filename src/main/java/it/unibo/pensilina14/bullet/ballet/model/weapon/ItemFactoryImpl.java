@@ -7,12 +7,11 @@ import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effects;
 import it.unibo.pensilina14.bullet.ballet.model.effects.SpecialEffects;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
 public class ItemFactoryImpl implements ItemFactory{
 
     private static final double MASS = 2.5;
-    private static final int DIMENSION = 5;
+    private static final int DIMENSION = 30;
     private final EffectFactory effectFact = new EffectFactoryImpl();
     
     @Override

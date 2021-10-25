@@ -21,6 +21,8 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -132,9 +134,18 @@ public class MapScene extends AbstractScene implements GameView{
     		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
     	}
-		AppLogger.getAppLogger().debug("Enemies rendered");
-    	
-		for (final PhysicalObject x : world.getItems().get()) {
+		
+    	/*
+    	for (final PhysicalObject x : world.getItems().get()) {
+    	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
+    	    final MutablePosition2D position = x.getPosition();
+    	    final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(position);
+    	    this.itemSprites.put(itemSprite, position);
+    	    this.gamePane.getChildren().add(itemSprite);
+    	    
+    	}
+    	*/
+		/*for (final PhysicalObject x : world.getItems().get()) {
 			AppLogger.getAppLogger().info(x.toString());
 			final MutablePosition2D xPos = x.getPosition();
 			final PhysicalObjectSprite itemSprite = new PhysicalObjectSpriteFactoryImpl(this
@@ -163,7 +174,7 @@ public class MapScene extends AbstractScene implements GameView{
     			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
     		}
     	}
-
+        */
     }
 
     private void addCameraListenerToPlayer() {

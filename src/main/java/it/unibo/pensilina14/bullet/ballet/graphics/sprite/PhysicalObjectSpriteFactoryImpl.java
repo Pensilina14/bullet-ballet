@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
 import java.io.IOException;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
@@ -19,46 +20,44 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     private static final double SPEED = 1.5;
     private final ObstacleFactory obstacleFact = new ObstacleFactoryImpl();
     private final ItemFactory itemFact = new ItemFactoryImpl();
-    private final MapScene mapScene;
     private final GameState gameState;
 
-    public PhysicalObjectSpriteFactoryImpl(final MapScene scene, final GameState gameState) {
-        this.mapScene = scene;
+    public PhysicalObjectSpriteFactoryImpl(final GameState gameState) {
         this.gameState = gameState;
     }
 
     @Override
-    public PhysicalObjectSprite generateDynamicObstacleSprite(final double x, final double y) throws IOException {
+    public PhysicalObjectSprite generateDynamicObstacleSprite(final MutablePosition2D position) throws IOException {
         final PhysicalObject dynamicObstacle = obstacleFact
-                .createDynamicObstacle(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
-        return new PhysicalObjectSprite(Images.DYNAMIC_OBSTACLE, x, y, dynamicObstacle);
+                .createDynamicObstacle(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.DYNAMIC_OBSTACLE, position, dynamicObstacle);
     }
 
     @Override
-    public PhysicalObjectSprite generateStaticObstacleSprite(final double x, final double y) throws IOException {
+    public PhysicalObjectSprite generateStaticObstacleSprite(final MutablePosition2D position) throws IOException {
         final PhysicalObject staticObstacle = obstacleFact
-                .createStaticObstacle(this.gameState.getGameEnvironment(), new MutablePosition2Dimpl(x, y));
-        return new PhysicalObjectSprite(Images.STATIC_OBSTACLE, x, y, staticObstacle);
+                .createStaticObstacle(this.gameState.getGameEnvironment(), position);
+        return new PhysicalObjectSprite(Images.STATIC_OBSTACLE, position, staticObstacle);
     }
 
     @Override
-    public PhysicalObjectSprite generateHealingItemSprite(final double x, final double y) throws IOException{
-        final PhysicalObject staticItem = itemFact
-                .createHealingItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
-        return new PhysicalObjectSprite(Images.HEALING_ITEM, x, y, staticItem);
+    public PhysicalObjectSprite generateHealingItemSprite(final MutablePosition2D position) throws IOException{
+        final PhysicalObject item = itemFact
+                .createHealingItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.HEALING_ITEM, position, item);
     }
 
     @Override
-    public PhysicalObjectSprite generateDamagingItemSprite(final double x, final double y) throws IOException{
-        final PhysicalObject staticItem = itemFact
-                .createDamagingItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
-        return new PhysicalObjectSprite(Images.DAMAGING_ITEM, x, y, staticItem);
+    public PhysicalObjectSprite generateDamagingItemSprite(final MutablePosition2D position) throws IOException{
+        final PhysicalObject item = itemFact
+                .createDamagingItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.DAMAGING_ITEM, position, item);
     }
 
     @Override
-    public PhysicalObjectSprite generatePoisoningItemSprite(final double x, final double y) throws IOException{
-        final PhysicalObject staticItem = itemFact
-                .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
-        return new PhysicalObjectSprite(Images.POISONING_ITEM, x, y, staticItem);
+    public PhysicalObjectSprite generatePoisoningItemSprite(final MutablePosition2D position) throws IOException{
+        final PhysicalObject item = itemFact
+                .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.POISONING_ITEM, position, item);
     }
 }
