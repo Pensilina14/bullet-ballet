@@ -151,7 +151,7 @@ public class GameEngine implements Controller, GameEventListener {
 				final Characters enemy = ((EnemyHitsObstacleEvent) e).getEnemy();
 				final PhysicalObject obstacle = ((EnemyHitsObstacleEvent) e).getObstacle();
 				// TODO: enemy.setHealth(enemy.getHealth() - obstacle.COLLISION_DAMAGE);
-			}
+			} 
 		});
 		this.eventQueue.clear();
 	}

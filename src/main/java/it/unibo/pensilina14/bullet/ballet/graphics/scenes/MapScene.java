@@ -19,6 +19,8 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -51,6 +53,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<MainEnemy, MutablePosition2D> enemySprites;
     private Map<PlatformSprite, MutablePosition2D> platformSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
+    private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -83,6 +86,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.enemySprites = new HashMap<>();
         this.platformSprites = new HashMap<>();
         this.itemSprites = new HashMap<>();
+        this.obstacleSprites = new HashMap<>();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
@@ -129,19 +133,36 @@ public class MapScene extends AbstractScene implements GameView{
     		this.gamePane.getChildren().add(enemySprite);
     	}
 		AppLogger.getAppLogger().debug("Enemies rendered");
-    	/*
+    	
 		for (final PhysicalObject x : world.getItems().get()) {
 			AppLogger.getAppLogger().info(x.toString());
 			final MutablePosition2D xPos = x.getPosition();
 			final PhysicalObjectSprite itemSprite = new PhysicalObjectSpriteFactoryImpl(this
-					, this.gameState.getGameEnvironment()).generateDamagingItemSprite((int) xPos.getX()
-							* platformSize, (int) xPos.getY() * platformSize);
+					, this.gameState.getGameEnvironment())
+					.generateDamagingItemSprite((int) (xPos.getX()
+							* platformSize), (int) (xPos.getY() * platformSize));
 			this.itemSprites.put(itemSprite, xPos);
 			this.gamePane.getChildren().add(itemSprite);
-			
 		}
-    	*/
-    	
+		
+		for (final PhysicalObject x : world.getObstacles().get()) {
+    		final MutablePosition2D xPos = x.getPosition();
+    		if (x instanceof StaticObstacle) {
+    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState.getGameEnvironment())
+    					.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
+    							(int) (xPos.getY() * platformSize));
+    			this.obstacleSprites.put(obstacleSprite, xPos);
+    			this.gamePane.getChildren().add(obstacleSprite);
+    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
+    		} 
+    		if (x instanceof DynamicObstacle) {
+    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState.getGameEnvironment())
+    					.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
+    			this.obstacleSprites.put(obstacleSprite, xPos);
+    			this.gamePane.getChildren().add(obstacleSprite);
+    			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
+    		}
+    	}
     }
 
     private void addCameraListenerToPlayer() {
@@ -234,13 +255,16 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Platforms sprite position updated");
     	
     	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
-        			, y.getY() * platformSize));
-    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
     			, y.getY() * platformSize));
 		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
 		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
 				, y.getY() * platformSize));
+		
+		
+		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+				y.getY() * platformSize));
+		AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
 ////    		for (final WeaponsImg y : WeaponsImg.values()) {
@@ -251,36 +275,12 @@ public class MapScene extends AbstractScene implements GameView{
 ////    		}
 ////    	}
 //
-//    	for (final PhysicalObject x : world.getObstacles().get()) {
-//    		final MutablePosition2D xPos = x.getPosition();
-//    		if (x instanceof StaticObstacle) {
-//    			this.gamePane.getChildren().add(physObjSpriteFactory.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
-//    					(int) (xPos.getY() * platformSize)));
-//    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
-//    		} 
-//    		if (x instanceof DynamicObstacle) {
-//    			this.gamePane.getChildren().add(physObjSpriteFactory.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), 
-//    					(int) (xPos.getY() * platformSize)));
-//    			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
-//    		}
-//    	}
-//
-//    	for (final Item x : world.getItems().get()) {
-//    		for (final Images y : Images.values()) {
-//    			if (x.getItemId().toString().equals(y.getObjectName())) {
-//    				this.gamePane.getChildren().add(new PhysicalObjectSprite(y, (int) (x.getPosition().getX() * platformSize),
-//    						(int) (x.getPosition().getY() * platformSize), x, this));
-//    				AppLogger.getAppLogger().debug("Item rendered");
-//    			}
-//    		}
-//    	}
+
     	/*
     	for (final Bullet x : this.gameState.getGameEnvironment().getBullets().get().subList()) {
     		// TODO add algorithm for bullets
     	}
     	 */
-    	//DEBUG ONLY: throw new NullPointerException();
-
     }
     
     
