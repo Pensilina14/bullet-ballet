@@ -15,21 +15,22 @@ import javafx.scene.layout.Pane;
 
 public class PhysicalObjectSprite extends Pane{
     
-    private final ImageView weaponView;
+	private static final int ITEM_SIZE = 30;
+    private final ImageView objectView;
     private MutablePosition2D position;
     
-    public PhysicalObjectSprite(final Images img, final int x, final int y, final PhysicalObject physicalObject, final MapScene scene) throws IOException {
-        this.weaponView = new ImageView(new Image(Files.newInputStream(Paths.get(img.toString()))));
-       this.renderPosition(x, y);
-        this.weaponView.setViewport(new Rectangle2D(0, 0, physicalObject.getDimension().getWidth(),
-                physicalObject.getDimension().getHeight()));
-        getChildren().addAll(this);
-        scene.getGamePane().getChildren().add(this);
+    public PhysicalObjectSprite(final Images img, final double x, final double y, final PhysicalObject physicalObject, final MapScene scene) throws IOException {
+        this.objectView = new ImageView(new Image(Files.newInputStream(Paths.get(img.toString()))));
+        this.renderPosition(x, y);
+        this.objectView.setFitWidth(PhysicalObjectSprite.ITEM_SIZE);
+        this.objectView.setFitHeight(PhysicalObjectSprite.ITEM_SIZE);
+        final int enemyWidth = 30;
+        final int enemyHeight = 45;
+        this.objectView.setViewport(new Rectangle2D(0, 0, enemyWidth,
+                enemyHeight));
+        this.getChildren().add(this);
     }
 
-    public ImageView getWeaponView() {
-        return this.weaponView;
-    }
     
     public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
