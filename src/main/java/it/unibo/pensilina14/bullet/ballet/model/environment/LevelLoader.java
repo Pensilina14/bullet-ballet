@@ -8,6 +8,7 @@ public class LevelLoader {
 
     private final Save levelData;
     private final String[] level;
+    private final int levelHeight;
 
     private final int LEVEL_WIDTH;
 
@@ -15,6 +16,7 @@ public class LevelLoader {
        this.levelData = new Save();
        this.level = levelData.loadLevel(getRandomLevel());
        this.LEVEL_WIDTH = this.level[0].length();
+       this.levelHeight = this.level.length;
     }
 
     private int getRandomLevel(){
@@ -25,6 +27,10 @@ public class LevelLoader {
 
     public int getLevelWidth(){
         return this.LEVEL_WIDTH;
+    }
+    
+    public int getLevelHeight() {
+    	return this.levelHeight;
     }
 
     public String[] getLevel(){
