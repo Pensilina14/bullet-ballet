@@ -245,8 +245,7 @@ public class MapScene extends AbstractScene implements GameView{
     			, y.getY() * platformSize));
 		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-//		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
-//				, y.getY() * platformSize));
+		this.itemSprites.forEach((x, y) -> x.renderMovingPosition());
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
 ////    		for (final WeaponsImg y : WeaponsImg.values()) {
