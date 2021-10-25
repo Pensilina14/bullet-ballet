@@ -51,7 +51,7 @@ public class MainEnemy extends Pane {
     	this.position = new MutablePosition2Dimpl(x, y);
     }
     
-    public void renderMovingPosition() {
+    public final void renderMovingPosition() {
     	final double netx = this.position.getX() - 1.0;
     	this.position.setPosition(netx, this.position.getY());
     	this.setTranslateX(this.position.getX());
