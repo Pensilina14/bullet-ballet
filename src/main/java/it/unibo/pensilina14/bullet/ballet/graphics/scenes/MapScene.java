@@ -144,11 +144,11 @@ public class MapScene extends AbstractScene implements GameView{
 			this.itemSprites.put(itemSprite, xPos);
 			this.gamePane.getChildren().add(itemSprite);
 		}
-/*
+
 		for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition();
     		if (x instanceof StaticObstacle) {
-    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState.getGameEnvironment())
+    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState)
     					.generateStaticObstacleSprite((int) (xPos.getX() * platformSize), 
     							(int) (xPos.getY() * platformSize));
     			this.obstacleSprites.put(obstacleSprite, xPos);
@@ -156,14 +156,14 @@ public class MapScene extends AbstractScene implements GameView{
     			AppLogger.getAppLogger().debug("Static Obstacle rendered");
     		} 
     		if (x instanceof DynamicObstacle) {
-    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState.getGameEnvironment())
+    			final PhysicalObjectSprite obstacleSprite = new PhysicalObjectSpriteFactoryImpl(this, this.gameState)
     					.generateDynamicObstacleSprite((int) (xPos.getX() * platformSize), (int) (xPos.getY() * platformSize));
     			this.obstacleSprites.put(obstacleSprite, xPos);
     			this.gamePane.getChildren().add(obstacleSprite);
     			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
     		}
     	}
-*/
+
     }
 
     private void addCameraListenerToPlayer() {
@@ -261,8 +261,8 @@ public class MapScene extends AbstractScene implements GameView{
 		this.itemSprites.forEach((x, y) -> x.renderMovingPosition());
 		AppLogger.getAppLogger().debug("Item sprite position updated");
 		
-		//this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
-		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
+		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+		AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {

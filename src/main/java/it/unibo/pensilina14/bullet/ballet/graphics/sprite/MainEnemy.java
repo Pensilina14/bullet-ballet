@@ -41,7 +41,7 @@ public class MainEnemy extends Pane {
 
         this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
-        this.getChildren().addAll(this.enemyView);
+        this.getChildren().add(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
     
@@ -61,7 +61,7 @@ public class MainEnemy extends Pane {
     		, final int enemyViewWidth, final int enemyViewHeight){
         this.enemyImage = enemyImage;
         this.enemyView = new ImageView(this.enemyImage);
-
+        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
@@ -71,9 +71,6 @@ public class MainEnemy extends Pane {
         this.enemyViewHeight = enemyViewHeight;
 
         this.enemyView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.enemyViewWidth, this.enemyViewHeight));
-
-        this.enemyView.setTranslateX(x);
-        this.enemyView.setTranslateY(y);
 
         getChildren().addAll(this.enemyView);
     }

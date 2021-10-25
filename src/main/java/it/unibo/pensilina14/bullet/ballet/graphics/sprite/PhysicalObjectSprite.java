@@ -19,16 +19,14 @@ public class PhysicalObjectSprite extends Pane{
     private final ImageView objectView;
     private MutablePosition2D position;
     
-    public PhysicalObjectSprite(final Images img, final double x, final double y, final PhysicalObject physicalObject, final MapScene scene) throws IOException {
+    public PhysicalObjectSprite(final Images img, final double x, final double y, final PhysicalObject physicalObject) throws IOException {
         this.objectView = new ImageView(new Image(Files.newInputStream(Paths.get(img.toString()))));
         this.renderPosition(x, y);
         this.objectView.setFitWidth(PhysicalObjectSprite.ITEM_SIZE);
         this.objectView.setFitHeight(PhysicalObjectSprite.ITEM_SIZE);
-        final int enemyWidth = 30;
-        final int enemyHeight = 45;
-        this.objectView.setViewport(new Rectangle2D(0, 0, enemyWidth,
-                enemyHeight));
-        this.getChildren().add(this);
+        this.objectView.setViewport(new Rectangle2D(0, 0, physicalObject.getDimension().getWidth(),
+                physicalObject.getDimension().getHeight()));
+        this.getChildren().add(this.objectView);
     }
 
     
