@@ -231,13 +231,7 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Player sprite position updated");
     	
     	this.platformSprites.forEach((x, y) -> {
-			try {
-				x.renderPosition(y.getX() * platformSize
-						, y.getY() * platformSize);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			x.renderMovingPosition();
 		});
     	AppLogger.getAppLogger().debug("Platforms sprite position updated");
     	
