@@ -26,8 +26,13 @@ public class PlatformSprite extends Pane {
         DESERT_PLATFORM2("res/assets/maps/Tiles/desert-tile.png"),
         DESERT_PLATFORM3("res/assets/maps/Tiles/desert_platform3.png"),
         DESERT_PLATFORM4("res/assets/maps/Tiles/desert_platform4.png"),
-        FUTURISTIC_PLATFORM("res/assets/maps/Tiles/crates_tile.png"), //TODO: change image.
-        ICE_PLATFORM("res/assets/maps/Tiles/ice_tile3.png");
+        ICE_PLATFORM("res/assets/maps/Tiles/ice_tile3.png"),
+        FUTURISTIC_PLATFORM("res/assets/maps/Tiles/scifi_tile.jpg"),
+        SCIFI_PLATFORM("res/assets/maps/Tiles/scifi_tile3.jpg"),
+        SCIFI_PLATFORM2("res/assets/maps/Tiles/scifi_tile2.jpg"),
+        SCIFI_PLATFORM3("res/assets/maps/Tiles/scifi_tile.jpg"),
+        SPACE_PLATFORM("res/assets/maps/Tiles/space_platform.jpg"),
+        CRATE_PLATFORM("res/assets/maps/Tiles/crates_tile.png");
 
         private final String path;
 

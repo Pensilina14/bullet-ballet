@@ -5,7 +5,14 @@ import java.util.*;
 
 public class Save {
 
-    // Salvare il nome del player e il suo relativo punteggio e appendarlo al file.
+    /**
+     *
+     * @param playerName: the name of the player that you want to save.
+     * @param playerScore: the score of the player that you want to save.
+     * The data is saved in a .txt file named save_file in the project directory
+     * If it is the first time that you call it, it will create the file, otherwise it will append the data to the file without deleting
+     * previous stored data.
+     */
     public void save(String playerName, int playerScore){
 
         try {
@@ -29,8 +36,10 @@ public class Save {
 
     }
 
-    // Caricare il file del salvataggio e recuperare le informazioni riguardanti tutti i giocatori e i loro punteggi.
-    // Restituire un HashMap con Nome del Player e relativo punteggio.
+    /**
+     *
+     * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save_file.txt and their relative score.
+     */
     public HashMap<String, Integer> load() {
 
         HashMap<String, Integer> data = new HashMap<>();
@@ -59,6 +68,9 @@ public class Save {
         return data;
     }
 
+    /**
+     * It will delete all the data stored in the save_file.txt, but it will keep the file.
+     */
     public void resetSaveFile(){
 
         try {
@@ -92,7 +104,12 @@ public class Save {
         }
     }
 
-    public String[] loadLevel(int levelNumber){ //TODO: oppure al posto di passare un int si può passare un enum?
+    /**
+     *
+     * @param levelNumber: the number of the level that we want to load.
+     * @return String[]: an array of strings with the data of the level.
+     */
+    public String[] loadLevel(int levelNumber){
 
         String[] level;
         ArrayList<String> levelList = new ArrayList<>();
@@ -116,6 +133,11 @@ public class Save {
         return level;
     }
 
+    /**
+     *
+     * @param levelNumber: the level that we want to delete.
+     * It will delete all the data about the specified level.
+     */
     public void resetLevelFile(int levelNumber){
         try {
             FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt", false);
@@ -126,12 +148,22 @@ public class Save {
         }
     }
 
+    /**
+     *
+     * @return int: the number of files in the directory "levels/", so all the levels stored.
+     */
     public int getNumberOfLevels(){
         return Objects.requireNonNull(new File("levels/").listFiles()).length;
-        //return Objects.requireNonNull(new File("levels/").list()).length; //TODO: remove
     }
 
-    public void modifySaveFile(String playerToFind, int oldScore, String newPlayerName, int newScore){ //TODO: playerToSearch ?
+    /**
+     *
+     * @param playerToFind: the name of the Player that we want to find and replace.
+     * @param oldScore: the score of the player that we want to find and replace.
+     * @param newPlayerName: the name with which we want to replace it.
+     * @param newScore: the score with which we want to replace it.
+     */
+    public void modifySaveFile(String playerToFind, int oldScore, String newPlayerName, int newScore){ //TODO: rename it in playerToSearch ?
         try {
             File saveFile = new File("save_file.txt");
             FileReader fileReader = new FileReader(saveFile);

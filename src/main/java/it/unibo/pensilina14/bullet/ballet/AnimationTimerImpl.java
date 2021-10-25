@@ -14,7 +14,7 @@ public class AnimationTimerImpl extends AnimationTimer {
 	@Override
 	public void handle(final long now) {
 		this.game.engine.processInput();
-//		this.game.engine.updateGame((int) this.toMs(elapsed));
+       // this.game.engine.updateGame((int) this.toMs(elapsed));
 		this.game.engine.render();
 	}
 	
