@@ -2,7 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
 import java.util.*;
 
-public class Map {
+public class BackgroundMap {
 
     public enum Maps { //TODO: mettere questo enum a parte?
         HALLOWEEN("res/assets/maps/Backgrounds/spooky_background.jpg"),
@@ -49,7 +49,7 @@ public class Map {
 
     private Maps map;
 
-    public Map(){
+    public BackgroundMap(){
         this.map = mapChooser();
         //this.map = Maps.SPACESHIP; //TODO: questo solo per testare una specifica mappa. (commentare this.map = mapChooser())
 
@@ -62,7 +62,7 @@ public class Map {
 
     }
 
-    public Map(Maps map){
+    public BackgroundMap(Maps map){
         this.map = map;
 
         setMap(this.map);
@@ -156,7 +156,7 @@ public class Map {
                 return m;
             }
         }
-        return Map.DEFAULT_MAP;
+        return BackgroundMap.DEFAULT_MAP;
     }
 
     public Maps getMap(){
@@ -170,11 +170,11 @@ public class Map {
     }
 
     public int getMapWidth(){
-        return Map.MAP_WIDTH;
+        return BackgroundMap.MAP_WIDTH;
     }
 
     public int getMapHeight(){
-        return Map.MAP_HEIGHT;
+        return BackgroundMap.MAP_HEIGHT;
     }
 
     public PlatformSprite.Platforms getPlatformType(){

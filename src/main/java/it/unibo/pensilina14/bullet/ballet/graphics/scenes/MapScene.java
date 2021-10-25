@@ -1,7 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -37,7 +38,7 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
     
-    private Map map = new Map();
+    private BackgroundMap map = new BackgroundMap();
 
     private ImageView backgroundView;
 
@@ -45,7 +46,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private HashMap<MainEnemy, MutablePosition2D> enemySprites;
+    private Map<MainEnemy, MutablePosition2D> enemySprites;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -115,8 +116,8 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Platforms rendered.");
     	
     	for (final Enemy x : world.getEnemies().get()) {
-    		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
-    				(int) (x.getPosition().getY() * platformSize));
+    		final MainEnemy enemySprite = new MainEnemy(x.getPosition().getX() * platformSize, 
+    				x.getPosition().getY() * platformSize);
     		this.gamePane.getChildren().add(enemySprite);
     		this.enemySprites.put(enemySprite, x.getPosition());
     		AppLogger.getAppLogger().debug("Enemy rendered");
@@ -211,16 +212,15 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
     			this.mainPlayer.getRight().getY() * platformSize);
     	AppLogger.getAppLogger().debug("Player sprite position updated");
+    	
     	    	
     	//if (this.enemySprites.size() > this.gameState.getGameEnvironment().getEnemies().size()) {}
     	//this.enemySprites.forEach((x, y) -> x.);
-    	for (int i = 0; i < this.enemySprites.size(); i++) {
-    		this.enemySprites.forEach((x, y) -> {
-    			x.setTranslateX(y.getX() * platformSize);
-    			x.setTranslateY(y.getY() * platformSize);
-    			AppLogger.getAppLogger().debug("Enemy sprite position updated");
-    		});
-    	}
+    	this.enemySprites.forEach((x, y) -> {
+    		x.setTranslateX(y.getX() * platformSize);
+   			x.setTranslateY(y.getY() * platformSize);
+   			AppLogger.getAppLogger().debug("Enemy sprite position updated");
+   		});
     	
     	
 
@@ -285,7 +285,7 @@ public class MapScene extends AbstractScene implements GameView{
     
     
 
-    public final void setMap(final Map.Maps map) {
+    public final void setMap(final BackgroundMap.Maps map) {
         this.map.setMap(map);
     }
 
