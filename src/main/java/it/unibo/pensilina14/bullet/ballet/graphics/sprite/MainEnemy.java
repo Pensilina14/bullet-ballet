@@ -26,6 +26,7 @@ public class MainEnemy extends Pane {
 
         this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
         this.enemyView = new ImageView(this.enemyImage);
+        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
@@ -36,10 +37,7 @@ public class MainEnemy extends Pane {
 
         this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
-        this.enemyView.setTranslateX(x);
-        this.enemyView.setTranslateY(y);
-
-        getChildren().addAll(this.enemyView);
+        this.getChildren().addAll(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
     
