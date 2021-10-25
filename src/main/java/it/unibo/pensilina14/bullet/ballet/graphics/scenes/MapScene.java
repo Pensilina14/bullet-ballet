@@ -250,20 +250,17 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
     			this.mainPlayer.getRight().getY() * platformSize);
     	AppLogger.getAppLogger().debug("Player sprite position updated");
-    	
+
     	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
     	AppLogger.getAppLogger().debug("Platforms sprite position updated");
-    	
-    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
-    			, y.getY() * platformSize));
+
+    	this.enemySprites.forEach((x, y) -> x.renderMovingPosition());
 		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
-				, y.getY() * platformSize));
-		
-		
-		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
-				y.getY() * platformSize));
+		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+		AppLogger.getAppLogger().debug("Item sprite position updated");
+
+		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
 		AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
