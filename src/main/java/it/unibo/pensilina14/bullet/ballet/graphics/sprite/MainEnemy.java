@@ -21,7 +21,8 @@ public class MainEnemy extends Pane {
 
     private final static int ENEMY_SIZE = 40;
 
-    public MainEnemy(double x, double y) throws IOException {
+
+    public MainEnemy(final double x, final double y) throws IOException {
 
         this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
         this.enemyView = new ImageView(this.enemyImage);
@@ -41,8 +42,14 @@ public class MainEnemy extends Pane {
         getChildren().addAll(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
+    
+    public void renderPosition(final double x, final double y) {
+    	this.setTranslateX(x);
+    	this.setTranslateY(y);
+    }
 
-    public MainEnemy(Image enemyImage, double x, double y, int offsetX, int offsetY, int enemyViewWidth, int enemyViewHeight){
+    public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY
+    		, final int enemyViewWidth, final int enemyViewHeight){
         this.enemyImage = enemyImage;
         this.enemyView = new ImageView(this.enemyImage);
 

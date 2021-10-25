@@ -29,4 +29,9 @@ public class PhysicalObjectSprite extends Pane{
         return this.weaponView;
     }
     
+    public void renderPosition(final double x, final double y) {
+    	this.setTranslateX(x);
+    	this.setTranslateY(y);
+    }
+    
 }

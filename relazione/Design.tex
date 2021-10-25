@@ -372,9 +372,9 @@ Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permess
 
 \textsf{\small In \emph{MapScene} vengono generate le sprites dalle classi \emph{Platform}, \emph{Coin}, \emph{MainEnemy}, \emph{MainPlayer} con la sua animazione implementata in \emph{SpriteAnimation}.}\\
 
-\textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trova nella classe \emph{LevelData}.} %TODO: sistemare, scrivere meglio.
+\textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trovano in dei files .txt che vengono caricati dalla classe \emph{LevelLoader}.} %TODO: sistemare, scrivere meglio.
 
-\textsf{\small Ad ogni entità del gioco è associato un carattere che si trova nell'array di stringhe in \emph{LevelData}.}\\ %TODO: anche qui.
+\textsf{\small Ad ogni entità del gioco è associato un carattere (un numero o un simbolo) che si trovano files .txt nella directory \emph{levels/}.}\\ %TODO: anche qui.
 
 \textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
 
@@ -384,10 +384,17 @@ Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permess
 \textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{Map} che tiene traccia di questi elementi della View.}\\
 
 \begin{figure}[H]
+	\centering{} 
+	\includegraphics[width=.5\textwidth]{./img/level_uml.png} 
+	\caption{Schema UML della generazione dei livelli in \emph{LevelLoader}, \emph{LevelGenerator} e \emph{Environment Generator}.}
+	\label{img:level_uml}
+\end{figure}
+
+\begin{figure}[H]
 	\centering{} %TODO: UML MapScene.
-	%\includegraphics[width=1.2\textwidth]{./img/characters_uml.png} 
+	\includegraphics[width=1\textwidth]{./img/scenes_uml.png} 
 	\caption{Schema UML della \emph{View} relativa alla \emph{AbstractScene}, \emph{MapScene}, \emph{MainPlayer} e \emph{MainEnemy}.}
-	\label{img}
+	\label{img:scenes_uml}
 \end{figure}
 
 \begin{figure}[H]
@@ -408,7 +415,11 @@ Per realizzarlo ho deciso di sfruttare scene builder, software che mi ha permess
 %TODO: spostare questo nello Sviluppo.
 \textsf{\small Poi mi avvalgo di un \emph{BufferedReader} per leggere dal file e memorizzare i dati e restituire un \emph{HashMap<String, Integer>} con il nome del player e il suo relativo punteggio.}\\
 
-\textsf{\small Infine, ho un metodo per resettare il file e cancellare tutti i dati che erano stati immagazzinati.}\\
+\textsf{\small Inoltre, ho un metodo per modificare i dati che erano stati precedentemente salvati per evitare di dover sovrascrivere il file ogni volta.}\\
+
+\textsf{\small E un metodo per caricare i livelli che erano stati precedentemente immagazzinati in dei files .txt così da poter generare la mappa di gioco.}\\
+
+\textsf{\small Infine, ho un metodo per resettare il file (con le statistiche) e cancellare tutti i dati che erano stati immagazzinati.}\\
 
 \begin{figure}[H]
 	\centering{}

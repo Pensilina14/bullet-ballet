@@ -47,6 +47,11 @@ public class WeaponSprite extends Pane {
     	weaponView.setViewport(new Rectangle2D(DEFAULT_VALUE, DEFAULT_VALUE, weaponWidth, weaponHeight));
     	getChildren().add(weaponView);
     }
+    
+    public void renderPosition(final double x, final double y) {
+    	this.setTranslateX(x);
+    	this.setTranslateY(y);
+    }
 }
     
     
