@@ -46,6 +46,7 @@ public class MapScene extends AbstractScene implements GameView{
     private final GameState gameState;
     private Optional<Controller> controller;
     private final java.util.Map<MainEnemy, MutablePosition2D> enemySprites;
+    private final java.util.Map<PlatformSprite, MutablePosition2D> platformSprites;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -53,6 +54,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
         this.enemySprites = new HashMap<>();
+        this.platformSprites = new HashMap<>();
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
@@ -61,6 +63,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
         this.enemySprites = new HashMap<>();
+        this.platformSprites = new HashMap<>();
     }
 
     public final void setup() {
@@ -110,6 +113,7 @@ public class MapScene extends AbstractScene implements GameView{
     		final MutablePosition2D xPos = x.getPosition();
     		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), 
     				xPos.getX() * platformSize, xPos.getY() * platformSize);
+    		this.platformSprites.put(newSprite, xPos);
     		this.gamePane.getChildren().add(newSprite);
     	}
     	AppLogger.getAppLogger().debug("Platforms rendered.");
@@ -117,8 +121,8 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Enemy x : world.getEnemies().get()) {
     		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
     				(int) (x.getPosition().getY() * platformSize));
-    		this.gamePane.getChildren().add(enemySprite);
     		this.enemySprites.put(enemySprite, x.getPosition());
+    		this.gamePane.getChildren().add(enemySprite);
     		AppLogger.getAppLogger().debug("Enemy rendered");
     	}
     	
@@ -214,15 +218,20 @@ public class MapScene extends AbstractScene implements GameView{
     	    	
     	//if (this.enemySprites.size() > this.gameState.getGameEnvironment().getEnemies().size()) {}
     	//this.enemySprites.forEach((x, y) -> x.);
-    	for (int i = 0; i < this.enemySprites.size(); i++) {
-    		this.enemySprites.forEach((x, y) -> {
-    			x.setTranslateX(y.getX() * platformSize);
-    			x.setTranslateY(y.getY() * platformSize);
-    			AppLogger.getAppLogger().debug("Enemy sprite position updated");
-    		});
-    	}
+    	this.platformSprites.forEach((x, y) -> {
+			try {
+				x.renderPosition(y.getX() * platformSize - 100
+						, y.getY() * platformSize -100);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+    	AppLogger.getAppLogger().debug("Platforms sprite position updated");
     	
-    	
+    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
+    			, y.getY() * platformSize));
+		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
@@ -266,22 +275,6 @@ public class MapScene extends AbstractScene implements GameView{
 
     }
     
-//    private void renderPosition() {
-//    	final Environment world = this.gameState.getGameEnvironment();
-//    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
-//    	
-//    	if (world.getPlayer().isPresent()) {
-//    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition();
-//    		AppLogger.getAppLogger().debug(String.format("X: %g\tY: %g", playerPos.getX(), playerPos.getY()));
-//    		this.mainPlayer.get().renderPosition((int) (playerPos.getX() * platformSize), 
-//    				(int) (playerPos.getY() * platformSize));
-//    	}
-//    	
-//    	//this.assPlatform.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-//    	//this.assPlatform.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
-//    	//this.assEnemy.forEach((x, y) -> x.setTranslateX(y.getPosition().getX() * platformSize));
-//    	//this.assEnemy.forEach((x, y) -> x.setTranslateY(y.getPosition().getY()));
-//    }
     
     
 
