@@ -138,7 +138,7 @@ public class MapScene extends AbstractScene implements GameView{
 			AppLogger.getAppLogger().info(x.toString());
 			final MutablePosition2D xPos = x.getPosition();
 			final PhysicalObjectSprite itemSprite = new PhysicalObjectSpriteFactoryImpl(this
-					, this.gameState.getGameEnvironment())
+					, this.gameState)
 					.generateDamagingItemSprite((int) (xPos.getX()
 							* platformSize), (int) (xPos.getY() * platformSize));
 			this.itemSprites.put(itemSprite, xPos);

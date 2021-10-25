@@ -1,7 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public interface ItemFactory {
 
@@ -11,20 +11,20 @@ public interface ItemFactory {
      * @param speedVector
      * @return an Item with a poisoning {@link Effects}
      */
-    Item createPoisoningItem(GameState gameState, SpeedVector2D speedVector);
+    Item createPoisoningItem(Environment environment, SpeedVector2D speedVector);
     /**
      * 
      * @param environment
      * @param speedVector
      * @return an Item with an healing {@link Effects}
      */
-    Item createHealingItem(GameState environment, SpeedVector2D speedVector);
+    Item createHealingItem(Environment environment, SpeedVector2D speedVector);
     /**
      * 
      * @param environment
      * @param speedVector
      * @return an Item with a damaging {@link Effects}
      */
-    Item createDamagingItem(GameState environment, SpeedVector2D speedVector);
+    Item createDamagingItem(Environment environment, SpeedVector2D speedVector);
     
 }
