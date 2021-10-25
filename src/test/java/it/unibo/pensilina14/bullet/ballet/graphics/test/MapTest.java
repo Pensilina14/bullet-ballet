@@ -1,7 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.test;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -44,10 +44,10 @@ public class MapTest {
     @Test
     public void mapTest(){
         //TODO: map test
-        Map map = new Map();
-        map.setMap(Map.Maps.CAVE);
+        BackgroundMap map = new BackgroundMap();
+        map.setMap(BackgroundMap.Maps.CAVE);
 
-        assertEquals(Map.Maps.CAVE.getPath(), map.getMap().getPath());
+        assertEquals(BackgroundMap.Maps.CAVE.getPath(), map.getMap().getPath());
         assertEquals(PlatformSprite.Platforms.CAVE_PLATFORM, map.getPlatformType());
 
         final int width = 1280;
@@ -59,7 +59,7 @@ public class MapTest {
         //Check whether map, platform and coin are in range of enum.
         // MAP TYPE CHECK
         boolean mapTypeChecker = false;
-        for(Map.Maps m : Map.Maps.values()){
+        for(BackgroundMap.Maps m : BackgroundMap.Maps.values()){
             if (m == map.getMap()) {
                 mapTypeChecker = true;
                 break;

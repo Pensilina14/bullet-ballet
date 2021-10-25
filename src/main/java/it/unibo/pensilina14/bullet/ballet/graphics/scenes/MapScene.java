@@ -1,7 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -39,7 +40,7 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
     
-    private Map map = new Map();
+    private BackgroundMap map = new BackgroundMap();
 
     private ImageView backgroundView;
 
@@ -47,17 +48,16 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private java.util.Map<MainEnemy, MutablePosition2D> enemySprites;
-    private java.util.Map<PlatformSprite, MutablePosition2D> platformSprites;
-    private java.util.Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
+    private Map<MainEnemy, MutablePosition2D> enemySprites;
+    private Map<PlatformSprite, MutablePosition2D> platformSprites;
+    private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     
-
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        }
+    }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
         this.gameState = gameState;
@@ -229,16 +229,8 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
     			this.mainPlayer.getRight().getY() * platformSize);
     	AppLogger.getAppLogger().debug("Player sprite position updated");
-    	    	
-    	this.platformSprites.forEach((x, y) -> {
-			try {
-				x.renderPosition(y.getX() * platformSize
-						, y.getY() * platformSize);
-			} catch (IOException e) {
-		    	AppLogger.getAppLogger().error("Platform sprite render position failed");
-				e.printStackTrace();
-			}
-		});
+    	
+    	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
     	AppLogger.getAppLogger().debug("Platforms sprite position updated");
     	
     	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
@@ -294,7 +286,7 @@ public class MapScene extends AbstractScene implements GameView{
     
     
 
-    public final void setMap(final Map.Maps map) {
+    public final void setMap(final BackgroundMap.Maps map) {
         this.map.setMap(map);
     }
 
