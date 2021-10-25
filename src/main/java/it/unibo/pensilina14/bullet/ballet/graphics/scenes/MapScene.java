@@ -5,6 +5,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.Map;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
@@ -14,6 +15,7 @@ import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
@@ -45,25 +47,23 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private final java.util.Map<MainEnemy, MutablePosition2D> enemySprites;
-    private final java.util.Map<PlatformSprite, MutablePosition2D> platformSprites;
+    private java.util.Map<MainEnemy, MutablePosition2D> enemySprites;
+    private java.util.Map<PlatformSprite, MutablePosition2D> platformSprites;
+    private java.util.Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
+    
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.enemySprites = new HashMap<>();
-        this.platformSprites = new HashMap<>();
-    }
+        }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
         this.gameState = gameState;
         this.controller = Optional.of(ctrlr);
         this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
-        this.enemySprites = new HashMap<>();
-        this.platformSprites = new HashMap<>();
     }
 
     public final void setup() {
@@ -78,8 +78,11 @@ public class MapScene extends AbstractScene implements GameView{
 		}
         this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
-
+        
         this.mainPlayer = new MutablePair<>();
+        this.enemySprites = new HashMap<>();
+        this.platformSprites = new HashMap<>();
+        this.itemSprites = new HashMap<>();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
@@ -111,22 +114,33 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), 
-    				xPos.getX() * platformSize, xPos.getY() * platformSize);
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType()
+    				, xPos.getX() * platformSize, xPos.getY() * platformSize);
     		this.platformSprites.put(newSprite, xPos);
     		this.gamePane.getChildren().add(newSprite);
     	}
     	AppLogger.getAppLogger().debug("Platforms rendered.");
     	
     	for (final Enemy x : world.getEnemies().get()) {
-    		final MainEnemy enemySprite = new MainEnemy((int) (x.getPosition().getX() * platformSize), 
-    				(int) (x.getPosition().getY() * platformSize));
-    		this.enemySprites.put(enemySprite, x.getPosition());
+    		final MutablePosition2D xPos = x.getPosition();
+    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() * platformSize 
+    				, xPos.getY() * platformSize);
+    		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
-    		AppLogger.getAppLogger().debug("Enemy rendered");
     	}
-    	
-    	
+		AppLogger.getAppLogger().debug("Enemies rendered");
+    	/*
+		for (final PhysicalObject x : world.getItems().get()) {
+			AppLogger.getAppLogger().info(x.toString());
+			final MutablePosition2D xPos = x.getPosition();
+			final PhysicalObjectSprite itemSprite = new PhysicalObjectSpriteFactoryImpl(this
+					, this.gameState.getGameEnvironment()).generateDamagingItemSprite((int) xPos.getX()
+							* platformSize, (int) xPos.getY() * platformSize);
+			this.itemSprites.put(itemSprite, xPos);
+			this.gamePane.getChildren().add(itemSprite);
+			
+		}
+    	*/
     	
     }
 
@@ -216,12 +230,10 @@ public class MapScene extends AbstractScene implements GameView{
     			this.mainPlayer.getRight().getY() * platformSize);
     	AppLogger.getAppLogger().debug("Player sprite position updated");
     	    	
-    	//if (this.enemySprites.size() > this.gameState.getGameEnvironment().getEnemies().size()) {}
-    	//this.enemySprites.forEach((x, y) -> x.);
     	this.platformSprites.forEach((x, y) -> {
 			try {
-				x.renderPosition(y.getX() * platformSize - 100
-						, y.getY() * platformSize -100);
+				x.renderPosition(y.getX() * platformSize
+						, y.getY() * platformSize);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -233,6 +245,8 @@ public class MapScene extends AbstractScene implements GameView{
     			, y.getY() * platformSize));
 		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
+//		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
+//				, y.getY() * platformSize));
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
 ////    		for (final WeaponsImg y : WeaponsImg.values()) {
