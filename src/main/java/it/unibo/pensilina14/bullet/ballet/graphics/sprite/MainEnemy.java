@@ -11,32 +11,62 @@ import java.nio.file.Paths;
 
 public class MainEnemy extends Pane {
 
-    private final Image enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
+    private final Image enemyImage;
+    private final ImageView enemyView;
+
+    private final int offsetX;
+    private final int offsetY;
+    private final int enemyViewWidth;
+    private final int enemyViewHeight;
 
     private final static int ENEMY_SIZE = 40;
 
-    public MainEnemy(final int x,final int y) throws IOException {
 
-        final ImageView enemyView = new ImageView(this.enemyImage);
-        enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
-        enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
+    public MainEnemy(final double x, final double y) throws IOException {
 
-        final int offsetX = 0;
-        final int offsetY = 0;
-        final int enemyViewWidth = 36;
-        final int enemyViewHeight = 51;
-        enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
+        this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
+        this.enemyView = new ImageView(this.enemyImage);
+        this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
+        this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
-        enemyView.setTranslateX(x);
-        enemyView.setTranslateY(y);
+        this.offsetX = 0;
+        this.offsetY = 0;
+        this.enemyViewWidth = 36;
+        this.enemyViewHeight = 51;
 
-        getChildren().addAll(enemyView);
+        this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
+
+        this.enemyView.setTranslateX(x);
+        this.enemyView.setTranslateY(y);
+
+        getChildren().addAll(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
     
-    public void render(final double x, final double y) {
+    public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
+    }
+
+    public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY
+    		, final int enemyViewWidth, final int enemyViewHeight){
+        this.enemyImage = enemyImage;
+        this.enemyView = new ImageView(this.enemyImage);
+
+        this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
+        this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
+
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.enemyViewWidth = enemyViewWidth;
+        this.enemyViewHeight = enemyViewHeight;
+
+        this.enemyView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.enemyViewWidth, this.enemyViewHeight));
+
+        this.enemyView.setTranslateX(x);
+        this.enemyView.setTranslateY(y);
+
+        getChildren().addAll(this.enemyView);
     }
 
 }

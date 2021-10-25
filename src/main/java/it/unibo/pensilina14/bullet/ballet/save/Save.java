@@ -158,12 +158,12 @@ public class Save {
 
     /**
      *
-     * @param playerToFind: the name of the Player that we want to find and replace.
+     * @param oldPlayer: the name of the Player that we want to find and replace.
      * @param oldScore: the score of the player that we want to find and replace.
-     * @param newPlayerName: the name with which we want to replace it.
+     * @param newPlayer: the name with which we want to replace it.
      * @param newScore: the score with which we want to replace it.
      */
-    public void modifySaveFile(String playerToFind, int oldScore, String newPlayerName, int newScore){ //TODO: rename it in playerToSearch ?
+    public void modifySaveFile(String oldPlayer, int oldScore, String newPlayer, int newScore){ //TODO: rename it in playerToSearch ?
         try {
             File saveFile = new File("save_file.txt");
             FileReader fileReader = new FileReader(saveFile);
@@ -173,8 +173,8 @@ public class Save {
             ArrayList<String> modifiedDataList = new ArrayList<>();
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
-                if(line.contains(playerToFind)){
-                    line = line.replace(playerToFind, newPlayerName);
+                if(line.contains(oldPlayer)){
+                    line = line.replace(oldPlayer, newPlayer);
                 }
                 if(line.contains(String.valueOf(oldScore))){
                     line = line.replace(String.valueOf(oldScore), String.valueOf(newScore));
