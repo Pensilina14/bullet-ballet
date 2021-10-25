@@ -27,35 +27,35 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     }
 
     @Override
-    public PhysicalObjectSprite generateDynamicObstacleSprite(final int x, final int y) throws IOException {
+    public PhysicalObjectSprite generateDynamicObstacleSprite(final double x, final double y) throws IOException {
         final PhysicalObject dynamicObstacle = obstacleFact
                 .createDynamicObstacle(this.gameEnvironment, new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
         return new PhysicalObjectSprite(Images.DYNAMIC_OBSTACLE, x, y, dynamicObstacle, this.mapScene);
     }
 
     @Override
-    public PhysicalObjectSprite generateStaticObstacleSprite(final int x, final int y) throws IOException {
+    public PhysicalObjectSprite generateStaticObstacleSprite(final double x, final double y) throws IOException {
         final PhysicalObject staticObstacle = obstacleFact
                 .createStaticObstacle(this.gameEnvironment, new MutablePosition2Dimpl(x, y));
         return new PhysicalObjectSprite(Images.STATIC_OBSTACLE, x, y, staticObstacle, this.mapScene);
     }
 
     @Override
-    public PhysicalObjectSprite generateHealingItemSprite(final int x, final int y) throws IOException{
+    public PhysicalObjectSprite generateHealingItemSprite(final double x, final double y) throws IOException{
         final PhysicalObject staticItem = itemFact
                 .createHealingItem(this.gameEnvironment, new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
         return new PhysicalObjectSprite(Images.HEALING_ITEM, x, y, staticItem, this.mapScene);
     }
 
     @Override
-    public PhysicalObjectSprite generateDamagingItemSprite(final int x, final int y) throws IOException{
+    public PhysicalObjectSprite generateDamagingItemSprite(final double x, final double y) throws IOException{
         final PhysicalObject staticItem = itemFact
                 .createDamagingItem(this.gameEnvironment, new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
         return new PhysicalObjectSprite(Images.DAMAGING_ITEM, x, y, staticItem, this.mapScene);
     }
 
     @Override
-    public PhysicalObjectSprite generatePoisoningItemSprite(final int x, final int y) throws IOException{
+    public PhysicalObjectSprite generatePoisoningItemSprite(final double x, final double y) throws IOException{
         final PhysicalObject staticItem = itemFact
                 .createPoisoningItem(this.gameEnvironment, new SpeedVector2DImpl(new MutablePosition2Dimpl(x, y), SPEED));
         return new PhysicalObjectSprite(Images.POISONING_ITEM, x, y, staticItem, this.mapScene);
