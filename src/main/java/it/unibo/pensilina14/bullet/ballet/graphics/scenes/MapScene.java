@@ -235,18 +235,20 @@ public class MapScene extends AbstractScene implements GameView{
 				x.renderPosition(y.getX() * platformSize
 						, y.getY() * platformSize);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+		    	AppLogger.getAppLogger().error("Platform sprite render position failed");
 				e.printStackTrace();
 			}
 		});
     	AppLogger.getAppLogger().debug("Platforms sprite position updated");
     	
     	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
+        			, y.getY() * platformSize));
+    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
     			, y.getY() * platformSize));
 		AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-//		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
-//				, y.getY() * platformSize));
+		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize
+				, y.getY() * platformSize));
 //
 ////    	for (final Weapon x : world.getWeapons().get()) {
 ////    		for (final WeaponsImg y : WeaponsImg.values()) {
