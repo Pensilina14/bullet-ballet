@@ -45,7 +45,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<Controller> controller;
-    private HashMap<MainEnemy, MutablePosition2D> enemySprites;
+    private final java.util.Map<MainEnemy, MutablePosition2D> enemySprites;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -126,7 +126,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void addCameraListenerToPlayer() {
-        this.mainPlayer.left.get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
+        this.mainPlayer.getLeft().get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
             final int playerPosition = newPosition.intValue();
 
             // this.map.getWidth() / 2 = metà della mappa.

@@ -15,16 +15,16 @@ public class MainEnemy extends Pane {
 
     private final static int ENEMY_SIZE = 40;
 
-    public MainEnemy(int x, int y) throws IOException {
+    public MainEnemy(final int x,final int y) throws IOException {
 
-        ImageView enemyView = new ImageView(this.enemyImage);
+        final ImageView enemyView = new ImageView(this.enemyImage);
         enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
-        int offsetX = 0;
-        int offsetY = 0;
-        int enemyViewWidth = 36;
-        int enemyViewHeight = 51;
+        final int offsetX = 0;
+        final int offsetY = 0;
+        final int enemyViewWidth = 36;
+        final int enemyViewHeight = 51;
         enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
         enemyView.setTranslateX(x);
@@ -32,6 +32,11 @@ public class MainEnemy extends Pane {
 
         getChildren().addAll(enemyView);
         //MapScene.gamePane.getChildren().add(this);
+    }
+    
+    public void render(final double x, final double y) {
+    	this.setTranslateX(x);
+    	this.setTranslateY(y);
     }
 
 }
