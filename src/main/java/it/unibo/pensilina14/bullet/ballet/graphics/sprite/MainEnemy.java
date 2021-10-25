@@ -9,10 +9,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+
 public class MainEnemy extends Pane {
 
     private final Image enemyImage;
     private final ImageView enemyView;
+    private MutablePosition2D position;
 
     private final int offsetX;
     private final int offsetY;
@@ -26,6 +30,7 @@ public class MainEnemy extends Pane {
 
         this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
         this.enemyView = new ImageView(this.enemyImage);
+        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
@@ -36,16 +41,20 @@ public class MainEnemy extends Pane {
 
         this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
-        this.enemyView.setTranslateX(x);
-        this.enemyView.setTranslateY(y);
-
-        getChildren().addAll(this.enemyView);
+        this.getChildren().addAll(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
     
     public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
+    	this.position = new MutablePosition2Dimpl(x, y);
+    }
+    
+    public void renderMovingPosition() {
+    	final double netx = this.position.getX() - 1.0;
+    	this.position.setPosition(netx, this.position.getY());
+    	this.setTranslateX(this.position.getX());
     }
 
     public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY
