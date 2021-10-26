@@ -182,5 +182,10 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
     public String toString() {
     	return "name: " + this.name + "\t num of charger: ";
     }
+    
+    @Override
+    public EntityList.Weapons getTypeOfWeapon(){
+    	return this.weaponType;
+    }
 
 }
