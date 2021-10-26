@@ -11,7 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class ItemFactoryImpl implements ItemFactory{
 
     private static final double MASS = 2.5;
-    private static final int DIMENSION = 30;
+    private static final int DIMENSION = 45;
     private final EffectFactory effectFact = new EffectFactoryImpl();
     
     @Override
