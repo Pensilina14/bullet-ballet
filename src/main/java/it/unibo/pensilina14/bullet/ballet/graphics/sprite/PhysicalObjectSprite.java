@@ -28,7 +28,7 @@ public class PhysicalObjectSprite extends Pane{
         imageView.setFitWidth(physicalObjectWidth);
         imageView.setFitHeight(physicalObjectHeight);
         imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth,
-                physicalObjectHeight));
+        		physicalObjectHeight));
         this.getChildren().add(imageView);
     }
 
