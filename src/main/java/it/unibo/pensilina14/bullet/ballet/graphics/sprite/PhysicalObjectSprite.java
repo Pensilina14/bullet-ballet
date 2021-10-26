@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import javafx.geometry.Rectangle2D;
@@ -14,7 +15,7 @@ import javafx.scene.layout.Pane;
 
 public class PhysicalObjectSprite extends Pane{
     
-    private final MutablePosition2D position;
+    private  MutablePosition2D position;
     
     public PhysicalObjectSprite(final Images img, final MutablePosition2D position
             , final PhysicalObject physicalObject) throws IOException {
@@ -35,6 +36,7 @@ public class PhysicalObjectSprite extends Pane{
     public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
+    	this.position = new MutablePosition2Dimpl(x, y);
     }
     
     public void renderMovingPosition() {
