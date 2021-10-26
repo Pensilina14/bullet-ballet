@@ -147,17 +147,17 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	for (final Item x : world.getItems().get()) {
     	    final MutablePosition2D position = x.getPosition();
-    		if (x.getItemId().compareTo(Items.DAMAGE) == 0) {
+    		if (x.getItemId() == Items.DAMAGE) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(position);
         	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().compareTo(Items.HEART) == 0) {
+    		} else if (x.getItemId() ==Items.HEART) {
         	    final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(position);
         	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().compareTo(Items.POISON) == 0) {
+    		} else if (x.getItemId() == Items.POISON) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generatePoisoningItemSprite(position);
         	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
         	    this.itemSprites.put(itemSprite, position);
