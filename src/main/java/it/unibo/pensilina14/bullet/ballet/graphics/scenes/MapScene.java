@@ -135,16 +135,17 @@ public class MapScene extends AbstractScene implements GameView{
     		this.gamePane.getChildren().add(enemySprite);
     	}
 		
-    	/*
+    	
     	for (final PhysicalObject x : world.getItems().get()) {
     	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
     	    final MutablePosition2D position = x.getPosition();
     	    final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(position);
+    	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
     	    this.itemSprites.put(itemSprite, position);
     	    this.gamePane.getChildren().add(itemSprite);
     	    
     	}
-    	*/
+    	
 		/*for (final PhysicalObject x : world.getItems().get()) {
 			AppLogger.getAppLogger().info(x.toString());
 			final MutablePosition2D xPos = x.getPosition();

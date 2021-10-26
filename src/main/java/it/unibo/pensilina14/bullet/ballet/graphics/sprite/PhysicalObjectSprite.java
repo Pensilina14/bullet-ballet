@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -17,7 +18,8 @@ public class PhysicalObjectSprite extends Pane{
     
     public PhysicalObjectSprite(final Images img, final MutablePosition2D position
             , final PhysicalObject physicalObject) throws IOException {
-        final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.toString()))));
+        final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getFileName()))));
+        AppLogger.getAppLogger().info(img.toString());
         final double physicalObjectWidth = physicalObject.getDimension().getWidth();
         final double physicalObjectHeight = physicalObject.getDimension().getHeight();
         this.position = position;
