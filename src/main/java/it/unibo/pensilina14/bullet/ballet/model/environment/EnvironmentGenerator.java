@@ -11,6 +11,8 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactory;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 
 public class EnvironmentGenerator implements LevelGenerator {
 
@@ -21,6 +23,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 	private final FactoryCharacters charactersFactory;
 	private final ObstacleFactory obstacleFactory;
 	private final ItemFactory itemFactory;
+	private final WeaponFactory weaponFactory;
 	
 	public EnvironmentGenerator() {
 		this.levelLoader = new LevelLoader();
@@ -28,6 +31,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		this.charactersFactory = new FactoryCharactersImpl();
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
+		this.weaponFactory = new WeaponFactoryImpl();
 	}
 	
 	public EnvironmentGenerator(final Environment environment) {
@@ -36,6 +40,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		this.charactersFactory = new FactoryCharactersImpl();
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
+		this.weaponFactory = new WeaponFactoryImpl();
 	}
 	
 	public void setEnvironment(final Environment environment) {
@@ -72,7 +77,7 @@ public class EnvironmentGenerator implements LevelGenerator {
                         this.env.get().addObstacle(this.obstacleFactory.createStaticObstacle(this.env.get(), new MutablePosition2Dimpl(j, i)));
                         break;
                     case '4':
-                        //TODO: add weapon
+                        this.env.get().addWeapon(this.weaponFactory.createGun(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
                         break;
                     case 'P':
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
