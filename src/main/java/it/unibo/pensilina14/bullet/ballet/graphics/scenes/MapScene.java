@@ -134,7 +134,6 @@ public class MapScene extends AbstractScene implements GameView{
     		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
     	}
-		
     	
     	for (final PhysicalObject x : world.getItems().get()) {
     	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
@@ -143,7 +142,6 @@ public class MapScene extends AbstractScene implements GameView{
     	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
     	    this.itemSprites.put(itemSprite, position);
     	    this.gamePane.getChildren().add(itemSprite);
-    	    
     	}
     	
 		/*for (final PhysicalObject x : world.getItems().get()) {
