@@ -50,4 +50,9 @@ public interface Weapon extends Item {
 	 * @return type of bullet in use
 	 */
 	EntityList.BulletType getTypeOfBulletInUse();
+
+	/*
+	 * @return type of weapon.
+	 */
+	EntityList.Weapons getTypeOfWeapon();
 }
