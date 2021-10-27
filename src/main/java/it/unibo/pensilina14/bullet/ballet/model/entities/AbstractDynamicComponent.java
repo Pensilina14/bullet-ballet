@@ -70,7 +70,10 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     public void move(final double x, final double y) {
-        this.vector.vectorSum(x, y);
+        if (this.isWithinMapBoundaries(x, y)) {
+            this.vector.vectorSum(x, y);
+        }
+        
     }
     
     public void updateState(final double dt) {
@@ -79,23 +82,21 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         // TODO: Eliminare dt.
     }
     
-    /*
+    
     private boolean isWithinMapBoundaries(final double x, final double y) {    
         return isWithinXaxis(x) && isWithinYaxis(y);
     }
     
     private boolean isWithinXaxis(final double x) {
-        final Dimension2D envDimension = this.gameEnvironment.getDimension();
-        return this.vector.getPosition().getX() + x >= -envDimension.getWidth()
-                && this.vector.getPosition().getX() + x + this.dimension.getWidth() <= 0;
+        //final Dimension2D envDimension = this.gameEnvironment.getDimension();
+        return this.vector.getPosition().getX() + x >= 0;
     }
     
     private boolean isWithinYaxis(final double y) {
-        final Dimension2D envDimension = this.gameEnvironment.getDimension();
-        return this.vector.getPosition().getY() + y <= 0
-                && this.vector.getPosition().getY() + y - this.dimension.getHeight() >= -envDimension.getHeight();
+        //final Dimension2D envDimension = this.gameEnvironment.getDimension();
+        return this.vector.getPosition().getY() + y >= 0;
     }
-    */
+    
     public double getGravityForce() {
         return gameEnvironment.getGravity() * this.mass;
     }
