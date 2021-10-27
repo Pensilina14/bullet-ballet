@@ -7,7 +7,6 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
-import it.unibo.pensilina14.bullet.ballet.model.environment.exceptions.LevelEntity;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
