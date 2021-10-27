@@ -3,7 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.save;
 import java.io.*;
 import java.util.*;
 
-public class Save {
+public class Save { //TODO: turn into an abstract class with static methods. No need to instantiate this class.
 
     /**
      *
