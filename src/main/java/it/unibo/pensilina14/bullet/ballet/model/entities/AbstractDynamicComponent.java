@@ -90,11 +90,15 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     private boolean isWithinXaxis(final double x) {
         //final Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.vector.getPosition().getX() + x >= 0;
+        //return this.vector.getPosition().getX() + x >= 0
+        //        && this.vector.getPosition().getX() + x + this.getDimension().getWidth() <= envDimension.getWidth();
     }
     
     private boolean isWithinYaxis(final double y) {
         //final Dimension2D envDimension = this.gameEnvironment.getDimension();
         return this.vector.getPosition().getY() + y >= 0;
+        //return this.vector.getPosition().getY() + y >= 0
+        //        && this.vector.getPosition().getY() + y + this.getDimension().getHeight() >= envDimension.getHeight();
     }
     
     public double getGravityForce() {
