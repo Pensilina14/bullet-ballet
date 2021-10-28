@@ -23,7 +23,11 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 }*/
 
-public abstract class LevelEntity{ //TODO: fix the enum and use that.
+public final class LevelEntity{ //TODO: fix the enum and use that
+
+    private LevelEntity(){
+
+    }
 
     public static final char EMPTY = '0';
     public static final char PLATFORM = '1';
