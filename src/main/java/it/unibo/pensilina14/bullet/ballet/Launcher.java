@@ -17,6 +17,7 @@ public class Launcher extends Application {
     	final Game game = new Game();
     	final Scene gameScene = (Scene) game.getView();
         primaryStage.setScene(gameScene);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
         final AnimationTimer timer = new AnimationTimerImpl(game);
         timer.start();
