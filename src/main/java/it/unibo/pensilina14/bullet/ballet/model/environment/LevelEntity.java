@@ -1,4 +1,4 @@
-package it.unibo.pensilina14.bullet.ballet.model.environment.exceptions;
+package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 /*public enum LevelEntity { //TODO: rename?
 

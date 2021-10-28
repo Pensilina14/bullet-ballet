@@ -5,7 +5,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class FactoryCharactersImpl implements FactoryCharacters{
 
-    private static final int DEFAULT_DIM = 500;
+    private static final int DEFAULT_DIM = 40;
     private static final int DEFAULT_MASS = 10;
 
     private final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
