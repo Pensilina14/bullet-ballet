@@ -221,7 +221,7 @@ public class GameEnvironment implements Environment {
 		}
 		return false;
 	}
-
+/*
 	private void checkBoundaries() {
 		final MutablePosition2D playerPos = this.player.get().getPosition();
 		final Dimension2D playerDim = this.player.get().getDimension();
@@ -239,6 +239,7 @@ public class GameEnvironment implements Environment {
 					, playerPos.getY());
 		}
 	}
+*/
 	@Override
 	public void updateState(final int dt) {
 		this.player.get().updateState(dt);
@@ -253,7 +254,7 @@ public class GameEnvironment implements Environment {
 						.forEach(i -> i.updateState(dt));
 		this.checkCollisions();
 		
-		this.checkBoundaries();
+		//this.checkBoundaries();
 	}
 	
 	@Override
