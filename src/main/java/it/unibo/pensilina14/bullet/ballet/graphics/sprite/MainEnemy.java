@@ -35,7 +35,7 @@ public class MainEnemy extends Pane {
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
         this.offsetX = 0;
-        this.offsetY = 0;
+        this.offsetY = -0;
         this.enemyViewWidth = 36;
         this.enemyViewHeight = 51;
 
