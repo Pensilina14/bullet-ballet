@@ -33,6 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,15 +67,15 @@ public class MapScene extends AbstractScene implements GameView{
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
-        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
-        this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+        //this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        //this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
         this.gameState = gameState;
         this.controller = Optional.of(ctrlr);
-        this.appPane.setMaxWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
-        this.appPane.setMaxHeight(AbstractScene.SCENE_HEIGHT);
+        //this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        //this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
     public final void setup() {
@@ -350,5 +351,14 @@ public class MapScene extends AbstractScene implements GameView{
 	@Override
 	public final void setInputController(final Controller controller) {
 		this.controller = Optional.of(controller);
+	}
+	@Override
+	public final void setHeight(final double heigth) {
+		this.appPane.setPrefHeight(heigth);
+	}
+
+	@Override
+	public final void setWidth(final double width) {
+		this.appPane.setPrefWidth(width);
 	}
 }

@@ -47,13 +47,13 @@ public abstract class AbstractScene extends Scene {
         });
     }
 
-    public final void setWidth(final int width){
-        this.width = width;;
-    }
-
-    public final void setHeight(final int height){
-        this.height = height;
-    }
-
     public abstract void draw();
+
+	public void setHeight(final double heigth) {
+		this.root.setMaxHeight(heigth);
+	}
+	
+	public void setWidth(final double width) {
+		this.root.setMaxWidth(width);
+	}
 }
