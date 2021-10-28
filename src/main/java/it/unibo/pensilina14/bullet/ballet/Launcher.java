@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
@@ -15,8 +16,12 @@ public class Launcher extends Application {
     @Override
     public final void start(final Stage primaryStage) throws Exception {
     	final Game game = new Game();
-    	final Scene gameScene = (Scene) game.getView();
+    	final AbstractScene gameScene = game.getView();
+        primaryStage.setFullScreen(true);
+        gameScene.setHeight(primaryStage.getHeight());
+        gameScene.setWidth(primaryStage.getWidth());
         primaryStage.setScene(gameScene);
+
         primaryStage.show();
         final AnimationTimer timer = new AnimationTimerImpl(game);
         timer.start();

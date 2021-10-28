@@ -55,8 +55,8 @@ public class BackgroundMap {
 
         //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform (commentare initMap())
 
-        Coin coin = new Coin();
-        this.coinType = coin.coinChooser();
+        CoinSprite coinSprite = new CoinSprite();
+        this.coinType = coinSprite.coinChooser();
 
         initMap();
 
@@ -74,7 +74,7 @@ public class BackgroundMap {
     private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
 
     private PlatformSprite.Platforms platformType;
-    private Coin.Coins coinType;
+    private CoinSprite.Coins coinType;
 
     private void initMap() {
         switch(this.map){
@@ -181,7 +181,7 @@ public class BackgroundMap {
         return this.platformType;
     }
 
-    public Coin.Coins getCoinType(){
+    public CoinSprite.Coins getCoinType(){
         return this.coinType;
     }
 

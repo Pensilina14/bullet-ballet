@@ -221,7 +221,25 @@ public class GameEnvironment implements Environment {
 		}
 		return false;
 	}
-
+/*
+	private void checkBoundaries() {
+		final MutablePosition2D playerPos = this.player.get().getPosition();
+		final Dimension2D playerDim = this.player.get().getDimension();
+		if (playerPos.getY() < 0) {
+			this.player.get().getPosition().setPosition(playerPos.getX(), 0);
+		} else if (playerPos.getY() + playerDim.getHeight() > 1280) {
+			this.player.get().getPosition().setPosition(playerPos.getX()
+					, playerPos.getY() - playerDim.getHeight());
+		}
+		
+		if (playerPos.getX() < 0) {
+			this.player.get().getPosition().setPosition(0, playerPos.getY());
+		} else if (playerPos.getX() > 720) {
+			this.player.get().getPosition().setPosition(playerPos.getX() - playerDim.getWidth()
+					, playerPos.getY());
+		}
+	}
+*/
 	@Override
 	public void updateState(final int dt) {
 		this.player.get().updateState(dt);
@@ -235,6 +253,8 @@ public class GameEnvironment implements Environment {
 						.map(i -> (DynamicPickupItem) i)
 						.forEach(i -> i.updateState(dt));
 		this.checkCollisions();
+		
+		//this.checkBoundaries();
 	}
 	
 	@Override

@@ -1,10 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.test;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.map.Coin;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.CoinSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,9 +23,9 @@ public class MapTest {
     @Test
     public void coinTest() throws IOException { //TODO: lasciare solo mapTest
         //TODO: coins test
-        Coin coin = new Coin(Coin.Coins.GOLD_COIN, 0,0);
+        CoinSprite coinSprite = new CoinSprite(CoinSprite.Coins.GOLD_COIN, 0,0);
 
-        coin.coinChooser();
+        coinSprite.coinChooser();
     }
 
     @Test
@@ -84,7 +83,7 @@ public class MapTest {
         // COIN TYPE CHECK
 
         boolean coinTypeChecker = false;
-        for(Coin.Coins c : Coin.Coins.values()){
+        for(CoinSprite.Coins c : CoinSprite.Coins.values()){
             if (c == map.getCoinType()) {
                 coinTypeChecker = true;
                 break;

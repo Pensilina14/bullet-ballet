@@ -65,28 +65,28 @@ public class EnvironmentGenerator implements LevelGenerator {
             final String line = this.levelLoader.getLevel()[i];
             for (int j = 0; j < line.length(); j++){
                 switch(line.charAt(j)) {
-                    case '0': //TODO: use an enum?
+					case LevelEntity.EMPTY: //TODO: use an enum?
                     	break;
-                    case '1':
+					case LevelEntity.PLATFORM:
                         this.env.get().addPlatform(new Platform(new Dimension2Dimpl(j, i), new MutablePosition2Dimpl(j, i), this.env.get()));
                         break;
-                    case '2':
+                    case LevelEntity.COIN:
                         // TODO: add coin.
                         break;
-                    case '3':
+                    case LevelEntity.OBSTACLE:
                         this.env.get().addObstacle(this.obstacleFactory.createStaticObstacle(this.env.get(), new MutablePosition2Dimpl(j, i)));
                         break;
-                    case '4':
+                    case LevelEntity.WEAPON:
                         this.env.get().addWeapon(this.weaponFactory.createGun(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
                         break;
-                    case 'P':
+                    case LevelEntity.PLAYER:
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
                         this.env.get().setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
                     	break;
-                    case '*':
+                    case LevelEntity.ITEM:
                         this.env.get().addItem(this.itemFactory.createHealingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0)));
                         break;
-                    case '!':
+                    case LevelEntity.ENEMY:
                         this.env.get().addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
                         break;
                 }

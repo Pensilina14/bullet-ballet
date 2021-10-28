@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class Coin extends Pane {
+public class CoinSprite extends Pane {
 
     public enum Coins {//TODO: mettere l'enum a parte?
         GOLD_COIN("res/assets/sprites/coins/MonedaD.png"),
@@ -39,11 +39,11 @@ public class Coin extends Pane {
 
     private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
 
-    public Coin(){
+    public CoinSprite(){
         this.coinType = DEFAULT_COIN;
     }
 
-    public Coin(final Coins coinType, final int x, final int y) throws IOException {
+    public CoinSprite(final Coins coinType, final int x, final int y) throws IOException {
 
         this.coinType = coinType;
 
@@ -94,7 +94,7 @@ public class Coin extends Pane {
 
     public final Coins coinChooser(){
         final Random rand = new Random();
-        final int max = Coin.Coins.values().length;
+        final int max = CoinSprite.Coins.values().length;
         final int min = 0;
         final int randomMap = rand.nextInt(((max - min)) + min); // nextInt : 0 incluso, max escluso.
         for (final Coins c : Coins.values()) {
@@ -102,7 +102,7 @@ public class Coin extends Pane {
                 return c;
             }
         }
-        return Coin.DEFAULT_COIN;
+        return CoinSprite.DEFAULT_COIN;
     }
 
 }
