@@ -6,22 +6,22 @@ import java.util.Random;
 
 public class LevelLoader {
 
-    private final Save levelData;
+    //private final Save levelData; //TODO: remove
     private final String[] level;
     private final int levelHeight;
 
     private final int levelWidth;
 
     public LevelLoader(){
-       this.levelData = new Save();
-       this.level = levelData.loadLevel(getRandomLevel());
+       //this.levelData = //new Save();
+       this.level = Save.loadLevel(getRandomLevel()); //levelData.loadLevel(getRandomLevel()); //TODO: remove
        this.levelWidth = this.level[0].length();
        this.levelHeight = this.level.length;
     }
 
     private int getRandomLevel(){
         final Random rand = new Random();
-        final int maxLevels = this.levelData.getNumberOfLevels();
+        final int maxLevels = Save.getNumberOfLevels(); //this.levelData.getNumberOfLevels(); //TODO: remove
         return rand.nextInt(maxLevels);
     }
 

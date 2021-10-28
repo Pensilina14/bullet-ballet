@@ -3,7 +3,11 @@ package it.unibo.pensilina14.bullet.ballet.save;
 import java.io.*;
 import java.util.*;
 
-public class Save { //TODO: turn into an abstract class with static methods. No need to instantiate this class.
+public final class Save {
+
+    private Save(){
+
+    }
 
     /**
      *
@@ -13,7 +17,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      * If it is the first time that you call it, it will create the file, otherwise it will append the data to the file without deleting
      * previous stored data.
      */
-    public void save(String playerName, int playerScore){
+    public static void save(String playerName, int playerScore){
 
         try {
             FileWriter file = new FileWriter("save_file.txt", true); // true sta a significare di appendere se il file esiste
@@ -40,7 +44,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save_file.txt and their relative score.
      */
-    public HashMap<String, Integer> load() {
+    public static HashMap<String, Integer> load() {
 
         HashMap<String, Integer> data = new HashMap<>();
 
@@ -71,7 +75,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
     /**
      * It will delete all the data stored in the save_file.txt, but it will keep the file.
      */
-    public void resetSaveFile(){
+    public static void resetSaveFile(){
 
         try {
 
@@ -84,7 +88,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
     }
 
     //TODO: saveLevel not ready.
-    public void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
+    public static void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
         try {
             FileWriter fileWriter = new FileWriter("levels/level" + levelNumber + ".txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -109,7 +113,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      * @param levelNumber: the number of the level that we want to load.
      * @return String[]: an array of strings with the data of the level.
      */
-    public String[] loadLevel(int levelNumber){
+    public static String[] loadLevel(int levelNumber){
 
         String[] level;
         ArrayList<String> levelList = new ArrayList<>();
@@ -138,7 +142,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      * @param levelNumber: the level that we want to delete.
      * It will delete all the data about the specified level.
      */
-    public void resetLevelFile(int levelNumber){
+    public static void resetLevelFile(int levelNumber){
         try {
             FileWriter fileWriter = new FileWriter("level" + levelNumber + ".txt", false);
             fileWriter.close();
@@ -152,7 +156,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      *
      * @return int: the number of files in the directory "levels/", so all the levels stored.
      */
-    public int getNumberOfLevels(){
+    public static int getNumberOfLevels(){
         return Objects.requireNonNull(new File("levels/").listFiles()).length;
     }
 
@@ -163,7 +167,7 @@ public class Save { //TODO: turn into an abstract class with static methods. No 
      * @param newPlayer: the name with which we want to replace it.
      * @param newScore: the score with which we want to replace it.
      */
-    public void modifySaveFile(String oldPlayer, int oldScore, String newPlayer, int newScore){ //TODO: rename it in playerToSearch ?
+    public static void modifySaveFile(String oldPlayer, int oldScore, String newPlayer, int newScore){ //TODO: rename it in playerToSearch ?
         try {
             File saveFile = new File("save_file.txt");
             FileReader fileReader = new FileReader(saveFile);
