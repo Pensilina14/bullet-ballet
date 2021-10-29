@@ -31,4 +31,5 @@ svg/
 .settings/org.eclipse.jdt.core.prefs
 
 # Ignore game savings files
-save_file.txt
+!data/levels/*
+data/*
