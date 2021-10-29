@@ -12,6 +12,10 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class WeaponImpl extends DynamicPickupItem implements Weapon {
 
 	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
+	private static final double DAMAGE_FACTOR_SHOTGUN = 1.5;
+	private static final double DAMAGE_FACTOR_AUTO = 1.5;
+
+	
 	//set for each weapon the total number of available bullets
 	private final int limitBullets;
 	private final int limitChargers;
@@ -42,18 +46,22 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	private void initializeWeapon() {
 		switch (this.weaponType) {
 			case GUN:
-				this.damageFactor = 1.0;
+				this.damageFactor = DEAFAULT_DAMAGE_FACTOR;
+				break;
 			case SHOTGUN:
-				this.damageFactor = 1.5;
+				this.damageFactor = DAMAGE_FACTOR_SHOTGUN;
+				break;
 			case AUTO:
-				this.damageFactor = 0.75;
+				this.damageFactor = DAMAGE_FACTOR_AUTO;
+				break;
 			default:
-				this.damageFactor = 1.0;
+				this.damageFactor = DEAFAULT_DAMAGE_FACTOR;
+				break;
 		}
 		final List<Bullet> charger = new ArrayList<>();
 		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
 		for(int i = 0; i < this.limitBullets; i++) {
-			charger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
+			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment(), this.getSpeedVector()));
 		}
 		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
@@ -91,19 +99,8 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		/// Index of current ammo in the list charger(start from 0 to limitBullets)
 		int indexAmmo = this.currentAmmo;
 		indexAmmo--;
-
-		if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
-				new BulletImpl(EntityList.BulletType.CLASSICAL).getName()) {
-			 return EntityList.BulletType.CLASSICAL;
-		}else if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
-				new BulletImpl(EntityList.BulletType.SOPORIFIC).getName()){
-			return EntityList.BulletType.SOPORIFIC;
-		}
-		else if(this.bandolier.get(this.indexCharger).get(indexAmmo).getName() == 
-				new BulletImpl(EntityList.BulletType.TOXIC).getName()){
-			return EntityList.BulletType.TOXIC;
-		}
-		return null;
+		
+		return this.bandolier.get(this.indexCharger).get(indexAmmo).getBulletType();
 	}
 	@Override
 	public int getLimitBullets() {
@@ -145,10 +142,6 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	public String getName() {
 		return this.name;
 	}
-	@Override
-	public Effect getEffect() {
-		return null;
-	}
 	
 	@Override
 	public void recharge(final List<Bullet> charger) {
@@ -162,10 +155,6 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		//this.bandolier.stream().filter(x -> x.isEmpty()).distinct().findFirst().get().addAll(charger);
 	}
 
-    @Override
-    public Items getItemId() {
-    	return Items.WEAPON;
-    }
     
     private List<Bullet> switchCharger() {
     	if(this.indexCharger==this.limitChargers-1) {
@@ -178,10 +167,6 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
     	return this.bandolier.get(this.indexCharger);
     }
     
-    @Override
-    public String toString() {
-    	return "name: " + this.name + "\t num of charger: ";
-    }
     
     @Override
     public EntityList.Weapons getTypeOfWeapon(){

@@ -16,6 +16,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -28,6 +29,7 @@ public class WeaponTest {
 	private static final int POSITION = -5;
 
 	private static final int SPEED = 1;
+	private static final int BULLET_SPEED = 4;
 	private final Environment gameEnv = new GameEnvironment();
 	
 	private final Weapon weapon_first = new WeaponFactoryImpl().createGun(new SpeedVector2DImpl
@@ -57,7 +59,8 @@ public class WeaponTest {
 				(new MutablePosition2Dimpl(POSITION, POSITION), SPEED), this.gameEnv);
 		final ArrayList<Bullet> charger = new ArrayList<>();
 		for(int i = 0; i < weapon_third.getLimitBullets(); i++) {
-			charger.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
+			charger.add(new BulletFactoryImpl().createClassicBullet(this.gameEnv, new SpeedVector2DImpl
+					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
 		weapon_third.recharge(charger);
 		weapon_third.recharge(charger);
@@ -71,11 +74,13 @@ public class WeaponTest {
 				(new MutablePosition2Dimpl(POSITION, POSITION), SPEED), this.gameEnv);
 		final ArrayList<Bullet> charger_1 = new ArrayList<>();
 		for(int i = 0; i < weapon_fourth.getLimitBullets(); i++) {
-			charger_1.add(new BulletImpl(EntityList.BulletType.CLASSICAL));
+			charger_1.add(new BulletFactoryImpl().createClassicBullet(this.gameEnv, new SpeedVector2DImpl
+					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
 		final ArrayList<Bullet> charger_2 = new ArrayList<>();
 		for(int i = 0; i < weapon_fourth.getLimitBullets(); i++) {
-			charger_2.add(new BulletImpl(EntityList.BulletType.TOXIC));
+			charger_2.add(new BulletFactoryImpl().createPoisonBullet(this.gameEnv, new SpeedVector2DImpl
+					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
 		
 		weapon_fourth.decreaseAmmo();
