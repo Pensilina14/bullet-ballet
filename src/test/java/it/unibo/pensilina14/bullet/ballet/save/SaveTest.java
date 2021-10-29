@@ -1,10 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static org.junit.Assert.*;
 
@@ -13,6 +16,35 @@ public class SaveTest {
     //private final Save data = new Save(); //TODO: remove
 
     @Test
+    public void saveAndLoadJSON(){ //TODO: rename then in saveAndLoad()
+
+        // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
+        Save.resetSaveFile();
+
+        final String playerName = "Paolo";
+        final int playerScore = 7;
+
+        final String playerName2 = "Giorgio";
+        final int playerScore2 = 14;
+
+        Save.saveJSON(playerName, playerScore);
+        Save.saveJSON(playerName2, playerScore2);
+
+        final LinkedHashMap<String, Integer> map;
+
+        map = Save.loadJSON();
+
+        assertNotNull(map);
+        assertFalse(map.isEmpty());
+
+        final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, playerName2));
+        final ArrayList<Integer> playersScoreList = new ArrayList<>(Arrays.asList(playerScore, playerScore2));
+
+        assertTrue(map.keySet().containsAll(playersNameList));
+        assertTrue(map.values().containsAll(playersScoreList));
+    }
+
+    /*@Test
     public void saveAndLoadTest(){
 
         //data.resetSaveFile(); //TODO: remove
@@ -24,8 +56,8 @@ public class SaveTest {
         final String playerName2 = "player2";
         final int playerScore2 = 14;
 
-        /*data.save(playerName, playerScore); //TODO: remove
-        data.save(playerName2, playerScore2);*/
+        //data.save(playerName, playerScore); //TODO: remove
+        //data.save(playerName2, playerScore2);
 
         Save.save(playerName, playerScore);
         Save.save(playerName2, playerScore2);
@@ -45,17 +77,17 @@ public class SaveTest {
         assertTrue(results.values().containsAll(scoresList));
 
 
-    }
+    }*/
 
     @Test
     public void resetTest(){
-        //data.resetSaveFile();
+        //data.resetSaveFile(); //TODO: remove
         Save.resetSaveFile();
 
         HashMap<String, Integer> resetResults;
 
         //resetResults = data.load();
-        resetResults = Save.load();
+        resetResults = Save.loadJSON();
 
         assertTrue(resetResults.isEmpty());
     }
@@ -76,7 +108,7 @@ public class SaveTest {
         assertEquals(max_levels, numberOfLevels);
     }
 
-    @Test
+    /*@Test
     public void modifyDataTest(){
         //data.resetSaveFile();
         Save.resetSaveFile();
@@ -87,8 +119,8 @@ public class SaveTest {
         final String player2 = "Giorgio";
         final int playerScore2 = 8;
 
-        /*data.save(player, playerScore);
-        data.save(player2, playerScore2);*/
+        //data.save(player, playerScore);
+        //data.save(player2, playerScore2);
         Save.save(player, playerScore);
         Save.save(player2, playerScore2);
 
@@ -108,6 +140,6 @@ public class SaveTest {
 
         assertTrue(results.containsKey(playerRename));
         assertTrue(results.containsValue(newPlayerScore));
-    }
+    }*/
 
 }
