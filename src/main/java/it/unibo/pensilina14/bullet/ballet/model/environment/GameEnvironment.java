@@ -26,18 +26,27 @@ import java.util.Optional;
  */
 public class GameEnvironment implements Environment {
 
+    /**
+     * GameEnvironment height and width value for testing.
+     */
     public static final double DEFAULT_DIM = 20.0;
-	
-	private final double gravity;
-	private final Dimension2D dimension;
-	private Optional<Player> player;
-	private final Optional<List<Enemy>> enemies;
-	private final Optional<List<PhysicalObject>> obstacles;
-	private final Optional<List<Item>> items;
-	private final Optional<List<Platform>> platforms;
-	private final Optional<List<Weapon>> weapons;
-	private Optional<GameEventListener> eventListener;
-	
+
+    private final double gravity;
+    private final Dimension2D dimension;
+    private Optional<Player> player;
+    private final Optional<List<Enemy>> enemies;
+    private final Optional<List<PhysicalObject>> obstacles;
+    private final Optional<List<Item>> items;
+    private final Optional<List<Platform>> platforms;
+    private final Optional<List<Weapon>> weapons;
+    private Optional<GameEventListener> eventListener;
+
+	/**
+	 * <p>
+	 * This constructor uses {@link #DEFAULT_DIM} so use it.
+	 * Ideally we don't want this if not for <strong>testing</strong> purposes.
+	 * </p>
+	 */
 	public GameEnvironment() {
 		this.gravity = GravityConstants.EARTH.getValue();
 		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
@@ -50,6 +59,12 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.empty();
 	}
 	
+	/**
+	 * Adds dimension configuration to {@link #dimension}.
+	 * 
+	 * @param height
+	 * @param width
+	 */
 	public GameEnvironment(final double height, final double width) {
 		this.gravity = GravityConstants.EARTH.getValue();
 		this.dimension = new Dimension2Dimpl(height, width);
@@ -62,6 +77,17 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.empty();
 	}
 	
+	/**
+	 * Parameter-full constructor that provides a well-defined
+	 * {@link GameEnvironment} capable of connecting with a bunch
+	 * of different objects.
+	 * 
+	 * @param gravity
+	 * @param height
+	 * @param width
+	 * @param player is the player to be set as the one and only {@link Player} in the game.
+	 * @param l is the event listener that is going to "listen" to the events launched in this {@link Environment}.
+	 */
 	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
 		this.gravity = gravity;
 		this.dimension = new Dimension2Dimpl(height, width);
@@ -75,26 +101,27 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public double getGravity() {
+	public final double getGravity() {
 		return this.gravity;
 	}
 	
-	public Dimension2D getDimension() {
+	@Override
+	public final Dimension2D getDimension() {
 		return this.dimension;
 	}
 
 	@Override
-	public Optional<List<PhysicalObject>> getObjsList() {
+	public final Optional<List<PhysicalObject>> getObjsList() {
 		return this.mergeLists();
 	}
 	
 	@Override
-	public Optional<Player> getPlayer() {
+	public final Optional<Player> getPlayer() {
 		return this.player;
 	}
 	
 	@Override
-	public Optional<List<Enemy>> getEnemies() {
+	public final Optional<List<Enemy>> getEnemies() {
 		if (this.enemies.isPresent()) {
 			return Optional.of(List.copyOf(this.enemies.get()));
 		}
@@ -102,7 +129,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public Optional<List<PhysicalObject>> getObstacles() {
+	public final Optional<List<PhysicalObject>> getObstacles() {
 		if (this.obstacles.isPresent()) {
 			return Optional.of(List.copyOf(this.obstacles.get()));
 		}
@@ -110,7 +137,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public Optional<List<Item>> getItems() {
+	public final Optional<List<Item>> getItems() {
 		if (this.items.isPresent()) {
 			return Optional.of(List.copyOf(this.items.get()));
 		}
@@ -118,7 +145,7 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public Optional<List<Platform>> getPlatforms() {
+	public final Optional<List<Platform>> getPlatforms() {
 		if (this.platforms.isPresent()) {
 			return Optional.of(List.copyOf(this.platforms.get()));
 		}
@@ -126,7 +153,7 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public Optional<List<Weapon>> getWeapons() {
+	public final Optional<List<Weapon>> getWeapons() {
 		if (this.weapons.isPresent()) {
 			return Optional.of(List.copyOf(this.weapons.get()));
 		}
@@ -134,12 +161,12 @@ public class GameEnvironment implements Environment {
 	}
 	
     @Override
-	public void setPlayer(final Player player) {
+	public final void setPlayer(final Player player) {
 		this.player = Optional.ofNullable(player);
 	}
 
 	@Override
-	public boolean addEnemy(final Enemy enemy) {
+	public final boolean addEnemy(final Enemy enemy) {
 		if (this.enemies.get().contains(enemy)) {
 			return false;
 		} else {
@@ -149,7 +176,7 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public boolean addObstacle(final PhysicalObject obstacle) {
+	public final boolean addObstacle(final PhysicalObject obstacle) {
 		/*
 		 * Type validity check: 
 		 * 	verify if obstacle is a StaticObstacle or DynamicObstacle since 
@@ -169,7 +196,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public boolean addItem(final Item item) {
+	public final boolean addItem(final Item item) {
 		if (this.items.get().contains(item)) {
 			return false;
 		} else {
@@ -179,7 +206,7 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public boolean addPlatform(final Platform platform) {
+	public final boolean addPlatform(final Platform platform) {
 		if (this.platforms.get().contains(platform)) {
 			return false;
 		} else {
@@ -189,7 +216,7 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public boolean addWeapon(final Weapon weapon) {
+	public final boolean addWeapon(final Weapon weapon) {
 		if (this.weapons.get().contains(weapon)) {
 			return false;
 		} else {
@@ -199,7 +226,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public boolean deleteObjByPosition(final ImmutablePosition2D position) {
+	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
 		final List<PhysicalObject> allObjsList = this.mergeLists().get();
 		for (final PhysicalObject obj : allObjsList) {
 			final MutablePosition2D objPos = obj.getPosition();
@@ -231,7 +258,6 @@ public class GameEnvironment implements Environment {
 			this.player.get().getPosition().setPosition(playerPos.getX()
 					, playerPos.getY() - playerDim.getHeight());
 		}
-		
 		if (playerPos.getX() < 0) {
 			this.player.get().getPosition().setPosition(0, playerPos.getY());
 		} else if (playerPos.getX() > 720) {
@@ -241,7 +267,7 @@ public class GameEnvironment implements Environment {
 	}
 */
 	@Override
-	public void updateState(final int dt) {
+	public final void updateState(final int dt) {
 		this.player.get().updateState(dt);
 		this.enemies.get().stream().forEach(e -> e.updateState(dt));
 		this.obstacles.get().stream()
@@ -253,12 +279,11 @@ public class GameEnvironment implements Environment {
 						.map(i -> (DynamicPickupItem) i)
 						.forEach(i -> i.updateState(dt));
 		this.checkCollisions();
-		
 		//this.checkBoundaries();
 	}
 	
 	@Override
-	public void setEventListener(final GameEventListener listener) {
+	public final void setEventListener(final GameEventListener listener) {
 		this.eventListener = Optional.ofNullable(listener);
 	}
 
@@ -291,13 +316,13 @@ public class GameEnvironment implements Environment {
 		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
 		final EventChecker checkEnemiesObstacles = new CollisionEventChecker(this.enemies.get(), this.obstacles.get());
-		
+
 		checkPlayerItem.check();
 		checkEnemiesItems.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
 		checkEnemiesObstacles.check();
-		
+
 		// Notify everything to the {@link GameEventListener}.
 		if (!checkPlayerItem.getBuffer().getEvents().isEmpty()) {
 			checkPlayerItem.getBuffer().getEvents().stream().forEach(e -> {
