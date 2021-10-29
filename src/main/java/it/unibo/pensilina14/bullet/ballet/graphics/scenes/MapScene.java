@@ -90,7 +90,7 @@ public class MapScene extends AbstractScene implements GameView{
 		}
         this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
-        
+
         this.mainPlayer = new MutablePair<>();
         this.enemySprites = new HashMap<>();
         this.platformSprites = new HashMap<>();
@@ -106,7 +106,6 @@ public class MapScene extends AbstractScene implements GameView{
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
-        this.addCameraListenerToPlayer();
     }
     
     private void initialize() throws IOException {
@@ -122,7 +121,6 @@ public class MapScene extends AbstractScene implements GameView{
     				playerPos.getY() * platformSize)));
     		this.mainPlayer.setRight(playerPos);
         	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
-        	this.addCameraListenerToPlayer();
        		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
     	}
     	
@@ -210,19 +208,6 @@ public class MapScene extends AbstractScene implements GameView{
 		//AppLogger.getAppLogger().debug("Weapons rendered");
     }
 
-    private void addCameraListenerToPlayer() {
-        this.mainPlayer.getLeft().get().translateXProperty().addListener((obs, oldPosition, newPosition) -> {
-            final int playerPosition = newPosition.intValue();
-
-            // this.map.getWidth() / 2 = metà della mappa.
-            
-            if (playerPosition > (this.map.getMapWidth() / 2) 
-            		&&  playerPosition < (this.gameState.getEnvGenerator().getLevelWidth()) - (this.map.getMapWidth() / 2)) {
-                this.root.setLayoutX(-(playerPosition - (int) (this.map.getMapWidth() / 2)));
-            }
-        });
-    }
-
     @Override
     public final void draw() {
 	    this.update();
@@ -279,15 +264,12 @@ public class MapScene extends AbstractScene implements GameView{
         	this.keysReleased.remove(KeyCode.LEFT); 
         }
     }
-    
-    
 
     private void render() throws IOException {
     	AppLogger.getAppLogger().debug("Inside render() method.");
     	//AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
     	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
-    	final Environment world = this.gameState.getGameEnvironment();
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
@@ -304,33 +286,13 @@ public class MapScene extends AbstractScene implements GameView{
 
 		this.itemSprites.forEach((x, y) -> x.renderMovingPosition());
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
-		
+
 		this.obstacleSprites.forEach((x, y) -> x.renderMovingPosition());
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 
 		this.weaponSprites.forEach((x, y) -> x.renderMovingPosition());
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
-
-//
-////    	for (final Weapon x : world.getWeapons().get()) {
-////    		for (final WeaponsImg y : WeaponsImg.values()) {
-////    			if (x.getName().equals(y.getName())) {
-////    				this.gamePane.getChildren().add(new WeaponSprite(y, x, platformSize));
-////    				AppLogger.getAppLogger().debug("Weapon rendered");
-////    			}
-////    		}
-////    	}
-//
-
-    	/*
-    	for (final Bullet x : this.gameState.getGameEnvironment().getBullets().get().subList()) {
-    		// TODO add algorithm for bullets
-    	}
-    	 */
     }
-    
-    
-    
 
     public final void setMap(final BackgroundMap.Maps map) {
         this.map.setMap(map);

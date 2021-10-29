@@ -34,3 +34,4 @@ svg/
 !data/levels/*
 data/saves/
 data/settings/
+save_file.txt
