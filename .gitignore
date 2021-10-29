@@ -32,6 +32,6 @@ svg/
 
 # Ignore game savings files
 !data/levels/*
-data/saves/
-data/settings/
-save_file.txt
+!data/saves/
+!data/settings/
+data/saves/save_file.json
