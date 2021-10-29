@@ -32,4 +32,5 @@ svg/
 
 # Ignore game savings files
 !data/levels/*
-data/*
+data/saves/
+data/settings/
