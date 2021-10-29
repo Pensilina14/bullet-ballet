@@ -37,6 +37,7 @@ public class GameEnvironment implements Environment {
 	private final Optional<List<Platform>> platforms;
 	private final Optional<List<Weapon>> weapons;
 	private Optional<GameEventListener> eventListener;
+	private Optional<Dimension2D> windowDimension;
 	
 	public GameEnvironment() {
 		this.gravity = GravityConstants.EARTH.getValue();
@@ -48,6 +49,7 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
+		this.windowDimension = Optional.empty();
 	}
 	
 	public GameEnvironment(final double height, final double width) {
@@ -60,6 +62,7 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
+		this.windowDimension = Optional.empty();
 	}
 	
 	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
@@ -227,19 +230,20 @@ public class GameEnvironment implements Environment {
 		final Dimension2D playerDim = this.player.get().getDimension();
 		if (playerPos.getY() < 0) {
 			this.player.get().getPosition().setPosition(playerPos.getX(), 0);
-		} else if (playerPos.getY() + playerDim.getHeight() > 1280) {
+		} else if (playerPos.getY() + playerDim.getHeight() > this.windowDimension.get().getHeight()) {
 			this.player.get().getPosition().setPosition(playerPos.getX()
 					, playerPos.getY() - playerDim.getHeight());
 		}
 		
 		if (playerPos.getX() < 0) {
 			this.player.get().getPosition().setPosition(0, playerPos.getY());
-		} else if (playerPos.getX() > 720) {
+		} else if (playerPos.getX() + playerDim.getWidth() > this.windowDimension.get().getWidth()) {
 			this.player.get().getPosition().setPosition(playerPos.getX() - playerDim.getWidth()
 					, playerPos.getY());
 		}
 	}
 */
+
 	@Override
 	public void updateState(final int dt) {
 		this.player.get().updateState(dt);
@@ -324,5 +328,9 @@ public class GameEnvironment implements Environment {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
+	}
+	
+	public void setWindowDimension(final Dimension2D dimension) {
+		this.windowDimension = Optional.of(dimension);
 	}
 }
