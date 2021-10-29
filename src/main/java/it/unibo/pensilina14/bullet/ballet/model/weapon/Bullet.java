@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+
 public interface Bullet extends Item {
 	
 	String getName();
@@ -14,5 +16,7 @@ public interface Bullet extends Item {
 	boolean isShot();
 	
 	void fire();
+	
+	EntityList.BulletType getBulletType();
 	
 }
