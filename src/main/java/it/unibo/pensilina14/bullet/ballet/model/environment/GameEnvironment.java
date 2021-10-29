@@ -40,7 +40,6 @@ public class GameEnvironment implements Environment {
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
     private Optional<GameEventListener> eventListener;
-	private Optional<Dimension2D> windowDimension;
 	
 	/**
 	 * <p>
@@ -59,7 +58,6 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
-		this.windowDimension = Optional.empty();
 	}
 	
 	/**
@@ -78,7 +76,6 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
-		this.windowDimension = Optional.empty();
 	}
 	
 	/**
@@ -354,9 +351,5 @@ public class GameEnvironment implements Environment {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
-	}
-	
-	public void setWindowDimension(final Dimension2D dimension) {
-		this.windowDimension = Optional.of(dimension);
 	}
 }
