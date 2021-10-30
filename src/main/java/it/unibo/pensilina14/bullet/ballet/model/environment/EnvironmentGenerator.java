@@ -95,12 +95,12 @@ public class EnvironmentGenerator implements LevelGenerator {
 	}
 
 	@Override
-	public int getLevelWidth() {
+	public double getLevelWidth() {
         return levelLoader.getLevelWidth();
 	}
 	
 	@Override
-	public int getLevelHeight() {
+	public double getLevelHeight() {
         return levelLoader.getLevelHeight();
 	}
 

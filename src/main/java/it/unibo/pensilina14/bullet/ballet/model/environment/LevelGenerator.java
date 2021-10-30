@@ -20,11 +20,11 @@ public interface LevelGenerator {
 	/**
 	 * @return generated level's width.
 	 */
-	int getLevelWidth();
+	double getLevelWidth();
 	/**
 	 * @return generated level's height.
 	 */
-	int getLevelHeight();
+	double getLevelHeight();
 	/**
 	 * 
 	 * @return platform size.

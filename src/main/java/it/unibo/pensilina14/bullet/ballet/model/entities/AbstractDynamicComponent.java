@@ -8,6 +8,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public abstract class AbstractDynamicComponent implements PhysicalObject{
     
     private static final double MS_TO_S = 0.001;
+    private static final double X_AXIS = 31.5;
+    private static final double Y_AXIS = 17.5;
+    
     private final Dimension2D dimension;
     private final Environment gameEnvironment;
     private final double mass;
@@ -88,17 +91,13 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     private boolean isWithinXaxis(final double x) {
-        //final Dimension2D envDimension = this.gameEnvironment.getDimension();
-        return this.vector.getPosition().getX() + x >= 0;
-        //return this.vector.getPosition().getX() + x >= 0
-        //        && this.vector.getPosition().getX() + x + this.getDimension().getWidth() <= envDimension.getWidth();
+        return this.vector.getPosition().getX() + x >= 0
+        		&& this.vector.getPosition().getX() + x < X_AXIS;
     }
     
     private boolean isWithinYaxis(final double y) {
-        //final Dimension2D envDimension = this.gameEnvironment.getDimension();
-        return this.vector.getPosition().getY() + y >= 0;
-        //return this.vector.getPosition().getY() + y >= 0
-        //        && this.vector.getPosition().getY() + y + this.getDimension().getHeight() >= envDimension.getHeight();
+        return this.vector.getPosition().getY() + y >= 0
+        		&& this.vector.getPosition().getY() + y < Y_AXIS;
     }
     
     public double getGravityForce() {

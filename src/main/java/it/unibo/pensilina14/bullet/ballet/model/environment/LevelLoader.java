@@ -8,9 +8,9 @@ public class LevelLoader {
 
     //private final Save levelData; //TODO: remove
     private final String[] level;
-    private final int levelHeight;
+    private final double levelHeight;
 
-    private final int levelWidth;
+    private final double levelWidth;
 
     public LevelLoader(){
        //this.levelData = //new Save();
@@ -25,11 +25,11 @@ public class LevelLoader {
         return rand.nextInt(maxLevels);
     }
 
-    public int getLevelWidth(){
+    public double getLevelWidth(){
         return this.levelWidth;
     }
     
-    public int getLevelHeight() {
+    public double getLevelHeight() {
     	return this.levelHeight;
     }
 
