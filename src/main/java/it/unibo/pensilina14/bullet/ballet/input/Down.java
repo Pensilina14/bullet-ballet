@@ -10,11 +10,20 @@ public class Down implements Command {
 	 * the player moves by.
 	 */
 	public static final double MOVEMENT_DELTA = 0.1;
+	private final double movement;
+	
+	public Down() {
+		this.movement = MOVEMENT_DELTA;
+	}
+	
+	public Down(final double movement) {
+		this.movement = movement;
+	}
 	
 	@Override
 	public void execute(GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveDOWN(Down.MOVEMENT_DELTA);
+		player.moveDOWN(this.movement);
 	}
 
 }

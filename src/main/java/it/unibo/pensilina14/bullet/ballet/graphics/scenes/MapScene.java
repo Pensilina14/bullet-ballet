@@ -41,6 +41,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -220,6 +222,20 @@ public class MapScene extends AbstractScene implements GameView{
 
     private void update() {
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
+    	
+    	if (this.keysPressed.contains(KeyCode.SPACE)) {
+    		AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+    		this.controller.get().notifyCommand(new Up(0.5));
+    		final Timer t = new Timer();
+    		t.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					MapScene.this.getController().get().notifyCommand(new Down(0.5));
+				}
+    			
+    		}, 250L);
+    	}
+    	
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
@@ -263,6 +279,15 @@ public class MapScene extends AbstractScene implements GameView{
         	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
         	this.keysReleased.remove(KeyCode.LEFT); 
         }
+        
+        if (this.keysReleased.contains(KeyCode.SPACE)) {
+        	this.keysReleased.remove(KeyCode.SPACE);
+        }
+        
+    }
+    
+    private Optional<Controller> getController() {
+    	return this.controller;
     }
 
     private void render() throws IOException {

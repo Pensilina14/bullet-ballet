@@ -10,11 +10,20 @@ public class Up implements Command {
 	 * the player moves by.
 	 */
 	public static final double MOVEMENT_DELTA = 0.1;
+	private final double movement;
+	
+	public Up() {
+		this.movement = MOVEMENT_DELTA;
+	}
+	
+	public Up(final double movement) {
+		this.movement = movement;
+	}
 	
 	@Override
 	public final void execute(final GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveUP(Up.MOVEMENT_DELTA);
+		player.moveUP(this.movement);
 	}
 
 }
