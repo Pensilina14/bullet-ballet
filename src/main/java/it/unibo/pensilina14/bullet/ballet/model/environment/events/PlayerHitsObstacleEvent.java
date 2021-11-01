@@ -1,22 +1,23 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
+import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
 public class PlayerHitsObstacleEvent implements GameEvent {
 	
-	private final Characters player;
+	private final Player player;
 	private final PhysicalObject obstacle;
 	
-	public PlayerHitsObstacleEvent(final Characters player, final PhysicalObject obstacle) {
+	public PlayerHitsObstacleEvent(final Player player, final PhysicalObject obstacle) {
 		this.player = player;
 		this.obstacle = obstacle;
+		// this.player.decreaseHealth(obstacle.getConflictDamage);
 	}
 
 	/**
 	 * @return the player
 	 */
-	public Characters getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
