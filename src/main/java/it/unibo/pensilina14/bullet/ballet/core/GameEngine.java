@@ -141,11 +141,23 @@ public class GameEngine implements Controller, GameEventListener {
 			} else if (e instanceof PlayerHitsEnemyEvent) {
 				final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
-				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
-				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+				if (!player.isAlive()) {
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().getX()
+							, player.getPosition().getY()));
+				}
+				
+				if (!enemy.isAlive()) {
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().getX()
+							, enemy.getPosition().getY()));
+				}
+
 			} else if (e instanceof PlayerHitsObstacleEvent) {
-				final Characters player = ((PlayerHitsObstacleEvent) e).getPlayer();
+				final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
+				if (!player.isAlive()) {
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().getX()
+							, player.getPosition().getY()));
+				}
 				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
 			} else if (e instanceof EnemyHitsObstacleEvent) {
 				final Characters enemy = ((EnemyHitsObstacleEvent) e).getEnemy();
