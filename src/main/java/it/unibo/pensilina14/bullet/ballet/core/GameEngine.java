@@ -89,7 +89,7 @@ public class GameEngine implements Controller, GameEventListener {
 		// GAME OVER
 	}
 	
-	public void waitForNextFrame(final long current) {
+	public final void waitForNextFrame(final long current) {
 		final long dt = System.currentTimeMillis() - current;
 		AppLogger.getAppLogger().debug(String.format("dt: %d\tperiod: %d", dt, this.period));
 		if (dt < this.period) {
@@ -101,19 +101,19 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 	}
 	
-	public void processInput() {
+	public final void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
 			cmd.execute(this.gameState.get());
 		}
 	}
 	
-	public void updateGame(final int elapsed) {
+	public final void updateGame(final int elapsed) {
 		this.gameState.get().update(elapsed);
 		this.checkEvents();
 	}
 	
-	public void render() {
+	public final void render() {
 		this.view.get().draw();
 	}
 	
