@@ -79,10 +79,8 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
         
     }
     
-    public void updateState(final double dt) {
-        this.vector.noSpeedVectorSum(dt * MS_TO_S, dt * MS_TO_S);
-        // TODO: Modificare la velocità in funzione di getGravityForce().
-        // TODO: Eliminare dt.
+    public void updateState() {
+        this.vector.noSpeedVectorSum(MS_TO_S, MS_TO_S);
     }
     
     

@@ -40,7 +40,7 @@ public class GameState {
 		return this.env.getPlayer().get().getHealth() == 0;
 	}
 	
-	public void update(final int dt) {
-		this.env.updateState(dt);
+	public void update() {
+		this.env.updateState();
 	}
 }

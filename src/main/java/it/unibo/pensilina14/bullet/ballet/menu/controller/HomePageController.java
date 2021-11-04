@@ -3,8 +3,11 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.Game;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -38,15 +41,18 @@ public class HomePageController {
     
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
-    	AppLogger.getAppLogger().info("New game.");
-        final Game game = new Game();
-        AppLogger.getAppLogger().debug("New Game class object instantiated.");
-        final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
-        final Scene gameScene = (Scene) game.getView();
+    	final Game game = new Game();
+    	final AbstractScene gameScene = game.getView();
+    	final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+        stage.setWidth(1920);
+        stage.setHeight(1080);
+        gameScene.setHeight(stage.getHeight());
+        gameScene.setWidth(stage.getWidth());
         stage.setScene(gameScene);
-        AppLogger.getAppLogger().debug("Scene changed!");
+
         stage.show();
-        game.start();
+        final AnimationTimer timer = new AnimationTimerImpl(game);
+        timer.start();
     }
 
     @FXML

@@ -131,7 +131,7 @@ public interface Environment {
 	 * This must recall every {@link AbstractDynamicComponent}'s {@link AbstractDynamicComponent#updateState} method,
 	 * in order to update the whole environment. 
 	 */
-	void updateState(int dt);
+	void updateState();
 	
 	/**
 	 * Sets the event listener for the environment, so it
