@@ -79,7 +79,7 @@ public class GameEngine implements Controller, GameEventListener {
 			final int elapsed = (int) (current - lastTime);
 			this.processInput();
 			AppLogger.getAppLogger().debug("Input processed.");
-			this.updateGame(elapsed);
+			this.updateGame();
 			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
@@ -108,8 +108,8 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 	}
 	
-	public void updateGame(final int elapsed) {
-		this.gameState.get().update(elapsed);
+	public void updateGame() {
+		this.gameState.get().update();
 		this.checkEvents();
 	}
 	
