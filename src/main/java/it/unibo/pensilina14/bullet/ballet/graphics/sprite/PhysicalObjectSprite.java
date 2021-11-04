@@ -31,17 +31,9 @@ public class PhysicalObjectSprite extends Pane{
         this.getChildren().add(imageView);
     }
 
-    
     public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
     	this.setTranslateY(y);
     	this.position = new MutablePosition2Dimpl(x, y);
     }
-    
-    public void renderMovingPosition() {
-    	final double netX = this.position.getX() - 1;
-    	this.position.setPosition(netX, this.position.getY());
-    	this.setTranslateX(this.position.getX());
-    }
-    
 }

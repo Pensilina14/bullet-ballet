@@ -71,17 +71,10 @@ public class PlatformSprite extends Pane {
         this.getChildren().add(platformView);
     }
 
-    public final void renderPosition(final double x, final double y) throws IOException {
+    public final void renderPosition(final double x, final double y) {
         this.setTranslateX(x);
         this.setTranslateY(y);
-
         this.position = new MutablePosition2Dimpl(x, y);
-    }
-    
-    public final void renderMovingPosition() {
-    	final double nextX = this.position.getX() - 1.0;
-    	this.position.setPosition(nextX, this.position.getY());
-    	this.setTranslateX(this.position.getX());
     }
 
     public final MutablePosition2D getPosition() {
