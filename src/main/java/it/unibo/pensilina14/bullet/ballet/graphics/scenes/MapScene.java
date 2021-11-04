@@ -232,7 +232,6 @@ public class MapScene extends AbstractScene implements GameView{
 				public void run() {
 					MapScene.this.getController().get().notifyCommand(new Down(0.5));
 				}
-    			
     		}, 250L);
     	}
     	
