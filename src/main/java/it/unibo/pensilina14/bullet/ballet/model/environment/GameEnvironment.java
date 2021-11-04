@@ -270,14 +270,16 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final void updateState() {
-		/*
-		 * this.player.get().updateState(); this.enemies.get().stream().forEach(e ->
-		 * e.updateState()); this.obstacles.get().stream() .filter(o -> o instanceof
-		 * DynamicObstacle) .map(o -> (DynamicObstacle) o) .forEach(o ->
-		 * o.updateState()); this.items.get().stream() .filter(i -> i instanceof
-		 * DynamicPickupItem) .map(i -> (DynamicPickupItem) i) .forEach(i ->
-		 * i.updateState()); this.checkCollisions();
-		 */
+		 this.player.get().updateState(); 
+		 this.enemies.get().stream().forEach(e -> e.updateState()); 
+		 this.obstacles.get().stream()
+		 	.filter(o -> o instanceof DynamicObstacle)
+		 	.map(o -> (DynamicObstacle) o)
+		 	.forEach(o -> o.updateState()); 
+		 this.items.get().stream().filter(i -> i instanceof DynamicPickupItem)
+		 	.map(i -> (DynamicPickupItem) i)
+		 	.forEach(i -> i.updateState()); 
+		 this.checkCollisions();
 		//this.checkBoundaries();
 	}
 	

@@ -222,7 +222,6 @@ public class MapScene extends AbstractScene implements GameView{
 
     private void update() {
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
-    	
     	if (this.keysPressed.contains(KeyCode.SPACE)) {
     		AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
     		this.controller.get().notifyCommand(new Up(0.5));
@@ -232,10 +231,9 @@ public class MapScene extends AbstractScene implements GameView{
 				public void run() {
 					MapScene.this.getController().get().notifyCommand(new Down(0.5));
 				}
-    			
     		}, 250L);
     	}
-    	
+
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
@@ -303,19 +301,24 @@ public class MapScene extends AbstractScene implements GameView{
     			this.mainPlayer.getRight().getY() * platformSize);
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
-    	this.platformSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+    	this.platformSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+    			y.getY() * platformSize));
     	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
-    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+    	this.enemySprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+    			y.getY() * platformSize));
 		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+		this.itemSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+				y.getY() * platformSize));
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
-		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+		this.obstacleSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+				y.getY() * platformSize));
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 
-		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, y.getY() * platformSize));
+		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX() * platformSize, 
+				y.getY() * platformSize));
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
     }
 

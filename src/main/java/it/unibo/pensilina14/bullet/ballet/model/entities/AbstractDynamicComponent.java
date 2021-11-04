@@ -80,7 +80,7 @@ public abstract class AbstractDynamicComponent implements PhysicalObject{
     }
     
     public void updateState() {
-        this.vector.noSpeedVectorSum(-MS_TO_S, -MS_TO_S);
+        this.vector.noSpeedVectorSum(-1.0, 0.0);
     }
     
     
