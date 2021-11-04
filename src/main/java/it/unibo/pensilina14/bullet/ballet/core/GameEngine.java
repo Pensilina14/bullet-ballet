@@ -73,32 +73,15 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public final void mainLoop() {
-	    long lastTime = System.currentTimeMillis();
 		while (!this.gameState.get().isGameOver()) {
-			final long current = System.currentTimeMillis();
-			final int elapsed = (int) (current - lastTime);
 			this.processInput();
 			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame();
 			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
-			this.waitForNextFrame(current);
-			lastTime = current;
 		}
 		// GAME OVER
-	}
-	
-	public final void waitForNextFrame(final long current) {
-		final long dt = System.currentTimeMillis() - current;
-		AppLogger.getAppLogger().debug(String.format("dt: %d\tperiod: %d", dt, this.period));
-		if (dt < this.period) {
-			try {
-				Thread.sleep(this.period - dt);
-			} catch (final InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public final void processInput() {
@@ -138,9 +121,12 @@ public class GameEngine implements Controller, GameEventListener {
 				// Update environment
 				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
 				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
+				AppLogger.getAppLogger().info("player hits item");
 			} else if (e instanceof PlayerHitsEnemyEvent) {
 				final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
+				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
+				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
 				if (!player.isAlive()) {
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().getX()
 							, player.getPosition().getY()));
@@ -150,6 +136,9 @@ public class GameEngine implements Controller, GameEventListener {
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().getX()
 							, enemy.getPosition().getY()));
 				}
+				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
+				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+				AppLogger.getAppLogger().info("player hits enemy");
 
 			} else if (e instanceof PlayerHitsObstacleEvent) {
 				final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
@@ -159,6 +148,7 @@ public class GameEngine implements Controller, GameEventListener {
 							, player.getPosition().getY()));
 				}
 				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
+				AppLogger.getAppLogger().info("player hits obstacle");
 			} else if (e instanceof EnemyHitsObstacleEvent) {
 				final Characters enemy = ((EnemyHitsObstacleEvent) e).getEnemy();
 				final PhysicalObject obstacle = ((EnemyHitsObstacleEvent) e).getObstacle();
