@@ -73,32 +73,15 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public final void mainLoop() {
-	    long lastTime = System.currentTimeMillis();
 		while (!this.gameState.get().isGameOver()) {
-			final long current = System.currentTimeMillis();
-			final int elapsed = (int) (current - lastTime);
 			this.processInput();
 			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame();
 			AppLogger.getAppLogger().debug("Game model updated.");
 			this.render();
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
-			this.waitForNextFrame(current);
-			lastTime = current;
 		}
 		// GAME OVER
-	}
-	
-	public final void waitForNextFrame(final long current) {
-		final long dt = System.currentTimeMillis() - current;
-		AppLogger.getAppLogger().debug(String.format("dt: %d\tperiod: %d", dt, this.period));
-		if (dt < this.period) {
-			try {
-				Thread.sleep(this.period - dt);
-			} catch (final InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public final void processInput() {
@@ -143,6 +126,7 @@ public class GameEngine implements Controller, GameEventListener {
 				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
 				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+				AppLogger.getAppLogger().info("player hits enemy");
 			} else if (e instanceof PlayerHitsObstacleEvent) {
 				final Characters player = ((PlayerHitsObstacleEvent) e).getPlayer();
 				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
