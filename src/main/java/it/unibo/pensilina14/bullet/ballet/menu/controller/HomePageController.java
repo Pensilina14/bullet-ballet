@@ -6,13 +6,10 @@ import java.util.Optional;
 import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.Game;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
@@ -42,10 +39,12 @@ public class HomePageController {
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
     	final Game game = new Game();
+    	game.getSettings().setDifficulty(Difficulties.EASY);
+    	game.getSettings().setResolution(Resolutions.FULLHD);
     	final AbstractScene gameScene = game.getView();
     	final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
-        stage.setWidth(1920);
-        stage.setHeight(1080);
+        stage.setWidth(game.getSettings().getCurrentResolution().getWidth());
+        stage.setHeight(game.getSettings().getCurrentResolution().getHeight());
         gameScene.setHeight(stage.getHeight());
         gameScene.setWidth(stage.getWidth());
         stage.setScene(gameScene);

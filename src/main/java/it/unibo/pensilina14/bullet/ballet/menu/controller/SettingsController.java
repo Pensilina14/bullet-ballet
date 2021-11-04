@@ -26,8 +26,8 @@ public class SettingsController {
 
     @FXML
     void showDifficultiesOnMouseClick(final MouseEvent event) {
-        final ObservableList<String> difficulties = FXCollections.observableArrayList("dumb", "easy", 
-                "medium", "hard", "godlike");
+        final ObservableList<String> difficulties = FXCollections.observableArrayList(Difficulties.EASY.toString(),
+        		Difficulties.MEDIUM.toString(), Difficulties.HARD.toString());
         this.difficulty.setItems(difficulties);
     }
 
