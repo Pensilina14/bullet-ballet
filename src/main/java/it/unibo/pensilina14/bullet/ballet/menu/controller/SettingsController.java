@@ -33,9 +33,11 @@ public class SettingsController {
 
     @FXML
     void showResolutionsOnMouseClicked(final MouseEvent event) {
-        final ObservableList<String> resolutions = FXCollections.observableArrayList("1920x1080",
-                "1024x768");
+        final ObservableList<String> resolutions = FXCollections.observableArrayList(Resolutions.FULLHD.toString(),
+                Resolutions.HD.toString());
         this.resolution.setItems(resolutions);
+        System.out.println(this.resolution.getSelectionModel());
+        
     }
     
 }
