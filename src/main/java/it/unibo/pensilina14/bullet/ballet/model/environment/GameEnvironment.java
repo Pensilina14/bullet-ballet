@@ -12,6 +12,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEven
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
