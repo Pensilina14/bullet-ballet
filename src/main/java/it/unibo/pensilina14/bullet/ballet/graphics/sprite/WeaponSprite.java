@@ -43,8 +43,8 @@ public class WeaponSprite extends Pane {
     public WeaponSprite(final WeaponsImg img, final Weapon weapon, final double x, final double y) throws  IOException{
 		final Image weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
     	final ImageView weaponView= new ImageView(weaponImg);
-    	final double weaponWidth = weapon.getDimension().getWidth();
-    	final double weaponHeight = weapon.getDimension().getHeight();
+    	final double weaponWidth = weapon.getDimension().get().getWidth();
+    	final double weaponHeight = weapon.getDimension().get().getHeight();
     	this.renderPosition(x, y);
     	weaponView.setViewport(new Rectangle2D(DEFAULT_VALUE, DEFAULT_VALUE, weaponWidth, weaponHeight));
     	this.getChildren().add(weaponView);

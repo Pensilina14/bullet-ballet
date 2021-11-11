@@ -1,9 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactory;
 import it.unibo.pensilina14.bullet.ballet.model.effects.EffectFactoryImpl;
@@ -13,12 +11,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class WeaponFactoryImpl implements WeaponFactory {
 	
 	private final EffectFactory effectFactory = new EffectFactoryImpl();
-	private static final int DIMENSION = 5;
+	private static final int DIMENSION = 50;
 	private static final int MASS = 5;
 	
-	public WeaponFactoryImpl() {
-		
-	}
 	//private final SpeedVector2D speedVector = new SpeedVector2DImpl(position, SPEED);
 	
 	@Override

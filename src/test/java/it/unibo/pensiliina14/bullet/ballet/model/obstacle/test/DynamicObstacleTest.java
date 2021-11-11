@@ -30,13 +30,13 @@ public class DynamicObstacleTest {
     
     @Test
     public void testMutablePosition2D() {
-        final MutablePosition2D position = dynamicObstacle.getPosition();
+        final MutablePosition2D position = dynamicObstacle.getPosition().get();
         assertEquals(position.getCoordinates(), MutablePair.of(-5.0, -5.0));
     }
     
     @Test
     public void testGravityForce() {
-        final double gravity = dynamicObstacle.getGameEnvironment().getGravity();
+        final double gravity = dynamicObstacle.getGameEnvironment().get().getGravity();
         final double mass = dynamicObstacle.getMass();
         assertEquals(gravity * mass, dynamicObstacle.getGravityForce(), APPROXIMATION);
     }

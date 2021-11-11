@@ -23,13 +23,13 @@ public class StaticObstacleTest {
     
     @Test
     public void testGetPosition() {
-        final MutablePosition2D position = staticObstacle.getPosition();
+        final MutablePosition2D position = staticObstacle.getPosition().get();
         assertEquals(position.getCoordinates(), MutablePair.of(POS, POS));
     }
     
     @Test
     public void testGetDimension() {
-        final Dimension2D dimension = staticObstacle.getDimension();
+        final Dimension2D dimension = staticObstacle.getDimension().get();
         assertEquals(dimension.getSize(), ImmutablePair.of(DIM, DIM));
     }
     

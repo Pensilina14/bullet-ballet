@@ -21,8 +21,8 @@ public class PhysicalObjectSprite extends Pane{
             , final PhysicalObject physicalObject) throws IOException {
         final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getFileName()))));
         AppLogger.getAppLogger().info(img.toString());
-        final double physicalObjectWidth = physicalObject.getDimension().getWidth();
-        final double physicalObjectHeight = physicalObject.getDimension().getHeight();
+        final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
+        final double physicalObjectHeight = physicalObject.getDimension().get().getHeight();
         this.position = position;
         this.renderPosition(position.getX(), position.getY());
         imageView.setFitWidth(physicalObjectWidth);

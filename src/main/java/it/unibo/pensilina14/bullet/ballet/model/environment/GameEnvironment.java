@@ -12,7 +12,6 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEven
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.DynamicPickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -43,7 +42,7 @@ public class GameEnvironment implements Environment {
 	
 	/**
 	 * <p>
-	 * This constructor uses {@link #DEFAULT_DIM} so use it.
+	 * This constructor uses {@link #DEFAULT_DIM} so use it wisely.
 	 * Ideally we don't want this if not for <strong>testing</strong> purposes.
 	 * </p>
 	 */
@@ -230,7 +229,7 @@ public class GameEnvironment implements Environment {
 	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
 		final List<PhysicalObject> allObjsList = this.mergeLists().get();
 		for (final PhysicalObject obj : allObjsList) {
-			final MutablePosition2D objPos = obj.getPosition();
+			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
 					this.player = Optional.empty();

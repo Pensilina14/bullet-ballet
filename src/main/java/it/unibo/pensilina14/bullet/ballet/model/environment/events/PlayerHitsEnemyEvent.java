@@ -11,6 +11,8 @@ public class PlayerHitsEnemyEvent implements GameEvent {
 	public PlayerHitsEnemyEvent(final Player player, final Enemy enemy) {
 		this.player = player;
 		this.enemy = enemy;
+		// this.player.decreaseHealth(this.enemy.getConflictDamage);
+		// this.enemy.decreaseHealth(this.player.getConflictDamage);
 	}
 	
 	public Player getPlayer() {

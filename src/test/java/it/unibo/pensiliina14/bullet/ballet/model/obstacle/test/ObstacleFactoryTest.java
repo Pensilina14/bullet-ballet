@@ -35,7 +35,7 @@ public class ObstacleFactoryTest {
                 dimension, gameEnv, OBSTACLES.MASS.getValue(), new SpeedVector2DImpl(position, SPEED));
         assertEquals(factoryObstacle.getDimension(), obstacle.getDimension());
         assertEquals(factoryObstacle.getGameEnvironment(), obstacle.getGameEnvironment());
-        assertEquals(factoryObstacle.getSpeedVector().getSpeed(), obstacle.getSpeedVector().getSpeed(), APPROX);
+        assertEquals(factoryObstacle.getSpeedVector().get().getSpeed(), obstacle.getSpeedVector().get().getSpeed(), APPROX);
         assertEquals(factoryObstacle.getMass(), obstacle.getMass(), APPROX);
         assertEquals(factoryObstacle.getPosition(), obstacle.getPosition());
     }

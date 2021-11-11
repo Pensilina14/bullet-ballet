@@ -3,12 +3,8 @@ package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 import java.io.IOException;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
