@@ -13,10 +13,8 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CharacterHitsPickupObjEvent;
@@ -30,7 +28,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private static final int QUEUE_CAPACITY = 100;
 	
-	private final long period = 1000; // 20 ms = 50 FPS 
+	//private final long period = 1000; // 20 ms = 50 FPS 
 	
 	private Optional<GameView> view;
 	private Optional<GameState> gameState;
@@ -114,47 +112,62 @@ public class GameEngine implements Controller, GameEventListener {
 		final Environment env = this.gameState.get().getGameEnvironment();
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof CharacterHitsPickupObjEvent) {
-				// Apply item effect on character
-				((CharacterHitsPickupObjEvent) e).getPickupObj()
-					.getEffect()
-					.applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
-				// Update environment
-				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition().get();
-				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
-				AppLogger.getAppLogger().info("player hits item");
+				characterHitsPickUpObjEventHandler(env, e);
 			} else if (e instanceof PlayerHitsEnemyEvent) {
-				final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
-				final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
-				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
-				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
-				if (!player.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
-							, player.getPosition().get().getY()));
-				}
-				
-				if (!enemy.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
-							, enemy.getPosition().get().getY()));
-				}
-				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
-				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
-				AppLogger.getAppLogger().info("player hits enemy");
+				playerHitsEnemyEventHandler(env, e);
 
 			} else if (e instanceof PlayerHitsObstacleEvent) {
-				final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
-				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
-				if (!player.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
-							, player.getPosition().get().getY()));
-				}
-				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
-				AppLogger.getAppLogger().info("player hits obstacle");
+				playerHitsObstacleEventHandler(env, e);
 			} else if (e instanceof EnemyHitsObstacleEvent) {
+				AppLogger.getAppLogger().info("enemy hits something");
+				/*
 				final Characters enemy = ((EnemyHitsObstacleEvent) e).getEnemy();
 				final PhysicalObject obstacle = ((EnemyHitsObstacleEvent) e).getObstacle();
 				// TODO: enemy.setHealth(enemy.getHealth() - obstacle.COLLISION_DAMAGE);
+				 * */
 			} 
 		});
 		this.eventQueue.clear();
+	}
+
+	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
+		//final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
+		if (!player.isAlive()) {
+			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
+					, player.getPosition().get().getY()));
+		}
+		// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
+		AppLogger.getAppLogger().info("player hits obstacle");
+	}
+
+	private void playerHitsEnemyEventHandler(final Environment env, final GameEvent e) {
+		final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
+		final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
+		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
+		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+		if (!player.isAlive()) {
+			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
+					, player.getPosition().get().getY()));
+		}
+		
+		if (!enemy.isAlive()) {
+			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
+					, enemy.getPosition().get().getY()));
+		}
+		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
+		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
+		AppLogger.getAppLogger().info("player hits enemy");
+	}
+
+	private void characterHitsPickUpObjEventHandler(final Environment env, final GameEvent e) {
+		// Apply item effect on character
+		((CharacterHitsPickupObjEvent) e).getPickupObj()
+			.getEffect()
+			.applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
+		// Update environment
+		final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition().get();
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
+		AppLogger.getAppLogger().info("player hits item");
 	}
 }

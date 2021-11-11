@@ -52,7 +52,7 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane(); 
     
-    private BackgroundMap map = new BackgroundMap();
+    private final BackgroundMap map = new BackgroundMap();
 
     private ImageView backgroundView;
 

@@ -37,7 +37,7 @@ public class BackgroundMap {
 
         String path;
 
-        Maps(String path){
+        Maps(final String path){
             this.path = path;
         }
 
@@ -48,33 +48,33 @@ public class BackgroundMap {
     }
 
     private Maps map;
+    private final static int MAP_WIDTH = 1280;
+    private final static int MAP_HEIGHT = 720;
+    private static final Random RAND = new Random();
+    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
 
+    private PlatformSprite.Platforms platformType;
+    private CoinSprite.Coins coinType;
+    
     public BackgroundMap(){
+    	
         this.map = mapChooser();
         //this.map = Maps.SPACESHIP; //TODO: questo solo per testare una specifica mappa. (commentare this.map = mapChooser())
 
         //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform (commentare initMap())
 
-        CoinSprite coinSprite = new CoinSprite();
+        final CoinSprite coinSprite = new CoinSprite();
         this.coinType = coinSprite.coinChooser();
 
         initMap();
 
     }
 
-    public BackgroundMap(Maps map){
+    public BackgroundMap(final Maps map){
         this.map = map;
 
         setMap(this.map);
     }
-
-    private final static int MAP_WIDTH = 1280;
-    private final static int MAP_HEIGHT = 720;
-
-    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
-
-    private PlatformSprite.Platforms platformType;
-    private CoinSprite.Coins coinType;
 
     private void initMap() {
         switch(this.map){
@@ -146,13 +146,15 @@ public class BackgroundMap {
         }
     }
 
-    public Maps mapChooser(){
-        final Random rand = new Random();
+    private Maps mapChooser(){
         final int max = Maps.values().length;
-        final int min = 0;
-        final int randomMap = rand.nextInt(((max - min)) + min);
-        for(Maps m : Maps.values()){
-            if(m.ordinal() == randomMap){
+        //final int min = 0;
+        /*
+        final int randomMap = rand.nextInt((max - min) + min);
+        max - min + min = max, no?
+        */
+        for(final Maps m : Maps.values()){
+            if(m.ordinal() == RAND.nextInt(max)){
                 return m;
             }
         }
@@ -163,7 +165,7 @@ public class BackgroundMap {
         return this.map;
     }
 
-    public void setMap(Maps map) { //TODO: renome in mapSetter
+    public void setMap(final Maps map) { //TODO: renome in mapSetter
         this.map = map;
 
         initMap();

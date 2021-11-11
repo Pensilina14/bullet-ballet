@@ -62,7 +62,7 @@ public class PlatformSprite extends Pane {
         this.minY = 0;
         this.platformWidth = 60;
         this.platformHeight = 60;*/
-        ImageView platformView = new ImageView(new Image(Files.newInputStream(Paths.get(platformType.getPath()))));
+        final ImageView platformView = new ImageView(new Image(Files.newInputStream(Paths.get(platformType.getPath()))));
 
         this.renderPosition(x, y);
 

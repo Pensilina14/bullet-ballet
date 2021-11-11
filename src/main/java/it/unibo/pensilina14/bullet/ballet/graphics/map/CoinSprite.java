@@ -34,10 +34,9 @@ public class CoinSprite extends Pane {
     }
 
     private ImageView coinView;
-
     private final Coins coinType;
-
     private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
+    private static final Random RAND = new Random();
 
     public CoinSprite(){
         this.coinType = DEFAULT_COIN;
@@ -93,10 +92,10 @@ public class CoinSprite extends Pane {
     }
 
     public final Coins coinChooser(){
-        final Random rand = new Random();
         final int max = CoinSprite.Coins.values().length;
-        final int min = 0;
-        final int randomMap = rand.nextInt(((max - min)) + min); // nextInt : 0 incluso, max escluso.
+        //final int min = 0;
+        /*max -min +min = max, no?*/
+        final int randomMap = RAND.nextInt(max); // nextInt : 0 incluso, max escluso.
         for (final Coins c : Coins.values()) {
             if (c.ordinal() == randomMap) {
                 return c;

@@ -40,7 +40,8 @@ public class Game {
     	this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
     }
     
-    public Game(GameState state, AbstractScene view, GameEngine engine, Settings settings) {
+    public Game(final GameState state, final AbstractScene view, final GameEngine engine
+    		, final Settings settings) {
 		this.state = state;
 		this.view = view;
 		this.engine = engine;

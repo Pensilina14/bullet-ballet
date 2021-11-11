@@ -18,6 +18,7 @@ public class AnimationTimerImpl extends AnimationTimer {
 		this.game.engine.render();
 	}
 	
+	/*
 	private final long toNano(final long ms) {
 		return ms * (long) Math.pow(10.0, 6.0);
 	}
@@ -25,5 +26,6 @@ public class AnimationTimerImpl extends AnimationTimer {
 	private final long toMs(final long nano) {
 		return nano * (long) Math.pow(10.0, -6.0);
 	}
+	*/
 
 }
