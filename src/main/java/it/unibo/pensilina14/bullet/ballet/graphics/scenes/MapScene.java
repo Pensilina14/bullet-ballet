@@ -187,19 +187,19 @@ public class MapScene extends AbstractScene implements GameView{
 		
 		for (final Weapon x : world.getWeapons().get()) {
 			final MutablePosition2D xPos = x.getPosition().get();
-			if (x.getTypeOfWeapon() == EntityList.Weapons.GUN) {
+			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN, x
 						, xPos.getX() * platformSize, xPos.getY() * platformSize);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Gun rendered");
-			} else if (x.getTypeOfWeapon() == EntityList.Weapons.SHOTGUN) {
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN, x
 						, xPos.getX() * platformSize, xPos.getY() * platformSize);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Shotgun rendered");
-			} else if (x.getTypeOfWeapon() == EntityList.Weapons.AUTO) {
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO, x
 						, xPos.getX() * platformSize, xPos.getY() * platformSize);
 				this.weaponSprites.put(weaponSprite, xPos);
