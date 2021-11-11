@@ -34,7 +34,7 @@ public class LevelLoader {
     }
 
     public String[] getLevel(){
-        return this.level;
+        return this.level; // Non va bene esporre una stringa così, bisogna fare un wrapper
     }
 
 }

@@ -50,7 +50,9 @@ public class MainPlayer extends Pane {
         getChildren().addAll(this.playerView);
     }
 
-    public MainPlayer(Image playerImg, double x, double y, int count, int columns, int offsetX, int offsetY, int playerViewWidth, int playerViewHeight){
+    public MainPlayer(final Image playerImg, final double x, final double y, final int count
+    		, final int columns, final int offsetX, final int offsetY, final int playerViewWidth
+    		, final int playerViewHeight){
         this.playerImg = playerImg;
         this.playerView = new ImageView(this.playerImg);
 

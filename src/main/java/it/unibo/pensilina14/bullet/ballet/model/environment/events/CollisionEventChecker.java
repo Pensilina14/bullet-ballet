@@ -27,34 +27,54 @@ public class CollisionEventChecker implements EventChecker {
 	public final void check() {
 		final boolean isSingleElemList = (this.otherObjects.size() == 1) ? true : false;
 		for (final PhysicalObject a : this.objects) {
-			for (final PhysicalObject b : this.otherObjects) {
-				if (new CollisionImpl().isCollidingWith(a, b)) {
-					if (a instanceof Item && b instanceof Characters) {
-						final Characters player = (Characters) b;
-						final Item item = (Item) a;
-						this.eventBuffer.addEvent(new CharacterHitsPickupObjEvent(player, item));
-					} else if (a instanceof Characters && b instanceof Item) {
-						final Characters enemy = (Characters) a;
-						final Item item = (Item) b;
-						this.eventBuffer.addEvent(new CharacterHitsPickupObjEvent(enemy, item));
-					} else if (a instanceof Enemy && b instanceof Player) {
-						final Player player = (Player) b;
-						final Enemy enemy = (Enemy) a;
-						this.eventBuffer.addEvent(new PlayerHitsEnemyEvent(player, enemy));
-					} else if ((a instanceof DynamicObstacle || a instanceof StaticObstacle) && b instanceof Player) {
-						final Player player = (Player) b;
-						final PhysicalObject obstacle = a;
-						this.eventBuffer.addEvent(new PlayerHitsObstacleEvent(player, obstacle));
-					} else if (a instanceof Enemy && (b instanceof DynamicObstacle || b instanceof StaticObstacle)) {
-						final Enemy enemy = (Enemy) a;
-						final PhysicalObject obstacle = b;
-						this.eventBuffer.addEvent(new EnemyHitsObstacleEvent(enemy, obstacle));
-					}
-					if (isSingleElemList) {
-						break;
-					}
+			checkAllObjects(isSingleElemList, a);
+		}
+	}
+
+	private void checkAllObjects(final boolean isSingleElemList, final PhysicalObject a) {
+		for (final PhysicalObject b : this.otherObjects) {
+			if (new CollisionImpl().isCollidingWith(a, b)) {
+				if (isSingleElemList) {
+					break;
 				}
+				checkPlayerAndItem(a, b);
+				checkPlayerAndItem(b, a);
+				checkPlayerAndEnemy(a, b);
+				checkObstacleAndPlayer(a, b);
+				checkObstacles(a, b);
 			}
+		}
+	}
+	
+	private void checkObstacles(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Enemy && (b instanceof DynamicObstacle || b instanceof StaticObstacle)) {
+			final Enemy enemy = (Enemy) a;
+			final PhysicalObject obstacle = b;
+			this.eventBuffer.addEvent(new EnemyHitsObstacleEvent(enemy, obstacle));
+		}
+	}
+
+	private void checkObstacleAndPlayer(final PhysicalObject a, final PhysicalObject b) {
+		if ((a instanceof DynamicObstacle || a instanceof StaticObstacle) && b instanceof Player) {
+			final Player player = (Player) b;
+			final PhysicalObject obstacle = a;
+			this.eventBuffer.addEvent(new PlayerHitsObstacleEvent(player, obstacle));
+		}
+	}
+
+	private void checkPlayerAndEnemy(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Enemy && b instanceof Player) {
+			final Player player = (Player) b;
+			final Enemy enemy = (Enemy) a;
+			this.eventBuffer.addEvent(new PlayerHitsEnemyEvent(player, enemy));
+		}
+	}
+
+	private void checkPlayerAndItem(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Enemy && (b instanceof DynamicObstacle || b instanceof StaticObstacle)) {
+			final Characters player = (Characters) b;
+			final Item item = (Item) a;
+			this.eventBuffer.addEvent(new CharacterHitsPickupObjEvent(player, item));
 		}
 	}
 	
