@@ -230,7 +230,7 @@ public class GameEnvironment implements Environment {
 	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
 		final List<PhysicalObject> allObjsList = this.mergeLists().get();
 		for (final PhysicalObject obj : allObjsList) {
-			final MutablePosition2D objPos = obj.getPosition();
+			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
 					this.player = Optional.empty();

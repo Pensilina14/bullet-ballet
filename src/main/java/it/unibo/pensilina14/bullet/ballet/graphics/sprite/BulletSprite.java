@@ -23,10 +23,10 @@ public class BulletSprite extends Pane {
 	public BulletSprite(final BulletImg img, final Bullet bullet) throws IOException {
 		final Image bulletImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
 		final ImageView bulletView = new ImageView(bulletImg);
-		this.setTranslateX(bullet.getPosition().getX());
-		this.setTranslateY(bullet.getPosition().getY());
+		this.setTranslateX(bullet.getPosition().get().getX());
+		this.setTranslateY(bullet.getPosition().get().getX());
 		bulletView.setViewport(new Rectangle2D(DEFAULT_VALUE, DEFAULT_VALUE, 
-				bullet.getDimension().getWidth(), bullet.getDimension().getHeight()));
+				bullet.getDimension().get().getWidth(), bullet.getDimension().get().getHeight()));
 		getChildren().add(bulletView);
 	}
 }

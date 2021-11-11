@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.entities;
 
+import java.util.Optional;
+
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -13,7 +15,7 @@ public interface PhysicalObject {
 	 * 
 	 * @return object's coordinates
 	 */
-	MutablePosition2D getPosition();
+	Optional<MutablePosition2D> getPosition();
 
 	/**
 	 * 
@@ -26,11 +28,11 @@ public interface PhysicalObject {
 	 * 
 	 * @return object's dimension
 	 */
-	Dimension2D getDimension();
+	Optional<Dimension2D> getDimension();
 
 	/**
 	 * 
 	 * @return gameEnvironment istance
 	 */
-	Environment getGameEnvironment();
+	Optional<Environment> getGameEnvironment();
 }

@@ -119,7 +119,7 @@ public class GameEngine implements Controller, GameEventListener {
 					.getEffect()
 					.applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
 				// Update environment
-				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition();
+				final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition().get();
 				env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
 				AppLogger.getAppLogger().info("player hits item");
 			} else if (e instanceof PlayerHitsEnemyEvent) {
@@ -128,13 +128,13 @@ public class GameEngine implements Controller, GameEventListener {
 				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
 				if (!player.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().getX()
-							, player.getPosition().getY()));
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
+							, player.getPosition().get().getY()));
 				}
 				
 				if (!enemy.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().getX()
-							, enemy.getPosition().getY()));
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
+							, enemy.getPosition().get().getY()));
 				}
 				// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 				// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
@@ -144,8 +144,8 @@ public class GameEngine implements Controller, GameEventListener {
 				final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 				final PhysicalObject obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 				if (!player.isAlive()) {
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().getX()
-							, player.getPosition().getY()));
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX()
+							, player.getPosition().get().getY()));
 				}
 				// TODO: player.setHealth(player.getHealth() - obstacle.COLLISION_DAMAGE);
 				AppLogger.getAppLogger().info("player hits obstacle");

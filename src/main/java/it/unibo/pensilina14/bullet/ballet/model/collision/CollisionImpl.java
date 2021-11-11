@@ -6,9 +6,9 @@ public class CollisionImpl implements Collision {
 	
 	@Override
 	public boolean isCollidingWith(final PhysicalObject firstObject, final PhysicalObject otherObject) {
-		return firstObject.getPosition().getX() * firstObject.getDimension().getWidth() / 2 > otherObject.getPosition().getX() &&
-        		firstObject.getPosition().getX() < otherObject.getPosition().getX() * otherObject.getDimension().getWidth() / 2 &&
-        		firstObject.getPosition().getY() * firstObject.getDimension().getHeight() / 2 > otherObject.getPosition().getY() &&
-        		firstObject.getPosition().getY() < otherObject.getPosition().getY() * otherObject.getDimension().getWidth() / 2;
+		return firstObject.getPosition().get().getX() * firstObject.getDimension().get().getWidth() / 2 > otherObject.getPosition().get().getX() &&
+				firstObject.getPosition().get().getX() < otherObject.getPosition().get().getX() * otherObject.getDimension().get().getWidth() / 2 &&
+        		firstObject.getPosition().get().getY() * firstObject.getDimension().get().getHeight() / 2 > otherObject.getPosition().get().getY() &&
+        		firstObject.getPosition().get().getY() < otherObject.getPosition().get().getY() * otherObject.getDimension().get().getWidth() / 2;
 	}
 }
