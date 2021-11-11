@@ -42,7 +42,7 @@ public class GameEnvironment implements Environment {
 	
 	/**
 	 * <p>
-	 * This constructor uses {@link #DEFAULT_DIM} so use it.
+	 * This constructor uses {@link #DEFAULT_DIM} so use it wisely.
 	 * Ideally we don't want this if not for <strong>testing</strong> purposes.
 	 * </p>
 	 */
