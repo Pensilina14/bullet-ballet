@@ -4,7 +4,7 @@ public enum Images {
 
     POISONING_ITEM("poison", "res/assets/sprites/items/poison.png"),
     HEALING_ITEM("heart","res/assets/sprites/items/heart.png"),
-    DAMAGING_ITEM("damage", "res/assets/sprites/items/skull_coin.jpeg"),
+    DAMAGING_ITEM("damage", "res/assets/sprites/items/skull_coin.png"),
     STATIC_OBSTACLE("static obstacle", "res/assets/sprites/obstacles/static_obstacle.png"),
     DYNAMIC_OBSTACLE("dynamic obstacle", "res/assets/sprites/obstacles/dynamicObstacle.png");
     

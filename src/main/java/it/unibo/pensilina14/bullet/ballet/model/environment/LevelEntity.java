@@ -35,6 +35,8 @@ public final class LevelEntity{ //TODO: fix the enum and use that
     public static final char OBSTACLE = '3';
     public static final char WEAPON = '4';
     public static final char PLAYER = 'P';
-    public static final char ITEM = '*';
+    public static final char HEART = '*';
+    public static final char POISON = 'p';
+    public static final char DAMAGE = 'd';
     public static final char ENEMY = '!';
 }
