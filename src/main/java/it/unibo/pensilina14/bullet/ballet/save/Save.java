@@ -13,16 +13,20 @@ import java.util.*;
 public final class Save { //TODO: rename in Data?
 
     private static final String SAVE_PATH = "data/saves/save_file.json"; //TODO: aggiungere paths
-    private static final String OLD_SAVE_FILE_PATH = "data/saves/save_file.txt";
+    private static final String ENCRYPTED_SAVE_PATH = ""; //TODO: aggiungere path
+    //private static final String OLD_SAVE_FILE_PATH = "data/saves/save_file.txt"; //TODO: remove
     private static final String LEVEL_PATH = "data/levels/"; //TODO: data/levels/
+    private static final String ENCRYPTED_LEVEL_PATH = ""; //TODO: aggiungere path
     private static final String SETTINGS_PATH = "data/settings/"; //TODO: data/settings/...
+    private static final String ENCRYPTED_SETTINGS_PATH = ""; //TODO: aggiungere path
 
     private static final String PLAYER_STRING = "Player"; //TODO: rename it better
     private static final String SCORE_STRING = "Score"; //TODO: rename it better
 
-    private Save(){
-
-    }
+    /**
+     * private constructor because I don't want the class to be instantiated.
+     */
+    private Save(){}
 
     /**
      *
@@ -32,7 +36,7 @@ public final class Save { //TODO: rename in Data?
      * If it is the first time that you call it, it will create the file, otherwise it will append the data to the file without deleting
      * previous stored data.
      */
-    public static void save(String playerName, int playerScore){ //TODO: remove
+    /*public static void save(String playerName, int playerScore){ //TODO: remove
 
         try {
             FileWriter file = new FileWriter(Save.OLD_SAVE_FILE_PATH, true); // true sta a significare di appendere se il file esiste
@@ -53,9 +57,10 @@ public final class Save { //TODO: rename in Data?
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     //TODO: add javadoc
+    //TODO: add encryption
     public static void saveJSON(final String playerName, final int playerScore){ //TODO: rename in just save
         JSONParser jsonParser = new JSONParser();
 
@@ -101,7 +106,8 @@ public final class Save { //TODO: rename in Data?
     }
 
     //TODO: add javadoc
-    public static final LinkedHashMap<String, Integer> loadJSON(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
+    //TODO: add decryption of encrypted file
+    public static LinkedHashMap<String, Integer> loadJSON(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
@@ -133,7 +139,7 @@ public final class Save { //TODO: rename in Data?
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save_file.txt and their relative score.
      */
-    public static HashMap<String, Integer> load() { //TODO: remove
+    /*public static HashMap<String, Integer> load() { //TODO: remove
 
         HashMap<String, Integer> data = new HashMap<>();
 
@@ -159,7 +165,7 @@ public final class Save { //TODO: rename in Data?
 
 
         return data;
-    }
+    }*/
 
     /**
      * It will delete all the data stored in the save_file.txt, but it will keep the file.
@@ -177,7 +183,7 @@ public final class Save { //TODO: rename in Data?
     }
 
     //TODO: saveLevel not ready.
-    public static void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
+    /*public static void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
         try {
             FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + ".txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -195,7 +201,7 @@ public final class Save { //TODO: rename in Data?
         } catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      *
@@ -231,7 +237,7 @@ public final class Save { //TODO: rename in Data?
      * @param levelNumber: the level that we want to delete.
      * It will delete all the data about the specified level.
      */
-    public static void resetLevelFile(int levelNumber){
+    public static void resetLevelFile(int levelNumber){ //TODO: forse non serve.
         try {
             FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + ".txt", false);
             fileWriter.close();
