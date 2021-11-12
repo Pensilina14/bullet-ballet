@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.entities;
 
+import java.util.Optional;
+
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -18,26 +20,26 @@ public abstract class AbstractStaticComponent implements PhysicalObject{
     }
 
     @Override
-    public MutablePosition2D getPosition() {
-        return this.position;
+    public Optional<MutablePosition2D> getPosition() {
+        return Optional.of(this.position);
     }
 
     @Override
     public Boolean isCollidingWith(final PhysicalObject other) {
-        return this.getPosition().getX() * this.dimension.getWidth() / 2 > other.getPosition().getX() &&
-        		this.getPosition().getX() < other.getPosition().getX() * other.getDimension().getWidth() / 2 &&
-        		this.getPosition().getY() * this.getDimension().getHeight() / 2 > other.getPosition().getY() &&
-        		this.getPosition().getY() < other.getPosition().getY() * other.getDimension().getWidth() / 2;
+        return this.getPosition().get().getX() * this.dimension.getWidth() / 2 > other.getPosition().get().getX() &&
+        		this.getPosition().get().getX() < other.getPosition().get().getX() * other.getDimension().get().getWidth() / 2 &&
+        		this.getPosition().get().getY() * this.getDimension().get().getHeight() / 2 > other.getPosition().get().getY() &&
+        		this.getPosition().get().getY() < other.getPosition().get().getY() * other.getDimension().get().getWidth() / 2;
     }
 
     @Override
-    public Dimension2D getDimension() {
-        return this.dimension;
+    public Optional<Dimension2D> getDimension() {
+        return Optional.of(this.dimension);
     }
 
     @Override
-    public Environment getGameEnvironment() {
-        return this.gameEnvironment;
+    public Optional<Environment> getGameEnvironment() {
+        return Optional.of(this.gameEnvironment);
     }
     
     

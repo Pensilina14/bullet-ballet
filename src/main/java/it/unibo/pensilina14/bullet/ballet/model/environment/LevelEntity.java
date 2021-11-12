@@ -25,16 +25,20 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 public final class LevelEntity{ //TODO: fix the enum and use that
 
-    private LevelEntity(){
-
-    }
-
     public static final char EMPTY = '0';
     public static final char PLATFORM = '1';
     public static final char COIN = '2';
     public static final char OBSTACLE = '3';
     public static final char WEAPON = '4';
     public static final char PLAYER = 'P';
-    public static final char ITEM = '*';
+    public static final char HEART = '*';
+    public static final char POISON = 'x';
+    public static final char DAMAGE = 'd';
     public static final char ENEMY = '!';
+	
+    private LevelEntity(){
+
+    }
+
+
 }

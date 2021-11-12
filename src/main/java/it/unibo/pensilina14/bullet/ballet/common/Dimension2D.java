@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public interface Dimension2D {
@@ -8,7 +10,7 @@ public interface Dimension2D {
      * 
      * @return object's dimensions
      */
-    ImmutablePair<Double, Double> getSize();
+    Optional<ImmutablePair<Double, Double>> getSize();
     
     /**
      * 

@@ -8,7 +8,7 @@ public class SettingsImpl implements Settings{
 	private Resolutions resolution;
 	private Difficulties difficulty;
 	
-	public SettingsImpl(Resolutions resolution, Difficulties difficulty) {
+	public SettingsImpl(final Resolutions resolution, final Difficulties difficulty) {
 		this.resolution = resolution;
 		this.difficulty = difficulty;
 	}
@@ -24,12 +24,12 @@ public class SettingsImpl implements Settings{
 	}
 
 	@Override
-	public void setResolution(Resolutions resolution) {
+	public void setResolution(final Resolutions resolution) {
 		this.resolution = resolution;
 	}
 
 	@Override
-	public void setDifficulty(Difficulties difficulty) {
+	public void setDifficulty(final Difficulties difficulty) {
 		this.difficulty = difficulty;
 	}
 	

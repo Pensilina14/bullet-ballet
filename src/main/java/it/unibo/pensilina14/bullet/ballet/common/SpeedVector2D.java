@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Optional;
+
 public interface SpeedVector2D {
 
     /**
@@ -24,6 +26,6 @@ public interface SpeedVector2D {
     /**
      * @return vector's position
      */
-    MutablePosition2D getPosition();
+    Optional<MutablePosition2D> getPosition();
     
 }

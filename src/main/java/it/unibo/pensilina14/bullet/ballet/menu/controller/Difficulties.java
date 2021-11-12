@@ -8,7 +8,7 @@ public enum Difficulties {
 	
 	private final String difficulty;
 
-	private Difficulties(String difficulty) {
+	Difficulties(final String difficulty) {
 		this.difficulty = difficulty;
 	}
 	

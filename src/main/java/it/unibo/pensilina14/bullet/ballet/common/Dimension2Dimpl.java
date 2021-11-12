@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class Dimension2Dimpl implements Dimension2D {
@@ -13,8 +15,8 @@ public class Dimension2Dimpl implements Dimension2D {
     }
 
     @Override
-    public ImmutablePair<Double, Double> getSize() {
-      return ImmutablePair.of(this.height, this.width);
+    public Optional<ImmutablePair<Double, Double>> getSize() {
+      return Optional.of(ImmutablePair.of(this.height, this.width));
     }
 
     @Override

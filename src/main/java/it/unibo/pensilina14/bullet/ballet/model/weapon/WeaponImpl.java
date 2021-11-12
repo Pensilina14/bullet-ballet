@@ -61,7 +61,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 		final List<Bullet> charger = new ArrayList<>();
 		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
 		for(int i = 0; i < this.limitBullets; i++) {
-			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment(), this.getSpeedVector()));
+			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
 		}
 		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));

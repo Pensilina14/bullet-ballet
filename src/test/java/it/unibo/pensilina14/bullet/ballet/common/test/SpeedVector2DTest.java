@@ -20,7 +20,7 @@ public class SpeedVector2DTest {
         final double addictionFactor = 5;
         final MutablePosition2D position = new MutablePosition2Dimpl(POS + addictionFactor, POS +addictionFactor);
         this.speedVector.noSpeedVectorSum(addictionFactor, addictionFactor);
-        assertEquals(this.speedVector.getPosition().getCoordinates(), position.getCoordinates());
+        assertEquals(this.speedVector.getPosition().get().getCoordinates(), position.getCoordinates());
         
         
     }
@@ -31,7 +31,7 @@ public class SpeedVector2DTest {
         final MutablePosition2D position = new MutablePosition2Dimpl(POS + (addictionFactor * SPEED)
                 , POS + (addictionFactor * SPEED));
         this.speedVector.vectorSum(addictionFactor, addictionFactor);
-        assertEquals(this.speedVector.getPosition().getCoordinates(), position.getCoordinates());
+        assertEquals(this.speedVector.getPosition().get().getCoordinates(), position.getCoordinates());
     }
     
     

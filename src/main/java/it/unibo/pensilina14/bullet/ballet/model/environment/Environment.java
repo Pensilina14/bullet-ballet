@@ -151,7 +151,7 @@ public interface Environment {
 		
 		private final double value;
 
-		private GravityConstants(final double value) {
+		GravityConstants(final double value) {
 			this.value = value;
 		}
 		

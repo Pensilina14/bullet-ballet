@@ -1,7 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
 import java.io.IOException;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 
 public interface PhysicalObjectSpriteFactory {
 
