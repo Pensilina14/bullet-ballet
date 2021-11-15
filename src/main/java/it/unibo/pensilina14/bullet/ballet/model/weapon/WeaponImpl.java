@@ -9,7 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public class WeaponImpl extends DynamicPickupItem implements Weapon {
+public class WeaponImpl extends PickupItem implements Weapon {
 
 	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
 	private static final double DAMAGE_FACTOR_SHOTGUN = 1.5;
@@ -34,7 +34,7 @@ public class WeaponImpl extends DynamicPickupItem implements Weapon {
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
             final double mass, final SpeedVector2D vector, final Items id, 
             final Effect effect) {
-		super(dimension, gameEnvironment, mass, vector, id, effect);
+		super(vector, gameEnvironment, mass, dimension, id, effect);
 		this.name = weaponType.getName();
 		this.limitBullets = weaponType.getLimBullets();
 		this.limitChargers = weaponType.getLimChargers();

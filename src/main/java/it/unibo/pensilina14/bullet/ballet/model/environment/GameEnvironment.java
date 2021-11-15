@@ -10,8 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -34,7 +33,7 @@ public class GameEnvironment implements Environment {
     private final Dimension2D dimension;
     private Optional<Player> player;
     private final Optional<List<Enemy>> enemies;
-    private final Optional<List<PhysicalObject>> obstacles;
+    private final Optional<List<Obstacle>> obstacles;
     private final Optional<List<Item>> items;
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
@@ -112,7 +111,8 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final Optional<List<PhysicalObject>> getObjsList() {
-		return this.mergeLists();
+		//return this.mergeLists();
+		return null;
 	}
 	
 	@Override
@@ -129,7 +129,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public final Optional<List<PhysicalObject>> getObstacles() {
+	public final Optional<List<Obstacle>> getObstacles() {
 		if (this.obstacles.isPresent()) {
 			return Optional.of(List.copyOf(this.obstacles.get()));
 		}
@@ -176,23 +176,19 @@ public class GameEnvironment implements Environment {
 	}
 	
 	@Override
-	public final boolean addObstacle(final PhysicalObject obstacle) {
+	public final boolean addObstacle(final Obstacle obstacle) {
 		/*
 		 * Type validity check: 
 		 * 	verify if obstacle is a StaticObstacle or DynamicObstacle since 
 		 * 	parameter type is open to all PhysicalObject.
 		 * 	Use wisely.
 		 */
-		if (obstacle instanceof StaticObstacle || obstacle instanceof DynamicObstacle) {
-			if (this.obstacles.get().contains(obstacle)) {
-				return false;
-			} else {
-				this.obstacles.get().add(obstacle);
-				return true;
-			}
-		} else {
+		if (this.obstacles.get().contains(obstacle)) {
 			return false;
-		}
+		} else {
+			this.obstacles.get().add(obstacle);
+			return true;
+		}	
 	}
 
 	@Override
@@ -227,6 +223,7 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
+		/*
 		final List<PhysicalObject> allObjsList = this.mergeLists().get();
 		for (final PhysicalObject obj : allObjsList) {
 			final MutablePosition2D objPos = obj.getPosition().get();
@@ -237,15 +234,19 @@ public class GameEnvironment implements Environment {
 				} else if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
 					return true;
-				} else if (obj instanceof StaticObstacle || obj instanceof DynamicObstacle) {
+				} else if (obj instanceof Obstacle) {
 					this.obstacles.get().remove(obj);
 					return true;
 				} else if (obj instanceof Item) {
-					this.items.get().remove(obj); //Requires Item interface inheritance to be changed
+					this.items.get().remove(obj); //Requires Item interface inheritance to be changed, no aspe per la struttura 
+													//non implementa direttamente physical objects
+													//quindi occorre fare un ciclo a parte per items e obstacles
 					return true;
 				} 
 			}
 		}
+		return false;
+		*/
 		return false;
 	}
 /*
@@ -285,6 +286,7 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.ofNullable(listener);
 	}
 
+	/*
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
 		if (this.player.isPresent()) {
@@ -307,7 +309,9 @@ public class GameEnvironment implements Environment {
 		}
 		return mergedList;
 	}
+	*/
 	
+	/*
 	private void checkCollisions() {
 		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
 		final EventChecker checkEnemiesItems = new CollisionEventChecker(this.enemies.get(), this.items.get());
@@ -348,4 +352,5 @@ public class GameEnvironment implements Environment {
 			});
 		}
 	}
+	*/
 }

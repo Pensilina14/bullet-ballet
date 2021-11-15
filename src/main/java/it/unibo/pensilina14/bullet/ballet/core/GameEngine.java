@@ -166,7 +166,7 @@ public class GameEngine implements Controller, GameEventListener {
 			.getEffect()
 			.applyEffect(((CharacterHitsPickupObjEvent) e).getCharacter());
 		// Update environment
-		final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent) e).getPickupObj().getPosition().get();
+		final MutablePosition2D pickupPos = ((CharacterHitsPickupObjEvent)e).getPickupObj().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
 		AppLogger.getAppLogger().info("player hits item");
 	}

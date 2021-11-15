@@ -2,14 +2,14 @@ package it.unibo.pensilina14.bullet.ballet.model.characters;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 import java.util.Optional;
 import java.util.Random;
 
-public class Enemy extends AbstractDynamicComponent implements Characters{
+public class Enemy extends GameEntity implements Characters{
 
     private double health;
     private Optional<Double> mana;
@@ -24,7 +24,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
 
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = health;
@@ -33,13 +33,13 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
         this.enemyType = enemyType;
         setEnemyType();
     }
 
     public Enemy(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         setRandomEnemy();
         setEnemyType();

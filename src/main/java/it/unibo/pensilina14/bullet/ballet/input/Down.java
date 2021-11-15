@@ -23,7 +23,7 @@ public class Down implements Command {
 	@Override
 	public void execute(final GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveDOWN(this.movement);
+		player.moveDown(this.movement);
 	}
 
 }

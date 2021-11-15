@@ -2,12 +2,13 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList.BulletType;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 
-public class BulletImpl extends AbstractDynamicComponent implements Bullet {
+public class BulletImpl extends GameEntity implements Bullet {
 
 	private final String name;
 	private double damage;
@@ -16,21 +17,20 @@ public class BulletImpl extends AbstractDynamicComponent implements Bullet {
     private final Effect effect;
     private final EntityList.BulletType bulletType;
 	
-	public BulletImpl(final EntityList.BulletType bulletType, final Dimension2D dimension
-			, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final Items id, final Effect effect) {
-        super(dimension, gameEnvironment, mass, vector);
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	public BulletImpl(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass, final Dimension2D dimension,
+			final Items id, final Effect effect, final BulletType bulletType) {
+		super(speedVector, gameEnvironment, mass, dimension);
 		this.name = bulletType.description();
 		this.damage = bulletType.damage();
 		this.fired = false;
 		this.id = id;
 		this.effect = effect;
 		this.bulletType = bulletType;
-	}
-	
-	@Override
-	public String getName() {
-		return this.name;
 	}
 
 	@Override
@@ -67,6 +67,10 @@ public class BulletImpl extends AbstractDynamicComponent implements Bullet {
 	public EntityList.BulletType getBulletType() {
 		return this.bulletType;
 	}
-	
+
+	@Override
+	public void moveToRandomPosition() {
+		// TODO Auto-generated method stub
+	}
 
 }

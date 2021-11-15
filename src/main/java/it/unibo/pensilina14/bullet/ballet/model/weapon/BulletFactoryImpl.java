@@ -14,6 +14,7 @@ public class BulletFactoryImpl implements BulletFactory {
 	private static final double MASS = 2.5;
     private static final int BULLET_DIM = 30;
     private final EffectFactory effectFact = new EffectFactoryImpl();
+    /*
 	@Override
 	public Bullet createClassicBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
 		return new BulletImpl(EntityList.BulletType.CLASSICAL, new Dimension2Dimpl(BULLET_DIM, BULLET_DIM)
@@ -28,6 +29,21 @@ public class BulletFactoryImpl implements BulletFactory {
 				, effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue(),
                 SpecialEffects.POISON.getMsStep().getValue(),
                 SpecialEffects.POISON.getMsDuration().getValue()));
+	}
+	*/
+	@Override
+	public Bullet createClassicBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
+		return new BulletImpl(vector, gameEnvironment, MASS, new Dimension2Dimpl(BULLET_DIM, BULLET_DIM)
+				, Items.DAMAGE,  effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue())
+				, EntityList.BulletType.CLASSICAL);
+	}
+	@Override
+	public Bullet createPoisonBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
+		return new BulletImpl(vector, gameEnvironment, MASS, new Dimension2Dimpl(BULLET_DIM, BULLET_DIM)
+				, Items.DAMAGE,  effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue(),
+					SpecialEffects.POISON.getMsStep().getValue(),
+					SpecialEffects.POISON.getMsDuration().getValue())
+				, EntityList.BulletType.CLASSICAL);
 	}
 
 }

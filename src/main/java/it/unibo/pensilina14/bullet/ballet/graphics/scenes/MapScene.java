@@ -22,8 +22,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -168,20 +167,13 @@ public class MapScene extends AbstractScene implements GameView{
 
 		for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		if (x instanceof StaticObstacle) {
+    		if (x instanceof Obstacle) {
     			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateStaticObstacleSprite(xPos);
     			obstacleSprite.renderPosition(xPos.getX() * platformSize, xPos.getY() * platformSize);
     			this.obstacleSprites.put(obstacleSprite, xPos);
     			this.gamePane.getChildren().add(obstacleSprite);
     			AppLogger.getAppLogger().debug("Static Obstacle rendered");
     		} 
-    		if (x instanceof DynamicObstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateDynamicObstacleSprite(xPos);
-    			obstacleSprite.renderPosition(xPos.getX() * platformSize, xPos.getY() * platformSize);
-    			this.obstacleSprites.put(obstacleSprite, xPos);
-    			this.gamePane.getChildren().add(obstacleSprite);
-    			AppLogger.getAppLogger().debug("Dynamic Obstacle rendered");
-    		}
     	}
 		
 		for (final Weapon x : world.getWeapons().get()) {
