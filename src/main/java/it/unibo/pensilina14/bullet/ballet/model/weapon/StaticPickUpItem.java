@@ -39,21 +39,24 @@ public class StaticPickUpItem extends AbstractStaticComponent implements Item{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        StaticPickUpItem other = (StaticPickUpItem) obj;
-        if (effect == null) {
-            if (other.effect != null)
+        }
+        final StaticPickUpItem other = (StaticPickUpItem) obj;
+        if (effect == null || id != other.id) {
+            if (other.effect != null) {
                 return false;
-        } else if (!effect.equals(other.effect))
+            }
+        } else if (!effect.equals(other.effect)) {
             return false;
-        if (id != other.id)
-            return false;
+        }
         return true;
     }
     

@@ -49,20 +49,23 @@ public class DynamicPickupItem extends AbstractDynamicComponent implements Item{
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final DynamicPickupItem other = (DynamicPickupItem) obj;
-        if (effect == null) {
-            if (other.effect != null)
+        if (effect == null || id != other.id) {
+            if (other.effect != null) {
                 return false;
-        } else if (!effect.equals(other.effect))
+            }
+        } else if (!effect.equals(other.effect)) {
             return false;
-        if (id != other.id)
-            return false;
+        }
         return true;
     }
     

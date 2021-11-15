@@ -42,19 +42,19 @@ public class Dimension2Dimpl implements Dimension2D {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Dimension2Dimpl other = (Dimension2Dimpl) obj;
-        if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
-            return false;
-        if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width))
-            return false;
-        return true;
+        }
+        final Dimension2Dimpl other = (Dimension2Dimpl) obj;
+        return !(Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height)
+        		|| Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width));
     }
    
 }
