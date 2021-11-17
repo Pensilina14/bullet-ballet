@@ -4,6 +4,8 @@ import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +16,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 
 public final class SecureData {
 
@@ -24,12 +25,12 @@ public final class SecureData {
     private final static int KEY_SIZE = 256;
     private final static String TRANSFORMATION_ALGORITHM = "PBKDF2WithHmacSHA256"; //TODO: rename it better
     private final static String TRANSFORMATION_ALGORITHM_NO_PADDING = "AES/GCM/NoPadding";
-    private final static int ITERATION_COUNTER = 65536;
+	private final static int ITERATION_COUNTER = 65_536;
     private final static int IV_SIZE = 12;
     private final static int SALT_SIZE = 16;
     private final static int TAG_SIZE = 128;
 
-    private final static String PASSWORD = "BULLET-BALLET-CODE"; //TODO: either i keep it here or in the Save class. rename it BULLET-BALLET-KEY or something.
+    //private final static String PASSWORD = "BULLET-BALLET-CODE"; //TODO: either i keep it here or in the Save class. rename it BULLET-BALLET-KEY or something.
 
     /**
      * private constructor because the class doesn't have to be instantiated.
@@ -47,9 +48,9 @@ public final class SecureData {
      * @return : random bytes.
      */
     public static byte[] getRandomBytes(final int bytesNumber){
-        SecureRandom secureRandom = new SecureRandom();
+        final SecureRandom secureRandom = new SecureRandom();
 
-        byte[] bytes = new byte[bytesNumber];
+        final byte[] bytes = new byte[bytesNumber];
         secureRandom.nextBytes(bytes);
 
         return bytes;
@@ -64,9 +65,9 @@ public final class SecureData {
      * @throws InvalidKeySpecException: invalid key specifications.
      */
     public static SecretKey getKeyFromPassword(final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(SecureData.TRANSFORMATION_ALGORITHM);
+        final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(SecureData.TRANSFORMATION_ALGORITHM);
 
-        KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, SecureData.ITERATION_COUNTER, SecureData.KEY_SIZE);
+        final KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, SecureData.ITERATION_COUNTER, SecureData.KEY_SIZE);
 
         return new SecretKeySpec(secretKeyFactory.generateSecret(keySpec).getEncoded(), SecureData.ENCRYPTION_STANDARD);
     }
@@ -86,19 +87,19 @@ public final class SecureData {
      */
     public static byte[] encrypt(final byte[] message, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 
-        byte[] salt = SecureData.getRandomBytes(SecureData.SALT_SIZE);
+        final byte[] salt = SecureData.getRandomBytes(SecureData.SALT_SIZE);
 
-        byte[] iv = SecureData.getRandomBytes(SecureData.IV_SIZE);
+        final byte[] iv = SecureData.getRandomBytes(SecureData.IV_SIZE);
         //TODO: byte[] iv = params.getParameterSpec(IvParameterSpec.class).getIV(); , meglio quella sotto.
         //TODO: IVParameterSpec ivSpec = new IvParameterSpec(iv);
 
-        SecretKey secretKey = SecureData.getKeyFromPassword(password, salt);
+        final SecretKey secretKey = SecureData.getKeyFromPassword(password, salt);
 
-        Cipher cipher = Cipher.getInstance(SecureData.TRANSFORMATION_ALGORITHM_NO_PADDING);
+        final Cipher cipher = Cipher.getInstance(SecureData.TRANSFORMATION_ALGORITHM_NO_PADDING);
 
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new GCMParameterSpec(SecureData.TAG_SIZE, iv));
 
-        byte[] encryptMessage = cipher.doFinal(message);
+        final byte[] encryptMessage = cipher.doFinal(message);
 
         //TODO: Base64.getEncoder().encodeToString(encryptMessage);
 
@@ -120,22 +121,22 @@ public final class SecureData {
      * @throws BadPaddingException: input data not properly padded.
      */
     public static byte[] decrypt(final byte[] message, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(message);
+        final ByteBuffer byteBuffer = ByteBuffer.wrap(message);
 
-        byte[] iv = new byte[SecureData.IV_SIZE];
+        final byte[] iv = new byte[SecureData.IV_SIZE];
         byteBuffer.get(iv);
 
-        byte[] salt = new byte[SecureData.SALT_SIZE];
+        final byte[] salt = new byte[SecureData.SALT_SIZE];
         byteBuffer.get(salt);
 
         //TODO: byte[] bytes = message.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        byte[] encryptedMessage = new byte[byteBuffer.remaining()];
+        final byte[] encryptedMessage = new byte[byteBuffer.remaining()];
         byteBuffer.get(encryptedMessage);
 
-        SecretKey secretKey = SecureData.getKeyFromPassword(password, salt);
+        final SecretKey secretKey = SecureData.getKeyFromPassword(password, salt);
 
-        Cipher cipher = Cipher.getInstance(SecureData.TRANSFORMATION_ALGORITHM_NO_PADDING);
+        final Cipher cipher = Cipher.getInstance(SecureData.TRANSFORMATION_ALGORITHM_NO_PADDING);
 
         cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(SecureData.TAG_SIZE, iv));
 
@@ -147,17 +148,24 @@ public final class SecureData {
      * @param inputFilePath: the path of the file with the plain text.
      * @param outputFilePath: the file with the encrypted text that will be created.
      * @param password: the user-defined password.
-     * @throws Exception: InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
+     * @throws IOException: fail or interrupted I/O operations.
+     * @throws NoSuchAlgorithmException: algorithm doesn't exist
+     * @throws InvalidKeySpecException: invalid key specifications.
+     * @throws NoSuchPaddingException: padding not available.
+     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+     * @throws InvalidKeyException: invalid key.
+     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+     * @throws BadPaddingException: input data not properly padded.
      */
-    public static void encryptFile(final String inputFilePath, final String outputFilePath, final String password) throws Exception {
+    public static void encryptFile(final String inputFilePath, final String outputFilePath, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
 
-        byte[] message = Files.readAllBytes(Paths.get(inputFilePath));
+        final byte[] message = Files.readAllBytes(Paths.get(inputFilePath));
 
         //System.out.println("message[]: " + Arrays.toString(message)); //TODO: remove
 
-        byte[] encryptedMessage = SecureData.encrypt(message, password);
+        final byte[] encryptedMessage = SecureData.encrypt(message, password);
 
-        Path filePath = Paths.get(outputFilePath);
+        final Path filePath = Paths.get(outputFilePath);
 
         Files.write(filePath, encryptedMessage);
     }
@@ -167,11 +175,18 @@ public final class SecureData {
      * @param encryptedFilePath: the path of the file with the encrypted text.
      * @param password: the user-defined password. (it has to match with the password used in the encryption)
      * @return : the decrypted text in plain text.
-     * @throws Exception: InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
+     * @throws IOException: fail or interrupted I/O operations.
+     * @throws NoSuchAlgorithmException: algorithm doesn't exist
+     * @throws InvalidKeySpecException: invalid key specifications.
+     * @throws NoSuchPaddingException: padding not available.
+     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+     * @throws InvalidKeyException: invalid key.
+     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+     * @throws BadPaddingException: input data not properly padded.
      */
-    public static byte[] decryptFile(final String encryptedFilePath, final String password) throws Exception {
+    public static byte[] decryptFile(final String encryptedFilePath, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
 
-        byte[] encryptedMessage = Files.readAllBytes(Paths.get(encryptedFilePath));
+        final byte[] encryptedMessage = Files.readAllBytes(Paths.get(encryptedFilePath));
 
         //System.out.println("encryptedMessage[]: " + Arrays.toString(encryptedMessage)); //TODO: remove
 
