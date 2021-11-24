@@ -23,14 +23,14 @@ public final class SecureData {
 
     private final static String ENCRYPTION_STANDARD = "AES";
     private final static int KEY_SIZE = 256;
-    private final static String TRANSFORMATION_ALGORITHM = "PBKDF2WithHmacSHA256"; //TODO: rename it better
+    private final static String TRANSFORMATION_ALGORITHM = "PBKDF2WithHmacSHA256";
     private final static String TRANSFORMATION_ALGORITHM_NO_PADDING = "AES/GCM/NoPadding";
 	private final static int ITERATION_COUNTER = 65_536;
     private final static int IV_SIZE = 12;
     private final static int SALT_SIZE = 16;
     private final static int TAG_SIZE = 128;
 
-    //private final static String PASSWORD = "BULLET-BALLET-CODE"; //TODO: either i keep it here or in the Save class. rename it BULLET-BALLET-KEY or something.
+    public final static String PASSWORD = "BULLET-BALLET-CODE";
 
     /**
      * private constructor because the class doesn't have to be instantiated.
