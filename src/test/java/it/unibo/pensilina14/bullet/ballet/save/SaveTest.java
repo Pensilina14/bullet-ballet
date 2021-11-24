@@ -11,10 +11,8 @@ import static org.junit.Assert.*;
 
 public class SaveTest {
 
-    //private final Save data = new Save(); //TODO: remove
-
     @Test
-    public void saveAndLoadJSON(){ //TODO: rename then in saveAndLoad()
+    public void saveAndLoad(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
         Save.resetSaveFile();
@@ -25,12 +23,12 @@ public class SaveTest {
         final String playerName2 = "Giorgio";
         final int playerScore2 = 14;
 
-        Save.saveJSON(playerName, playerScore);
-        Save.saveJSON(playerName2, playerScore2);
+        Save.saveData(playerName, playerScore);
+        Save.saveData(playerName2, playerScore2);
 
         final LinkedHashMap<String, Integer> map;
 
-        map = Save.loadJSON();
+        map = Save.loadSaveFile();
 
         assertNotNull(map);
         assertFalse(map.isEmpty());
@@ -42,72 +40,34 @@ public class SaveTest {
         assertTrue(map.values().containsAll(playersScoreList));
     }
 
-    /*@Test
-    public void saveAndLoadTest(){
-
-        //data.resetSaveFile(); //TODO: remove
-        Save.resetSaveFile();
-
-        final String playerName = "player1";
-        final int playerScore = 18;
-
-        final String playerName2 = "player2";
-        final int playerScore2 = 14;
-
-        //data.save(playerName, playerScore); //TODO: remove
-        //data.save(playerName2, playerScore2);
-
-        Save.save(playerName, playerScore);
-        Save.save(playerName2, playerScore2);
-
-        final ArrayList<String> namesList = new ArrayList<>(Arrays.asList(playerName, playerName2));
-        final ArrayList<Integer> scoresList = new ArrayList<>(Arrays.asList(playerScore, playerScore2));
-
-        HashMap<String, Integer> results;
-
-        //results = data.load();
-        results = Save.load();
-
-        assertNotNull(results);
-        assertFalse(results.isEmpty());
-
-        assertTrue(results.keySet().containsAll(namesList));
-        assertTrue(results.values().containsAll(scoresList));
-
-
-    }*/
-
     @Test
     public void resetTest(){
-        //data.resetSaveFile(); //TODO: remove
         Save.resetSaveFile();
 
         HashMap<String, Integer> resetResults;
 
-        //resetResults = data.load();
-        resetResults = Save.loadJSON();
+        resetResults = Save.loadSaveFile();
 
         assertTrue(resetResults.isEmpty());
     }
 
     @Test
     public void loadLevelTest(){
-        //TODO:
 
         final int currentLevel = 0;
 
-        final String[] level = Save.loadLevel(currentLevel); //data.loadLevel(currentLevel);
+        final String[] level = Save.loadLevel(currentLevel);
 
         assertTrue(level.length != 0);
 
         final int max_levels = 3;
-        final int numberOfLevels = Save.getNumberOfLevels(); //data.getNumberOfLevels();
+        final int numberOfLevels = Save.getNumberOfLevels();
 
         assertEquals(max_levels, numberOfLevels);
     }
 
     /*@Test
-    public void modifyDataTest(){
+    public void modifyDataTest(){ //TODO: uncomment when the method will be fixed
         //data.resetSaveFile();
         Save.resetSaveFile();
 

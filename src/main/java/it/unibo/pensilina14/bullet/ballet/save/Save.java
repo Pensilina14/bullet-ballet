@@ -1,20 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
-import org.apache.commons.configuration2.JSONConfiguration;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class Save { //TODO: rename in Data?
 
-    private static final String SAVE_PATH = "data/saves/save_file.json"; //TODO: aggiungere paths
-    private static final String ENCRYPTED_SAVE_PATH = ""; //TODO: aggiungere path
-    //private static final String OLD_SAVE_FILE_PATH = "data/saves/save_file.txt"; //TODO: remove
+    private static final String SAVE_PATH = "data/saves/save_file.dat"; //TODO: aggiungere paths
     private static final String LEVEL_PATH = "data/levels/"; //TODO: data/levels/
     private static final String ENCRYPTED_LEVEL_PATH = ""; //TODO: aggiungere path
     private static final String SETTINGS_PATH = "data/settings/"; //TODO: data/settings/...
@@ -30,61 +26,38 @@ public final class Save { //TODO: rename in Data?
 
     /**
      *
-     * @param playerName: the name of the player that you want to save.
+     * @param playerName:  the name of the player that you want to save.
      * @param playerScore: the score of the player that you want to save.
-     * The data is saved in a .txt file named save_file in the project directory
-     * If it is the first time that you call it, it will create the file, otherwise it will append the data to the file without deleting
-     * previous stored data.
+     * The data is encrypted and saved in .dat file.
+     * If the files didn't exist it will be created.
+     * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
-    /*public static void save(String playerName, int playerScore){ //TODO: remove
-
-        try {
-            FileWriter file = new FileWriter(Save.OLD_SAVE_FILE_PATH, true); // true sta a significare di appendere se il file esiste
-            BufferedWriter bufferedWriter = new BufferedWriter(file);
-
-            bufferedWriter.write(playerName);
-            bufferedWriter.newLine();
-
-            bufferedWriter.write(String.valueOf(playerScore));
-            bufferedWriter.newLine();
-
-            bufferedWriter.flush();
-
-            bufferedWriter.close();
-            file.close();
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-    }*/
-
-    //TODO: add javadoc
-    //TODO: add encryption
-    public static void saveJSON(final String playerName, final int playerScore){ //TODO: rename in just save
+    public static void saveData(final String playerName, final int playerScore){
         JSONParser jsonParser = new JSONParser();
-
         JSONArray jsonArray;
-        FileWriter fileWriter;
+
+        File file = new File(Save.SAVE_PATH);
 
         try{
-            //fileWriter = new FileWriter(Save.SAVE_PATH);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.SAVE_PATH));
-
-            if(bufferedReader.readLine() == null){
+            if(file.length() == 0){ // FILE VUOTO
                 jsonArray = new JSONArray();
-                LinkedHashMap<String, String> map = new LinkedHashMap<>(); //TODO: String, Integer
+                LinkedHashMap<String, String> map = new LinkedHashMap<>();
                 map.put(Save.PLAYER_STRING, playerName);
                 map.put(Save.SCORE_STRING, String.valueOf(playerScore));
                 jsonArray.add(map);
 
-                fileWriter = new FileWriter(Save.SAVE_PATH);
-                fileWriter.write(jsonArray.toJSONString());
-                fileWriter.flush();
+                byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                fileWriter.close();
-            } else {
-                Object obj = jsonParser.parse(new FileReader(Save.SAVE_PATH));
+                // Usiamo FileOutputStream al posto di FileWriter perchè questo ci permette di scrivere bytes, mentre FileWriter prende stringhe.
+                FileOutputStream stream = new FileOutputStream(file);
+                stream.write(encryptedMessage);
+
+                stream.close();
+
+            } else{
+                byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+                String decryptedMessageString = new String(decryptedMessage, StandardCharsets.UTF_8);
+                Object obj = jsonParser.parse(decryptedMessageString);
 
                 jsonArray = (JSONArray) obj;
 
@@ -94,25 +67,38 @@ public final class Save { //TODO: rename in Data?
 
                 jsonArray.add(jsonObject);
 
-                fileWriter = new FileWriter(Save.SAVE_PATH);
-                fileWriter.write(jsonArray.toJSONString());
-                fileWriter.flush();
+                byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                fileWriter.close();
+                FileOutputStream stream = new FileOutputStream(file);
+                stream.write(encryptedMessage);
+
+                stream.close();
+
             }
-        }catch(Exception e){ //TODO: FileNotFoundException, IOInput
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    //TODO: add javadoc
-    //TODO: add decryption of encrypted file
-    public static LinkedHashMap<String, Integer> loadJSON(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
+    /**
+     *
+     * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
+     */
+    public static LinkedHashMap<String, Integer> loadSaveFile(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
+
         try {
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
+            byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
+
+            String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
+
+            System.out.println("decryptedMessage: " + Arrays.toString(decryptedMessage)); //TODO: remove
+            System.out.println("clearMessage: " + clearMessage); //TODO: remove
+            JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
+
+            //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
 
             for(Object o : jsonArray){
 
@@ -134,38 +120,6 @@ public final class Save { //TODO: rename in Data?
 
         return map;
     }
-
-    /**
-     *
-     * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save_file.txt and their relative score.
-     */
-    /*public static HashMap<String, Integer> load() { //TODO: remove
-
-        HashMap<String, Integer> data = new HashMap<>();
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(OLD_SAVE_FILE_PATH));
-
-            String line;
-            String playerName;
-            int playerScore;
-
-            while((line = bufferedReader.readLine()) != null && line.length() != 0){
-                playerName = line;
-                playerScore = Integer.parseInt(bufferedReader.readLine());
-
-                data.put(playerName, playerScore);
-            }
-
-            bufferedReader.close();
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        return data;
-    }*/
 
     /**
      * It will delete all the data stored in the save_file.txt, but it will keep the file.
