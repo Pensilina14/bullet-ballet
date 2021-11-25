@@ -4,17 +4,27 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
 public final class Save { //TODO: rename in Data?
 
     private static final String SAVE_PATH = "data/saves/save_file.dat"; //TODO: aggiungere paths
     private static final String LEVEL_PATH = "data/levels/"; //TODO: data/levels/
-    private static final String ENCRYPTED_LEVEL_PATH = ""; //TODO: aggiungere path
+    //private static final String ENCRYPTED_LEVEL_PATH = "data/levels/"; //TODO: aggiungere path, remove
     private static final String SETTINGS_PATH = "data/settings/"; //TODO: data/settings/...
     private static final String ENCRYPTED_SETTINGS_PATH = ""; //TODO: aggiungere path
+
+    private static final String OLD_FILE_EXTENSION = ".txt";
+    private static final String ENCRYPTED_FILES_EXTENSION = ".dat";
 
     private static final String PLAYER_STRING = "Player"; //TODO: rename it better
     private static final String SCORE_STRING = "Score"; //TODO: rename it better
@@ -157,19 +167,33 @@ public final class Save { //TODO: rename in Data?
         }
     }*/
 
+    //TODO: add javadoc
+    public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+        int numberOfLevels = getNumberOfLevels(Save.OLD_FILE_EXTENSION);
+
+        for(int i = 0; i < numberOfLevels; i++){
+            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + ".txt";
+            String levelEncrypted = Save.LEVEL_PATH + "level" + i + ".dat";
+            SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
+
+            //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
+            //levelFile.delete(); //TODO: uncomment quando avremo finito di testare i livelli.
+        }
+    }
+
     /**
      *
      * @param levelNumber: the number of the level that we want to load.
      * @return String[]: an array of strings with the data of the level.
      */
-    public static String[] loadLevel(int levelNumber){
+    public static String[] oldLoadLevel(int levelNumber){ //TODO: remove when we finished to test levels.
 
         String[] level;
         ArrayList<String> levelList = new ArrayList<>();
         String line;
 
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + ".txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + ".txt")); //TODO: cambiare .txt in .dat
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
                 levelList.add(String.valueOf(line));
@@ -184,6 +208,16 @@ public final class Save { //TODO: rename in Data?
         level = levelList.toArray(String[]::new);
 
         return level;
+    }
+
+    //TODO: add javadoc
+    public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Save.ENCRYPTED_FILES_EXTENSION;
+        byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
+        String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
+        //String[] level = clearLevel.split("\\n+"); //TODO: remove
+
+        return clearLevel.split("[\\r\\n]+");
     }
 
     /**
@@ -205,8 +239,13 @@ public final class Save { //TODO: rename in Data?
      *
      * @return int: the number of files in the directory "levels/", so all the levels stored.
      */
-    public static int getNumberOfLevels(){
+    public static int getNumberOfLevels(){ //TODO: remove
         return Objects.requireNonNull(new File(Save.LEVEL_PATH).listFiles()).length;
+    }
+
+    public static int getNumberOfLevels(String extension){
+        File levelsDirectory = new File(Save.LEVEL_PATH);
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
     }
 
     /**

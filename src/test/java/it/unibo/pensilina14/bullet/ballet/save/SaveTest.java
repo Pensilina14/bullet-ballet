@@ -2,6 +2,14 @@ package it.unibo.pensilina14.bullet.ballet.save;
 
 import org.junit.Test;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,18 +60,34 @@ public class SaveTest {
     }
 
     @Test
-    public void loadLevelTest(){
+    public void oldLoadLevelTest(){
 
         final int currentLevel = 0;
 
-        final String[] level = Save.loadLevel(currentLevel);
+        final String[] level = Save.oldLoadLevel(currentLevel);
 
         assertTrue(level.length != 0);
 
         final int max_levels = 3;
-        final int numberOfLevels = Save.getNumberOfLevels();
+        final int numberOfLevels = Save.getNumberOfLevels(".txt");
 
         assertEquals(max_levels, numberOfLevels);
+    }
+
+    @Test
+    public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+        final int NUMBER_OF_LEVELS = 3;
+
+        if(Save.getNumberOfLevels(".txt") > 0){
+            //Save.encryptLevels(); //TODO: uncomment when we finished to test the levels.
+        }
+
+        String[] s = Save.loadLevel(0);
+
+        assertEquals(NUMBER_OF_LEVELS, Save.getNumberOfLevels(".dat"));
+
+        assertNotNull(s);
+        assertTrue(s.length != 0);
     }
 
     /*@Test
