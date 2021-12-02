@@ -30,11 +30,15 @@ public class EntityContainer implements Container {
 
 	@Override
 	public final boolean isEmpty() {
+		/*
 		if (this.enemies.isEmpty() && this.obstacles.isEmpty() 
 				&& this.items.isEmpty() && this.platforms.isEmpty() && this.weapons.isEmpty()) {
 			return true;
 		}
 		return false;
+		*/
+		return this.enemies.isEmpty() && this.obstacles.isEmpty() 
+				&& this.items.isEmpty() && this.platforms.isEmpty() && this.weapons.isEmpty();
 	}
 	
 	public final Optional<List<Enemy>> getEnemies() {

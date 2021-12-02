@@ -12,7 +12,6 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
 
 public class DynamicObstacleTest {
 
@@ -24,7 +23,7 @@ public class DynamicObstacleTest {
     private final static double TIME = 10;
     private final static double MS_TO_S = 0.001;
     private final static double ENV_DIM = 500.0;
-    
+    /*
     private final DynamicObstacle dynamicObstacle = new DynamicObstacle(new Dimension2Dimpl(SIZE, SIZE),
             new GameEnvironment(ENV_DIM, ENV_DIM), MASS, new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED)); 
     
@@ -105,5 +104,5 @@ public class DynamicObstacleTest {
 //        dynamicObstacle.updateState(TIME);
 //        assertEquals(dynamicObstacle.getPosition(), prevPosition); 
 //    }
-    
+    */
 }

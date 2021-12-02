@@ -5,11 +5,11 @@ import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
-public class Player extends AbstractDynamicComponent implements Characters{
+public class Player extends GameEntity implements Characters{
 
     private double health;
     private Optional<Double> mana;
@@ -24,7 +24,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     private final static double MAX = 100.0;
 
     public Player(String name, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = 100.0;
@@ -32,7 +32,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = health;
@@ -40,14 +40,14 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(EntityList.Characters.Player playerType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.playerType = playerType;
         setPlayerType();
     }
 
     public Player(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         setRandomPlayer();
         setPlayerType();

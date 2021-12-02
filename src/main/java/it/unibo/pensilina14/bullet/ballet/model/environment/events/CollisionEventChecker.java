@@ -7,8 +7,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.DynamicObstacle;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.StaticObstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 
 public class CollisionEventChecker implements EventChecker {
@@ -37,27 +36,30 @@ public class CollisionEventChecker implements EventChecker {
 				if (isSingleElemList) {
 					break;
 				}
+				/*
 				checkPlayerAndItem(a, b);
 				checkPlayerAndItem(b, a);
 				checkPlayerAndEnemy(a, b);
 				checkObstacleAndPlayer(a, b);
-				checkObstacles(a, b);
+				//checkObstacles(a, b);
+				 * 
+				 */
 			}
 		}
 	}
 	
-	private void checkObstacles(final PhysicalObject a, final PhysicalObject b) {
-		if (a instanceof Enemy && (b instanceof DynamicObstacle || b instanceof StaticObstacle)) {
+	private void checkObstacles(final PhysicalObject a, final Obstacle b) {
+		if (a instanceof Enemy && (b instanceof Obstacle)) {
 			final Enemy enemy = (Enemy) a;
-			final PhysicalObject obstacle = b;
+			final Obstacle obstacle = b;
 			this.eventBuffer.addEvent(new EnemyHitsObstacleEvent(enemy, obstacle));
 		}
 	}
 
-	private void checkObstacleAndPlayer(final PhysicalObject a, final PhysicalObject b) {
-		if ((a instanceof DynamicObstacle || a instanceof StaticObstacle) && b instanceof Player) {
+	private void checkObstacleAndPlayer(final Obstacle a, final PhysicalObject b) {
+		if ((a instanceof Obstacle) && b instanceof Player) {
 			final Player player = (Player) b;
-			final PhysicalObject obstacle = a;
+			final Obstacle obstacle = a;
 			this.eventBuffer.addEvent(new PlayerHitsObstacleEvent(player, obstacle));
 		}
 	}
@@ -70,10 +72,10 @@ public class CollisionEventChecker implements EventChecker {
 		}
 	}
 
-	private void checkPlayerAndItem(final PhysicalObject a, final PhysicalObject b) {
-		if (a instanceof Enemy && (b instanceof DynamicObstacle || b instanceof StaticObstacle)) {
+	private void checkPlayerAndItem(final Item a, final PhysicalObject b) {
+		if (a instanceof Enemy && b instanceof Item) {
 			final Characters player = (Characters) b;
-			final Item item = (Item) a;
+			final Item item = a;
 			this.eventBuffer.addEvent(new CharacterHitsPickupObjEvent(player, item));
 		}
 	}

@@ -9,6 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -46,7 +47,7 @@ public interface Environment {
 	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
 	 * present in the environment.
 	 */
-	Optional<List<PhysicalObject>> getObstacles();
+	Optional<List<Obstacle>> getObstacles();
 	
 	/**
 	 * @return {@link List} of items({@link Item}) present in the environment.
@@ -88,7 +89,7 @@ public interface Environment {
 	 * 
 	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
 	 */
-	boolean addObstacle(PhysicalObject obstacle);
+	boolean addObstacle(Obstacle obstacle);
 	
 	/**
 	 * @param item which is the {@link Item} to be added.

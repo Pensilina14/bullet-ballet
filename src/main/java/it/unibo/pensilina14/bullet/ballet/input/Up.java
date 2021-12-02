@@ -23,7 +23,7 @@ public class Up implements Command {
 	@Override
 	public final void execute(final GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveUP(this.movement);
+		player.moveUp(this.movement);
 	}
 
 }
