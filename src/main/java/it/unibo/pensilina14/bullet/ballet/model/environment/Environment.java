@@ -11,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -96,7 +97,7 @@ public interface Environment {
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if item is already present.
 	 */
-	boolean addItem(PickupItem item);
+	boolean addItem(Item item);
 	
 	/**
 	 * @param platform indicates the {@link Platform} to be added.

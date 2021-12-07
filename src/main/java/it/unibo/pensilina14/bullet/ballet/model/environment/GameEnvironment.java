@@ -12,6 +12,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEven
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -194,11 +195,12 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public final boolean addItem(final PickupItem item) {
-		if (this.items.get().contains(item)) {
+	public final boolean addItem(final Item item) {
+		final PickupItem i = (PickupItem) item;
+		if (this.items.get().contains(i)) {
 			return false;
 		} else {
-			this.items.get().add(item);
+			this.items.get().add(i);
 			return true;
 		}
 	}
