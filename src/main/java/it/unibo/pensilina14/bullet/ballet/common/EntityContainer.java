@@ -17,8 +17,7 @@ public class EntityContainer implements Container {
     private final Optional<List<Item>> items;
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
-    
-    
+
 	public EntityContainer() {
 		this.enemies = Optional.of(new ArrayList<>());
 		this.obstacles = Optional.of(new ArrayList<>());
@@ -30,13 +29,6 @@ public class EntityContainer implements Container {
 
 	@Override
 	public final boolean isEmpty() {
-		/*
-		if (this.enemies.isEmpty() && this.obstacles.isEmpty() 
-				&& this.items.isEmpty() && this.platforms.isEmpty() && this.weapons.isEmpty()) {
-			return true;
-		}
-		return false;
-		*/
 		return this.enemies.isEmpty() && this.obstacles.isEmpty() 
 				&& this.items.isEmpty() && this.platforms.isEmpty() && this.weapons.isEmpty();
 	}
