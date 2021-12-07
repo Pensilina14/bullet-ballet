@@ -10,7 +10,8 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
@@ -47,12 +48,12 @@ public interface Environment {
 	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
 	 * present in the environment.
 	 */
-	Optional<List<Obstacle>> getObstacles();
+	Optional<List<ObstacleImpl>> getObstacles();
 	
 	/**
 	 * @return {@link List} of items({@link Item}) present in the environment.
 	 */
-	Optional<List<Item>> getItems();
+	Optional<List<PickupItem>> getItems();
 	
 	/**
 	 * 
@@ -82,22 +83,20 @@ public interface Environment {
 	boolean addEnemy(Enemy enemy);
 	
 	/**
-	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
+	 * @param obstacle which is an {@link ObstacleImpl} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if obstacle is already present and in case of a wrong parameter.
-	 * 
-	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
 	 */
 	boolean addObstacle(Obstacle obstacle);
 	
 	/**
-	 * @param item which is the {@link Item} to be added.
+	 * @param item which is the {@link PickupItem} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if item is already present.
 	 */
-	boolean addItem(Item item);
+	boolean addItem(PickupItem item);
 	
 	/**
 	 * @param platform indicates the {@link Platform} to be added.
