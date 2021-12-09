@@ -37,7 +37,7 @@ public class CollisionEventChecker implements EventChecker {
 
 	private void checkAllObjects(final boolean isSingleElemList, final PhysicalObject a) {
 		for (final PhysicalObject b : this.otherObjects) {
-			if (this.collisionChecker.isCollidingWith(a, b)) {
+			if (this.collisionChecker.areColliding(a, b)) {
 				checkPlayerAndItem(a, b);
 				checkPlayerAndEnemy(a, b);
 				checkObstacleAndPlayer(a, b);
