@@ -7,5 +7,5 @@ public interface Collision {
 	/*
 	 *  @return true if the first object collides with the second.
 	 */
-	boolean isCollidingWith(PhysicalObject firstObject, PhysicalObject otherObject);
+	boolean areColliding(PhysicalObject firstObject, PhysicalObject otherObject);
 }

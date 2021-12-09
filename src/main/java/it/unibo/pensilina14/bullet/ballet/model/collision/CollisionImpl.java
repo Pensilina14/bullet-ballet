@@ -15,7 +15,7 @@ public class CollisionImpl implements Collision {
 	*/
 	
 	@Override 
-	public boolean isCollidingWith(final PhysicalObject firstObject, final PhysicalObject otherObject) {
+	public boolean areColliding(final PhysicalObject firstObject, final PhysicalObject otherObject) {
 		if (this.checkLeft(firstObject, otherObject)) {
 			return this.checkUp(firstObject, otherObject) || this.checkDown(firstObject, otherObject);
 		} else if(this.checkRight(firstObject, otherObject)) {
