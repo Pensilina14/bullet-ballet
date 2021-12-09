@@ -10,8 +10,9 @@ public class GameState {
 	
 	public GameState() {
 		this.score = 0;
-		this.env = new GameEnvironment();
-		this.generator = new EnvironmentGenerator(this.env);
+		this.generator = new EnvironmentGenerator();
+		this.env = new GameEnvironment(generator.getLevelHeight(), generator.getLevelWidth());
+		this.generator.setEnvironment(this.env);
 		this.generator.generate();
 	}
 	
@@ -39,7 +40,7 @@ public class GameState {
 		return this.env.getPlayer().get().getHealth() == 0;
 	}
 	
-	public void update(final int dt) {
-		this.env.updateState(dt);
+	public void update() {
+		this.env.updateState();
 	}
 }

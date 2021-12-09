@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Optional;
+
 public class SpeedVector2DImpl implements SpeedVector2D{
 
     private final MutablePosition2D position;
@@ -27,8 +29,8 @@ public class SpeedVector2DImpl implements SpeedVector2D{
     }
 
     @Override
-    public MutablePosition2D getPosition() {
-        return this.position;
+    public Optional<MutablePosition2D> getPosition() {
+        return Optional.of(this.position);
     }
 
 }

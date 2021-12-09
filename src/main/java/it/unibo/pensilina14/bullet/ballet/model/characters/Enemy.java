@@ -1,18 +1,15 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.Optional;
 import java.util.Random;
 
-public class Enemy extends AbstractDynamicComponent implements Characters{
+public class Enemy extends GameEntity implements Characters{
 
     private double health;
     private Optional<Double> mana;
@@ -27,7 +24,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
 
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = health;
@@ -36,13 +33,13 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     }
 
     public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
         this.enemyType = enemyType;
         setEnemyType();
     }
 
     public Enemy(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         setRandomEnemy();
         setEnemyType();
@@ -72,7 +69,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 this.name = "Enemy1";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect);
+                //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case ENEMY2:
                 minHealth = 60.0;
@@ -80,7 +77,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 this.name = "Enemy2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("M4A1");
+                //this.weapon = new WeaponImpl("M4A1"); //TODO: add weapon
                 break;
             case ENEMY3:
                 minHealth = 40.0;
@@ -88,7 +85,7 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
                 this.name = "Enemy3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("Bazooka");
+                //this.weapon = new WeaponImpl("Bazooka"); //TODO: add weapon
                 break;
         }
     }
@@ -115,16 +112,6 @@ public class Enemy extends AbstractDynamicComponent implements Characters{
     @Override
     public void setHealth(double setHealth) {
         this.health = setHealth;
-    }
-
-    @Override
-    public boolean jump() { //TODO: add a parameter
-        return super.moveUP(10.0);
-    }
-
-    @Override
-    public boolean crouch() { //TODO: add a parameter
-        return super.moveDOWN(10.0);
     }
 
     @Override

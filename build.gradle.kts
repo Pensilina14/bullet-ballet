@@ -32,6 +32,10 @@ val kotlinVersion = "1.3.41"
 
 dependencies {
 	implementation("org.apache.commons:commons-configuration2:2.7")
+
+    // JSON
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+	
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {

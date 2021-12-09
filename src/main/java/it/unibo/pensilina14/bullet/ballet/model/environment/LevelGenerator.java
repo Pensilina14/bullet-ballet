@@ -11,9 +11,20 @@ public interface LevelGenerator {
 	 */
 	void generate();
 	/**
+	 * This method sets the {@link Environment} in which
+	 * the world will be generated.
+	 * 
+	 * @param env {@link Environment} to be set.
+	 */
+	void setEnvironment(Environment env);
+	/**
 	 * @return generated level's width.
 	 */
-	int getLevelWidth();
+	double getLevelWidth();
+	/**
+	 * @return generated level's height.
+	 */
+	double getLevelHeight();
 	/**
 	 * 
 	 * @return platform size.

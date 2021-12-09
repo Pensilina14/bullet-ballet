@@ -10,40 +10,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class Coin extends Pane {
+public class CoinSprite extends Pane {
 
-    public enum Coins {
-    	/**
-    	 * 
-    	 */
+    public enum Coins {//TODO: mettere l'enum a parte?
         GOLD_COIN("res/assets/sprites/coins/MonedaD.png"),
-        /**
-         * 
-         */
         SILVER_COIN("res/assets/sprites/coins/MonedaP.png"),
-        /**
-         * 
-         */
         RED_COIN("res/assets/sprites/coins/MonedaR.png"),
-        /**
-         * 
-         */
         EMERALD_COIN("res/assets/sprites/coins/spr_coin_strip4.png"),
-        /**
-         * 
-         */
         LIGHT_BLUE_COIN("res/assets/sprites/coins/spr_coin_azu.png"),
-        /**
-         * 
-         */
         YELLOW_COIN("res/assets/sprites/coins/spr_coin_ama.png"),
-        /**
-         * 
-         */
         GREY_COIN("res/assets/sprites/coins/spr_coin_gri.png"),
-        /**
-         * 
-         */
         RED_COIN2("res/assets/sprites/coins/spr_coin_roj.png"); //TODO: rename it differently
 
         private final String path;
@@ -58,24 +34,15 @@ public class Coin extends Pane {
     }
 
     private ImageView coinView;
+    private final Coins coinType;
+    private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
+    private static final Random RAND = new Random();
 
-    private Coins coinType;
-
-    private int minY;
-    private int minX;
-    private int coinWidth;
-    private int coinHeight;
-
-    /**
-     * 
-     */
-    public static Coins DEFAULT_COIN = Coins.GOLD_COIN;
-
-    public Coin(){
+    public CoinSprite(){
         this.coinType = DEFAULT_COIN;
     }
 
-    public Coin(final Coins coinType, final int x, final int y) throws IOException {
+    public CoinSprite(final Coins coinType, final int x, final int y) throws IOException {
 
         this.coinType = coinType;
 
@@ -85,6 +52,11 @@ public class Coin extends Pane {
     }
 
     private void setCoin(final int x, final int y) throws IOException {
+        final int minX;
+        final int minY;
+        final int coinWidth;
+        final int coinHeight;
+
         switch(this.coinType){
             case GOLD_COIN:
             case SILVER_COIN:
@@ -115,21 +87,21 @@ public class Coin extends Pane {
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
                 break;
             default:
-                break;
+                break; //TODO: default case
         }
     }
 
     public final Coins coinChooser(){
-        final Random rand = new Random();
-        final int max = Coin.Coins.values().length;
-        final int min = 0;
-        final int randomMap = rand.nextInt(((max - min)) + min); // nextInt : 0 incluso, max escluso.
+        final int max = CoinSprite.Coins.values().length;
+        //final int min = 0;
+        /*max -min +min = max, no?*/
+        final int randomMap = RAND.nextInt(max); // nextInt : 0 incluso, max escluso.
         for (final Coins c : Coins.values()) {
             if (c.ordinal() == randomMap) {
                 return c;
             }
         }
-        return Coin.DEFAULT_COIN;
+        return CoinSprite.DEFAULT_COIN;
     }
 
 }

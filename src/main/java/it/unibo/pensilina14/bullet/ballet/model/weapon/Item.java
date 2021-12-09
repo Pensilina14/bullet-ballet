@@ -5,13 +5,15 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
 public interface Item extends PhysicalObject{
     
-        /**
-         * 
-         * @return ITEM_ID
-         */
-        Items getItemId();
+    /**
+     * 
+     * @return ITEM_ID
+     */
+    Items getItemId();
 	/**
 	* @return item's effect when it collides with another physical object
 	*/
 	Effect getEffect();
+	
+	void moveToRandomPosition();
 }

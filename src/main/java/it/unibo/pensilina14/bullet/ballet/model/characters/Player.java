@@ -4,15 +4,12 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.AbstractDynamicComponent;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
-public class Player extends AbstractDynamicComponent implements Characters{
+public class Player extends GameEntity implements Characters{
 
     private double health;
     private Optional<Double> mana;
@@ -27,7 +24,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     private final static double MAX = 100.0;
 
     public Player(String name, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = 100.0;
@@ -35,7 +32,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.name = name;
         this.health = health;
@@ -43,14 +40,14 @@ public class Player extends AbstractDynamicComponent implements Characters{
     }
 
     public Player(EntityList.Characters.Player playerType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         this.playerType = playerType;
         setPlayerType();
     }
 
     public Player(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
-        super(dimension, environment, mass, vector);
+        super(vector, environment, mass, dimension);
 
         setRandomPlayer();
         setPlayerType();
@@ -88,7 +85,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("Knife");
+                //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case PLAYER3:
                 minHealth = 50.0;
@@ -96,7 +93,7 @@ public class Player extends AbstractDynamicComponent implements Characters{
                 this.name = "Player3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("AK-47");
+                //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
                 break;
         }
     }
@@ -119,16 +116,6 @@ public class Player extends AbstractDynamicComponent implements Characters{
     @Override
     public void setHealth(double setHealth) {
         this.health = setHealth;
-    }
-
-    @Override
-    public boolean jump() { //TODO: add parameter
-        return super.moveUP(10.0);
-    }
-
-    @Override
-    public boolean crouch() { //TODO: add parameter
-        return super.moveDOWN(10.0);
     }
 
     @Override

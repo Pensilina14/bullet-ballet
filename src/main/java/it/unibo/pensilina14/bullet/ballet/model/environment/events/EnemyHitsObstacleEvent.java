@@ -2,13 +2,14 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 
 import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 
 public class EnemyHitsObstacleEvent implements GameEvent {
 	
 	private final Characters enemy;
-	private final PhysicalObject obstacle;
+	private final Obstacle obstacle;
 	
-	public EnemyHitsObstacleEvent(final Characters enemy, final PhysicalObject obstacle) {
+	public EnemyHitsObstacleEvent(final Characters enemy, final Obstacle obstacle) {
 		super();
 		this.enemy = enemy;
 		this.obstacle = obstacle;
@@ -24,7 +25,7 @@ public class EnemyHitsObstacleEvent implements GameEvent {
 	/**
 	 * @return the obstacle
 	 */
-	public PhysicalObject getObstacle() {
+	public Obstacle getObstacle() {
 		return obstacle;
 	}
 	

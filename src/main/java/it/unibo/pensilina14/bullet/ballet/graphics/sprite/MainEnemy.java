@@ -1,8 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
-import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,38 +9,70 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+
 public class MainEnemy extends Pane {
 
-    private Image enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
-    private ImageView enemyView = new ImageView(this.enemyImage);
+    private final Image enemyImage;
+    private final ImageView enemyView;
+    private MutablePosition2D position;
 
-    private final int offsetX = 0;
-    private final int offsetY = 0;
-    private final int enemyViewWidth = 36;
-    private final int enemyViewHeight = 51;
-
-    private final FactoryCharactersImpl characters = new FactoryCharactersImpl();
-    //private final Enemy enemy;
+    private final int offsetX;
+    private final int offsetY;
+    private final int enemyViewWidth;
+    private final int enemyViewHeight;
 
     private final static int ENEMY_SIZE = 40;
 
-    public MainEnemy(int x, int y) throws IOException {
 
-        //this.enemy = this.characters.createRandomEnemy(); //TODO: da rimuovere perchè dovrà essere messo nel model.
+    public MainEnemy(final double x, final double y) throws IOException {
 
+        this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
+        this.enemyView = new ImageView(this.enemyImage);
+        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
-        this.enemyView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.enemyViewWidth, this.enemyViewHeight));
+        this.offsetX = 0;
+        this.offsetY = -0;
+        this.enemyViewWidth = 36;
+        this.enemyViewHeight = 51;
 
-        this.enemyView.setTranslateX(x);
-        this.enemyView.setTranslateY(y);
+        this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
-        getChildren().addAll(this.enemyView);
+        this.getChildren().add(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
+    
+    public void renderPosition(final double x, final double y) {
+    	this.setTranslateX(x);
+    	this.setTranslateY(y);
+    	this.position = new MutablePosition2Dimpl(x, y);
+    }
+    
+    public final void renderMovingPosition() {
+    	final double netx = this.position.getX() - 1.0;
+    	this.position.setPosition(netx, this.position.getY());
+    	this.setTranslateX(this.position.getX());
+    }
 
-    /*public Enemy getEnemy(){
-        return this.enemy;
-    }*/
+    public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY
+    		, final int enemyViewWidth, final int enemyViewHeight){
+        this.enemyImage = enemyImage;
+        this.enemyView = new ImageView(this.enemyImage);
+        this.renderPosition(x, y);
+        this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
+        this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
+
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.enemyViewWidth = enemyViewWidth;
+        this.enemyViewHeight = enemyViewHeight;
+
+        this.enemyView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.enemyViewWidth, this.enemyViewHeight));
+
+        getChildren().addAll(this.enemyView);
+    }
+
 }

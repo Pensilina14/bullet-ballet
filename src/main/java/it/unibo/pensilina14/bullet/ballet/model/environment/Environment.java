@@ -9,7 +9,10 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
@@ -46,12 +49,12 @@ public interface Environment {
 	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
 	 * present in the environment.
 	 */
-	Optional<List<PhysicalObject>> getObstacles();
+	Optional<List<ObstacleImpl>> getObstacles();
 	
 	/**
 	 * @return {@link List} of items({@link Item}) present in the environment.
 	 */
-	Optional<List<Item>> getItems();
+	Optional<List<PickupItem>> getItems();
 	
 	/**
 	 * 
@@ -81,17 +84,15 @@ public interface Environment {
 	boolean addEnemy(Enemy enemy);
 	
 	/**
-	 * @param obstacle which is an Obstacle, {@link StaticObstacle} or {@link DynamicObstacle}, to be added.
+	 * @param obstacle which is an {@link ObstacleImpl} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if obstacle is already present and in case of a wrong parameter.
-	 * 
-	 * @throws an exception if parameter is not a {@link DynamicObstacle} or a {@link StaticObstacle}.
 	 */
-	boolean addObstacle(PhysicalObject obstacle);
+	boolean addObstacle(Obstacle obstacle);
 	
 	/**
-	 * @param item which is the {@link Item} to be added.
+	 * @param item which is the {@link PickupItem} to be added.
 	 * 
 	 * @return boolean representing the success of the operation.
 	 * Unsuccess is guaranteed if item is already present.
@@ -131,7 +132,7 @@ public interface Environment {
 	 * This must recall every {@link AbstractDynamicComponent}'s {@link AbstractDynamicComponent#updateState} method,
 	 * in order to update the whole environment. 
 	 */
-	void updateState(int dt);
+	void updateState();
 	
 	/**
 	 * Sets the event listener for the environment, so it
@@ -151,7 +152,7 @@ public interface Environment {
 		
 		private final double value;
 
-		private GravityConstants(final double value) {
+		GravityConstants(final double value) {
 			this.value = value;
 		}
 		

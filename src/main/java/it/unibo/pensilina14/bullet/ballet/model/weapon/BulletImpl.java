@@ -1,27 +1,36 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList.BulletType;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
-import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 
-public class BulletImpl implements Bullet {
+public class BulletImpl extends GameEntity implements Bullet {
 
 	private final String name;
 	private double damage;
 	private boolean fired;
-	
-	public BulletImpl(final EntityList.BulletType bulletType) {
-		this.name = bulletType.description();
-		this.damage = bulletType.damage();
-		this.fired = false;
-	}
+	private final Items id;
+    private final Effect effect;
+    private final EntityList.BulletType bulletType;
 	
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	public BulletImpl(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass, final Dimension2D dimension,
+			final Items id, final Effect effect, final BulletType bulletType) {
+		super(speedVector, gameEnvironment, mass, dimension);
+		this.name = bulletType.description();
+		this.damage = bulletType.damage();
+		this.fired = false;
+		this.id = id;
+		this.effect = effect;
+		this.bulletType = bulletType;
 	}
 
 	@Override
@@ -31,37 +40,14 @@ public class BulletImpl implements Bullet {
 
 	@Override
 	public Effect getEffect() {
-		return null;
+		return this.effect;
 	}
 
     @Override
     public Items getItemId() {
-        // TODO Auto-generated method stub
-        return null;
+		return this.id;
     }
 
-	@Override
-	public MutablePosition2D getPosition() {
-		return this.getPosition();
-	}
-
-	@Override
-	public Boolean isCollidingWith(final PhysicalObject other) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Dimension2D getDimension() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Environment getGameEnvironment() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	@Override
 	public void setDamage(final double factor) {
 		this.damage *= factor;
@@ -75,6 +61,16 @@ public class BulletImpl implements Bullet {
 	@Override
 	public boolean isShot() {
 		return this.fired;
+	}
+	
+	@Override
+	public EntityList.BulletType getBulletType() {
+		return this.bulletType;
+	}
+
+	@Override
+	public void moveToRandomPosition() {
+		// TODO Auto-generated method stub
 	}
 
 }

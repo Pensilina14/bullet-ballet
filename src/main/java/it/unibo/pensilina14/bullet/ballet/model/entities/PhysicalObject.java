@@ -1,7 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.model.entities;
 
+import java.util.Optional;
+
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 /**
@@ -13,24 +16,31 @@ public interface PhysicalObject {
 	 * 
 	 * @return object's coordinates
 	 */
-	MutablePosition2D getPosition();
+	Optional<MutablePosition2D> getPosition();
 
-	/**
-	 * 
-	 * @param other
-	 * @return true if physicalObject is colliding with another one
-	 */
-	Boolean isCollidingWith(PhysicalObject other);
-
+	Optional<SpeedVector2D> getSpeedVector();
+	
+	double getMass();
+	
+	void moveUp(double y);
+	
+	void moveDown(double y);
+	
+	void moveLeft(double x);
+	
+	void moveRight(double x);
+	
+	void updateState();
+	
 	/**
 	 * 
 	 * @return object's dimension
 	 */
-	Dimension2D getDimension();
+	Optional<Dimension2D> getDimension();
 
 	/**
 	 * 
 	 * @return gameEnvironment istance
 	 */
-	Environment getGameEnvironment();
+	Optional<Environment> getGameEnvironment();
 }

@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class Dimension2Dimpl implements Dimension2D {
@@ -13,8 +15,8 @@ public class Dimension2Dimpl implements Dimension2D {
     }
 
     @Override
-    public ImmutablePair<Double, Double> getSize() {
-      return ImmutablePair.of(this.height, this.width);
+    public Optional<ImmutablePair<Double, Double>> getSize() {
+      return Optional.of(ImmutablePair.of(this.height, this.width));
     }
 
     @Override
@@ -40,19 +42,19 @@ public class Dimension2Dimpl implements Dimension2D {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Dimension2Dimpl other = (Dimension2Dimpl) obj;
-        if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
-            return false;
-        if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width))
-            return false;
-        return true;
+        }
+        final Dimension2Dimpl other = (Dimension2Dimpl) obj;
+        return !(Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height)
+        		|| Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width));
     }
    
 }

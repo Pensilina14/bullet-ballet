@@ -3,7 +3,10 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import it.unibo.pensilina14.bullet.ballet.core.Game;
+import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
+import it.unibo.pensilina14.bullet.ballet.Game;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -35,10 +38,20 @@ public class HomePageController {
     
     @FXML
     void newGameOnMouseClick(final MouseEvent event) {
-        final Game game = new Game();
-        final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
-        stage.setScene(game.getScene());
-        game.start();
+    	final Game game = new Game();
+    	game.getSettings().setDifficulty(Difficulties.EASY);
+    	game.getSettings().setResolution(Resolutions.FULLHD);
+    	final AbstractScene gameScene = game.getView();
+    	final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+        stage.setWidth(game.getSettings().getCurrentResolution().getWidth());
+        stage.setHeight(game.getSettings().getCurrentResolution().getHeight());
+        gameScene.setHeight(stage.getHeight());
+        gameScene.setWidth(stage.getWidth());
+        stage.setScene(gameScene);
+
+        stage.show();
+        final AnimationTimer timer = new AnimationTimerImpl(game);
+        timer.start();
     }
 
     @FXML
@@ -48,6 +61,6 @@ public class HomePageController {
 
     @FXML
     void statsOnMouseClick(final MouseEvent event) throws IOException {
-        
+        loader.goToSelectedPageOnInput(Frames.GAMESTATS, event);
     }
 }

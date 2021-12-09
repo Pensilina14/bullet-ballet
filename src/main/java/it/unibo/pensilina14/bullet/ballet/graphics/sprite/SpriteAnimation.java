@@ -13,12 +13,14 @@ public class SpriteAnimation extends Transition {
     private final ImageView imgView;
     private final int count;
     private final int columns;
-    private int offsetX;
-    private int offsetY;
+    private final int offsetX;
+    private final int offsetY;
     private final int imgViewWidth;
     private final int imgViewHeight;
 
-    public SpriteAnimation(ImageView imgView, Duration duration, int count, int columns, int offsetX, int offsetY, int imgViewWidth, int imgViewHeight){
+    public SpriteAnimation(final ImageView imgView, final Duration duration, final int count
+    		, final int columns, final int offsetX, final int offsetY, final int imgViewWidth
+    		, final int imgViewHeight){
         this.imgView = imgView;
         this.count = count;
         this.columns = columns;
@@ -35,7 +37,7 @@ public class SpriteAnimation extends Transition {
     }
 
     @Override
-    protected void interpolate(double frac) {
+    protected void interpolate(final double frac) {
         final int index = Math.min((int)Math.floor(this.count * frac), this.count - 1);
         final int x = (index % this.columns) * this.imgViewWidth + this.offsetX;
         final int y = (index / this.columns) * this.imgViewHeight + this.offsetY;
