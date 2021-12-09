@@ -21,13 +21,13 @@ public class WeaponFactoryImpl implements WeaponFactory {
 	}
 
 	@Override
-	public WeaponImpl createShotGun(final Environment gameEnv, SpeedVector2D speedVector) {
+	public WeaponImpl createShotGun(final Environment gameEnv, final SpeedVector2D speedVector) {
 		return new WeaponImpl(EntityList.Weapons.SHOTGUN, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector, Items.WEAPON,
 				effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
 	}
 
 	@Override
-	public WeaponImpl createAuto(final Environment gameEnv, SpeedVector2D speedVector) {
+	public WeaponImpl createAuto(final Environment gameEnv, final SpeedVector2D speedVector) {
 		return new WeaponImpl(EntityList.Weapons.AUTO, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector, Items.WEAPON,
 				effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
 	}
