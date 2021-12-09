@@ -40,7 +40,7 @@ public class CollisionEventChecker implements EventChecker {
 			if (this.collisionChecker.areColliding(a, b)) {
 				checkPlayerAndItem(a, b);
 				checkPlayerAndEnemy(a, b);
-				checkObstacleAndPlayer(a, b);
+				checkPlayerAndObstacle(a, b);
 			}
 			if (isSingleElemList) {
 				break;
@@ -48,7 +48,7 @@ public class CollisionEventChecker implements EventChecker {
 		}
 	}
 
-	private void checkObstacleAndPlayer(final PhysicalObject a, final PhysicalObject b) {
+	private void checkPlayerAndObstacle(final PhysicalObject a, final PhysicalObject b) {
 		if (a instanceof ObstacleImpl && b instanceof Player) {
 			final Player player = (Player) b;
 			final ObstacleImpl obstacle = (ObstacleImpl) a;
