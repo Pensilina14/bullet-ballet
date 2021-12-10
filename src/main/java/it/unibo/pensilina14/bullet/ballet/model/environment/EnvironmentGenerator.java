@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
@@ -76,9 +77,15 @@ public class EnvironmentGenerator implements LevelGenerator {
                     case LevelEntity.OBSTACLE:
                         this.env.get().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0)));
                         break;
-                    case LevelEntity.WEAPON:
+                    case LevelEntity.GUN:
                         this.env.get().addWeapon(this.weaponFactory.createGun(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
                         break;
+                    case LevelEntity.SHOTHUN:
+                    	this.env.get().addWeapon(this.weaponFactory.createShotGun(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
+                    	break;
+                    case LevelEntity.AUTOGUN:
+                    	this.env.get().addWeapon(this.weaponFactory.createAuto(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));
+                    	break;
                     case LevelEntity.PLAYER:
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
                         this.env.get().setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j, i), 1.0), this.env.get()));

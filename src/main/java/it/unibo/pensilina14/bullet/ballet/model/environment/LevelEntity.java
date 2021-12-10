@@ -29,7 +29,9 @@ public final class LevelEntity{ //TODO: fix the enum and use that
     public static final char PLATFORM = '1';
     public static final char COIN = '2';
     public static final char OBSTACLE = '3';
-    public static final char WEAPON = '4';
+    public static final char GUN = 'G';
+    public static final char SHOTHUN = 'S';
+    public static final char AUTOGUN = 'A';
     public static final char PLAYER = 'P';
     public static final char HEART = '*';
     public static final char POISON = 'x';
