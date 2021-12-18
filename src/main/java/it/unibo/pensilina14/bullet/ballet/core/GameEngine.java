@@ -68,6 +68,8 @@ public class GameEngine implements Controller, GameEventListener {
 			this.gameState.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("Game state present, event listener set only.");
 		}
+        AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
+        this.mainLoop();
 	}
 	
 	public final void mainLoop() {
