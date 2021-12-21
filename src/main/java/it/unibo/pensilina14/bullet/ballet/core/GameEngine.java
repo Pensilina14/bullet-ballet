@@ -52,10 +52,10 @@ public class GameEngine implements Controller, GameEventListener {
 	public final void setup() {
 		if (this.view.isEmpty()) {
 			this.view = Optional.of(new MapScene(this.gameState.get(), this));
-			this.view.get().setup();
+			this.view.get().setup(this);
 			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
-			this.view.get().setup();
+			this.view.get().setup(this);
 			this.view.get().setInputController(this);
 			AppLogger.getAppLogger().debug("View input controller set.");
 		}
