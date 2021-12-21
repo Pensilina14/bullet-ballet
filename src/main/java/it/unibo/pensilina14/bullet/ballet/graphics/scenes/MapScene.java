@@ -1,6 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
@@ -12,8 +13,10 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Down;
+import it.unibo.pensilina14.bullet.ballet.input.Esc;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
+import it.unibo.pensilina14.bullet.ballet.input.Space;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
@@ -78,12 +81,14 @@ public class MapScene extends AbstractScene implements GameView{
         //this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public final void setup() {
+    public final void setup(final Controller controller) {
+    	setInputController(controller);
     	this.initScene();
         this.root.getChildren().add(this.appPane);
         AppLogger.getAppLogger().debug("Inside MapScene setup() method."); 
         try {
             this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
+            AppLogger.getAppLogger().debug("Load background image");
         } catch (final IOException e) {
             e.printStackTrace();
 			AppLogger.getAppLogger().error("Failed to load background image.");
@@ -135,7 +140,7 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	for (final Enemy x : world.getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() * platformSize 
+    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
     				, xPos.getY() * platformSize);
     		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
@@ -214,8 +219,8 @@ public class MapScene extends AbstractScene implements GameView{
     private void update() {
     	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
-    	if (this.keysPressed.contains(KeyCode.SPACE)) {
-    		AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+    	if (this.keysPressed.contains(KeyCode.UP)) {
+    		AppLogger.getAppLogger().info("Key 'UP' pressed.");
     		this.controller.get().notifyCommand(new Up(0.5));
     		final Timer t = new Timer();
     		t.schedule(new TimerTask() {
@@ -226,11 +231,13 @@ public class MapScene extends AbstractScene implements GameView{
     		}, 250L);
     	}
     	
+    	/*
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
         }
+        */
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
         	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
@@ -246,6 +253,17 @@ public class MapScene extends AbstractScene implements GameView{
         if (this.keysPressed.contains(KeyCode.LEFT)) {
         	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
+        }
+        
+        if (this.keysReleased.contains(KeyCode.SPACE)) {
+        	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+        	this.controller.get().notifyCommand(new Space());
+        	//TODO: to implement shooting
+        }
+        
+        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
+        	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	this.controller.get().notifyCommand(new Esc());
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
@@ -272,6 +290,10 @@ public class MapScene extends AbstractScene implements GameView{
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	this.keysReleased.remove(KeyCode.SPACE);
+        }
+        
+        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
+        	this.keysReleased.remove(KeyCode.ESCAPE);
         }
         
     }
