@@ -16,6 +16,8 @@ public interface PageLoader {
      * @throws IOException
      */
     void goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException;
+    
+    void goToSelectedPageOnInput(final Frames frame) throws IOException;
     /**
      * 
      * This will load the software's first scene.
