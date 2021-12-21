@@ -47,13 +47,15 @@ public class Game {
 		this.engine = engine;
 		this.settings = settings;
 	}
-
+    
+    /*	Not used
 	public final void start() {
     	AppLogger.getAppLogger().debug("Inside Game start() method.");
-            this.engine.setup();
-            //AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
-            //this.engine.mainLoop();
+    	this.engine.setup();
+        //AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
+        //this.engine.mainLoop();
     }
+    */
 
     public final AbstractScene getView() {
     	return this.view;
