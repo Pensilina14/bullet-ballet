@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import javafx.scene.layout.Pane;
 
@@ -10,9 +11,10 @@ import javafx.scene.layout.Pane;
  */
 public interface GameView {
 	/**
+	 * @param controller 
 	 * 
 	 */
-	void setup();
+	void setup(Controller controller);
 	void draw();
 	void setInputController(Controller controller);
 	Pane getAppPane();
