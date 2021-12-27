@@ -93,7 +93,7 @@ public class Enemy extends GameEntity implements Characters{
     @Override
 	public void updateState() {
 		this.getSpeedVector().get().noSpeedVectorSum(-MS_TO_S, 0);
-    	System.out.println("Enemy Model: \t" + this.getPosition().get().getX());
+    	//System.out.println("Enemy Model: \t" + this.getPosition().get().getX());
 	}
 
     private void AI(){
