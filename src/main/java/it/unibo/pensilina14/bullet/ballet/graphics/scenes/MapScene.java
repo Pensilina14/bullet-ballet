@@ -214,7 +214,6 @@ public class MapScene extends AbstractScene implements GameView{
 		healthInfo.setFont(Font.font(24));
 		healthInfo.setPadding(Insets.EMPTY);
 		this.uiPane.getChildren().add(healthInfo);
-		this.uiPane.getInsets()
     }
 
     @Override
