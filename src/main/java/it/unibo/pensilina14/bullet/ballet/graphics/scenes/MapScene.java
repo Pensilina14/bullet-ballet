@@ -115,15 +115,15 @@ public class MapScene extends AbstractScene implements GameView{
     
     private void initialize() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
-    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+    	// final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
 
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
     	
     	if (world.getPlayer().isPresent()) {
     		final MutablePosition2D playerPos = world.getPlayer().get().getPosition().get();
-    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX() * platformSize, 
-    				playerPos.getY() * platformSize)));
+    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
+    				playerPos.getY())));
     		this.mainPlayer.setRight(playerPos);
         	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
        		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
@@ -132,7 +132,7 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType()
-    				, xPos.getX() * platformSize, xPos.getY() * platformSize);
+    				, xPos.getX(), xPos.getY());
     		this.platformSprites.put(newSprite, xPos);
     		this.gamePane.getChildren().add(newSprite);
     	}
@@ -141,7 +141,7 @@ public class MapScene extends AbstractScene implements GameView{
     	for (final Enemy x : world.getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
-    				, xPos.getY() * platformSize);
+    				, xPos.getY());
     		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
     	}
@@ -152,17 +152,17 @@ public class MapScene extends AbstractScene implements GameView{
     	    final MutablePosition2D position = x.getPosition().get();
     		if (x.getItemId().equals(Items.DAMAGE)) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(position);
-        	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
+        	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
     		} else if (x.getItemId().equals(Items.HEART)) {
         	    final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(position);
-        	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
+        	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
     		} else if (x.getItemId().equals(Items.POISON)) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generatePoisoningItemSprite(position);
-        	    itemSprite.renderPosition(position.getX() * platformSize, position.getY() * platformSize);
+        	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
     		}
@@ -174,7 +174,7 @@ public class MapScene extends AbstractScene implements GameView{
     		final MutablePosition2D xPos = x.getPosition().get();
     		if (x instanceof Obstacle) {
     			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateStaticObstacleSprite(xPos);
-    			obstacleSprite.renderPosition(xPos.getX() * platformSize, xPos.getY() * platformSize);
+    			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
     			this.obstacleSprites.put(obstacleSprite, xPos);
     			this.gamePane.getChildren().add(obstacleSprite);
     			AppLogger.getAppLogger().debug("Static Obstacle rendered");
@@ -185,19 +185,19 @@ public class MapScene extends AbstractScene implements GameView{
 			final MutablePosition2D xPos = x.getPosition().get();
 			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN, x
-						, xPos.getX() * platformSize, xPos.getY() * platformSize);
+						, xPos.getX(), xPos.getY());
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Gun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN, x
-						, xPos.getX() * platformSize, xPos.getY() * platformSize);
+						, xPos.getX(), xPos.getY());
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Shotgun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO, x
-						, xPos.getX() * platformSize, xPos.getY() * platformSize);
+						, xPos.getX(), xPos.getY());
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Automatic weapon rendered");
@@ -217,16 +217,16 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void update() {
-    	AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
+    	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
     	if (this.keysPressed.contains(KeyCode.UP)) {
-    		AppLogger.getAppLogger().info("Key 'UP' pressed.");
-    		this.controller.get().notifyCommand(new Up(0.5));
+    		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
+    		this.controller.get().notifyCommand(new Up(5));
     		final Timer t = new Timer();
     		t.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					MapScene.this.getController().get().notifyCommand(new Down(0.5));
+					MapScene.this.getController().get().notifyCommand(new Down(5));
 				}
     		}, 250L);
     	}
@@ -240,51 +240,51 @@ public class MapScene extends AbstractScene implements GameView{
         */
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
-        	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
             this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
 
         if (this.keysPressed.contains(KeyCode.DOWN)) { 
-        	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
             this.controller.get().notifyCommand(new Down());
         }
 
         if (this.keysPressed.contains(KeyCode.LEFT)) {
-        	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
         }
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
-        	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
         	this.controller.get().notifyCommand(new Space());
         	//TODO: to implement shooting
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
-        	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	//AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
         	this.controller.get().notifyCommand(new Esc());
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
-        	AppLogger.getAppLogger().info("Key 'UP' released.");
+        	//AppLogger.getAppLogger().info("Key 'UP' released.");
         	this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
         if (this.keysReleased.contains(KeyCode.RIGHT)) {
-        	AppLogger.getAppLogger().info("Key 'RIGHT' released.");
+        	//AppLogger.getAppLogger().info("Key 'RIGHT' released.");
             this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
         }
 
         if (this.keysReleased.contains(KeyCode.DOWN)) { 
-        	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
         	this.keysReleased.remove(KeyCode.DOWN);
         }
 
         if (this.keysReleased.contains(KeyCode.LEFT)) {
-        	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
         	this.keysReleased.remove(KeyCode.LEFT); 
         }
         
@@ -303,16 +303,17 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void render() throws IOException {
-    	AppLogger.getAppLogger().debug("Inside render() method.");
+    	//AppLogger.getAppLogger().debug("Inside render() method.");
     	//AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
     	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
-
+    	final Environment env = this.gameState.getGameEnvironment();
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
-    	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX() * platformSize,
-    			this.mainPlayer.getRight().getY() * platformSize);
+    	this.mainPlayer.getRight().setPosition(env.getPlayer().get().getPosition().get().getX()
+		, env.getPlayer().get().getPosition().get().getY());
+    	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX(), this.mainPlayer.getRight().getY());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
     	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
