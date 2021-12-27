@@ -26,12 +26,19 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -198,7 +205,16 @@ public class MapScene extends AbstractScene implements GameView{
 				AppLogger.getAppLogger().info("Automatic weapon rendered");
 			}	
 		}
-		//AppLogger.getAppLogger().debug("Weapons rendered");
+		AppLogger.getAppLogger().debug("Weapons rendered");
+		
+		final Label healthInfo = new Label("HEALTH");
+		healthInfo.setAlignment(Pos.TOP_LEFT);
+		healthInfo.setContentDisplay(ContentDisplay.CENTER);
+		healthInfo.setTextFill(Color.RED);
+		healthInfo.setFont(Font.font(24));
+		healthInfo.setPadding(Insets.EMPTY);
+		this.uiPane.getChildren().add(healthInfo);
+		this.uiPane.getInsets()
     }
 
     @Override
@@ -286,6 +302,7 @@ public class MapScene extends AbstractScene implements GameView{
     	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
 
     	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
+    	final Environment world = this.gameState.getGameEnvironment();
 
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
@@ -307,6 +324,10 @@ public class MapScene extends AbstractScene implements GameView{
 
 		this.weaponSprites.forEach((x, y) -> x.renderMovingPosition());
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
+		
+		final Label uiLbl = (Label) this.uiPane.getChildren().get(0);
+		// TEST ONLY: world.getPlayer().get().decreaseHealth(0.001);
+		uiLbl.setText("Health: " + String.valueOf(world.getPlayer().get().getHealth()));
     }
 
     public final void setMap(final BackgroundMap.Maps map) {
