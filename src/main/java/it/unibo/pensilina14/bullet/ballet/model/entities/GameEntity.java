@@ -76,9 +76,9 @@ public abstract class GameEntity implements PhysicalObject{
     }
     
     private void move(final double x, final double y) {
-        if (this.isWithinMapBoundaries(x, y)) {
+        //if (this.isWithinMapBoundaries(x, y)) {
             this.speedVector.vectorSum(x, y);
-        }
+        //}
         
     }
 	
