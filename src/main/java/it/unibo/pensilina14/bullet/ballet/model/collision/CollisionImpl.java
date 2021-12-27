@@ -29,27 +29,25 @@ public class CollisionImpl implements Collision {
 		return firstObject.getPosition().get().getX() 
 				< otherObject.getPosition().get().getX() + otherObject.getDimension().get().getWidth() 
 				&& firstObject.getPosition().get().getX() + firstObject.getDimension().get().getWidth() 
-				> otherObject.getPosition().get().getX() + otherObject.getDimension().get().getWidth();
+				>= otherObject.getPosition().get().getX() + otherObject.getDimension().get().getWidth();
 	}
 	
 	private boolean checkRight(final PhysicalObject firstObject, final PhysicalObject otherObject) {
 		return firstObject.getPosition().get().getX() + firstObject.getDimension().get().getWidth() 
 				> otherObject.getPosition().get().getX()
-				&& firstObject.getPosition().get().getX() + firstObject.getDimension().get().getWidth()
-				< otherObject.getPosition().get().getX() + otherObject.getDimension().get().getWidth();
+				&& firstObject.getPosition().get().getX() < otherObject.getPosition().get().getX();
 	}
 	
 	private boolean checkUp(final PhysicalObject firstObject, final PhysicalObject otherObject) {
 		return firstObject.getPosition().get().getY() 
 				< otherObject.getPosition().get().getY() + otherObject.getDimension().get().getHeight() 
 				&& firstObject.getPosition().get().getY() + firstObject.getDimension().get().getHeight() 
-				> otherObject.getPosition().get().getY() + otherObject.getDimension().get().getHeight();
+				>= otherObject.getPosition().get().getY() + otherObject.getDimension().get().getHeight();
 	}
 	
 	private boolean checkDown(final PhysicalObject firstObject, final PhysicalObject otherObject) {
 		return firstObject.getPosition().get().getY() + firstObject.getDimension().get().getHeight() 
-				> otherObject.getPosition().get().getY()
-				&& firstObject.getPosition().get().getY() + firstObject.getDimension().get().getHeight()
-				< otherObject.getPosition().get().getY() + otherObject.getDimension().get().getHeight();
+				>= otherObject.getPosition().get().getY()
+				&& firstObject.getPosition().get().getY() <= otherObject.getPosition().get().getY();
 	}
 }
