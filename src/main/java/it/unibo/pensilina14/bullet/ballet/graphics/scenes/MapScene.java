@@ -55,7 +55,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
-    private final Pane uiPane = new Pane(); 
+    private final Pane uiPane = new StackPane(); 
     
     private final BackgroundMap map = new BackgroundMap();
 
@@ -206,7 +206,9 @@ public class MapScene extends AbstractScene implements GameView{
 			}	
 		}
 		AppLogger.getAppLogger().debug("Weapons rendered");
-		
+		/*
+		 * Ui initializing
+		 */
 		final Label healthInfo = new Label("HEALTH");
 		healthInfo.setAlignment(Pos.TOP_LEFT);
 		healthInfo.setContentDisplay(ContentDisplay.CENTER);
@@ -214,6 +216,8 @@ public class MapScene extends AbstractScene implements GameView{
 		healthInfo.setFont(Font.font(24));
 		healthInfo.setPadding(Insets.EMPTY);
 		this.uiPane.getChildren().add(healthInfo);
+		StackPane.setMargin(healthInfo, new Insets(20, 0, 0, 20)); //top, right, down, left
+		StackPane.setAlignment(healthInfo, Pos.TOP_LEFT);
     }
 
     @Override
@@ -325,7 +329,11 @@ public class MapScene extends AbstractScene implements GameView{
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
 		final Label uiLbl = (Label) this.uiPane.getChildren().get(0);
-		// TEST ONLY: world.getPlayer().get().decreaseHealth(0.001);
+		/*
+		 *  WARNING: line below is for testing only. 
+		 *  Comment/Uncomment it.
+		 */
+		// world.getPlayer().get().decreaseHealth(0.001);
 		uiLbl.setText("Health: " + String.valueOf(world.getPlayer().get().getHealth()));
     }
 
