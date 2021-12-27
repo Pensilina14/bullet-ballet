@@ -144,6 +144,7 @@ public class GameEngine implements Controller, GameEventListener {
 	private void playerHitsEnemyEventHandler(final Environment env, final GameEvent e) {
 		final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 		final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
+		AppLogger.getAppLogger().debug("\tPlayer collides enemy");
 		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
 		if (!player.isAlive()) {
