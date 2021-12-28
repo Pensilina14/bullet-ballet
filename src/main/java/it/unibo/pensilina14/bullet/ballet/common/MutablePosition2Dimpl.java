@@ -60,7 +60,7 @@ public class MutablePosition2Dimpl implements MutablePosition2D {
 
 	@Override
 	public String toString() {
-		return "MutablePosition2Dimpl [x=" + String.valueOf(this.getX()) + " y=" + String.valueOf(this.getY()) + "]";
+		return "[x=" + String.valueOf(this.getX()) + " y=" + String.valueOf(this.getY()) + "]";
 	}
   
 }
