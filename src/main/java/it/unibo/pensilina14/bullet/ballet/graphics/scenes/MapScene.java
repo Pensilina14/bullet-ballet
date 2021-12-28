@@ -77,15 +77,15 @@ public class MapScene extends AbstractScene implements GameView{
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
-        //this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
-        //this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
     public MapScene(final GameState gameState, final Controller ctrlr) {
         this.gameState = gameState;
         this.controller = Optional.of(ctrlr);
-        //this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
-        //this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
     public final void setup(final Controller controller) {
@@ -274,13 +274,13 @@ public class MapScene extends AbstractScene implements GameView{
             this.controller.get().notifyCommand(new Left());
         }
         
-        if (this.keysReleased.contains(KeyCode.SPACE)) {
+        if (this.keysPressed.contains(KeyCode.SPACE)) {
         	//AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
         	this.controller.get().notifyCommand(new Space());
         	//TODO: to implement shooting
         }
         
-        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
+        if (this.keysPressed.contains(KeyCode.ESCAPE)) {
         	//AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
         	this.controller.get().notifyCommand(new Esc());
         }

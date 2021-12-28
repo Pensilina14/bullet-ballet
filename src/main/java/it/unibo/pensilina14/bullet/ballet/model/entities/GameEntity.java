@@ -5,6 +5,7 @@ import java.util.Optional;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public abstract class GameEntity implements PhysicalObject{
@@ -79,7 +80,7 @@ public abstract class GameEntity implements PhysicalObject{
         //if (this.isWithinMapBoundaries(x, y)) {
             this.speedVector.vectorSum(x, y);
         //}
-        
+        AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));
     }
 	
 	private boolean isWithinMapBoundaries(final double x, final double y) {    
