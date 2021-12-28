@@ -334,6 +334,7 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.getRight().setPosition(env.getPlayer().get().getPosition().get().getX()
 		, env.getPlayer().get().getPosition().get().getY());
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX(), this.mainPlayer.getRight().getY());
+    	AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
     	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
