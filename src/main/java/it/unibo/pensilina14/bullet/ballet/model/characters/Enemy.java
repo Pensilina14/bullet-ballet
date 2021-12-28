@@ -98,7 +98,6 @@ public class Enemy extends GameEntity implements Characters{
 		 * Comment/Uncomment.
 		 */
     	//System.out.println("Enemy Model: \t" + this.getPosition().get().getX());
-		
 	}
 
     private void AI(){
