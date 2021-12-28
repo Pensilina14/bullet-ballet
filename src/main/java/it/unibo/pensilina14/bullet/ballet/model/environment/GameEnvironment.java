@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -269,7 +270,12 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final void updateState() {
-		this.player.get().updateState(); 
+		if (this.player.isEmpty()) {
+			System.exit(1);
+			// GAME OVER
+		} else {
+			this.player.get().updateState(); 
+		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
@@ -319,28 +325,37 @@ public class GameEnvironment implements Environment {
 		checkEnemiesObstacles.check();
 
 		// Notify everything to the {@link GameEventListener}.
-		if (!checkPlayerItem.getBuffer().getEvents().isEmpty()) {
-			checkPlayerItem.getBuffer().getEvents().stream().forEach(e -> {
+		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		} 
-		if (!checkEnemiesItems.getBuffer().getEvents().isEmpty()) {
-			checkEnemiesItems.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkEnemiesItems.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
-		if (!checkPlayerEnemy.getBuffer().getEvents().isEmpty()) {
-			checkPlayerEnemy.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerEnemy.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
-		if (!checkPlayerObstacle.getBuffer().getEvents().isEmpty()) {
-			checkPlayerObstacle.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
-		if (!checkEnemiesObstacles.getBuffer().getEvents().isEmpty()) {
-			checkEnemiesObstacles.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkEnemiesObstacles.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
