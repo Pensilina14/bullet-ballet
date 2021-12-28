@@ -100,9 +100,6 @@ public class MapScene extends AbstractScene implements GameView{
             e.printStackTrace();
 			AppLogger.getAppLogger().error("Failed to load background image.");
 		}
-        this.backgroundView.fitWidthProperty().bind(this.root.widthProperty()); // per quando si cambia la risoluzione dello schermo.
-        this.backgroundView.fitHeightProperty().bind(this.root.heightProperty());
-
         this.mainPlayer = new MutablePair<>();
         this.enemySprites = new HashMap<>();
         this.platformSprites = new HashMap<>();
@@ -111,6 +108,8 @@ public class MapScene extends AbstractScene implements GameView{
         this.weaponSprites = new HashMap<>();
 
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
+        this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
+        this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
         AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
         try {
         	this.initialize();
@@ -238,25 +237,26 @@ public class MapScene extends AbstractScene implements GameView{
     private void update() {
     	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
-    	if (this.keysPressed.contains(KeyCode.UP)) {
-    		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
-    		this.controller.get().notifyCommand(new Up(5));
-    		final Timer t = new Timer();
-    		t.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					MapScene.this.getController().get().notifyCommand(new Down(5));
-				}
-    		}, 250L);
-    	}
+//    	if (this.keysPressed.contains(KeyCode.UP)) {
+//    		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
+//    		this.mainPlayer.left.get().getSpriteAnimation().play();
+//    		this.controller.get().notifyCommand(new Up(5));
+//    		final Timer t = new Timer();
+//    		t.schedule(new TimerTask() {
+//				@Override
+//				public void run() {
+//					MapScene.this.getController().get().notifyCommand(new Down(5));
+//				}
+//    		}, 250L);
+//    	}
     	
-    	/*
+    	
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
-            this.controller.get().notifyCommand(new Up());
+            this.controller.get().notifyCommand(new Up(5));
         }
-        */
+        
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
         	//AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
