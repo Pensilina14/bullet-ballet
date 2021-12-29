@@ -124,7 +124,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
-		final Player player = ((PlayerHitsItemEvent) e).getPlayer();
+		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 		player.decreaseHealth((double) (obstacle.getMass() / 50));
 		if (!player.isAlive()) {
