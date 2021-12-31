@@ -88,7 +88,7 @@ public class EnvironmentGenerator implements LevelGenerator {
                     	break;
                     case LevelEntity.PLAYER:
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
-                        this.env.get().setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get()));
+                        this.env.get().setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 2.0), this.env.get()));
                     	break;
                     case LevelEntity.HEART:
                         this.env.get().addItem(this.itemFactory.createHealingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));

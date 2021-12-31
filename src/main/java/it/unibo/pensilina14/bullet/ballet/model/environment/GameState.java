@@ -7,11 +7,14 @@ public class GameState {
 	private int score;
 	private final Environment env;
 	private final LevelGenerator generator;
+	private final static double WIDTH = 1883.5;
+	private final static double HEIGHT = 12;
+	
 	
 	public GameState() {
 		this.score = 0;
 		this.generator = new EnvironmentGenerator();
-		this.env = new GameEnvironment(generator.getLevelHeight(), generator.getLevelWidth());
+		this.env = new GameEnvironment(HEIGHT, WIDTH);
 		this.generator.setEnvironment(this.env);
 		this.generator.generate();
 	}
