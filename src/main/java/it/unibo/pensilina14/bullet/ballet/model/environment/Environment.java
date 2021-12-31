@@ -147,6 +147,7 @@ public interface Environment {
 	 * EARTH and MOON's provided.
 	 */
 	enum GravityConstants {
+		TEST(1.0),
 		EARTH(9.81),
 		MOON(6.673);
 		
