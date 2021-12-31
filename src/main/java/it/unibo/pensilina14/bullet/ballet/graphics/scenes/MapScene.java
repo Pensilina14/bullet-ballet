@@ -395,4 +395,15 @@ public class MapScene extends AbstractScene implements GameView{
 	public final void setWidth(final double width) {
 		this.appPane.setPrefWidth(width);
 	}
+	
+	public void deleteEnemySpriteImage(final MutablePosition2D position) {
+		MainEnemy enemy = enemySprites.entrySet()
+                .stream()
+                .filter(entry -> position.equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst().get();
+		enemy.renderPosition(1000, 1000);
+	}
+	
+	
 }
