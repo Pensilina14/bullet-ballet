@@ -14,9 +14,9 @@ public interface GameView {
 	 * @param controller 
 	 * 
 	 */
-	void setup(Controller controller);
+	void setup(GameEngine controller);
 	void draw();
-	void setInputController(Controller controller);
+	void setInputController(GameEngine controller);
 	Pane getAppPane();
 	Pane getGamePane();
 	Pane getUiPane();

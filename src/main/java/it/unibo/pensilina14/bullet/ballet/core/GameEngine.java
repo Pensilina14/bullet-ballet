@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
@@ -26,6 +27,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObs
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
+import javafx.animation.AnimationTimer;
 
 public class GameEngine implements Controller, GameEventListener {
 	
@@ -37,12 +39,14 @@ public class GameEngine implements Controller, GameEventListener {
 	private Optional<GameState> gameState;
 	private final BlockingQueue<Command> cmdQueue;
 	private final List<GameEvent> eventQueue;
+	private Optional<AnimationTimer> timer;
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
 		this.view = Optional.empty();
 		this.gameState = Optional.empty();
+		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
 	public GameEngine(final GameView view, final GameState game) {
@@ -50,6 +54,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.eventQueue = new LinkedList<>();
 		this.view = Optional.of(view);
 		this.gameState = Optional.of(game);
+		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
 	public final void setup() {
@@ -179,5 +184,13 @@ public class GameEngine implements Controller, GameEventListener {
 					player.getPosition().get().getY()));
 		}
 		AppLogger.getAppLogger().info("player hits item");
+	}
+	
+	public void start() {
+		this.timer.get().start();
+	}
+	
+	public void stop() {
+		this.timer.get().stop();
 	}
 }

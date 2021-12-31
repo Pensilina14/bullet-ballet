@@ -67,7 +67,7 @@ public class MapScene extends AbstractScene implements GameView{
     private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
 
     private final GameState gameState;
-    private Optional<Controller> controller;
+    private Optional<GameEngine> controller;
     private Map<MainEnemy, MutablePosition2D> enemySprites;
     private Map<PlatformSprite, MutablePosition2D> platformSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
@@ -81,14 +81,14 @@ public class MapScene extends AbstractScene implements GameView{
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public MapScene(final GameState gameState, final Controller ctrlr) {
+    public MapScene(final GameState gameState, final GameEngine ctrlr) {
         this.gameState = gameState;
         this.controller = Optional.of(ctrlr);
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
     }
 
-    public final void setup(final Controller controller) {
+    public final void setup(final GameEngine controller) {
     	setInputController(controller);
     	this.initScene();
         this.root.getChildren().add(this.appPane);
@@ -238,17 +238,17 @@ public class MapScene extends AbstractScene implements GameView{
     	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
 //    	if (this.keysPressed.contains(KeyCode.UP)) {
-//    		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
-//    		this.mainPlayer.left.get().getSpriteAnimation().play();
-//    		this.controller.get().notifyCommand(new Up(5));
-//    		final Timer t = new Timer();
-//    		t.schedule(new TimerTask() {
-//				@Override
-//				public void run() {
-//					MapScene.this.getController().get().notifyCommand(new Down(5));
-//				}
-//    		}, 250L);
-//    	}
+//		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
+//		this.mainPlayer.left.get().getSpriteAnimation().play();
+//		this.controller.get().notifyCommand(new Up(5));
+//		final Timer t = new Timer();
+//		t.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				MapScene.this.getController().get().notifyCommand(new Down(5));
+//			}
+//		}, 250L);
+//	}
     	
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
@@ -280,9 +280,11 @@ public class MapScene extends AbstractScene implements GameView{
         	//TODO: to implement shooting
         }
         
-        if (this.keysPressed.contains(KeyCode.ESCAPE)) {
+        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
         	//AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	this.controller.get().stop();
         	this.controller.get().notifyCommand(new Esc());
+        	this.controller.get().start();
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
@@ -317,7 +319,7 @@ public class MapScene extends AbstractScene implements GameView{
         
     }
     
-    private Optional<Controller> getController() {
+    private Optional<GameEngine> getController() {
     	return this.controller;
     }
 
@@ -346,10 +348,7 @@ public class MapScene extends AbstractScene implements GameView{
     	});
 		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-		this.itemSprites.forEach((x, y) -> {
-			x.renderMovingPosition();
-			AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
-		});
+		this.itemSprites.forEach((x, y) -> x.renderMovingPosition());
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> x.renderMovingPosition());
@@ -384,7 +383,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
 	@Override
-	public final void setInputController(final Controller controller) {
+	public final void setInputController(final GameEngine controller) {
 		this.controller = Optional.of(controller);
 	}
 	@Override
@@ -396,4 +395,15 @@ public class MapScene extends AbstractScene implements GameView{
 	public final void setWidth(final double width) {
 		this.appPane.setPrefWidth(width);
 	}
+	
+	public void deleteEnemySpriteImage(final MutablePosition2D position) {
+		MainEnemy enemy = enemySprites.entrySet()
+                .stream()
+                .filter(entry -> position.equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst().get();
+		enemy.renderPosition(1000, 1000);
+	}
+	
+	
 }
