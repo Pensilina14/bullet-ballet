@@ -14,6 +14,7 @@ public class Enemy extends GameEntity implements Characters{
     private double health;
     private Optional<Double> mana;
     private String name;
+    private static final double MS_TO_S = 1;
 
     private Weapon weapon;
 
@@ -89,6 +90,15 @@ public class Enemy extends GameEntity implements Characters{
                 break;
         }
     }
+    @Override
+	public void updateState() {
+		this.getSpeedVector().get().noSpeedVectorSum(-MS_TO_S, 0);
+		/*
+		 * WARNING: line below is a test.
+		 * Comment/Uncomment.
+		 */
+    	//System.out.println("Enemy Model: \t" + this.getPosition().get().getX());
+	}
 
     private void AI(){
         // TODO: AI of Enemy

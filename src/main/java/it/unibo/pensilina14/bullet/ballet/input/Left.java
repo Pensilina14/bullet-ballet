@@ -9,7 +9,7 @@ public class Left implements Command {
 	 * Factor every time Left command is executed
 	 * the player moves by.
 	 */
-	public static final double MOVEMENT_DELTA = 0.1;
+	public static final double MOVEMENT_DELTA = 3;
 	
 	@Override
 	public void execute(final GameState env) {

@@ -50,8 +50,9 @@ public class HomePageController {
         stage.setScene(gameScene);
 
         stage.show();
-        final AnimationTimer timer = new AnimationTimerImpl(game);
-        timer.start();
+        game.start();
+        //final AnimationTimer timer = new AnimationTimerImpl(game);
+        //timer.start();
     }
 
     @FXML

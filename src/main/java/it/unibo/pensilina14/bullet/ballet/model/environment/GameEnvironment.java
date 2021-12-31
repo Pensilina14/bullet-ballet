@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -49,7 +50,7 @@ public class GameEnvironment implements Environment {
 	 */
 
 	public GameEnvironment() {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -67,7 +68,7 @@ public class GameEnvironment implements Environment {
 	 * @param width
 	 */
 	public GameEnvironment(final double height, final double width) {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(height, width);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -269,7 +270,13 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final void updateState() {
-		this.player.get().updateState(); 
+		if (this.player.isEmpty()) {
+			System.exit(1);
+			// GAME OVER
+		} else {
+			this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
+			this.player.get().updateState(); 
+		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
@@ -307,40 +314,31 @@ public class GameEnvironment implements Environment {
 	
 	private void checkCollisions() {
 		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
-		final EventChecker checkEnemiesItems = new CollisionEventChecker(this.enemies.get(), this.items.get());
 		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
-		final EventChecker checkEnemiesObstacles = new CollisionEventChecker(this.enemies.get(), this.obstacles.get());
 
 		checkPlayerItem.check();
-		checkEnemiesItems.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
-		checkEnemiesObstacles.check();
 
 		// Notify everything to the {@link GameEventListener}.
-		if (!checkPlayerItem.getBuffer().getEvents().isEmpty()) {
-			checkPlayerItem.getBuffer().getEvents().stream().forEach(e -> {
+		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		} 
-		if (!checkEnemiesItems.getBuffer().getEvents().isEmpty()) {
-			checkEnemiesItems.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerEnemy.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
-		if (!checkPlayerEnemy.getBuffer().getEvents().isEmpty()) {
-			checkPlayerEnemy.getBuffer().getEvents().stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		if (!checkPlayerObstacle.getBuffer().getEvents().isEmpty()) {
-			checkPlayerObstacle.getBuffer().getEvents().stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		if (!checkEnemiesObstacles.getBuffer().getEvents().isEmpty()) {
-			checkEnemiesObstacles.getBuffer().getEvents().stream().forEach(e -> {
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}

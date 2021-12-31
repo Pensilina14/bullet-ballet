@@ -47,12 +47,13 @@ public class Game {
 		this.engine = engine;
 		this.settings = settings;
 	}
-
+    
 	public final void start() {
     	AppLogger.getAppLogger().debug("Inside Game start() method.");
-            this.engine.setup();
-            AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
-            this.engine.mainLoop();
+    	//this.engine.setup();
+    	this.engine.start();
+        //AppLogger.getAppLogger().debug("Engine setup done.. Starting main loop.");
+        //this.engine.mainLoop();
     }
 
     public final AbstractScene getView() {
@@ -62,5 +63,7 @@ public class Game {
     public final Settings getSettings() {
     	return this.settings;
     }
+    
+    
 
 }

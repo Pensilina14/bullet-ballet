@@ -5,6 +5,7 @@ import java.util.Optional;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public abstract class GameEntity implements PhysicalObject{
@@ -76,25 +77,28 @@ public abstract class GameEntity implements PhysicalObject{
     }
     
     private void move(final double x, final double y) {
-        if (this.isWithinMapBoundaries(x, y)) {
+        if (this.isWithinXaxis(x)) {
             this.speedVector.vectorSum(x, y);
-        }
-        
+        } 
+        System.out.println(this.getGameEnvironment().get().getDimension().getWidth());
+        AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));
     }
 	
+    /*
 	private boolean isWithinMapBoundaries(final double x, final double y) {    
         return isWithinXaxis(x) && isWithinYaxis(y);
     }
+    */
     
     private boolean isWithinXaxis(final double x) {
         return this.speedVector.getPosition().get().getX() + x >= 0
-        		&& this.speedVector.getPosition().get().getX() + x < X_AXIS;
+        		&& this.speedVector.getPosition().get().getX() + x < this.gameEnvironment.getDimension().getWidth();
     }
     
+    /*
     private boolean isWithinYaxis(final double y) {
-        return this.speedVector.getPosition().get().getY() + y >= 0
-        		&& this.speedVector.getPosition().get().getY() + y < Y_AXIS;
+        return this.speedVector.getPosition().get().getY() + y > this.gameEnvironment.getDimension().getHeight();
     }
-
+	*/
 	
 }

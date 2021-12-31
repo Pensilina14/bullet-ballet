@@ -21,6 +21,15 @@ public class PageLoaderImpl implements PageLoader{
     }
     
     @Override
+    public void goToSelectedPageOnInput(final Frames frame) throws IOException { 
+    	final Parent root = FXMLLoader.load(getClass().getResource(frame.toString()));
+    	final Scene scene = new Scene(root);
+    	final Stage window = new Stage();
+    	window.setScene(scene);
+    	window.show();
+    }
+    
+    @Override
     public void loadFirstScene (final Stage primaryStage) throws IOException{
         final Parent root = FXMLLoader.load(getClass().getResource(Frames.HOMEPAGE.toString()));
         final Scene scene = new Scene(root);

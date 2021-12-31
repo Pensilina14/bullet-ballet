@@ -9,7 +9,7 @@ public class Right implements Command {
 	 * Factor every time Right command is executed
 	 * the player moves by.
 	 */
-	public static final double MOVEMENT_DELTA = 0.1;
+	public static final double MOVEMENT_DELTA = 3;
 	
 	@Override
 	public final void execute(final GameState env) {

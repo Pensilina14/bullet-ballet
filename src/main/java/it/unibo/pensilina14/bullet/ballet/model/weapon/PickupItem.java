@@ -10,6 +10,7 @@ public class PickupItem extends GameEntity implements Item {
 	
 	private final Items id;
 	private final Effect effect;
+	private static final double MS_TO_S = 1;
 	
 	public PickupItem(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass, final Dimension2D dimension,
 			final Items id, final Effect effect) {
@@ -18,6 +19,11 @@ public class PickupItem extends GameEntity implements Item {
 		this.effect = effect;
 	}
 
+	@Override
+	public void updateState() {
+		this.getSpeedVector().get().noSpeedVectorSum(-MS_TO_S, 0);
+	}	
+	
 	@Override
 	public Items getItemId() {
 		return this.id;
