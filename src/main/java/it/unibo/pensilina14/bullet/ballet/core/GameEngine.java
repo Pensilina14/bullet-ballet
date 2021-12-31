@@ -158,6 +158,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
+			
 		}
 		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
