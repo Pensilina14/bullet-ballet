@@ -316,10 +316,12 @@ public class GameEnvironment implements Environment {
 		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
+		final EventChecker checkPlayerPlatform = new CollisionEventChecker(this.platforms.get(), List.of(this.player.get()));
 
 		checkPlayerItem.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
+		checkPlayerPlatform.check();
 
 		// Notify everything to the {@link GameEventListener}.
 		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
@@ -337,6 +339,13 @@ public class GameEnvironment implements Environment {
 		}
 		tempEvents.clear();
 		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
+		}
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerPlatform.getBuffer().getEvents());
 		if (!tempEvents.isEmpty()) {
 			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);

@@ -8,6 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.Collision;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -69,6 +70,14 @@ public class CollisionEventChecker implements EventChecker {
 			final Player player = (Player) b;
 			final PickupItem item = (PickupItem) a;
 			this.eventBuffer.addEvent(new PlayerHitsItemEvent(player, item));
+		}
+	}
+	
+	private void checkPlayerAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Platform && b instanceof Player) {
+			final Player player = (Player) b;
+			final Platform platform = (Platform) a;
+			this.eventBuffer.addEvent(new PlayerHitsPlatformEvent(player, platform));
 		}
 	}
 	

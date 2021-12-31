@@ -17,11 +17,13 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 
@@ -118,9 +120,18 @@ public class GameEngine implements Controller, GameEventListener {
 				playerHitsEnemyEventHandler(env, e);
 			} else if (e instanceof PlayerHitsObstacleEvent) {
 				playerHitsObstacleEventHandler(env, e);
+			} else if (e instanceof PlayerHitsPlatformEvent) {
+				playerHitsPlatformEventHandler(env, e);
 			}
 		});
 		this.eventQueue.clear();
+	}
+	
+	private void playerHitsPlatformEventHandler(final Environment env, final GameEvent e) {
+		final Player player = ((PlayerHitsPlatformEvent) e).getPlayer();
+		final Platform platform = ((PlayerHitsPlatformEvent) e).getPlatform();
+		player.getSpeedVector().get().noSpeedVectorSum(0, -1.0);
+		AppLogger.getAppLogger().info("player hits platform");
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
