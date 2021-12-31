@@ -9,7 +9,7 @@ public class Down implements Command {
 	 * Factor every time Down command is executed
 	 * the player moves by.
 	 */
-	public static final double MOVEMENT_DELTA = 1;
+	public static final double MOVEMENT_DELTA = 3;
 	private final double movement;
 	
 	public Down() {

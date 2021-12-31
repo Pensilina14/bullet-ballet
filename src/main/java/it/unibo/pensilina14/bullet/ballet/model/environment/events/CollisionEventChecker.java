@@ -66,9 +66,9 @@ public class CollisionEventChecker implements EventChecker {
 
 	private void checkPlayerAndItem(final PhysicalObject a, final PhysicalObject b) {
 		if (a instanceof PickupItem && b instanceof Player) {
-			final Characters player = (Characters) b;
+			final Player player = (Player) b;
 			final PickupItem item = (PickupItem) a;
-			this.eventBuffer.addEvent(new CharacterHitsPickupObjEvent(player, item));
+			this.eventBuffer.addEvent(new PlayerHitsItemEvent(player, item));
 		}
 	}
 	

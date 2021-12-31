@@ -237,18 +237,18 @@ public class MapScene extends AbstractScene implements GameView{
     private void update() {
     	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
-    	if (this.keysPressed.contains(KeyCode.UP)) {
-    		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
-    		this.mainPlayer.left.get().getSpriteAnimation().play();
-    		this.controller.get().notifyCommand(new Up(5));
-    		final Timer t = new Timer();
-    		t.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					MapScene.this.getController().get().notifyCommand(new Down(5));
-				}
-    		}, 250L);
-    	}
+//    	if (this.keysPressed.contains(KeyCode.UP)) {
+//		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
+//		this.mainPlayer.left.get().getSpriteAnimation().play();
+//		this.controller.get().notifyCommand(new Up(5));
+//		final Timer t = new Timer();
+//		t.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				MapScene.this.getController().get().notifyCommand(new Down(5));
+//			}
+//		}, 250L);
+//	}
     	
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 

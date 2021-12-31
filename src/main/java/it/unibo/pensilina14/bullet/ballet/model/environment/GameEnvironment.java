@@ -50,7 +50,7 @@ public class GameEnvironment implements Environment {
 	 */
 
 	public GameEnvironment() {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -68,7 +68,7 @@ public class GameEnvironment implements Environment {
 	 * @param width
 	 */
 	public GameEnvironment(final double height, final double width) {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(height, width);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -274,6 +274,7 @@ public class GameEnvironment implements Environment {
 			System.exit(1);
 			// GAME OVER
 		} else {
+			this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
 			this.player.get().updateState(); 
 		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
@@ -313,16 +314,12 @@ public class GameEnvironment implements Environment {
 	
 	private void checkCollisions() {
 		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
-		final EventChecker checkEnemiesItems = new CollisionEventChecker(this.enemies.get(), this.items.get());
 		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
-		final EventChecker checkEnemiesObstacles = new CollisionEventChecker(this.enemies.get(), this.obstacles.get());
 
 		checkPlayerItem.check();
-		checkEnemiesItems.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
-		checkEnemiesObstacles.check();
 
 		// Notify everything to the {@link GameEventListener}.
 		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
@@ -332,13 +329,6 @@ public class GameEnvironment implements Environment {
 			});
 		} 
 		tempEvents.clear();
-		tempEvents.addAll(checkEnemiesItems.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
 		tempEvents.addAll(checkPlayerEnemy.getBuffer().getEvents());
 		if (!tempEvents.isEmpty()) {
 			tempEvents.stream().forEach(e -> {
@@ -347,13 +337,6 @@ public class GameEnvironment implements Environment {
 		}
 		tempEvents.clear();
 		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
-		tempEvents.addAll(checkEnemiesObstacles.getBuffer().getEvents());
 		if (!tempEvents.isEmpty()) {
 			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
