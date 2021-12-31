@@ -50,7 +50,7 @@ public class GameEnvironment implements Environment {
 	 */
 
 	public GameEnvironment() {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -68,7 +68,7 @@ public class GameEnvironment implements Environment {
 	 * @param width
 	 */
 	public GameEnvironment(final double height, final double width) {
-		this.gravity = GravityConstants.EARTH.getValue();
+		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(height, width);
 		this.player = Optional.empty();
 		this.enemies = Optional.of(new ArrayList<>());
@@ -274,6 +274,7 @@ public class GameEnvironment implements Environment {
 			System.exit(1);
 			// GAME OVER
 		} else {
+			this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
 			this.player.get().updateState(); 
 		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
