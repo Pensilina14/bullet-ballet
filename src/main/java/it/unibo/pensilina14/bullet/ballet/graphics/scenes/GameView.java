@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import javafx.scene.layout.Pane;
@@ -20,4 +21,5 @@ public interface GameView {
 	Pane getAppPane();
 	Pane getGamePane();
 	Pane getUiPane();
+	void deleteEnemySpriteImage(final MutablePosition2D position);
 }
