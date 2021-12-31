@@ -9,6 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
@@ -162,6 +163,8 @@ public class GameEngine implements Controller, GameEventListener {
 
 		if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
+					enemy.getPosition().get().getY()));
+			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
 			
 		}
