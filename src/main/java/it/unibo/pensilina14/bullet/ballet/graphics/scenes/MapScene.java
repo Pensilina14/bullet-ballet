@@ -397,12 +397,12 @@ public class MapScene extends AbstractScene implements GameView{
 	}
 	
 	public void deleteEnemySpriteImage(final MutablePosition2D position) {
-		MainEnemy enemy = enemySprites.entrySet()
+		final MainEnemy enemy = enemySprites.entrySet()
                 .stream()
                 .filter(entry -> position.equals(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst().get();
-		enemy.renderPosition(1000, 1000);
+		enemySprites.remove(enemy);
 	}
 	
 	
