@@ -53,11 +53,11 @@ public class PlatformSprite extends Pane {
      * Temporary solution because this class could be 
      * put under PhysicalObjectSprite implementations.
      */
-    public PlatformSprite(final Platforms platformType, final MutablePosition2D pos, final Platform platform) throws IOException {
+    public PlatformSprite(final Platforms platformType, final Platform platform) throws IOException {
         final ImageView platformView = new ImageView(new Image(Files.newInputStream(Paths.get(platformType.getPath()))));
         final double platformWidth = platform.getDimension().get().getWidth();
         final double platformHeight = platform.getDimension().get().getHeight();
-        this.position = pos;
+        this.position = platform.getPosition().get();
         this.renderPosition(this.position.getX(), this.position.getY());
         platformView.setFitWidth(platformWidth);
         platformView.setFitHeight(platformHeight);
