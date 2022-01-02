@@ -137,8 +137,7 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(),
-    				xPos.getX(), xPos.getY());
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), xPos, x);
     		this.platformSprites.put(newSprite, xPos);
     		this.gamePane.getChildren().add(newSprite);
     	}
