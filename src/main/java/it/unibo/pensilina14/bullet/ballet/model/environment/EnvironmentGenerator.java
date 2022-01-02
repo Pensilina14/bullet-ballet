@@ -69,7 +69,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 					case LevelEntity.EMPTY: //TODO: use an enum?
                     	break;
 					case LevelEntity.PLATFORM:
-                        this.env.get().addPlatform(new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 0.0), this.env.get(), 0, new Dimension2Dimpl(PLATFORM_SIZE, PLATFORM_SIZE)));
+                        this.env.get().addPlatform(new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get(), 0, new Dimension2Dimpl(PLATFORM_SIZE, PLATFORM_SIZE)));
                         break;
                     case LevelEntity.COIN:
                         // TODO: add coin.
