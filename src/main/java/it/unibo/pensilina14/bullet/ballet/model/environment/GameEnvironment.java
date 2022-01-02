@@ -274,7 +274,9 @@ public class GameEnvironment implements Environment {
 			System.exit(1);
 			// GAME OVER
 		} else {
-			this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
+			if (!this.player.get().hasLanded()) {
+				this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
+			}
 			this.player.get().updateState(); 
 		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
