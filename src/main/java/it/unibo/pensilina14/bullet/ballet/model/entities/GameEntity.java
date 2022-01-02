@@ -10,7 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public abstract class GameEntity implements PhysicalObject{
 
-    private static final double MS_TO_S = 0.001;
+    protected static final double MS_TO_S = 1;
     private static final double X_AXIS = 31.5;
     private static final double Y_AXIS = 17.5;
 	private final SpeedVector2D speedVector;
@@ -43,7 +43,7 @@ public abstract class GameEntity implements PhysicalObject{
 
 	@Override
 	public void updateState() {
-		this.speedVector.noSpeedVectorSum(MS_TO_S, MS_TO_S);
+		this.speedVector.noSpeedVectorSum(-MS_TO_S, 0);
 	}
 
 	@Override

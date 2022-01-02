@@ -17,6 +17,8 @@ public class Player extends GameEntity implements Characters{
     private String name;
 
     private Weapon weapon;
+    
+    private boolean landed;
 
     private EntityList.Characters.Player playerType;
 
@@ -65,7 +67,6 @@ public class Player extends GameEntity implements Characters{
                 this.playerType = p;
             }
         }
-
     }
 
     private void setPlayerType(){
@@ -164,5 +165,20 @@ public class Player extends GameEntity implements Characters{
 
     public EntityList.Characters.Player getPlayerType() {
         return this.playerType;
+    }
+    
+    @Override
+    public void updateState() {
+    	this.getSpeedVector().get().noSpeedVectorSum(0, 0);
+    }
+    /*
+     * Following code could be universalized for every game entity.
+     */
+    public boolean hasLanded() {
+    	return this.landed;
+    }
+    
+    public void land() {
+    	this.landed = true;
     }
 }

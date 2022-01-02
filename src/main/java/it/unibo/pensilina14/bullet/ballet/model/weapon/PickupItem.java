@@ -18,11 +18,6 @@ public class PickupItem extends GameEntity implements Item {
 		this.id = id;
 		this.effect = effect;
 	}
-
-	@Override
-	public void updateState() {
-		this.getSpeedVector().get().noSpeedVectorSum(-MS_TO_S, 0);
-	}	
 	
 	@Override
 	public Items getItemId() {
