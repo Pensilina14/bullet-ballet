@@ -76,12 +76,12 @@ public abstract class GameEntity implements PhysicalObject{
         this.move(-x, 0);
     }
     
-    private void move(final double x, final double y) {
-        if (this.isWithinXaxis(x)) {
+    protected void move(final double x, final double y) {
+        if (this.isWithinXaxis(x) /*&& this.getPosition().get().getY() < 800*/) {
             this.speedVector.vectorSum(x, y);
+            /*AppLogger.getAppLogger().debug("y for player: " + this.speedVector.getPosition().get().getY());*/
         } 
-        System.out.println(this.getGameEnvironment().get().getDimension().getWidth());
-        AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));
+        /*AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));*/
     }
 	
     /*

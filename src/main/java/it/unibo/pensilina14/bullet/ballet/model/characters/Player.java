@@ -169,7 +169,7 @@ public class Player extends GameEntity implements Characters{
     
     @Override
     public void updateState() {
-    	this.getSpeedVector().get().noSpeedVectorSum(0, 0);
+    	this.move(0, 0);
     }
     /*
      * Following code could be universalized for every game entity.
