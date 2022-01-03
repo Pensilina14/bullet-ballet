@@ -42,6 +42,7 @@ public class CollisionEventChecker implements EventChecker {
 				checkPlayerAndItem(a, b);
 				checkPlayerAndEnemy(a, b);
 				checkPlayerAndObstacle(a, b);
+				checkPlayerAndPlatform(a, b);
 			}
 			if (isSingleElemList) {
 				break;
