@@ -181,4 +181,8 @@ public class Player extends GameEntity implements Characters{
     public void land() {
     	this.landed = true;
     }
+    
+    public void resetLanding() {
+    	this.landed = false;
+    }
 }

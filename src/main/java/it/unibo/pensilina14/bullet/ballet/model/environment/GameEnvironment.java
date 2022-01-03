@@ -276,6 +276,8 @@ public class GameEnvironment implements Environment {
 		} else {
 			if (!this.player.get().hasLanded()) {
 				this.player.get().moveDown(this.gravity);
+			} else {
+				this.player.get().resetLanding();
 			}
 			this.player.get().updateState(); 
 		}
