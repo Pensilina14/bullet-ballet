@@ -22,7 +22,7 @@ public class MapTest {
     public void platformTest() throws IOException { //TODO: lasciare solo mapTest
         //TODO: platform Test
         PlatformSprite platform = new PlatformSprite(PlatformSprite.Platforms.DESERT_PLATFORM, 
-            new MutablePosition2Dimpl(0, 0), new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 0.0), new GameEnvironment(), 0.0, new Dimension2Dimpl(0, 0)));
+           new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 0.0), new GameEnvironment(), 0.0, new Dimension2Dimpl(0, 0)));
 
         String path = "res/assets/maps/Tiles/desert_platform2.png";
     }
