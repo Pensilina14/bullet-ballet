@@ -281,7 +281,9 @@ public class GameEnvironment implements Environment {
 		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
-		this.items.get().stream().forEach(i -> i.updateState()); 
+		this.items.get().stream().forEach(i -> i.updateState());
+		this.platforms.get().stream().forEach(i -> i.updateState());
+		this.weapons.get().stream().forEach(i -> i.updateState());
 		this.checkCollisions();
 	}
 	

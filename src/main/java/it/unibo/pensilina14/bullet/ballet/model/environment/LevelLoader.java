@@ -25,8 +25,8 @@ public class LevelLoader {
 
     public LevelLoader(){
 
-        this.level = Save.oldLoadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
-
+        //this.level = Save.oldLoadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
+        this.level = Save.oldLoadLevel(1); 
 //        try { // commentate questo blocco try/catch se dovete usare i .txt
 //            this.level = Save.loadLevel(getRandomLevel());
 //        } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e) { //TODO: volendo abbreviare in Exception e
