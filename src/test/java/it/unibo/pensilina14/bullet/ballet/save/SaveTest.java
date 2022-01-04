@@ -96,17 +96,19 @@ public class SaveTest {
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
         Save.resetFile(Save.SETTINGS_PATH);
 
-        final String resolution = "1920x1080";
+        final int resWidth = 1920;
+        final int resHeight = 1080;
         final String difficulty = "hard";
         final int audioVolume = 30;
 
-        final boolean hasSavedSettings = Save.saveSettings(resolution, difficulty, audioVolume);
+        final boolean hasSavedSettings = Save.saveSettings(resWidth, resHeight, difficulty, audioVolume);
 
         assertTrue(hasSavedSettings);
 
         final HashMap<String, String> settingsMap = new HashMap<>();
 
-        settingsMap.put(Save.RESOLUTION_STRING, resolution);
+        settingsMap.put(Save.RESOLUTION_WIDTH_STRING, String.valueOf(resWidth));
+        settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight));
         settingsMap.put(Save.DIFFICULTY_STRING, difficulty);
         settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume));
 
@@ -116,17 +118,19 @@ public class SaveTest {
         assertEquals(settingsMap, loadedSettings);
 
         // AGGIORNAMENTO DEI DATI
-        final String resolution2 = "1280x720";
+        final int resWidth2 = 1280;
+        final int resHeight2 = 720;
         final String difficulty2 = "easy";
         final int audioVolume2 = 20;
 
-        final boolean hasUpdatedSettings = Save.saveSettings(resolution2, difficulty2, audioVolume2);
+        final boolean hasUpdatedSettings = Save.saveSettings(resWidth2, resHeight2, difficulty2, audioVolume2);
 
         assertTrue(hasUpdatedSettings);
 
         settingsMap.clear();
 
-        settingsMap.put(Save.RESOLUTION_STRING, resolution2);
+        settingsMap.put(Save.RESOLUTION_WIDTH_STRING, String.valueOf(resWidth2));
+        settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight2));
         settingsMap.put(Save.DIFFICULTY_STRING, difficulty2);
         settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume2));
 
