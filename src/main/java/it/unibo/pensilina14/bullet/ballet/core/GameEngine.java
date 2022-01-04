@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.core;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +19,18 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
 import javafx.animation.AnimationTimer;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 public class GameEngine implements Controller, GameEventListener {
 	
@@ -37,7 +42,7 @@ public class GameEngine implements Controller, GameEventListener {
 	private Optional<GameState> gameState;
 	private final BlockingQueue<Command> cmdQueue;
 	private final List<GameEvent> eventQueue;
-	private Optional<AnimationTimer> timer;
+	private final Optional<AnimationTimer> timer;
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
@@ -82,7 +87,12 @@ public class GameEngine implements Controller, GameEventListener {
 			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame();
 			AppLogger.getAppLogger().debug("Game model updated.");
-			this.render();
+			try {
+				this.render();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
 		}
 		// GAME OVER
@@ -100,7 +110,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.checkEvents();
 	}
 	
-	public final void render() {
+	public final void render() throws IOException {
 		this.view.get().draw();
 	}
 	
@@ -123,6 +133,10 @@ public class GameEngine implements Controller, GameEventListener {
 				playerHitsEnemyEventHandler(env, e);
 			} else if (e instanceof PlayerHitsObstacleEvent) {
 				playerHitsObstacleEventHandler(env, e);
+			} else if (e instanceof PlayerHitsWeaponEvent) {
+				playerHitsWeaponEventHandler(env, e);
+			} else if (e instanceof BulletHitsEnemyEvent) {
+				bulletHitsEnemyEventHandler(env, e);
 			}
 		});
 		this.eventQueue.clear();
@@ -172,6 +186,30 @@ public class GameEngine implements Controller, GameEventListener {
 					player.getPosition().get().getY()));
 		}
 		AppLogger.getAppLogger().info("player hits item");
+	}
+	
+	private void playerHitsWeaponEventHandler(final Environment env, final GameEvent e) {
+		final Player player = ((PlayerHitsWeaponEvent) e).getPlayer();
+		// Set Weapon to Player
+		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
+		weapon.setOn();
+		player.setWeapon(weapon);
+		//weapon.setPosition(player.getPosition().get());
+		AppLogger.getAppLogger().info("player hits weapon");
+	}
+	
+	private void bulletHitsEnemyEventHandler(final Environment env, final GameEvent e) {
+		final Enemy enemy = ((BulletHitsEnemyEvent) e).getEnemy();
+		((BulletHitsEnemyEvent) e).getBullet()
+			.getEffect()
+			.applyEffect(enemy);
+		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		if(!enemy.isAlive()) {
+			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
+					, enemy.getPosition().get().getY()));
+		}
+		
 	}
 	
 	public void start() {
