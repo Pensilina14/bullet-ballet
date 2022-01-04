@@ -5,7 +5,6 @@ import java.util.Optional;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class GameEntity implements PhysicalObject{
@@ -55,11 +54,13 @@ public class GameEntity implements PhysicalObject{
 	}
 
 	@Override
-	public void moveUp(final double y) {
+	public boolean moveUp(final double y) {
 		if (this.getPosition().get().getY() -y - this.getDimension().get().getHeight()
 				>= this.gameEnvironment.getDimension().getHeight()) {
 	        this.move(0, -y);
+	        return true;
 		}
+		return false;
     }
     
 	@Override
@@ -68,18 +69,22 @@ public class GameEntity implements PhysicalObject{
     }
     
 	@Override
-    public void moveRight(final double x) {
+    public boolean moveRight(final double x) {
 		if (this.getPosition().get().getX() + x + this.getDimension().get().getWidth() 
 				<= this.gameEnvironment.getDimension().getWidth()){
 			this.move(x, 0);
+			return true;
 		} 
+		return false;
     }
     
 	@Override
-    public void moveLeft(final double x) {
+    public boolean moveLeft(final double x) {
 		if (this.getPosition().get().getX() - x  - this.getDimension().get().getWidth() >= 0) {
 			this.move(-x, 0);
+			return true;
 		}
+		return false;
     }
     
     private void move(final double x, final double y) {
