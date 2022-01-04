@@ -297,7 +297,11 @@ public class GameEnvironment implements Environment {
 			System.exit(1);
 			// GAME OVER
 		} else {
-			this.player.get().getSpeedVector().get().noSpeedVectorSum(0, this.gravity);
+			if (!this.player.get().hasLanded()) {
+				this.player.get().moveDown(this.gravity);
+			} else {
+				this.player.get().resetLanding();
+			}
 			this.player.get().updateState(); 
 		}
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
@@ -311,6 +315,8 @@ public class GameEnvironment implements Environment {
 			}
 		});
 		this.bullets.get().stream().forEach(i -> i.updateState());
+		this.items.get().stream().forEach(i -> i.updateState());
+		this.platforms.get().stream().forEach(i -> i.updateState());
 		this.checkCollisions();
 	}
 	
@@ -352,12 +358,14 @@ public class GameEnvironment implements Environment {
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerWeapon = new CollisionEventChecker(this.weapons.get(), List.of(this.player.get()));
 		final EventChecker checkBulletEnemy = new CollisionEventChecker(this.bullets.get(), this.enemies.get());
+		final EventChecker checkPlayerPlatform = new CollisionEventChecker(this.platforms.get(), List.of(this.player.get()));
 
 		checkPlayerItem.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
 		checkPlayerWeapon.check();
 		checkBulletEnemy.check();
+		checkPlayerPlatform.check();
 
 		// Notify everything to the {@link GameEventListener}.
 		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
@@ -388,11 +396,19 @@ public class GameEnvironment implements Environment {
 			});
 		}
 		tempEvents.clear();
+		tempEvents.addAll(checkPlayerPlatform.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
+		}
+		tempEvents.clear();
 		tempEvents.addAll(checkBulletEnemy.getBuffer().getEvents());
 		if(!tempEvents.isEmpty()) {
 			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
 		}
+
 	}
 }

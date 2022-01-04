@@ -23,7 +23,7 @@ public class SaveTest {
     public void saveAndLoad(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
-        Save.resetSaveFile();
+        Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Paolo";
         final int playerScore = 7;
@@ -31,12 +31,12 @@ public class SaveTest {
         final String playerName2 = "Giorgio";
         final int playerScore2 = 14;
 
-        Save.saveData(playerName, playerScore);
-        Save.saveData(playerName2, playerScore2);
+        Save.saveGameStatistics(playerName, playerScore);
+        Save.saveGameStatistics(playerName2, playerScore2);
 
         final LinkedHashMap<String, Integer> map;
 
-        map = Save.loadSaveFile();
+        map = Save.loadGameStatistics();
 
         assertNotNull(map);
         assertFalse(map.isEmpty());
@@ -50,11 +50,11 @@ public class SaveTest {
 
     @Test
     public void resetTest(){
-        Save.resetSaveFile();
+        Save.resetFile(Save.SAVE_PATH);
 
         HashMap<String, Integer> resetResults;
 
-        resetResults = Save.loadSaveFile();
+        resetResults = Save.loadGameStatistics();
 
         assertTrue(resetResults.isEmpty());
     }
@@ -68,7 +68,7 @@ public class SaveTest {
 
         assertTrue(level.length != 0);
 
-        final int max_levels = 3;
+        final int max_levels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
         final int numberOfLevels = Save.getNumberOfLevels(".txt");
 
         assertEquals(max_levels, numberOfLevels);
@@ -90,38 +90,50 @@ public class SaveTest {
         assertTrue(s.length != 0);
     }
 
-    /*@Test
-    public void modifyDataTest(){ //TODO: uncomment when the method will be fixed
-        //data.resetSaveFile();
-        Save.resetSaveFile();
+    @Test
+    public void saveAndLoadSettingsTest(){
 
-        final String player = "Pippo";
-        final int playerScore = 14;
+        // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
+        Save.resetFile(Save.SETTINGS_PATH);
 
-        final String player2 = "Giorgio";
-        final int playerScore2 = 8;
+        final String resolution = "1920x1080";
+        final String difficulty = "hard";
+        final int audioVolume = 30;
 
-        //data.save(player, playerScore);
-        //data.save(player2, playerScore2);
-        Save.save(player, playerScore);
-        Save.save(player2, playerScore2);
+        final boolean hasSavedSettings = Save.saveSettings(resolution, difficulty, audioVolume);
 
-        HashMap<String, Integer> results = new HashMap<>();
-        results = Save.load(); //data.load();
+        assertTrue(hasSavedSettings);
 
-        assertFalse(results.isEmpty());
+        final HashMap<String, String> settingsMap = new HashMap<>();
 
-        final String playerRename = "Marco";
-        final int newPlayerScore = 5;
+        settingsMap.put(Save.RESOLUTION_STRING, resolution);
+        settingsMap.put(Save.DIFFICULTY_STRING, difficulty);
+        settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume));
 
-        //data.modifySaveFile(player, playerScore, playerRename, newPlayerScore);
-        Save.modifySaveFile(player, playerScore, playerRename, newPlayerScore);
+        HashMap<String, String> loadedSettings = Save.loadSettings();
 
-        results.clear();
-        results = Save.load(); //data.load();
+        assertFalse(loadedSettings.isEmpty());
+        assertEquals(settingsMap, loadedSettings);
 
-        assertTrue(results.containsKey(playerRename));
-        assertTrue(results.containsValue(newPlayerScore));
-    }*/
+        // AGGIORNAMENTO DEI DATI
+        final String resolution2 = "1280x720";
+        final String difficulty2 = "easy";
+        final int audioVolume2 = 20;
+
+        final boolean hasUpdatedSettings = Save.saveSettings(resolution2, difficulty2, audioVolume2);
+
+        assertTrue(hasUpdatedSettings);
+
+        settingsMap.clear();
+
+        settingsMap.put(Save.RESOLUTION_STRING, resolution2);
+        settingsMap.put(Save.DIFFICULTY_STRING, difficulty2);
+        settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume2));
+
+        loadedSettings = Save.loadSettings();
+
+        assertFalse(loadedSettings.isEmpty());
+        assertEquals(settingsMap, loadedSettings);
+    }
 
 }

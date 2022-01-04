@@ -8,6 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.Collision;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
@@ -46,6 +47,7 @@ public class CollisionEventChecker implements EventChecker {
 				checkPlayerAndObstacle(a, b);
 				checkPlayerAndWeapon(a, b);
 				checkBulletAndEnemy(a, b);
+				checkPlayerAndPlatform(a, b);
 			}
 			if (isSingleElemList) {
 				break;
@@ -84,11 +86,20 @@ public class CollisionEventChecker implements EventChecker {
 			this.eventBuffer.addEvent(new PlayerHitsWeaponEvent(player, weapon));
 		}
 	}
+	
 	private void checkBulletAndEnemy(final PhysicalObject a, final PhysicalObject b) {
 		if (a instanceof BulletImpl && b instanceof Enemy) {
 			final Enemy enemy = (Enemy) b;
 			final BulletImpl bullet = (BulletImpl) a;
 			this.eventBuffer.addEvent(new BulletHitsEnemyEvent(bullet, enemy));
+		}
+	}
+	
+	private void checkPlayerAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Platform && b instanceof Player) {
+			final Player player = (Player) b;
+			final Platform platform = (Platform) a;
+			this.eventBuffer.addEvent(new PlayerHitsPlatformEvent(player, platform));
 		}
 	}
 	

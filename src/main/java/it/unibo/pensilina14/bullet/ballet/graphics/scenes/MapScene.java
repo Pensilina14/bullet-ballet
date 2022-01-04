@@ -82,7 +82,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.empty();
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
-    }
+    }	
 
     public MapScene(final GameState gameState, final GameEngine ctrlr) {
         this.gameState = gameState;
@@ -142,8 +142,7 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	for (final Platform x : world.getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType()
-    				, xPos.getX(), xPos.getY());
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
     		this.platformSprites.put(newSprite, xPos);
     		this.gamePane.getChildren().add(newSprite);
     	}
@@ -350,6 +349,7 @@ public class MapScene extends AbstractScene implements GameView{
     	//AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
+<<<<<<< HEAD
     	if(env.getPlayer().get().hasWeapon()) {
     		if(this.mainWeapon.isEmpty()) {
     			this.weaponSprites.forEach((x, y) -> {
@@ -375,6 +375,12 @@ public class MapScene extends AbstractScene implements GameView{
     	}
     	
     	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
+=======
+    	this.platformSprites.forEach((x, y) -> {
+    		x.renderMovingPosition();
+    		AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
+    	});
+>>>>>>> main
     	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
     	this.enemySprites.forEach((x, y) ->  {
@@ -383,11 +389,18 @@ public class MapScene extends AbstractScene implements GameView{
     	});
 		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
-		this.itemSprites.forEach((x, y) -> x.renderMovingPosition());
+		this.itemSprites.forEach((x, y) -> {
+			x.renderMovingPosition();
+    		AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
+		});
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
-		this.obstacleSprites.forEach((x, y) -> x.renderMovingPosition());
+		this.obstacleSprites.forEach((x, y) -> {
+			x.renderMovingPosition();
+    		AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
+		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
+<<<<<<< HEAD
 		
 		/*if(this.mainWeapon.isPresent()) {
 			final MutablePosition2D pos = this.mainWeapon.get().getRight();
@@ -396,6 +409,13 @@ public class MapScene extends AbstractScene implements GameView{
 		}*/
 		
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
+=======
+
+		this.weaponSprites.forEach((x, y) -> {
+			x.renderMovingPosition();
+    		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
+		});
+>>>>>>> main
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
 		this.bulletSprites.forEach((x, y) -> x.renderMovingPosition());
@@ -437,4 +457,15 @@ public class MapScene extends AbstractScene implements GameView{
 	public final void setWidth(final double width) {
 		this.appPane.setPrefWidth(width);
 	}
+	
+	public void deleteEnemySpriteImage(final MutablePosition2D position) {
+		final MainEnemy enemy = enemySprites.entrySet()
+                .stream()
+                .filter(entry -> position.equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst().get();
+		enemySprites.remove(enemy);
+	}
+	
+	
 }

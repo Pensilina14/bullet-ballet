@@ -10,7 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public abstract class GameEntity implements PhysicalObject{
 
-    private static final double MS_TO_S = 0.001;
+    protected static final double MS_TO_S = 1;
     private static final double X_AXIS = 31.5;
     private static final double Y_AXIS = 17.5;
 	private final SpeedVector2D speedVector;
@@ -43,7 +43,7 @@ public abstract class GameEntity implements PhysicalObject{
 
 	@Override
 	public void updateState() {
-		this.speedVector.noSpeedVectorSum(MS_TO_S, MS_TO_S);
+		this.speedVector.noSpeedVectorSum(-MS_TO_S, 0);
 	}
 
 	@Override
@@ -76,12 +76,12 @@ public abstract class GameEntity implements PhysicalObject{
         this.move(-x, 0);
     }
     
-    private void move(final double x, final double y) {
-        if (this.isWithinXaxis(x)) {
+    protected void move(final double x, final double y) {
+        if (this.isWithinXaxis(x) /*&& this.getPosition().get().getY() < 800*/) {
             this.speedVector.vectorSum(x, y);
+            /*AppLogger.getAppLogger().debug("y for player: " + this.speedVector.getPosition().get().getY());*/
         } 
-        System.out.println(this.getGameEnvironment().get().getDimension().getWidth());
-        AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));
+        /*AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));*/
     }
 	
     /*

@@ -39,8 +39,8 @@ public class PhysicalObjectSprite extends Pane{
     }
     
     public void renderMovingPosition() {
-    	final double netX = this.position.getX() - 1;
-    	this.position.setPosition(netX, this.position.getY());
+    	final double nextX = this.position.getX() - 1;
+    	this.position.setPosition(nextX, this.position.getY());
     	this.setTranslateX(this.position.getX());
     }
     

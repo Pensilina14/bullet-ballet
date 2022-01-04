@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
@@ -19,18 +20,30 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+<<<<<<< HEAD
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
+=======
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
+>>>>>>> main
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
+<<<<<<< HEAD
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
 import javafx.animation.AnimationTimer;
+=======
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
+>>>>>>> main
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
+<<<<<<< HEAD
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+=======
+import javafx.animation.AnimationTimer;
+>>>>>>> main
 
 public class GameEngine implements Controller, GameEventListener {
 	
@@ -133,13 +146,26 @@ public class GameEngine implements Controller, GameEventListener {
 				playerHitsEnemyEventHandler(env, e);
 			} else if (e instanceof PlayerHitsObstacleEvent) {
 				playerHitsObstacleEventHandler(env, e);
+<<<<<<< HEAD
 			} else if (e instanceof PlayerHitsWeaponEvent) {
 				playerHitsWeaponEventHandler(env, e);
 			} else if (e instanceof BulletHitsEnemyEvent) {
 				bulletHitsEnemyEventHandler(env, e);
+=======
+			} else if (e instanceof PlayerHitsPlatformEvent) {
+				playerHitsPlatformEventHandler(env, e);
+>>>>>>> main
 			}
 		});
 		this.eventQueue.clear();
+	}
+	
+	private void playerHitsPlatformEventHandler(final Environment env, final GameEvent e) {
+		final Player player = ((PlayerHitsPlatformEvent) e).getPlayer();
+		final Platform platform = ((PlayerHitsPlatformEvent) e).getPlatform();
+		player.land();
+		player.getSpeedVector().get().noSpeedVectorSum(0, -env.getGravity());
+		AppLogger.getAppLogger().info("player hits platform");
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
@@ -166,6 +192,9 @@ public class GameEngine implements Controller, GameEventListener {
 		if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
+			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
+					enemy.getPosition().get().getY()));
+			
 		}
 		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
 		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
