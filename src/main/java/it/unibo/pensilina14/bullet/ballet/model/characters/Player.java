@@ -25,7 +25,8 @@ public class Player extends GameEntity implements Characters{
     private final Random rand = new Random();
     private final static double MAX = 100.0;
 
-    public Player(String name, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Player(final String name, final Dimension2D dimension, final SpeedVector2D vector
+    		, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
 
         this.name = name;
@@ -33,7 +34,8 @@ public class Player extends GameEntity implements Characters{
         this.mana = Optional.of(100.0);
     }
 
-    public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Player(final String name, final double health,final Optional<Double> mana, final Dimension2D dimension
+    		, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
 
         this.name = name;
@@ -41,14 +43,15 @@ public class Player extends GameEntity implements Characters{
         this.mana = mana;
     }
 
-    public Player(EntityList.Characters.Player playerType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Player(final EntityList.Characters.Player playerType, final Dimension2D dimension
+    		, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
 
         this.playerType = playerType;
         setPlayerType();
     }
 
-    public Player(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Player(final Dimension2D dimension, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
 
         setRandomPlayer();
@@ -57,12 +60,11 @@ public class Player extends GameEntity implements Characters{
     }
 
     private void setRandomPlayer() {
-        Random rand = new Random();
+        final Random rand = new Random();
         final int max = EntityList.Characters.Player.values().length;
-        final int min = 0;
 
-        final int randomPlayer = rand.nextInt(((max - min)) + min);
-        for(EntityList.Characters.Player p : EntityList.Characters.Player.values()){
+        final int randomPlayer = rand.nextInt(max);
+        for(final EntityList.Characters.Player p : EntityList.Characters.Player.values()){
             if(p.ordinal() == randomPlayer){
                 this.playerType = p;
             }
@@ -77,25 +79,27 @@ public class Player extends GameEntity implements Characters{
                 minHealth = 80.0;
                 minMana = 50.0;
                 this.name = "Player1";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 break;
             case PLAYER2:
                 minHealth = 65.0;
                 minMana = 70.0;
                 this.name = "Player2";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * (MAX - minHealth)+ minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case PLAYER3:
                 minHealth = 50.0;
                 minMana = 85.0;
                 this.name = "Player3";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
                 break;
+            default:
+            	break;
         }
     }
 
@@ -115,7 +119,7 @@ public class Player extends GameEntity implements Characters{
     }
 
     @Override
-    public void setHealth(double setHealth) {
+    public void setHealth(final double setHealth) {
         this.health = setHealth;
     }
 
@@ -125,7 +129,7 @@ public class Player extends GameEntity implements Characters{
     }
 
     @Override
-    public void setWeapon(Weapon weapon) {
+    public void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
     }
 
@@ -140,26 +144,26 @@ public class Player extends GameEntity implements Characters{
     }
 
     @Override
-    public void decreaseMana(double decreaseValue) {
+    public void decreaseMana(final double decreaseValue) {
         if(this.mana.isPresent()){
             this.mana = Optional.of(this.mana.get() - decreaseValue);
         }
     }
 
     @Override
-    public void increaseMana(double increaseValue) {
+    public void increaseMana(final double increaseValue) {
         if(this.mana.isPresent()){
             this.mana = Optional.of(this.mana.get() + increaseValue);
         }
     }
 
     @Override
-    public void increaseHealth(double increaseHealth) {
+    public void increaseHealth(final double increaseHealth) {
         this.health += increaseHealth;
     }
 
     @Override
-    public void decreaseHealth(double decreaseHealth) {
+    public void decreaseHealth(final double decreaseHealth) {
         this.health -= decreaseHealth;
     }
 
@@ -169,7 +173,7 @@ public class Player extends GameEntity implements Characters{
     
     @Override
     public void updateState() {
-    	this.move(0, 0);
+    	this.moveRight(0);
     }
     /*
      * Following code could be universalized for every game entity.
