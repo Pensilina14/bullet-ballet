@@ -1,11 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
-<<<<<<< HEAD
 import java.io.IOException;
-
-=======
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
->>>>>>> main
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import javafx.scene.layout.Pane;

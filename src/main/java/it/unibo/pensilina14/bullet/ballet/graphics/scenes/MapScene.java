@@ -349,7 +349,6 @@ public class MapScene extends AbstractScene implements GameView{
     	//AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
-<<<<<<< HEAD
     	if(env.getPlayer().get().hasWeapon()) {
     		if(this.mainWeapon.isEmpty()) {
     			this.weaponSprites.forEach((x, y) -> {
@@ -374,13 +373,10 @@ public class MapScene extends AbstractScene implements GameView{
     		}
     	}
     	
-    	this.platformSprites.forEach((x, y) -> x.renderMovingPosition());
-=======
     	this.platformSprites.forEach((x, y) -> {
     		x.renderMovingPosition();
     		AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
     	});
->>>>>>> main
     	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
     	this.enemySprites.forEach((x, y) ->  {
@@ -400,7 +396,6 @@ public class MapScene extends AbstractScene implements GameView{
     		AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
-<<<<<<< HEAD
 		
 		/*if(this.mainWeapon.isPresent()) {
 			final MutablePosition2D pos = this.mainWeapon.get().getRight();
@@ -409,13 +404,6 @@ public class MapScene extends AbstractScene implements GameView{
 		}*/
 		
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
-=======
-
-		this.weaponSprites.forEach((x, y) -> {
-			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
-		});
->>>>>>> main
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
 		this.bulletSprites.forEach((x, y) -> x.renderMovingPosition());
