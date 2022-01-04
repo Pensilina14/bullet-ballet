@@ -8,7 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public abstract class GameEntity implements PhysicalObject{
+public class GameEntity implements PhysicalObject{
 
     protected static final double MS_TO_S = 1;
 	private final SpeedVector2D speedVector;
@@ -56,7 +56,8 @@ public abstract class GameEntity implements PhysicalObject{
 
 	@Override
 	public void moveUp(final double y) {
-		if (this.getPosition().get().getY() >= this.gameEnvironment.getDimension().getHeight()) {
+		if (this.getPosition().get().getY() -y - this.getDimension().get().getHeight()
+				>= this.gameEnvironment.getDimension().getHeight()) {
 	        this.move(0, -y);
 		}
     }
@@ -68,14 +69,15 @@ public abstract class GameEntity implements PhysicalObject{
     
 	@Override
     public void moveRight(final double x) {
-		if (this.getPosition().get().getX() <= this.gameEnvironment.getDimension().getWidth()){
+		if (this.getPosition().get().getX() + x + this.getDimension().get().getWidth() 
+				<= this.gameEnvironment.getDimension().getWidth()){
 			this.move(x, 0);
 		} 
     }
     
 	@Override
     public void moveLeft(final double x) {
-		if (this.getPosition().get().getX() >= 0) {
+		if (this.getPosition().get().getX() - x  - this.getDimension().get().getWidth() >= 0) {
 			this.move(-x, 0);
 		}
     }
