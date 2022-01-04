@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
@@ -20,6 +21,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	private final int limitBullets;
 	private final int limitChargers;
 	private final String name;
+	private boolean mode;
 	
 	///it keeps the index of ammo left in the current charger
 	private int currentAmmo;
@@ -40,6 +42,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
 		this.limitChargers = weaponType.getLimChargers();
 		this.currentAmmo = limitBullets;
 		this.weaponType = weaponType;
+		this.mode = false;
 		this.initializeWeapon();
 	}	
 	
@@ -114,15 +117,17 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	
 	@Override
 	public void decreaseAmmo() {
-		if(this.hasAmmo()) {
-			this.currentAmmo--;
-		}else {
-			this.switchCharger();
-			System.out.println(this.bandolier);
-			this.currentAmmo--;
+		if(getMode()) {
+			if(this.hasAmmo()) {
+				this.currentAmmo--;
+			}else {
+				this.switchCharger();
+				System.out.println(this.bandolier);
+				this.currentAmmo--;
+			}
+			this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
+			this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 		}
-		this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
-		this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 	}
 	
 	@Override
@@ -172,5 +177,24 @@ public class WeaponImpl extends PickupItem implements Weapon {
     public EntityList.Weapons getTypeOfWeapon(){
     	return this.weaponType;
     }
-
+    
+    @Override
+    public boolean getMode() {
+    	return this.mode;
+    }
+    
+    @Override
+    public void setOn() {
+    	this.mode = true;
+    }
+    
+    @Override
+    public void setOff() {
+    	this.mode = false;
+    }
+    
+    @Override
+    public void setPosition(final MutablePosition2D newPos) {
+    	this.getPosition().get().setPosition(newPos.getX(), newPos.getY());
+    }
 }

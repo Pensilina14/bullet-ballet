@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.List;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 
 public interface Weapon extends Item {
@@ -55,4 +56,15 @@ public interface Weapon extends Item {
 	 * @return type of weapon.
 	 */
 	EntityList.Weapons getTypeOfWeapon();
+
+	boolean getMode();
+
+	void setOn();
+
+	void setOff();
+
+	void setPosition(MutablePosition2D newPos);
+	
+
+	
 }

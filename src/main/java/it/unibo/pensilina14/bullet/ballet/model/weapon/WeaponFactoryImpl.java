@@ -11,7 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class WeaponFactoryImpl implements WeaponFactory {
 	
 	private final EffectFactory effectFactory = new EffectFactoryImpl();
-	private static final int DIMENSION = 50;
+	private static final int DIMENSION = 35;
 	private static final int MASS = 5;
 		
 	@Override
