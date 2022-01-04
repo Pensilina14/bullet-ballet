@@ -16,7 +16,7 @@ public class Player extends GameEntity implements Characters{
 
     private String name;
 
-    private Weapon weapon;
+    private Optional<Weapon> weapon;
 
     private EntityList.Characters.Player playerType;
 
@@ -29,6 +29,7 @@ public class Player extends GameEntity implements Characters{
         this.name = name;
         this.health = 100.0;
         this.mana = Optional.of(100.0);
+        this.weapon = Optional.empty();
     }
 
     public Player(String name, double health,Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
@@ -37,12 +38,14 @@ public class Player extends GameEntity implements Characters{
         this.name = name;
         this.health = health;
         this.mana = mana;
+        this.weapon = Optional.empty();
     }
 
     public Player(EntityList.Characters.Player playerType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
         super(vector, environment, mass, dimension);
 
         this.playerType = playerType;
+        
         setPlayerType();
     }
 
@@ -78,6 +81,7 @@ public class Player extends GameEntity implements Characters{
                 this.name = "Player1";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.weapon = Optional.empty();
                 break;
             case PLAYER2:
                 minHealth = 65.0;
@@ -85,6 +89,7 @@ public class Player extends GameEntity implements Characters{
                 this.name = "Player2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.weapon = Optional.empty();
                 //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case PLAYER3:
@@ -93,6 +98,7 @@ public class Player extends GameEntity implements Characters{
                 this.name = "Player3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.weapon = Optional.empty();
                 //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
                 break;
         }
@@ -120,12 +126,12 @@ public class Player extends GameEntity implements Characters{
 
     @Override
     public Weapon getWeapon() {
-        return this.weapon;
+        return this.weapon.get();
     }
 
     @Override
     public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
+        this.weapon = Optional.of(weapon);
     }
 
     @Override
@@ -165,4 +171,17 @@ public class Player extends GameEntity implements Characters{
     public EntityList.Characters.Player getPlayerType() {
         return this.playerType;
     }
+    
+    public boolean hasWeapon() {
+    	return this.weapon.isPresent();
+    }
+    
+    /*@Override
+    public void updateState() {
+    	if(hasWeapon()) {
+    		this.weapon.get().setPosition(this.getPosition().get());
+    	}
+    	
+    }
+    */
 }
