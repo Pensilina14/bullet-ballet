@@ -7,8 +7,8 @@ public class GameState {
 	private int score;
 	private final Environment env;
 	private final LevelGenerator generator;
-	private final static double WIDTH = 1883.5;
-	private final static double HEIGHT = 12;
+	private final static double WIDTH = 1882;
+	private final static double HEIGHT = 11;
 	
 	
 	public GameState() {

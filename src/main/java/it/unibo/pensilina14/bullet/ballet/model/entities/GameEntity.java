@@ -5,14 +5,11 @@ import java.util.Optional;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public abstract class GameEntity implements PhysicalObject{
+public class GameEntity implements PhysicalObject{
 
     protected static final double MS_TO_S = 1;
-    private static final double X_AXIS = 31.5;
-    private static final double Y_AXIS = 17.5;
 	private final SpeedVector2D speedVector;
 	private final Environment gameEnvironment;
 	private final double mass;
@@ -57,48 +54,41 @@ public abstract class GameEntity implements PhysicalObject{
 	}
 
 	@Override
-	public void moveUp(final double y) {
-        this.move(0, -y);
+	public boolean moveUp(final double y) {
+		if (this.getPosition().get().getY() -y - this.getDimension().get().getHeight()
+				>= this.gameEnvironment.getDimension().getHeight()) {
+	        this.move(0, -y);
+	        return true;
+		}
+		return false;
     }
     
 	@Override
     public void moveDown(final double y) {
-        this.move(0, y);
+		this.move(0, y);
     }
     
 	@Override
-    public void moveRight(final double x) {
-        this.move(x, 0);
+    public boolean moveRight(final double x) {
+		if (this.getPosition().get().getX() + x + this.getDimension().get().getWidth() 
+				<= this.gameEnvironment.getDimension().getWidth()){
+			this.move(x, 0);
+			return true;
+		} 
+		return false;
     }
     
 	@Override
-    public void moveLeft(final double x) {
-        this.move(-x, 0);
+    public boolean moveLeft(final double x) {
+		if (this.getPosition().get().getX() - x  - this.getDimension().get().getWidth() >= 0) {
+			this.move(-x, 0);
+			return true;
+		}
+		return false;
     }
     
-    protected void move(final double x, final double y) {
-        if (this.isWithinXaxis(x) /*&& this.getPosition().get().getY() < 800*/) {
-            this.speedVector.vectorSum(x, y);
-            /*AppLogger.getAppLogger().debug("y for player: " + this.speedVector.getPosition().get().getY());*/
-        } 
-        /*AppLogger.getAppLogger().debug("Pos: ".concat(this.getPosition().get().toString()));*/
+    private void move(final double x, final double y) {
+        this.speedVector.vectorSum(x, y);
     }
-	
-    /*
-	private boolean isWithinMapBoundaries(final double x, final double y) {    
-        return isWithinXaxis(x) && isWithinYaxis(y);
-    }
-    */
-    
-    private boolean isWithinXaxis(final double x) {
-        return this.speedVector.getPosition().get().getX() + x >= 0
-        		&& this.speedVector.getPosition().get().getX() + x < this.gameEnvironment.getDimension().getWidth();
-    }
-    
-    /*
-    private boolean isWithinYaxis(final double y) {
-        return this.speedVector.getPosition().get().getY() + y > this.gameEnvironment.getDimension().getHeight();
-    }
-	*/
 	
 }

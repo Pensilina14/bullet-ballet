@@ -22,13 +22,13 @@ public interface PhysicalObject {
 	
 	double getMass();
 	
-	void moveUp(double y);
+	boolean moveUp(double y);
 	
 	void moveDown(double y);
 	
-	void moveLeft(double x);
+	boolean moveLeft(double x);
 	
-	void moveRight(double x);
+	boolean moveRight(double x);
 	
 	void updateState();
 	
