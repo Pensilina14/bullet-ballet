@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet;
 
+import java.io.IOException;
+
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import javafx.animation.AnimationTimer;
 
@@ -16,7 +18,12 @@ public class AnimationTimerImpl extends AnimationTimer {
 	public void handle(final long now) {
 		this.engine.processInput();
 		this.engine.updateGame();
-		this.engine.render();
+		try {
+			this.engine.render();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/*
