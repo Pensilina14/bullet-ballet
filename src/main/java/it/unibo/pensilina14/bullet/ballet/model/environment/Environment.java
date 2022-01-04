@@ -11,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -69,6 +70,12 @@ public interface Environment {
 	Optional<List<Weapon>> getWeapons();
 	
 	/**
+	 * 
+	 * @return {@link List} of bullets({@link Bullet}) present in the environment.
+	 */
+	Optional<List<Bullet>> getBullets();
+	
+	/**
 	 * Sets the player.
 	 * 
 	 * @param player is the main character of the game.
@@ -114,6 +121,14 @@ public interface Environment {
 	 * Unsuccess is guaranteed if weapon is already present.
 	 */
 	boolean addWeapon(Weapon weapon);
+	
+	/**
+	 * @param bullet is the {@link Bullet} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if bullet is already present.
+	 */
+	boolean addBullet(Bullet bullet);
 
 	/**
 	 * @param position of the object to be deleted.
@@ -161,4 +176,5 @@ public interface Environment {
 			return this.value;
 		}
 	}
+
 }

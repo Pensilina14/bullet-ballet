@@ -13,6 +13,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -40,6 +41,7 @@ public class GameEnvironment implements Environment {
     private final Optional<List<PickupItem>> items;
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
+    private final Optional<List<Bullet>> bullets;
     private Optional<GameEventListener> eventListener;
 	
 	/**
@@ -58,6 +60,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
+		this.bullets = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -76,6 +79,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
+		this.bullets = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -99,6 +103,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
+		this.bullets = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.of(l);
 	}
 	
@@ -163,6 +168,14 @@ public class GameEnvironment implements Environment {
 		return Optional.empty();
 	}
 	
+	@Override
+	public final Optional<List<Bullet>> getBullets() {
+		if (this.bullets.isPresent()) {
+			return Optional.of(List.copyOf(this.bullets.get()));
+		}
+		return Optional.empty(); 
+	}
+	
     @Override
 	public final void setPlayer(final Player player) {
 		this.player = Optional.ofNullable(player);
@@ -225,6 +238,16 @@ public class GameEnvironment implements Environment {
 			return true;
 		}
 	}
+	
+	@Override
+	public final boolean addBullet(final Bullet bullet) {
+		if (this.bullets.get().contains(bullet)) {
+			return false;
+		} else {
+			this.bullets.get().add(bullet);
+			return true;
+		}
+	}
 
 	@Override
 	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
@@ -280,6 +303,14 @@ public class GameEnvironment implements Environment {
 		this.enemies.get().stream().forEach(e -> e.updateState()); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
+		this.weapons.get().stream().forEach(i -> {
+			if(!i.getMode()) {
+				i.updateState();
+			} else {
+				i.setPosition(this.player.get().getPosition().get());
+			}
+		});
+		this.bullets.get().stream().forEach(i -> i.updateState());
 		this.checkCollisions();
 	}
 	
@@ -309,6 +340,9 @@ public class GameEnvironment implements Environment {
 		if (this.weapons.isPresent()) {
 			mergedList.get().addAll(this.weapons.get());
 		}
+		if (this.bullets.isPresent()) {
+			mergedList.get().addAll(this.bullets.get());
+		}
 		return mergedList;
 	}
 	
@@ -316,10 +350,14 @@ public class GameEnvironment implements Environment {
 		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
 		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
+		final EventChecker checkPlayerWeapon = new CollisionEventChecker(this.weapons.get(), List.of(this.player.get()));
+		final EventChecker checkBulletEnemy = new CollisionEventChecker(this.bullets.get(), this.enemies.get());
 
 		checkPlayerItem.check();
 		checkPlayerEnemy.check();
 		checkPlayerObstacle.check();
+		checkPlayerWeapon.check();
+		checkBulletEnemy.check();
 
 		// Notify everything to the {@link GameEventListener}.
 		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
@@ -338,6 +376,20 @@ public class GameEnvironment implements Environment {
 		tempEvents.clear();
 		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
 		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
+		}
+		tempEvents.clear();
+		tempEvents.addAll(checkPlayerWeapon.getBuffer().getEvents());
+		if (!tempEvents.isEmpty()) {
+			tempEvents.stream().forEach(e -> {
+				this.eventListener.get().notifyEvent(e);
+			});
+		}
+		tempEvents.clear();
+		tempEvents.addAll(checkBulletEnemy.getBuffer().getEvents());
+		if(!tempEvents.isEmpty()) {
 			tempEvents.stream().forEach(e -> {
 				this.eventListener.get().notifyEvent(e);
 			});
