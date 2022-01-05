@@ -27,7 +27,8 @@ public final class Save {
     public static final String PLAYER_STRING = "Player"; //TODO: rename it better
     public static final String SCORE_STRING = "Score"; //TODO: rename it better
 
-    public static final String RESOLUTION_STRING = "Resolution";
+    public static final String RESOLUTION_WIDTH_STRING = "Width";
+    public static final String RESOLUTION_HEIGHT_STRING = "Height";
     public static final String DIFFICULTY_STRING = "Difficulty";
     public static final String AUDIO_STRING = "Audio";
 
@@ -96,7 +97,7 @@ public final class Save {
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
      */
-    public static LinkedHashMap<String, Integer> loadGameStatistics(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
+    public static LinkedHashMap<String, Integer> loadGameStatistics(){
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
@@ -186,7 +187,19 @@ public final class Save {
         return level;
     }
 
-    //TODO: add javadoc
+    /**
+     *
+     * @param levelNumber : the number of the level that you want to load
+     * @return a String[] of the level
+     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+     * @throws NoSuchPaddingException: padding not available.
+     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+     * @throws NoSuchAlgorithmException: algorithm doesn't exist.
+     * @throws InvalidKeySpecException: invalid key specifications.
+     * @throws BadPaddingException: input data not properly padded.
+     * @throws IOException: fail or interrupted I/O operations.
+     * @throws InvalidKeyException: invalid key.
+     */
     public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
         String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Save.ENCRYPTED_FILES_EXTENSION;
         byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
@@ -213,27 +226,25 @@ public final class Save {
 
     /**
      *
-     * @return int: the number of files in the directory "levels/", so all the levels stored.
+     * @param extension : the extension of the level files.
+     * @return : an int with the number of the levels present in the levels' directory.
      */
-    public static int getNumberOfLevels(){ //TODO: remove
-        return Objects.requireNonNull(new File(Save.LEVEL_PATH).listFiles()).length;
-    }
-
     public static int getNumberOfLevels(String extension){
         File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
     }
 
-    //TODO: update GameStatisticsData o updateGameStatistics()
+    //TODO: updateGameStatistics()
 
     /**
      *
-     * @param resolution : the resolution of the game.
+     * @param resWidth : the resolution's width of the game.
+     * @param resHeight : the resolution's height of the game.
      * @param difficulty : the difficulty of the game.
      * @param audioVolume : the in-game audio volume.
      * @return : a boolean whether the file has been saved successfully or not.
      */
-    public static boolean saveSettings(final String resolution, final String difficulty, final int audioVolume){
+    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final int audioVolume){
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = new JSONObject();
 
@@ -241,7 +252,8 @@ public final class Save {
 
         try {
             if(file.length() == 0){
-                jsonObject.put(Save.RESOLUTION_STRING, resolution);
+                jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.put(Save.AUDIO_STRING, audioVolume);
 
@@ -258,7 +270,8 @@ public final class Save {
 
                 jsonObject = (JSONObject) obj;
 
-                jsonObject.replace(Save.RESOLUTION_STRING, resolution);
+                jsonObject.replace(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.replace(Save.AUDIO_STRING, audioVolume);
 
@@ -293,13 +306,16 @@ public final class Save {
 
             for(int i = 0; i < jsonObject.size(); i++){
 
-                String resolution = jsonObject.get(Save.RESOLUTION_STRING).toString();
+                String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
+
+                String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
 
                 String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
 
                 String audio = jsonObject.get(Save.AUDIO_STRING).toString();
 
-                map.put(Save.RESOLUTION_STRING, resolution);
+                map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 map.put(Save.DIFFICULTY_STRING, difficulty);
                 map.put(Save.AUDIO_STRING, audio);
 
