@@ -82,6 +82,14 @@ public class CollisionEventChecker implements EventChecker {
 		}
 	}
 	
+	private void checkEnemyAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Platform && b instanceof Enemy) {
+			final Enemy enemy = (Enemy) b;
+			final Platform platform = (Platform) a;
+			this.eventBuffer.addEvent(new EnemyHitsPlatformEvent(enemy, platform));
+		}
+	}
+	
 	@Override
 	public final EventBuffer getBuffer() {
 		return this.eventBuffer;

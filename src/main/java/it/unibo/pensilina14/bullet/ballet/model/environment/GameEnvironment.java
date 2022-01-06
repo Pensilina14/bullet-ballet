@@ -282,7 +282,14 @@ public class GameEnvironment implements Environment {
 			}
 			this.player.get().updateState(); 
 		}
-		this.enemies.get().stream().forEach(e -> e.updateState()); 
+		this.enemies.get().stream().forEach(e -> {
+			if (!e.hasLanded()) {
+				e.moveDown(this.gravity);
+			} else {
+				e.resetLanding();
+			}
+			e.updateState();
+		}); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
