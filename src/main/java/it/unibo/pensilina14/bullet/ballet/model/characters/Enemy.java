@@ -21,6 +21,8 @@ public class Enemy extends GameEntity implements Characters{
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
+    
+    private boolean landed;
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
 
@@ -160,5 +162,19 @@ public class Enemy extends GameEntity implements Characters{
 
     public EntityList.Characters.Enemy getEnemyType() {
         return this.enemyType;
+    }
+    /*
+     * Following code could be universalized for every game entity.
+     */
+    public boolean hasLanded() {
+    	return this.landed;
+    }
+    
+    public void land() {
+    	this.landed = true;
+    }
+    
+    public void resetLanding() {
+    	this.landed = false;
     }
 }
