@@ -80,34 +80,30 @@ public class GameEntity implements PhysicalObject{
 
 	@Override
 	public boolean moveUp(final double y) {
-		return moveInAnyDirection(Bounds.UP_CHECK, 0, -y);
+		return move(Bounds.UP_CHECK, 0, -y);
     }
     
 	@Override
     public void moveDown(final double y) {
-		this.move(0, y);
+		this.speedVector.vectorSum(0, y);
     }
     
 	@Override
     public boolean moveRight(final double x) {
-		return moveInAnyDirection(Bounds.RIGHT_CHECK, x, 0);
+		return move(Bounds.RIGHT_CHECK, x, 0);
     }
     
 	@Override
     public boolean moveLeft(final double x) {
-		return moveInAnyDirection(Bounds.LEFT_CHECK, -x, 0);
+		return move(Bounds.LEFT_CHECK, -x, 0);
     }
     
-	private boolean moveInAnyDirection(final Predicate<ImmutablePair<GameEntity, MutablePosition2D>> predicate, final double x, final double y) {
+	private boolean move(final Predicate<ImmutablePair<GameEntity, MutablePosition2D>> predicate, final double x, final double y) {
 		if(predicate.test(new ImmutablePair<GameEntity, MutablePosition2D>(this, new MutablePosition2Dimpl(x, y)))) {
-			this.move(x, y);
+			this.speedVector.vectorSum(x, y);
 			return true;
 		}
 		return false;
 	}
-	
-    private void move(final double x, final double y) {
-        this.speedVector.vectorSum(x, y);
-    }
 	
 }
