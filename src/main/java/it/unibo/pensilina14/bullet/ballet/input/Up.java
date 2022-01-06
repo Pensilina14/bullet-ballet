@@ -9,7 +9,7 @@ public class Up implements Command {
 	 * Factor every time Up command is executed
 	 * the player moves by.
 	 */
-	public static final double MOVEMENT_DELTA = 0.1;
+	public static final double MOVEMENT_DELTA = 70;
 	private final double movement;
 	
 	public Up() {
@@ -23,7 +23,9 @@ public class Up implements Command {
 	@Override
 	public final void execute(final GameState env) {
 		final Player player = env.getGameEnvironment().getPlayer().get();
-		player.moveUp(this.movement);
+		if (player.hasLanded()) {
+			player.moveUp(this.movement);
+		}
 	}
 
 }

@@ -258,7 +258,7 @@ public class MapScene extends AbstractScene implements GameView{
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
-            this.controller.get().notifyCommand(new Up(5));
+            this.controller.get().notifyCommand(new Up());
         }
         
 

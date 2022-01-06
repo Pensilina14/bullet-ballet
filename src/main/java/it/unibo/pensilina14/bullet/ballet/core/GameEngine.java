@@ -152,7 +152,7 @@ public class GameEngine implements Controller, GameEventListener {
 		final Player player = ((PlayerHitsPlatformEvent) e).getPlayer();
 		final Platform platform = ((PlayerHitsPlatformEvent) e).getPlatform();
 		player.land();
-		player.getSpeedVector().get().noSpeedVectorSum(0, -env.getGravity());
+		player.moveDown(-env.getGravity());
 		AppLogger.getAppLogger().info("player hits platform");
 	}
 	
