@@ -1,6 +1,12 @@
 package it.unibo.pensilina14.bullet.ballet;
 
+import java.util.Optional;
+
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
@@ -10,8 +16,8 @@ import it.unibo.pensilina14.bullet.ballet.menu.controller.Resolutions;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
 public class Game {
-    private final GameState state;
-    private final AbstractScene view;
+    private final ModelController model;
+    private final ViewController view;
     public final GameEngine engine;
     private final Settings settings; 
 
@@ -27,26 +33,28 @@ public class Game {
     }
 
     public Game() {
-    	this.state = new GameState();
-        this.view = new MapScene(this.state);
-        this.engine = new GameEngine((GameView) this.view, this.state);
+    	this.model = new ModelControllerImpl(new GameState());
+        this.view = new ViewControllerImpl(Optional.of(
+        		new MapScene(this.model.getGameState().get())
+        		));
+        this.engine = new GameEngine(this.view, this.model);
         this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
     }
 
-    public Game(final GameState gameState, final GameView gameView, final GameEngine gameEngine) {
-    	this.state = gameState;
-    	this.view = (AbstractScene) gameView;
-    	this.engine = gameEngine;
-    	this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
-    }
-    
-    public Game(final GameState state, final AbstractScene view, final GameEngine engine
-    		, final Settings settings) {
-		this.state = state;
-		this.view = view;
-		this.engine = engine;
-		this.settings = settings;
-	}
+//    public Game(final GameState gameState, final GameView gameView, final GameEngine gameEngine) {
+//    	this.state = gameState;
+//    	this.view = (AbstractScene) gameView;
+//    	this.engine = gameEngine;
+//    	this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
+//    }
+//    
+//    public Game(final GameState state, final AbstractScene view, final GameEngine engine
+//    		, final Settings settings) {
+//		this.state = state;
+//		this.view = view;
+//		this.engine = engine;
+//		this.settings = settings;
+//	}
     
 	public final void start() {
     	AppLogger.getAppLogger().debug("Inside Game start() method.");
@@ -57,7 +65,7 @@ public class Game {
     }
 
     public final AbstractScene getView() {
-    	return this.view;
+    	return (AbstractScene) this.view.getGameView();
     }
     
     public final Settings getSettings() {
