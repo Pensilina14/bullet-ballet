@@ -33,8 +33,17 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import javafx.animation.AnimationTimer;
 
+/**
+ * Manages a variety of game aspects such as input commands processing, event handling 
+ * and putting into communication model and view.
+ * 
+ * This class could be considered the core of the game itself.
+ *
+ */
 public class GameEngine implements Controller, GameEventListener {
-	
+	/**
+	 * Constant used to define command queue capacity.
+	 */
 	private static final int QUEUE_CAPACITY = 100;
 	
 	//private final long period = 1000; // 20 ms = 50 FPS 
@@ -42,8 +51,19 @@ public class GameEngine implements Controller, GameEventListener {
 	private Optional<ViewController> viewController;
 	private Optional<ModelController> modelController;
 	private final BlockingQueue<Command> cmdQueue;
+	/**
+	 * Data structure, for instance a {@link List}, whose goal is to
+	 * store all the incoming events from the model and view (?)
+	 */
 	private final List<GameEvent> eventQueue;
+	/**
+	 * This is the timer that temporizes the program.
+	 */
 	private Optional<AnimationTimer> timer;
+	
+	/*
+	 * CONSTRUCTORS
+	 */
 	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
