@@ -92,7 +92,7 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 
 		if (this.modelController.isEmpty()) {
-			this.modelController = Optional.of(new GameState());
+			this.modelController = Optional.of(newModelControllerImpl(new GameState()));
 			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
 		} else {
