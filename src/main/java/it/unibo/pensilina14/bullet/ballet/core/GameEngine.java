@@ -117,7 +117,7 @@ public class GameEngine implements Controller, GameEventListener {
 	public final void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.modelController.get());
+			cmd.execute(this.modelController.get().getGameState().get());
 		}
 	}
 	
