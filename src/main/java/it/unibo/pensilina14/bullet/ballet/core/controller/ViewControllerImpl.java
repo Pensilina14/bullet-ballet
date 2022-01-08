@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 
-public class ViewControllerImpl {
-
+public class ViewControllerImpl implements ViewController {
 	Optional<GameView> gameView;
 }
