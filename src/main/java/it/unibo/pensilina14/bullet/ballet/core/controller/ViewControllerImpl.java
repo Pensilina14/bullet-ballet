@@ -8,15 +8,12 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 public class ViewControllerImpl implements ViewController {
 	private Optional<GameView> gameView;
 
+	public ViewControllerImpl(Optional<GameView> gameView) {
+		this.gameView = gameView;
+	}
+
 	@Override
 	public void render(final GameState game) {
 		this.gameView.get().draw();
 	}
-
-	@Override
-	public void setModelController(final ModelController controller) {
-		
-	}
-	
-	
 }
