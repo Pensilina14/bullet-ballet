@@ -13,6 +13,7 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
@@ -83,12 +84,14 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	public final void setup() {
 		if (this.viewController.isEmpty()) {
-			this.viewController = Optional.of(new MapScene(this.modelController.get().getGameState().get(), this));
-			this.viewController.get().setup(this);
+			this.viewController = Optional.of(new ViewControllerImpl(
+					Optional.of(new MapScene(this.modelController.get().getGameState().get(), this)))
+					);
+			this.viewController.get().getGameView().setup(this);
 			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
-			this.viewController.get().setup(this);
-			this.viewController.get().setInputController(this);
+			this.viewController.get().getGameView().setup(this);
+			this.viewController.get().getGameView().setInputController(this);
 			AppLogger.getAppLogger().debug("View input controller set.");
 		}
 
@@ -127,7 +130,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public final void render() {
-		this.viewController.get().draw();
+		this.viewController.get().getGameView().draw();
 	}
 	
 	@Override
@@ -198,7 +201,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
-			this.viewController.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
+			this.viewController.get().getGameView().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
 			
 		}
