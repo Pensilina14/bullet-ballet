@@ -1,6 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.core.controller;
 
-public interface ModelController {
+import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+
+public interface ModelController {
+	
+	Optional<GameState> getGameState();
 	
 }
