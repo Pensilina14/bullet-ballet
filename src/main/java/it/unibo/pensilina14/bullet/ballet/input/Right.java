@@ -16,6 +16,7 @@ public class Right implements Command {
 		final Player player = env.getGameEnvironment().getPlayer().get();
 		System.out.println(player.getPosition().get().getCoordinates());
 		player.moveRight(Right.MOVEMENT_DELTA);
+
 	}
 
 }
