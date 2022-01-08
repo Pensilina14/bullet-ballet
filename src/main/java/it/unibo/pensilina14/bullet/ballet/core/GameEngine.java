@@ -11,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
@@ -92,7 +93,7 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 
 		if (this.modelController.isEmpty()) {
-			this.modelController = Optional.of(newModelControllerImpl(new GameState()));
+			this.modelController = Optional.of(new ModelControllerImpl(new GameState()));
 			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
 		} else {
