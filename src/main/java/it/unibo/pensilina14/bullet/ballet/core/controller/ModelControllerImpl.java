@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.core.controller;
 import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 
 public class ModelControllerImpl implements ModelController{
 
@@ -15,6 +16,11 @@ public class ModelControllerImpl implements ModelController{
 	@Override
 	public Optional<GameState> getGameState() {
 		return this.gameState;
+	}
+
+	@Override
+	public void setEventListener(final GameEventListener e) {
+		this.gameState.get().setEventListener(e);
 	}
 	
 }
