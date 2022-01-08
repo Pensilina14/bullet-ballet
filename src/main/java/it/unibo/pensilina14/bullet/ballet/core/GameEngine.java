@@ -59,12 +59,11 @@ public class GameEngine implements Controller, GameEventListener {
 	/**
 	 * This is the timer that temporizes the program.
 	 */
-	private Optional<AnimationTimer> timer;
+	private final Optional<AnimationTimer> timer;
 	
 	/*
 	 * CONSTRUCTORS
 	 */
-	
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
