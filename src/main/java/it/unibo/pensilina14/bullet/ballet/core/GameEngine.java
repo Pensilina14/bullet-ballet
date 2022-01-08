@@ -10,6 +10,8 @@ import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
@@ -37,8 +39,8 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	//private final long period = 1000; // 20 ms = 50 FPS 
 	
-	private Optional<GameView> view;
-	private Optional<GameState> gameState;
+	private Optional<ViewController> viewController;
+	private Optional<ModelController> modelController;
 	private final BlockingQueue<Command> cmdQueue;
 	private final List<GameEvent> eventQueue;
 	private Optional<AnimationTimer> timer;
@@ -46,42 +48,42 @@ public class GameEngine implements Controller, GameEventListener {
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
-		this.view = Optional.empty();
-		this.gameState = Optional.empty();
+		this.viewController = Optional.empty();
+		this.modelController = Optional.empty();
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
-	public GameEngine(final GameView view, final GameState game) {
+	public GameEngine(final ViewController view, final ModelController game) {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
-		this.view = Optional.of(view);
-		this.gameState = Optional.of(game);
+		this.viewController = Optional.of(view);
+		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
 	public final void setup() {
-		if (this.view.isEmpty()) {
-			this.view = Optional.of(new MapScene(this.gameState.get(), this));
-			this.view.get().setup(this);
+		if (this.viewController.isEmpty()) {
+			this.viewController = Optional.of(new MapScene(this.modelController.get(), this));
+			this.viewController.get().setup(this);
 			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
-			this.view.get().setup(this);
-			this.view.get().setInputController(this);
+			this.viewController.get().setup(this);
+			this.viewController.get().setInputController(this);
 			AppLogger.getAppLogger().debug("View input controller set.");
 		}
 
-		if (this.gameState.isEmpty()) {
-			this.gameState = Optional.of(new GameState());
-			this.gameState.get().setEventListener(this);
+		if (this.modelController.isEmpty()) {
+			this.modelController = Optional.of(new GameState());
+			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
 		} else {
-			this.gameState.get().setEventListener(this);
+			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("Game state present, event listener set only.");
 		}
 	}
 	
 	public final void mainLoop() {
-		while (!this.gameState.get().isGameOver()) {
+		while (!this.modelController.get().isGameOver()) {
 			this.processInput();
 			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame();
@@ -95,17 +97,17 @@ public class GameEngine implements Controller, GameEventListener {
 	public final void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.gameState.get());
+			cmd.execute(this.modelController.get());
 		}
 	}
 	
 	public void updateGame() {
-		this.gameState.get().update();
+		this.modelController.get().update();
 		this.checkEvents();
 	}
 	
 	public final void render() {
-		this.view.get().draw();
+		this.viewController.get().draw();
 	}
 	
 	@Override
@@ -119,7 +121,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void checkEvents() {
-		final Environment env = this.gameState.get().getGameEnvironment();
+		final Environment env = this.modelController.get().getGameEnvironment();
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof PlayerHitsItemEvent) {
 				playerHitsPickUpObjEventHandler(env, e);
@@ -176,7 +178,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
-			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
+			this.viewController.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
 			
 		}
