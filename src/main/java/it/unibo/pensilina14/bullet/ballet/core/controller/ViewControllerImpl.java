@@ -13,7 +13,7 @@ public class ViewControllerImpl implements ViewController {
 	}
 
 	@Override
-	public void render(final GameState game) {
+	public void render() {
 		this.gameView.get().draw();
 	}
 

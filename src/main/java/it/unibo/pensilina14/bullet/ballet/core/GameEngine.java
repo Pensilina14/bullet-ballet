@@ -130,7 +130,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public final void render() {
-		this.viewController.get().getGameView().draw();
+		this.viewController.get().render();
 	}
 	
 	@Override
