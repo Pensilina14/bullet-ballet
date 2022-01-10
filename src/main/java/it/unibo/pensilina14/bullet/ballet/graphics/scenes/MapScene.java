@@ -258,7 +258,7 @@ public class MapScene extends AbstractScene implements GameView{
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
-            this.controller.get().notifyCommand(new Up(5));
+            this.controller.get().notifyCommand(new Up());
         }
         
 
@@ -281,12 +281,15 @@ public class MapScene extends AbstractScene implements GameView{
         if (this.keysPressed.contains(KeyCode.SPACE)) {
         	//AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
         	this.controller.get().notifyCommand(new Space());
-        	if(this.gameState.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
-        		final MutablePosition2D pos = this.mainWeapon.get().getRight();
-        		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
-        		this.bulletSprites.put(bullet, pos);
-        		this.gamePane.getChildren().add(bullet);
+        	if (this.gameState.getGameEnvironment().getPlayer().get().hasWeapon()) {
+        		if(this.gameState.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
+            		final MutablePosition2D pos = this.mainWeapon.get().getRight();
+            		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
+            		this.bulletSprites.put(bullet, pos);
+            		this.gamePane.getChildren().add(bullet);
+            	}
         	}
+        	
         	//TODO: aggiungere bullet sprites
         }
         

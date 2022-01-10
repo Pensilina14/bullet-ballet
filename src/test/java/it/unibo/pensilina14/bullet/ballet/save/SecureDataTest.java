@@ -10,7 +10,7 @@ public class SecureDataTest {
     @Test
     public void encryptAndDecryptTest() throws Exception {
         final String message = "Messaggio segreto";
-        final byte[] encryptedMessage = SecureData.encrypt(message.getBytes(), SecureData.PASSWORD);;
+        final byte[] encryptedMessage = SecureData.encrypt(message.getBytes(), SecureData.PASSWORD);
 
         assertNotNull(encryptedMessage);
         assertNotEquals(message.getBytes(), encryptedMessage);

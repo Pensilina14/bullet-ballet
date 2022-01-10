@@ -19,7 +19,7 @@ public class Space implements Command {
 		env.getGameEnvironment().addBullet(new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment()
 				, new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX() * PLATFORM_SIZE
 						, weapon.getPosition().get().getY() * PLATFORM_SIZE), 1.0)));
-		weapon.decreaseAmmo();		
+		weapon.decreaseAmmo();
 	}
 
 }
