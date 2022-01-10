@@ -140,6 +140,10 @@ public class Player extends GameEntity implements Characters{
     public void setWeapon(final Weapon weapon) {
         this.weapon = Optional.of(weapon);
     }
+    
+    public void removeWeapon() {
+    	this.weapon = Optional.empty();
+    }
 
     @Override
     public String getName() {
