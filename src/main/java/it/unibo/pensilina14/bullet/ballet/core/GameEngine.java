@@ -210,6 +210,10 @@ public class GameEngine implements Controller, GameEventListener {
 		// Set Weapon to Player
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
 		weapon.setOn();
+		if(player.hasWeapon()) {
+			player.removeWeapon();
+			this.view.get().deleteWeaponSpriteImage();
+		}
 		player.setWeapon(weapon);
 		//weapon.setPosition(player.getPosition().get());
 		AppLogger.getAppLogger().info("player hits weapon");
@@ -222,10 +226,13 @@ public class GameEngine implements Controller, GameEventListener {
 			.applyEffect(enemy);
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		this.view.get().deleteBulletSpriteImage(bulletPos);
 		if(!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
 		}
+		AppLogger.getAppLogger().info("bullet hits enemy");
+
 		
 	}
 	
