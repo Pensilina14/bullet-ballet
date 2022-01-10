@@ -78,6 +78,10 @@ public class WeaponSprite extends Pane {
     public WeaponsImg getTypeOfImage() {
     	return this.typeOfImage;
     }
+    
+    public MutablePosition2D getPosition() {
+    	return this.position;
+    }
 }
     
     

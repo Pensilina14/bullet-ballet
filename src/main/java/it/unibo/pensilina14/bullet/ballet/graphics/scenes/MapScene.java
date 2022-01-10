@@ -263,23 +263,23 @@ public class MapScene extends AbstractScene implements GameView{
         
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
-        	//AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
+        	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
             this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
 
         if (this.keysPressed.contains(KeyCode.DOWN)) { 
-        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
+        	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
             this.controller.get().notifyCommand(new Down());
         }
 
         if (this.keysPressed.contains(KeyCode.LEFT)) {
-        	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
+        	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
         }
         
         if (this.keysPressed.contains(KeyCode.SPACE)) {
-        	//AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+        	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
         	this.controller.get().notifyCommand(new Space());
         	if (this.gameState.getGameEnvironment().getPlayer().get().hasWeapon()) {
         		if(this.gameState.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
@@ -294,7 +294,7 @@ public class MapScene extends AbstractScene implements GameView{
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
-        	//AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
         	this.controller.get().stop();
         	this.controller.get().notifyCommand(new Esc());
         	this.controller.get().start();
@@ -357,54 +357,49 @@ public class MapScene extends AbstractScene implements GameView{
     			this.weaponSprites.forEach((x, y) -> {
     				if(y.equals(this.mainPlayer.getRight())) {
     					this.mainWeapon = Optional.of(new MutablePair<>());
-    					this.weaponSprites.remove(x);
     					this.mainWeapon.get().setRight(y);
-    					try {
-							this.mainWeapon.get().setLeft(Optional.of(new WeaponSprite(x.getTypeOfImage()
-									, y.getX(), y.getY())));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+    					this.mainWeapon.get().setLeft(Optional.ofNullable(x));
     					AppLogger.getAppLogger().debug("Add main Weapon");
+    					this.weaponSprites.remove(x);
     				}
     			});
     		} else {
     			final MutablePosition2D pos = this.mainPlayer.getRight();
     			this.mainWeapon.get().getLeft().get().renderPosition(pos.getX(), pos.getY());
-    			AppLogger.getAppLogger().debug("Weapon pos: " + this.mainWeapon.get().getRight().toString());
+    			//AppLogger.getAppLogger().debug("WeaponView pos: " + this.mainWeapon.get().getLeft().get().getPosition());
     		}
     	}
     	
     	this.platformSprites.forEach((x, y) -> {
     		x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
+    		//AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
     	});
     	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
     	this.enemySprites.forEach((x, y) ->  {
     		x.renderPosition(y.getX(), y.getY());
-    		AppLogger.getAppLogger().debug("EnemyPos: " + y.toString());
+    		//AppLogger.getAppLogger().debug("EnemyPos: " + y.toString());
     	});
 		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
 		this.itemSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
+    		//AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
+    		//AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 		
-		if(this.mainWeapon.isPresent()) {
+		/*if(this.mainWeapon.isPresent()) {
 			final MutablePosition2D pos = this.mainPlayer.getRight();
 			this.mainWeapon.get().getLeft().get().renderPosition(pos.getX(), pos.getY());
-			AppLogger.getAppLogger().debug("Weapon pos: " + this.mainWeapon.get().getRight().toString());
+			//AppLogger.getAppLogger().debug("Weapon pos: " + this.mainWeapon.get().getRight().toString());
 		}
+		*/
 		
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");

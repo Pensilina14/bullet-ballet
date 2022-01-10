@@ -117,7 +117,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	
 	@Override
 	public void decreaseAmmo() {
-		if(getMode()) {
+		if(isOn()) {
 			if(this.hasAmmo()) {
 				this.currentAmmo--;
 			}else {
@@ -179,7 +179,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
     }
     
     @Override
-    public boolean getMode() {
+    public boolean isOn() {
     	return this.mode;
     }
     

@@ -57,7 +57,7 @@ public interface Weapon extends Item {
 	 */
 	EntityList.Weapons getTypeOfWeapon();
 
-	boolean getMode();
+	boolean isOn();
 
 	void setOn();
 
