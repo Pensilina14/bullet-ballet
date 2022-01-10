@@ -14,9 +14,11 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -256,7 +258,7 @@ public class GameEnvironment implements Environment {
 			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
-					this.player = Optional.empty();
+					//this.player = Optional.empty();
 					return true;
 				} else if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
@@ -267,7 +269,13 @@ public class GameEnvironment implements Environment {
 				} else if (obj instanceof PickupItem) {
 					this.items.get().remove(obj); 
 					return true;
-				} 
+				} else if (obj instanceof WeaponImpl) {
+					this.weapons.get().remove(obj);
+					return true;
+				} else if (obj instanceof BulletImpl) {
+					this.bullets.get().remove(obj);
+					return true;
+				}
 			}
 		}
 		return false;
