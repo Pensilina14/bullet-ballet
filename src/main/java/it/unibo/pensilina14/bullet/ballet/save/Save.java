@@ -45,7 +45,7 @@ public final class Save {
      * If the files didn't exist it will be created.
      * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
-    public static void saveGameStatistics(final String playerName, final int playerScore){
+    public static void saveGameStatistics(final String playerName, final int playerScore){ //TODO: opzionale : salvare il tempo.
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
@@ -97,8 +97,8 @@ public final class Save {
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
      */
-    public static LinkedHashMap<String, Integer> loadGameStatistics(){
-        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+    public static LinkedHashMap<String, String> loadGameStatistics(){
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
 
@@ -123,7 +123,7 @@ public final class Save {
                 String score = (String)player.get(Save.SCORE_STRING);
                 System.out.println("score: " + score);
 
-                map.put(name, Integer.valueOf(score));
+                map.put(name, String.valueOf(score));
 
             }
 
@@ -132,6 +132,52 @@ public final class Save {
         }
 
         return map;
+    }
+
+    /**
+     *
+     * @param oldPlayer : the name of the player that you want to update
+     * @param oldScore : the score of the player that you want to update
+     * @param newPlayer : the new name of the player
+     * @param newScore : the new score of the player
+     * @return : a boolean whether the operation has been executed successfully
+     */
+    public static boolean updateGameStatistics(final String oldPlayer, final int oldScore, final String newPlayer, final int newScore) {
+        final JSONParser jsonParser = new JSONParser();
+        JSONArray jsonArray;
+
+        final File file = new File(Save.SAVE_PATH);
+
+        try {
+            final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+            final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
+
+            Object obj = jsonParser.parse(clearGameStatistics);
+            jsonArray = (JSONArray) obj;
+
+            for(Object o : jsonArray){
+
+                JSONObject player = (JSONObject) o;
+
+                player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
+                player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
+            }
+
+            System.out.println("jsonArray: " + jsonArray); //TODO: remove
+
+            byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(encryptedStatistics);
+
+            stream.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -233,8 +279,6 @@ public final class Save {
         File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
     }
-
-    //TODO: updateGameStatistics()
 
     /**
      *

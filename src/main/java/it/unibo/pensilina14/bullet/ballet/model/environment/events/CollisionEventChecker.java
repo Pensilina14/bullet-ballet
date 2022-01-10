@@ -48,6 +48,7 @@ public class CollisionEventChecker implements EventChecker {
 				checkPlayerAndWeapon(a, b);
 				checkBulletAndEnemy(a, b);
 				checkPlayerAndPlatform(a, b);
+				checkEnemyAndPlatform(a, b);
 			}
 			if (isSingleElemList) {
 				break;
@@ -100,6 +101,14 @@ public class CollisionEventChecker implements EventChecker {
 			final Player player = (Player) b;
 			final Platform platform = (Platform) a;
 			this.eventBuffer.addEvent(new PlayerHitsPlatformEvent(player, platform));
+		}
+	}
+	
+	private void checkEnemyAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Platform && b instanceof Enemy) {
+			final Enemy enemy = (Enemy) b;
+			final Platform platform = (Platform) a;
+			this.eventBuffer.addEvent(new EnemyHitsPlatformEvent(enemy, platform));
 		}
 	}
 	

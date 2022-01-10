@@ -22,6 +22,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 /**
  * Implementation of {@link Environment}.
@@ -312,7 +313,14 @@ public class GameEnvironment implements Environment {
 			}
 			this.player.get().updateState(); 
 		}
-		this.enemies.get().stream().forEach(e -> e.updateState()); 
+		this.enemies.get().stream().forEach(e -> {
+			if (!e.hasLanded()) {
+				e.moveDown(this.gravity);
+			} else {
+				e.resetLanding();
+			}
+			e.updateState();
+		}); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
 		this.weapons.get().stream().forEach(i -> {
@@ -361,62 +369,27 @@ public class GameEnvironment implements Environment {
 	}
 	
 	private void checkCollisions() {
-		final EventChecker checkPlayerItem = new CollisionEventChecker(this.items.get(), List.of(this.player.get()));
-		final EventChecker checkPlayerEnemy = new CollisionEventChecker(this.enemies.get(), List.of(this.player.get()));
-		final EventChecker checkPlayerObstacle = new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get()));
-		final EventChecker checkPlayerWeapon = new CollisionEventChecker(this.weapons.get(), List.of(this.player.get()));
-		final EventChecker checkBulletEnemy = new CollisionEventChecker(this.bullets.get(), this.enemies.get());
-		final EventChecker checkPlayerPlatform = new CollisionEventChecker(this.platforms.get(), List.of(this.player.get()));
+		final Map<String, EventChecker> eventCheckers = Map.of(
+				"playeritem", new CollisionEventChecker(this.items.get(), List.of(this.player.get())), 
+				"playerenemy", new CollisionEventChecker(this.enemies.get(), List.of(this.player.get())), 
+				"playerobstacle", new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get())), 
+				"playerplatform", new CollisionEventChecker(this.platforms.get(), List.of(this.player.get())), 
+				"enemyplatform", new CollisionEventChecker(this.platforms.get(), this.enemies.get()),
+				"playerWeapon", new CollisionEventChecker(this.weapons.get(), List.of(this.player.get())),
+				"bulletEnemy", new CollisionEventChecker(this.bullets.get(), this.enemies.get())
+		);
 
-		checkPlayerItem.check();
-		checkPlayerEnemy.check();
-		checkPlayerObstacle.check();
-		checkPlayerWeapon.check();
-		checkBulletEnemy.check();
-		checkPlayerPlatform.check();
+		for (final EventChecker checker : eventCheckers.values()) {
+			checker.check();
+			// Notify everything to the {@link GameEventListener}.
+			final List<GameEvent> events = new ArrayList<>(checker.getBuffer().getEvents());
+			if (!events.isEmpty()) {
+				events.stream().forEach(e -> {
+					this.eventListener.get().notifyEvent(e);
+				});
+			}
+		}
 
-		// Notify everything to the {@link GameEventListener}.
-		final List<GameEvent> tempEvents = new ArrayList<>(checkPlayerItem.getBuffer().getEvents()); 
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		} 
-		tempEvents.clear();
-		tempEvents.addAll(checkPlayerEnemy.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
-		tempEvents.addAll(checkPlayerObstacle.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
-		tempEvents.addAll(checkPlayerWeapon.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
-		tempEvents.addAll(checkPlayerPlatform.getBuffer().getEvents());
-		if (!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
-		tempEvents.clear();
-		tempEvents.addAll(checkBulletEnemy.getBuffer().getEvents());
-		if(!tempEvents.isEmpty()) {
-			tempEvents.stream().forEach(e -> {
-				this.eventListener.get().notifyEvent(e);
-			});
-		}
 
 	}
 }
