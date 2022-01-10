@@ -312,6 +312,9 @@ public class GameEnvironment implements Environment {
 				this.player.get().resetLanding();
 			}
 			this.player.get().updateState(); 
+			if (this.player.get().hasWeapon()) {
+				this.player.get().getWeapon().setPosition(this.player.get().getPosition().get());
+			}
 		}
 		this.enemies.get().stream().forEach(e -> {
 			if (!e.hasLanded()) {
@@ -324,7 +327,7 @@ public class GameEnvironment implements Environment {
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
 		this.weapons.get().stream().forEach(i -> {
-			if(!i.getMode()) {
+			if(!i.isOn()) {
 				i.updateState();
 			} else {
 				i.setPosition(this.player.get().getPosition().get());
