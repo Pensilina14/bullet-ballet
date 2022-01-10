@@ -367,7 +367,7 @@ public class MapScene extends AbstractScene implements GameView{
     				}
     			});
     		} else {
-    			final MutablePosition2D pos = this.mainWeapon.get().getRight();
+    			final MutablePosition2D pos = this.mainPlayer.getRight();
     			this.mainWeapon.get().getLeft().get().renderPosition(pos.getX(), pos.getY());
     			AppLogger.getAppLogger().debug("Weapon pos: " + this.mainWeapon.get().getRight().toString());
     		}
@@ -397,11 +397,11 @@ public class MapScene extends AbstractScene implements GameView{
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 		
-		/*if(this.mainWeapon.isPresent()) {
-			final MutablePosition2D pos = this.mainWeapon.get().getRight();
+		if(this.mainWeapon.isPresent()) {
+			final MutablePosition2D pos = this.mainPlayer.getRight();
 			this.mainWeapon.get().getLeft().get().renderPosition(pos.getX(), pos.getY());
 			AppLogger.getAppLogger().debug("Weapon pos: " + this.mainWeapon.get().getRight().toString());
-		}*/
+		}
 		
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
@@ -446,6 +446,7 @@ public class MapScene extends AbstractScene implements GameView{
 		this.appPane.setPrefWidth(width);
 	}
 	
+	@Override
 	public void deleteEnemySpriteImage(final MutablePosition2D position) {
 		final MainEnemy enemy = enemySprites.entrySet()
                 .stream()
@@ -453,6 +454,21 @@ public class MapScene extends AbstractScene implements GameView{
                 .map(Map.Entry::getKey)
                 .findFirst().get();
 		enemySprites.remove(enemy);
+	}
+
+	@Override
+	public void deleteBulletSpriteImage(final MutablePosition2D position) {
+		final BulletSprite bullet = this.bulletSprites.entrySet()
+				.stream()
+				.filter(entry -> position.equals(entry.getValue()))
+				.map(Map.Entry::getKey)
+				.findFirst().get();
+		this.bulletSprites.remove(bullet);
+	}
+
+	@Override
+	public void deleteWeaponSpriteImage() {
+		this.mainWeapon = Optional.empty();
 	}
 	
 	
