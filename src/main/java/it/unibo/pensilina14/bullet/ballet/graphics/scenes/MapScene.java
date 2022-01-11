@@ -256,25 +256,25 @@ public class MapScene extends AbstractScene implements GameView{
     	
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
-        	AppLogger.getAppLogger().info("Key 'UP' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Up());
         }
         
 
         if (this.keysPressed.contains(KeyCode.RIGHT)) {
-        	AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'RIGHT' pressed.");
             this.mainPlayer.left.get().getSpriteAnimation().play();
             this.controller.get().notifyCommand(new Right());
         }
 
         if (this.keysPressed.contains(KeyCode.DOWN)) { 
-        	AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
             this.controller.get().notifyCommand(new Down());
         }
 
         if (this.keysPressed.contains(KeyCode.LEFT)) {
-        	AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
+        	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
         }
         
@@ -359,6 +359,7 @@ public class MapScene extends AbstractScene implements GameView{
     					this.mainWeapon = Optional.of(new MutablePair<>());
     					this.mainWeapon.get().setRight(y);
     					this.mainWeapon.get().setLeft(Optional.ofNullable(x));
+    					//this.gamePane.getChildren().add(this.mainWeapon.get().getLeft().get());
     					AppLogger.getAppLogger().debug("Add main Weapon");
     					this.weaponSprites.remove(x);
     				}
@@ -452,22 +453,28 @@ public class MapScene extends AbstractScene implements GameView{
                 .map(Map.Entry::getKey)
                 .findFirst().get();
 		enemySprites.remove(enemy);
+		this.gamePane.getChildren().remove(enemy);
 	}
 
 	@Override
 	public void deleteBulletSpriteImage(final MutablePosition2D position) {
-		final BulletSprite bullet = this.bulletSprites.entrySet()
+		/*final BulletSprite bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
 				.map(Map.Entry::getKey)
 				.findFirst().get();
-		this.bulletSprites.remove(bullet);
+		this.bulletSprites.remove(bullet);*/
+		this.bulletSprites.forEach((x, y) -> {
+			if(y.equals(position)) {
+				this.gamePane.getChildren().remove(x);
+			}
+		});
+		//this.gamePane.getChildren().remove(bullet);
 	}
 
 	@Override
 	public void deleteWeaponSpriteImage() {
+		this.gamePane.getChildren().remove(this.mainWeapon.get().getLeft().get());
 		this.mainWeapon = Optional.empty();
 	}
-	
-	
 }
