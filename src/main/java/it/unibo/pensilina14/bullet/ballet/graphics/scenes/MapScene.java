@@ -356,10 +356,7 @@ public class MapScene extends AbstractScene implements GameView{
     		if(this.mainWeapon.isEmpty()) {
     			this.weaponSprites.forEach((x, y) -> {
     				if(y.equals(this.mainPlayer.getRight())) {
-    					this.mainWeapon = Optional.of(new MutablePair<>());
-    					this.mainWeapon.get().setRight(y);
-    					this.mainWeapon.get().setLeft(Optional.ofNullable(x));
-    					//this.gamePane.getChildren().add(this.mainWeapon.get().getLeft().get());
+    					this.mainWeapon = Optional.of(new MutablePair<>(Optional.ofNullable(x), y));
     					AppLogger.getAppLogger().debug("Add main Weapon");
     					this.weaponSprites.remove(x);
     				}
