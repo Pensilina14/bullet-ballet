@@ -244,6 +244,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if(!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
+			this.view.get().deleteEnemySpriteImage(bulletPos);
 		}
 		//AppLogger.getAppLogger().info("bullet hits enemy");
 

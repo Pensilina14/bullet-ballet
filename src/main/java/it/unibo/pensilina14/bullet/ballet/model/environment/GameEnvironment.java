@@ -122,8 +122,7 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final Optional<List<PhysicalObject>> getObjsList() {
-		//return this.mergeLists();
-		return null;
+		return this.mergeLists();
 	}
 	
 	@Override
@@ -259,7 +258,7 @@ public class GameEnvironment implements Environment {
 			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
-					//this.player = Optional.empty();
+					this.player = Optional.empty();
 					return true;
 				} else if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
