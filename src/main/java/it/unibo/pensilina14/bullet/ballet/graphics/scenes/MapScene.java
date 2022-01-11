@@ -278,7 +278,7 @@ public class MapScene extends AbstractScene implements GameView{
             this.controller.get().notifyCommand(new Left());
         }
         
-        if (this.keysPressed.contains(KeyCode.SPACE)) {
+        if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
         	this.controller.get().notifyCommand(new Space());
         	if (this.gameState.getGameEnvironment().getPlayer().get().hasWeapon()) {
