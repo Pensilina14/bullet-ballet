@@ -43,6 +43,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
 		this.currentAmmo = limitBullets;
 		this.weaponType = weaponType;
 		this.mode = false;
+		this.indexCharger = 0;
 		this.initializeWeapon();
 	}	
 	
