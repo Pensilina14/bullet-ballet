@@ -11,7 +11,6 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 public class Space implements Command {
 	
-	private final static int PLATFORM_SIZE = 60;
 	private final GameView mapScene;
 
 	public Space(final GameView mapScene) {
@@ -24,8 +23,8 @@ public class Space implements Command {
 			final Weapon weapon = env.getGameEnvironment().getPlayer().get().getWeapon();
     		if(env.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
     			env.getGameEnvironment().addBullet(new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment()
-    					, new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX() * PLATFORM_SIZE
-    							, weapon.getPosition().get().getY() * PLATFORM_SIZE), 1.0)));
+    					, new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX()
+    							, weapon.getPosition().get().getY()), 1.0)));
     			weapon.decreaseAmmo();
     			try {
 					this.mapScene.generateBullet();
