@@ -280,17 +280,7 @@ public class MapScene extends AbstractScene implements GameView{
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
-        	this.controller.get().notifyCommand(new Space());
-        	if (this.gameState.getGameEnvironment().getPlayer().get().hasWeapon()) {
-        		if(this.gameState.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
-            		final MutablePosition2D pos = this.mainWeapon.get().getRight();
-            		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
-            		this.bulletSprites.put(bullet, pos);
-            		this.gamePane.getChildren().add(bullet);
-            	}
-        	}
-        	
-        	//TODO: aggiungere bullet sprites
+        	this.controller.get().notifyCommand(new Space(this));
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
@@ -358,7 +348,7 @@ public class MapScene extends AbstractScene implements GameView{
     				if(y.equals(this.mainPlayer.getRight())) {
     					this.mainWeapon = Optional.of(new MutablePair<>(Optional.ofNullable(x), y));
     					AppLogger.getAppLogger().debug("Add main Weapon");
-    					this.weaponSprites.remove(x);
+    					//this.weaponSprites.remove(x);
     				}
     			});
     		} else {
@@ -462,16 +452,24 @@ public class MapScene extends AbstractScene implements GameView{
 				.findFirst().get();
 		this.bulletSprites.remove(bullet);*/
 		this.bulletSprites.forEach((x, y) -> {
+			AppLogger.getAppLogger().debug("Bullet pos view: " + y.toString());
 			if(y.equals(position)) {
 				this.gamePane.getChildren().remove(x);
 			}
 		});
-		//this.gamePane.getChildren().remove(bullet);
 	}
 
 	@Override
 	public void deleteWeaponSpriteImage() {
 		this.gamePane.getChildren().remove(this.mainWeapon.get().getLeft().get());
 		this.mainWeapon = Optional.empty();
+	}
+
+	@Override
+	public void generateBullet() throws IOException {
+		final MutablePosition2D pos = this.mainWeapon.get().getRight();
+		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
+		this.bulletSprites.put(bullet, pos);
+		this.gamePane.getChildren().add(bullet);		
 	}
 }
