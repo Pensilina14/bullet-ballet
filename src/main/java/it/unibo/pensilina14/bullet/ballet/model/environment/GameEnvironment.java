@@ -4,6 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -258,7 +259,7 @@ public class GameEnvironment implements Environment {
 			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
-					this.player = Optional.empty();
+					//this.player = Optional.empty();
 					return true;
 				} else if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
@@ -322,6 +323,7 @@ public class GameEnvironment implements Environment {
 				e.resetLanding();
 			}
 			e.updateState();
+			AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
