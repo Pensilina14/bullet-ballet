@@ -11,7 +11,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFa
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
-import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Down;
 import it.unibo.pensilina14.bullet.ballet.input.Esc;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
@@ -47,6 +46,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Timer;
@@ -73,6 +74,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
+    private List<Hud> hudList;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -117,6 +119,12 @@ public class MapScene extends AbstractScene implements GameView{
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
+        
+        final Hud healthInfo = new Hud(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER
+				, this.uiPane, new Insets(20, 0, 0, 20));
+		final Hud scoreInfo = new Hud(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT
+				, this.uiPane, new Insets(20, 0, 0, 50));	
+		this.hudList = List.of(healthInfo, scoreInfo);
     }
     
     private void initialize() throws IOException {
@@ -212,10 +220,7 @@ public class MapScene extends AbstractScene implements GameView{
 		/*
 		 * Ui initializing
 		 */
-		new HUD(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER
-				, this.uiPane, new Insets(20, 0, 0, 20));
-		new HUD(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT
-				, this.uiPane, new Insets(20, 0, 0, 50));		
+			
     }
 
     @Override
@@ -361,18 +366,16 @@ public class MapScene extends AbstractScene implements GameView{
 			x.renderMovingPosition();
     		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
 		});
-		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
+
+		for(int i = 0; i < hudList.size(); i++) {
+			final Label label = (Label) this.uiPane.getChildren().get(i);
+			if (this.uiPane.getChildren().get(i).getId().equals(HudLabels.HEALTH.toString())) {
+				label.setText("Health: " + env.getPlayer().get().getHealth());
+			} else if(this.uiPane.getChildren().get(i).getId().equals(HudLabels.SCORE.toString())) {
+				label.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
+			}
+		}
 		
-		final Label uiLbl = (Label) this.uiPane.getChildren().get(0);
-		/*
-		 *  WARNING: line below is for testing only. 
-		 *  Comment/Uncomment it.
-		 */
-		// world.getPlayer().get().decreaseHealth(0.001);
-		uiLbl.setText("Health: " + env.getPlayer().get().getHealth());
-		
-		final Label uiScore = (Label) this.uiPane.getChildren().get(1);
-		uiScore.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
     }
 
     public final void setMap(final BackgroundMap.Maps map) {

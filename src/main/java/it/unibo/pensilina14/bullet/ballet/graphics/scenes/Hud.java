@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class HUD {
+public class Hud {
 
 	private final HudLabels hudLabel;
 	private final Pos pos;
@@ -17,7 +17,7 @@ public class HUD {
 	private final Pane pane;
 	private final Insets insets;
 	
-	public HUD(final HudLabels hudLabel, final Pos pos, final ContentDisplay contentDisplay
+	public Hud(final HudLabels hudLabel, final Pos pos, final ContentDisplay contentDisplay
 			, final Pane pane, final Insets insets) {
 		this.hudLabel = hudLabel;
 		this.pos = pos;
@@ -29,6 +29,7 @@ public class HUD {
 	
 	private void setup() {
 		final Label label = new Label(hudLabel.toString());
+		label.setId(hudLabel.toString());
 		label.setAlignment(pos);
 		label.setContentDisplay(contentDisplay);
 		label.setTextFill(Color.RED);
@@ -38,5 +39,13 @@ public class HUD {
 		StackPane.setMargin(label, insets); //top, right, down, left
 		StackPane.setAlignment(label, pos);
 	}
-
+	
+	public HudLabels getID() {
+		return this.hudLabel;
+	}
+	
+	public void modifyLabel(final Label label) {
+		this.pane.getChildren();
+	}
+	
 }
