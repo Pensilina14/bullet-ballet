@@ -212,27 +212,10 @@ public class MapScene extends AbstractScene implements GameView{
 		/*
 		 * Ui initializing
 		 */
-		final Label healthInfo = new Label("HEALTH");
-		healthInfo.setAlignment(Pos.TOP_LEFT);
-		healthInfo.setContentDisplay(ContentDisplay.CENTER);
-		healthInfo.setTextFill(Color.RED);
-		healthInfo.setFont(Font.font(24));
-		healthInfo.setPadding(Insets.EMPTY);
-		this.uiPane.getChildren().add(healthInfo);
-		StackPane.setMargin(healthInfo, new Insets(20, 0, 0, 20)); //top, right, down, left
-		StackPane.setAlignment(healthInfo, Pos.TOP_LEFT);
-		
-		final Label currentScore = new Label("Score");
-		currentScore.setAlignment(Pos.TOP_CENTER);
-		currentScore.setContentDisplay(ContentDisplay.RIGHT);
-		currentScore.setTextFill(Color.RED);
-		currentScore.setFont(Font.font(24));
-		currentScore.setPadding(Insets.EMPTY);
-		this.uiPane.getChildren().add(currentScore);
-		StackPane.setMargin(currentScore, new Insets(20, 0, 0, 0)); //top, right, down, left
-		StackPane.setAlignment(currentScore, Pos.TOP_CENTER);
-		
-		
+		new HUD(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER
+				, this.uiPane, new Insets(20, 0, 0, 20));
+		new HUD(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT
+				, this.uiPane, new Insets(20, 0, 0, 50));		
     }
 
     @Override
