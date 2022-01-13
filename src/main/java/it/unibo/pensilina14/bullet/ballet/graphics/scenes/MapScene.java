@@ -221,6 +221,18 @@ public class MapScene extends AbstractScene implements GameView{
 		this.uiPane.getChildren().add(healthInfo);
 		StackPane.setMargin(healthInfo, new Insets(20, 0, 0, 20)); //top, right, down, left
 		StackPane.setAlignment(healthInfo, Pos.TOP_LEFT);
+		
+		final Label currentScore = new Label("Score");
+		currentScore.setAlignment(Pos.TOP_CENTER);
+		currentScore.setContentDisplay(ContentDisplay.RIGHT);
+		currentScore.setTextFill(Color.RED);
+		currentScore.setFont(Font.font(24));
+		currentScore.setPadding(Insets.EMPTY);
+		this.uiPane.getChildren().add(currentScore);
+		StackPane.setMargin(currentScore, new Insets(20, 0, 0, 0)); //top, right, down, left
+		StackPane.setAlignment(currentScore, Pos.TOP_CENTER);
+		
+		
     }
 
     @Override
@@ -374,7 +386,10 @@ public class MapScene extends AbstractScene implements GameView{
 		 *  Comment/Uncomment it.
 		 */
 		// world.getPlayer().get().decreaseHealth(0.001);
-		uiLbl.setText("Health: " + String.valueOf(env.getPlayer().get().getHealth()));
+		uiLbl.setText("Health: " + env.getPlayer().get().getHealth());
+		
+		final Label uiScore = (Label) this.uiPane.getChildren().get(1);
+		uiScore.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
     }
 
     public final void setMap(final BackgroundMap.Maps map) {
