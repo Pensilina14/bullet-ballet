@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -366,16 +367,20 @@ public class MapScene extends AbstractScene implements GameView{
 			x.renderMovingPosition();
     		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
 		});
-
-		for(int i = 0; i < hudList.size(); i++) {
+		
+		IntStream.range(0, this.hudList.size()).forEach(i -> {
 			final Label label = (Label) this.uiPane.getChildren().get(i);
-			if (this.uiPane.getChildren().get(i).getId().equals(HudLabels.HEALTH.toString())) {
+			if (this.checkChildrenById(i, HudLabels.HEALTH)) {
 				label.setText("Health: " + env.getPlayer().get().getHealth());
-			} else if(this.uiPane.getChildren().get(i).getId().equals(HudLabels.SCORE.toString())) {
+			} else if(this.checkChildrenById(i, HudLabels.SCORE)) {
 				label.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
 			}
-		}
+		});
 		
+    }
+    
+    private final boolean checkChildrenById(final int i, final HudLabels label) {
+    	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
     }
 
     public final void setMap(final BackgroundMap.Maps map) {
