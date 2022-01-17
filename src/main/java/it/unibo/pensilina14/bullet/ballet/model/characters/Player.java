@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -41,7 +42,6 @@ public class Player extends GameEntity implements Characters{
     public Player(final String name, final double health,final Optional<Double> mana, final Dimension2D dimension
     		, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
-
         this.name = name;
         this.health = health;
         this.mana = mana;
@@ -178,6 +178,9 @@ public class Player extends GameEntity implements Characters{
     @Override
     public void updateState() {
     	this.moveRight(0);
+    	if (!this.isAlive()) {
+    		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
+    	}
     }
     /*
      * Following code could be universalized for every game entity.

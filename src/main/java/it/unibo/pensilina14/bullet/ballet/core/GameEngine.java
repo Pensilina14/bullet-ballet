@@ -156,10 +156,6 @@ public class GameEngine implements Controller, GameEventListener {
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 		player.decreaseHealth((double) (obstacle.getMass() / 50));
-		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(),
-					player.getPosition().get().getY()));
-		}
 		AppLogger.getAppLogger().info("player hits obstacle");
 	}
 
@@ -169,13 +165,9 @@ public class GameEngine implements Controller, GameEventListener {
 		player.setHealth(player.getHealth() - 0.01);
 		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
 		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(),
-					player.getPosition().get().getY()));
+			// DELETE PLAYER SPRITE this.view.get()
 		}
-
 		if (!enemy.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
-					enemy.getPosition().get().getY()));
 			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
 			
@@ -194,10 +186,6 @@ public class GameEngine implements Controller, GameEventListener {
 		// Update environment
 		final MutablePosition2D pickupPos = ((PlayerHitsItemEvent) e).getItem().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
-		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(), 
-					player.getPosition().get().getY()));
-		}
 		AppLogger.getAppLogger().info("player hits item");
 	}
 	
