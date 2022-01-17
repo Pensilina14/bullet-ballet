@@ -28,4 +28,5 @@ public interface SimpleLogger {
     void info(String msg);
 
     void debug(String msg);
+    
 }
