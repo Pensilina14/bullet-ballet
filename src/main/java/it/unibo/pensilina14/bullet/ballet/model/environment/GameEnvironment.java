@@ -281,6 +281,7 @@ public class GameEnvironment implements Environment {
 				this.player.get().resetLanding();
 			}
 			this.player.get().updateState(); 
+			this.player.get().getCurrentScore().increase();
 		}
 		this.enemies.get().stream().forEach(e -> {
 			if (!e.hasLanded()) {

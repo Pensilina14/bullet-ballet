@@ -11,7 +11,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFa
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
-import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.input.Down;
 import it.unibo.pensilina14.bullet.ballet.input.Esc;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
@@ -47,10 +46,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -73,6 +75,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
+    private List<Hud> hudList;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
@@ -117,6 +120,12 @@ public class MapScene extends AbstractScene implements GameView{
         	exc.printStackTrace();
         	AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
         }
+        
+        final Hud healthInfo = new Hud(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER
+				, this.uiPane, new Insets(20, 0, 0, 20));
+		final Hud scoreInfo = new Hud(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT
+				, this.uiPane, new Insets(20, 0, 0, 50));	
+		this.hudList = List.of(healthInfo, scoreInfo);
     }
     
     private void initialize() throws IOException {
@@ -212,15 +221,7 @@ public class MapScene extends AbstractScene implements GameView{
 		/*
 		 * Ui initializing
 		 */
-		final Label healthInfo = new Label("HEALTH");
-		healthInfo.setAlignment(Pos.TOP_LEFT);
-		healthInfo.setContentDisplay(ContentDisplay.CENTER);
-		healthInfo.setTextFill(Color.RED);
-		healthInfo.setFont(Font.font(24));
-		healthInfo.setPadding(Insets.EMPTY);
-		this.uiPane.getChildren().add(healthInfo);
-		StackPane.setMargin(healthInfo, new Insets(20, 0, 0, 20)); //top, right, down, left
-		StackPane.setAlignment(healthInfo, Pos.TOP_LEFT);
+			
     }
 
     @Override
@@ -366,15 +367,20 @@ public class MapScene extends AbstractScene implements GameView{
 			x.renderMovingPosition();
     		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
 		});
-		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
-		final Label uiLbl = (Label) this.uiPane.getChildren().get(0);
-		/*
-		 *  WARNING: line below is for testing only. 
-		 *  Comment/Uncomment it.
-		 */
-		// world.getPlayer().get().decreaseHealth(0.001);
-		uiLbl.setText("Health: " + String.valueOf(env.getPlayer().get().getHealth()));
+		IntStream.range(0, this.hudList.size()).forEach(i -> {
+			final Label label = (Label) this.uiPane.getChildren().get(i);
+			if (this.checkChildrenById(i, HudLabels.HEALTH)) {
+				label.setText("Health: " + env.getPlayer().get().getHealth());
+			} else if(this.checkChildrenById(i, HudLabels.SCORE)) {
+				label.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
+			}
+		});
+		
+    }
+    
+    private final boolean checkChildrenById(final int i, final HudLabels label) {
+    	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
     }
 
     public final void setMap(final BackgroundMap.Maps map) {

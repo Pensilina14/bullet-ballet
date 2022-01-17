@@ -5,6 +5,7 @@ import org.junit.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 public class SaveTest {
 
     @Test
-    public void saveAndLoad(){
+    public void saveAndLoadStatisticsTest(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
         Save.resetFile(Save.SAVE_PATH);
@@ -34,7 +35,7 @@ public class SaveTest {
         Save.saveGameStatistics(playerName, playerScore);
         Save.saveGameStatistics(playerName2, playerScore2);
 
-        final LinkedHashMap<String, Integer> map;
+        final LinkedHashMap<String, String> map;
 
         map = Save.loadGameStatistics();
 
@@ -42,21 +43,69 @@ public class SaveTest {
         assertFalse(map.isEmpty());
 
         final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, playerName2));
-        final ArrayList<Integer> playersScoreList = new ArrayList<>(Arrays.asList(playerScore, playerScore2));
+        final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(playerScore2)));
 
         assertTrue(map.keySet().containsAll(playersNameList));
         assertTrue(map.values().containsAll(playersScoreList));
     }
 
     @Test
-    public void resetTest(){
+    public void updateStatisticsTest(){
         Save.resetFile(Save.SAVE_PATH);
 
-        HashMap<String, Integer> resetResults;
+        final String playerName = "Alessio";
+        final int playerScore = 7;
 
-        resetResults = Save.loadGameStatistics();
+        final String playerName2 = "Gigi";
+        final int playerScore2 = 14;
 
-        assertTrue(resetResults.isEmpty());
+        final String playerName3 = "Pluto";
+        final int playerScore3 = 5;
+
+        Save.saveGameStatistics(playerName, playerScore);
+        Save.saveGameStatistics(playerName2, playerScore2);
+        Save.saveGameStatistics(playerName3, playerScore3);
+
+        final String newPlayerName = "Mario";
+        final int newPlayerScore = 18;
+
+        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI
+
+        final boolean hasUpdated = Save.updateGameStatistics(playerName2, playerScore2, newPlayerName, newPlayerScore);
+
+        assertTrue(hasUpdated);
+
+        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI ANCHE NEL FILE
+
+        final HashMap<String, String> statisticsMap = Save.loadGameStatistics();
+
+        final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, newPlayerName, playerName3));
+        final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(newPlayerScore), String.valueOf(playerScore3)));
+
+        // CONTROLLO CHE CI SIANO TUTTI I DATI AGGIORNATI
+
+        assertTrue(statisticsMap.keySet().containsAll(playersNameList));
+        assertTrue(statisticsMap.values().containsAll(playersScoreList));
+
+        // CONTROLLO CHE I DATI CHE SON STATI RIMPIAZZATI NON SIANO PRESENTI
+
+        assertFalse(statisticsMap.containsValue(playerName2));
+        assertFalse(statisticsMap.containsValue(String.valueOf(playerScore2)));
+    }
+
+    @Test
+    public void resetTest(){
+        final File statisticsFile = new File(Save.SAVE_PATH);
+
+        Save.resetFile(statisticsFile.getPath());
+
+        assertEquals(0, statisticsFile.length());
+
+        final File settingsFile = new File(Save.SETTINGS_PATH);
+
+        Save.resetFile(settingsFile.getPath());
+
+        assertEquals(0, settingsFile.length());
     }
 
     @Test

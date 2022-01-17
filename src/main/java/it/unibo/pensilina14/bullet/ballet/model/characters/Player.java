@@ -7,6 +7,8 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
+import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystemImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 public class Player extends GameEntity implements Characters{
@@ -22,6 +24,8 @@ public class Player extends GameEntity implements Characters{
 
     private EntityList.Characters.Player playerType;
 
+    private final ScoreSystem currentScore = new ScoreSystemImpl(0);
+    
     private final Random rand = new Random();
     private final static double MAX = 100.0;
 
@@ -188,5 +192,9 @@ public class Player extends GameEntity implements Characters{
     
     public void resetLanding() {
     	this.landed = false;
+    }
+    
+    public ScoreSystem getCurrentScore() {
+    	return this.currentScore;
     }
 }
