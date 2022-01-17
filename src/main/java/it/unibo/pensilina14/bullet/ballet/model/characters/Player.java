@@ -6,6 +6,7 @@ import java.util.Random;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
@@ -181,6 +182,7 @@ public class Player extends GameEntity implements Characters{
     	if (!this.isAlive()) {
     		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
+    	AppLogger.getAppLogger().info("HEALTH: " + String.valueOf(this.getHealth()));
     }
     /*
      * Following code could be universalized for every game entity.

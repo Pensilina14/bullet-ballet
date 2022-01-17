@@ -336,36 +336,36 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.getRight().setPosition(env.getPlayer().get().getPosition().get().getX()
 		, env.getPlayer().get().getPosition().get().getY());
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX(), this.mainPlayer.getRight().getY());
-    	AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
+//    	AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
 
     	this.platformSprites.forEach((x, y) -> {
     		x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
+//    		AppLogger.getAppLogger().debug("PlatformPos: " + y.toString());
     	});
     	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
     	this.enemySprites.forEach((x, y) ->  {
     		x.renderPosition(y.getX(), y.getY());
-    		AppLogger.getAppLogger().debug("EnemyPos: " + y.toString());
+//    		AppLogger.getAppLogger().debug("EnemyPos: " + y.toString());
     	});
 		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
 		this.itemSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
+//    		AppLogger.getAppLogger().debug("ItemPos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
+//    		AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 
 		this.weaponSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
-    		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
+//    		AppLogger.getAppLogger().debug("WeaponPos: " + y.toString());
 		});
 		
 		IntStream.range(0, this.hudList.size()).forEach(i -> {
