@@ -29,4 +29,5 @@ public interface SimpleLogger {
 
     void debug(String msg);
     
+    void collision(String msg);
 }

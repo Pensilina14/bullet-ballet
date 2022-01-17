@@ -20,7 +20,7 @@ public final class AppLogger implements SimpleLogger {
 	}
 	
 	public void info(final String msg) {
-		System.out.println(Headers.INFO.get() + UNIFIER + msg + Timestamp.from(Instant.now()));
+		System.out.println(Headers.INFO.get() + UNIFIER + msg);
 	}
 	
 	public void warn(final String msg) {
@@ -33,6 +33,10 @@ public final class AppLogger implements SimpleLogger {
 	
 	public void fatal(final String msg) {
 		System.out.println(Headers.FATAL.get() + UNIFIER + msg);
+	}
+	
+	public void collision(final String msg) {
+		System.out.println(Headers.INFO.get() + UNIFIER + msg + Timestamp.from(Instant.now()));
 	}
 	
 }
