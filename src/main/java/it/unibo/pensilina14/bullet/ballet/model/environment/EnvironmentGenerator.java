@@ -103,7 +103,6 @@ public class EnvironmentGenerator implements LevelGenerator {
                         this.env.get().addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get()));
                         break;
                 	default:
-                		System.out.println("ciao");//Boh era per togliere il working
                 		break;
                 }
             }

@@ -10,6 +10,10 @@ public class ImmutablePosition2Dimpl implements ImmutablePosition2D {
   public ImmutablePosition2Dimpl(final double x, final double y) {
     this.position = Optional.ofNullable(ImmutablePair.of(x, y));
   }
+  
+  public ImmutablePosition2Dimpl(final MutablePosition2D pos) {
+	  this.position = Optional.ofNullable(ImmutablePair.of(pos.getX(), pos.getY()));
+  }
 
   @Override
   public ImmutablePair<Double, Double> getPosition() {

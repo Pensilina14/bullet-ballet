@@ -156,7 +156,6 @@ public class GameEngine implements Controller, GameEventListener {
 		final Platform platform = ((EnemyHitsPlatformEvent) e).getPlatform();
 		enemy.land();
 		enemy.moveUp(env.getGravity());
-		//AppLogger.getAppLogger().info("enemy hits platform");
 	}
 	
 	private void playerHitsPlatformEventHandler(final Environment env, final GameEvent e) {
@@ -164,43 +163,32 @@ public class GameEngine implements Controller, GameEventListener {
 		final Platform platform = ((PlayerHitsPlatformEvent) e).getPlatform();
 		player.land();
 		player.moveUp(env.getGravity());
-		//AppLogger.getAppLogger().info("player hits platform");
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		AppLogger.getAppLogger().collision("player hit an obstacle.");
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 		player.decreaseHealth((double) (obstacle.getMass() / 50));
-		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(),
-					player.getPosition().get().getY()));
-		}
-		//AppLogger.getAppLogger().info("player hits obstacle");
 	}
 
 	private void playerHitsEnemyEventHandler(final Environment env, final GameEvent e) {
+		AppLogger.getAppLogger().collision("player hit an enemy.");
 		final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 		final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
 		player.setHealth(player.getHealth() - 0.01);
 		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
 		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(),
-					player.getPosition().get().getY()));
+			// DELETE PLAYER SPRITE this.view.get()
 		}
-
 		if (!enemy.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
-					enemy.getPosition().get().getY()));
 			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));
-			
 		}
-		// TODO: player.setHealth(player.getHealth() - enemy.COLLISION_DAMAGE);
-		// TODO: enemy.setHealth(enemy.getHealth() - player.COLLISION_DAMAGE);
-		//AppLogger.getAppLogger().info("player hits enemy");
 	}
 
 	private void playerHitsPickUpObjEventHandler(final Environment env, final GameEvent e) {
+		AppLogger.getAppLogger().collision("player picked up an obj.");
 		final Player player = ((PlayerHitsItemEvent) e).getPlayer();
 		// Apply item effect on character
 		((PlayerHitsItemEvent) e).getItem()
@@ -210,10 +198,8 @@ public class GameEngine implements Controller, GameEventListener {
 		final MutablePosition2D pickupPos = ((PlayerHitsItemEvent) e).getItem().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
 		if (!player.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(player.getPosition().get().getX(), 
-					player.getPosition().get().getY()));
+			//TODO DELETE SPRITE
 		}
-		//AppLogger.getAppLogger().info("player hits item");
 	}
 	
 	private void playerHitsWeaponEventHandler(final Environment env, final GameEvent e) {
@@ -246,9 +232,6 @@ public class GameEngine implements Controller, GameEventListener {
 					, enemy.getPosition().get().getY()));
 			this.view.get().deleteEnemySpriteImage(bulletPos);
 		}
-		//AppLogger.getAppLogger().info("bullet hits enemy");
-
-		
 	}
 	
 	public void start() {

@@ -315,6 +315,7 @@ public class GameEnvironment implements Environment {
 			if (this.player.get().hasWeapon()) {
 				this.player.get().getWeapon().setPosition(this.player.get().getPosition().get());
 			}
+			this.player.get().getCurrentScore().increase();
 		}
 		this.enemies.get().stream().forEach(e -> {
 			if (!e.hasLanded()) {
