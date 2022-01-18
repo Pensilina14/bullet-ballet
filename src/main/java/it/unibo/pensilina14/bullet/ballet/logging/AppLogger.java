@@ -1,5 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.logging;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public final class AppLogger implements SimpleLogger {
 	
 	private static final AppLogger SINGLETON = new AppLogger();
@@ -31,4 +34,9 @@ public final class AppLogger implements SimpleLogger {
 	public void fatal(final String msg) {
 		System.out.println(Headers.FATAL.get() + UNIFIER + msg);
 	}
+	
+	public void collision(final String msg) {
+		System.out.println(Headers.INFO.get() + UNIFIER + msg + Timestamp.from(Instant.now()));
+	}
+	
 }

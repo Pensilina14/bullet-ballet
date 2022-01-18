@@ -4,9 +4,13 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
+import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystemImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 public class Player extends GameEntity implements Characters{
@@ -22,6 +26,8 @@ public class Player extends GameEntity implements Characters{
 
     private EntityList.Characters.Player playerType;
 
+    private final ScoreSystem currentScore = new ScoreSystemImpl(0);
+    
     private final Random rand = new Random();
     private final static double MAX = 100.0;
 
@@ -37,7 +43,6 @@ public class Player extends GameEntity implements Characters{
     public Player(final String name, final double health,final Optional<Double> mana, final Dimension2D dimension
     		, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
-
         this.name = name;
         this.health = health;
         this.mana = mana;
@@ -174,6 +179,10 @@ public class Player extends GameEntity implements Characters{
     @Override
     public void updateState() {
     	this.moveRight(0);
+    	if (!this.isAlive()) {
+    		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
+    	}
+    	AppLogger.getAppLogger().info("HEALTH: " + String.valueOf(this.getHealth()));
     }
     /*
      * Following code could be universalized for every game entity.
@@ -188,5 +197,9 @@ public class Player extends GameEntity implements Characters{
     
     public void resetLanding() {
     	this.landed = false;
+    }
+    
+    public ScoreSystem getCurrentScore() {
+    	return this.currentScore;
     }
 }
