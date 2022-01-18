@@ -74,10 +74,9 @@ public class EnvironmentGenerator implements LevelGenerator {
                     case LevelEntity.COIN:
                         // TODO: add coin.
                         break;
-//                        TODO 
-//                    case LevelEntity.OBSTACLE:
-//                        this.env.get().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
-//                        break;
+                    case LevelEntity.OBSTACLE:
+                        this.env.get().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
+                        break;
                     case LevelEntity.GUN:
                         this.env.get().addWeapon(this.weaponFactory.createGun(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get()));
                         break;
@@ -104,7 +103,6 @@ public class EnvironmentGenerator implements LevelGenerator {
                         this.env.get().addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get()));
                         break;
                 	default:
-                		System.out.println("ciao");//Boh era per togliere il working
                 		break;
                 }
             }
