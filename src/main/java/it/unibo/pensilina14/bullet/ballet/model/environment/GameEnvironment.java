@@ -272,7 +272,6 @@ public class GameEnvironment implements Environment {
 	@Override
 	public final void updateState() {
 		if (this.player.isEmpty()) {
-			System.exit(1);
 			// GAME OVER
 		} else {
 			if (!this.player.get().hasLanded()) {
