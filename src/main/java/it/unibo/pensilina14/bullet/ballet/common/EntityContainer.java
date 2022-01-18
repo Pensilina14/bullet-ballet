@@ -12,6 +12,15 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
+/**
+ * This class is responsible of storing and managing 
+ * the different entities in the game with the use of
+ * a data structure that maps every {@link List} of entities, each
+ * one has a different type, to their relative label which is an element
+ * of the {@link GameEntities} enumeration that states the typo of the {@link List}
+ * associated. Also note that this is model side.
+ *
+ */
 public class EntityContainer extends AbstractContainer<GameEntity> implements EntityManager {
 	/**
 	 * {@inheritDoc}

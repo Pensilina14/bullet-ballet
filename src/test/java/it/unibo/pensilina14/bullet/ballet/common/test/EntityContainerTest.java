@@ -4,8 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class EntityContainerTest {
+import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
 
+public class EntityContainerTest {
+	
+	private final EntityContainer entities = new EntityContainer();
+	
 	@Test
 	public void test() {
 		fail("Not yet implemented");
