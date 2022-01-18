@@ -1,5 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Specifies a contract applicable to every class that needs to store informations
  * in a shelves-style mode.
@@ -16,4 +19,11 @@ public interface Container<X> {
 	 * 		   False otherwise.
 	 */
 	boolean isEmpty();
+	/**
+	 * Returns the container data structure.
+	 * @return container, a data structure composed by
+	 * a {@link Map} which keys are {@link GameEntities} and 
+	 * actual entities or sprites of the entities, wrapped up in a {@link List}.
+	 */
+	Map<GameEntities, List<X>> getContainer();
 }

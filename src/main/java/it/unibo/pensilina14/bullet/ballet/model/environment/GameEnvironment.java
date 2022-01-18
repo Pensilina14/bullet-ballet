@@ -115,8 +115,7 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final Optional<List<PhysicalObject>> getObjsList() {
-		//return this.mergeLists();
-		return null;
+		return this.mergeLists();
 	}
 	
 	@Override

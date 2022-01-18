@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public abstract class AbstractContainer<X> implements Container<X> {
-	
-	protected final Map<GameEntities, List<X>> container;
+	/**
+	 * 
+	 */
+	private final Map<GameEntities, List<X>> container;
 	
 	public AbstractContainer() {
 		
@@ -23,4 +25,9 @@ public abstract class AbstractContainer<X> implements Container<X> {
 		return !(this.container.values().stream()
 			   .anyMatch(l -> !l.isEmpty()));
 	} 
+	
+	@Override
+	public Map<GameEntities, List<X>> getContainer() {
+		return this.container;
+	}
 }

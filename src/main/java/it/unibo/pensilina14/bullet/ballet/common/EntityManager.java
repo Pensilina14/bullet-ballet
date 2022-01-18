@@ -54,4 +54,42 @@ public interface EntityManager {
 	 * @return the platforms, refer to {@link Platform}.
 	 */
 	Optional<List<Platform>> getPlatforms();
+	/**
+	 * Sets a given player({@link Player}).
+	 * 
+	 * @param player (to be set)
+	 */
+	void setPlayer(Player player);
+	/**
+	 * Adds an enemy({@link Enemy}) to the game.
+	 * 
+	 * @param enemy
+	 * @return true if enemy is not yet in the game,
+	 * false otherwise.
+	 */
+	boolean addEnemy(Enemy enemy);
+	/**
+	 * Adds a pickup item({@link PickupItem}) to the game.
+	 * 
+	 * @param item
+	 * @return true if item is not yet in the game,
+	 * false otherwise.
+	 */
+	boolean addItem(PickupItem item);
+	/**
+	 * Adds an obstacle({@link Obstacle}) to the game.
+	 * 
+	 * @param obstacle
+	 * @return true if obstacle is not yet in the game,
+	 * false otherwise.
+	 */
+	boolean addObstacle(ObstacleImpl obstacle);
+	/**
+	 * Adds a weapon({@link Weapon}) to the game.
+	 * 
+	 * @param weapon
+	 * @return true if weapon is not yet in the game,
+	 * false otherwise.
+	 */
+	boolean addWeapon(Weapon weapon);
 }
