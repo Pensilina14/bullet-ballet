@@ -18,6 +18,6 @@ public class CoinFactoryImpl implements CoinFactory{
 
     @Override
     public Coin createStandardCoin(final Environment gameEnvironment, final SpeedVector2D vector) {
-        return new CoinImpl(vector, gameEnvironment, CoinFactoryImpl.MASS, this.dimension, Items.WEAPON, effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue())); //TODO: modify Items e effect
+        return new CoinImpl(vector, gameEnvironment, CoinFactoryImpl.MASS, this.dimension, Items.COIN, effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue())); //TODO: modify Items e effect
     }
 }
