@@ -8,7 +8,6 @@ import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Difficulties;
@@ -67,6 +66,11 @@ public class Game {
     public final AbstractScene getView() {
     	return (AbstractScene) this.view.getGameView();
     }
+		
+    public final GameState getModel() {
+    	return this.model.getGameState().get();
+    }
+    
     
     public final Settings getSettings() {
     	return this.settings;

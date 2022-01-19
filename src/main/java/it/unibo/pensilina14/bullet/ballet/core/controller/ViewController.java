@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.core.controller;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
 /**
  * This is the contract for classes that 

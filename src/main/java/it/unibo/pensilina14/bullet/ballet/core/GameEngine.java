@@ -14,7 +14,6 @@ import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
@@ -32,7 +31,6 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsIte
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import javafx.animation.AnimationTimer;
 
 /**

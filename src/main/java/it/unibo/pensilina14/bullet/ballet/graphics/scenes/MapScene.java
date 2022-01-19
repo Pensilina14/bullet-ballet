@@ -2,9 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
-import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.CoinSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -22,7 +20,6 @@ import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
-import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
@@ -31,10 +28,8 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -42,8 +37,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,11 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class MapScene extends AbstractScene implements GameView{
@@ -78,7 +68,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
-	private Map<CoinSprite, MutablePosition2D> coinSprites;
+	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
 
     public MapScene(final GameState gameState) {
@@ -338,9 +328,11 @@ public class MapScene extends AbstractScene implements GameView{
         
     }
     
+    /*
     private Optional<GameEngine> getController() {
     	return this.controller;
     }
+    */
 
     private void render() throws IOException {
     	//AppLogger.getAppLogger().debug("Inside render() method.");
