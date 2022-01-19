@@ -309,7 +309,7 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public boolean addCoin(Coin coin) {
+	public final boolean addCoin(final Coin coin) {
 		if (this.coins.get().contains(coin)) {
 			return false;
 		} else {
