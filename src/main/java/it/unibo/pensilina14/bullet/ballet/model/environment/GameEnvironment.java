@@ -171,10 +171,7 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public Optional<List<Coin>> getCoins() {
-		if(this.coins.isPresent()){
-			return Optional.of(List.copyOf(this.coins.get()));
-		}
-		return Optional.empty();
+		return this.coins.map(List::copyOf);
 	}
 
 	@Override
@@ -308,7 +305,7 @@ public class GameEnvironment implements Environment {
 		this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
 		this.weapons.get().stream().forEach(i -> i.updateState());
-		this.coins.get().stream().forEach( i -> i.updateState());
+		this.coins.get().stream().forEach(PhysicalObject::updateState);
 		this.checkCollisions();
 	}
 	
@@ -348,12 +345,11 @@ public class GameEnvironment implements Environment {
 		if (this.weapons.isPresent()) {
 			mergedList.get().addAll(this.weapons.get());
 		}
-		if(this.coins.isPresent()){
-			mergedList.get().addAll(this.coins.get());
-		}
+		this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
 		return mergedList;
 	}
-	
+
+	//TODO: collision for the coins
 	private void checkCollisions() {
 		final Map<String, EventChecker> eventCheckers = Map.of(
 				"playeritem", new CollisionEventChecker(this.items.get(), List.of(this.player.get())), 
