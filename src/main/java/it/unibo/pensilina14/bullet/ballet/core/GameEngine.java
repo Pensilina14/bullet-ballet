@@ -193,8 +193,8 @@ public class GameEngine implements Controller, GameEventListener {
 			// DELETE PLAYER SPRITE this.view.get()
 		}
 		if (!enemy.isAlive()) {
-			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
-					enemy.getPosition().get().getY()));
+			this.viewController.get().getGameView().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
+					enemy.getPosition().get().getY()));	
 		}
 	}
 
