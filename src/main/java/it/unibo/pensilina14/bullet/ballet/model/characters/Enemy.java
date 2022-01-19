@@ -1,6 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
@@ -162,6 +163,15 @@ public class Enemy extends GameEntity implements Characters{
 
     public EntityList.Characters.Enemy getEnemyType() {
         return this.enemyType;
+    }
+    
+    @Override
+    public void updateState() {
+    	super.updateState();
+    	if (!this.isAlive()) {
+			this.getGameEnvironment().get()
+			.deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
+    	}
     }
     /*
      * Following code could be universalized for every game entity.
