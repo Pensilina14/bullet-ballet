@@ -8,9 +8,10 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public class WeaponImpl extends PickupItem implements Weapon {
+public class WeaponImpl extends GameEntity implements Weapon {
 
 	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
 	private static final double DAMAGE_FACTOR_SHOTGUN = 1.5;
@@ -34,9 +35,8 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	private double damageFactor;
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final Items id, 
-            final Effect effect) {
-		super(vector, gameEnvironment, mass, dimension, id, effect);
+            final double mass, final SpeedVector2D vector) {
+		super(vector, gameEnvironment, mass, dimension);
 		this.name = weaponType.getName();
 		this.limitBullets = weaponType.getLimBullets();
 		this.limitChargers = weaponType.getLimChargers();
