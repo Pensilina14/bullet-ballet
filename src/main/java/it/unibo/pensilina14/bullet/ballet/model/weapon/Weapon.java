@@ -64,6 +64,8 @@ public interface Weapon extends Item {
 	void setOff();
 
 	void setPosition(MutablePosition2D newPos);
+
+	void recharge();
 	
 
 	

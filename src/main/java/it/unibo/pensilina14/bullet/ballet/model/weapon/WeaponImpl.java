@@ -118,12 +118,12 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	
 	@Override
 	public void decreaseAmmo() {
-		if(isOn()) {
-			if(this.hasAmmo()) {
+		if (isOn()) {
+			if (this.hasAmmo()) {
 				this.currentAmmo--;
-			}else {
+			} else {
 				this.switchCharger();
-				System.out.println(this.bandolier);
+				//System.out.println(this.bandolier);
 				this.currentAmmo--;
 			}
 			this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
@@ -159,6 +159,22 @@ public class WeaponImpl extends PickupItem implements Weapon {
 		this.indexCharger--;
 		this.currentAmmo = this.bandolier.get(this.indexCharger).size();
 		//this.bandolier.stream().filter(x -> x.isEmpty()).distinct().findFirst().get().addAll(charger);
+	}
+	
+	@Override
+	public void recharge() {
+		final List<Bullet> charger = new ArrayList<>(this.limitBullets);
+		for (int i = 0; i < this.limitBullets; i++) {
+			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
+		}
+		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
+		this.switchCharger().addAll(charger);
+		final boolean b = !this.hasAmmo(this.bandolier.get(indexCharger--));
+		if (b) {
+			this.indexCharger--;
+		}
+		this.currentAmmo = this.bandolier.get(this.indexCharger).size()-1;
+		
 	}
 
     
@@ -197,5 +213,9 @@ public class WeaponImpl extends PickupItem implements Weapon {
     @Override
     public void setPosition(final MutablePosition2D newPos) {
     	this.getPosition().get().setPosition(newPos.getX(), newPos.getY());
+    }
+    
+    public int getIndexCharger() {
+    	return this.indexCharger;
     }
 }

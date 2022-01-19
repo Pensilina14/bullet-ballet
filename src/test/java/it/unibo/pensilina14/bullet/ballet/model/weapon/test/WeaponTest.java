@@ -93,5 +93,23 @@ public class WeaponTest {
 		
 	} 
 	
+	@Test
+	public void rechargeTest() {
+		final WeaponImpl weapon_fourth = new  WeaponFactoryImpl().createShotGun(this.gameEnv, this.speedVector);
+		weapon_fourth.setOn();
+		for (int i = 1; i < weapon_fourth.getLimitBullets(); i++) {
+			weapon_fourth.decreaseAmmo();
+		}
+		assertEquals(weapon_fourth.getAmmoLeft(), 1);
+		weapon_fourth.recharge();
+		weapon_fourth.decreaseAmmo();
+		weapon_fourth.decreaseAmmo();
+
+		//weapon_fourth.recharge();
+
+		assertEquals(weapon_fourth.getAmmoLeft(), 4);
+		assertEquals(weapon_fourth.getIndexCharger(), 1);
+
+	}
 	
 }
