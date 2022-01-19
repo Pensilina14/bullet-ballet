@@ -27,7 +27,7 @@ public class Space implements Command {
     							, weapon.getPosition().get().getY()), 1.0)));
     			weapon.decreaseAmmo();
     			try {
-					this.mapScene.generateBullet();
+					this.mapScene.generateBullet(weapon.getPosition().get());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
