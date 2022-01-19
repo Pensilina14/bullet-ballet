@@ -347,7 +347,7 @@ public class MapScene extends AbstractScene implements GameView{
     				if(y.equals(this.mainPlayer.getRight())) {
     					this.mainWeapon = Optional.of(new MutablePair<>(Optional.ofNullable(x), y));
     					AppLogger.getAppLogger().debug("Add main Weapon");
-    					//this.weaponSprites.remove(x);
+    					this.weaponSprites.remove(x);
     				}
     			});
     		} else {
