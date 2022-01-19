@@ -348,6 +348,9 @@ public class GameEnvironment implements Environment {
 		if (this.weapons.isPresent()) {
 			mergedList.get().addAll(this.weapons.get());
 		}
+		if(this.coins.isPresent()){
+			mergedList.get().addAll(this.coins.get());
+		}
 		return mergedList;
 	}
 	
