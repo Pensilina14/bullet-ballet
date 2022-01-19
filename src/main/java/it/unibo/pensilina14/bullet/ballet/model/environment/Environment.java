@@ -73,7 +73,7 @@ public interface Environment {
 	 *
 	 * @return {@link List} of coins ({@link Coin}) present in the environment.
 	 */
-	Optional<List<Coin>> getCoins();
+	//Optional<List<Coin>> getCoins();
 	
 	/**
 	 * Sets the player.
@@ -127,7 +127,7 @@ public interface Environment {
 	 * @param coin is the {@link Coin} to be added.
 	 * @return boolean representing the success of the operation.
 	 */
-	boolean addCoin(Coin coin);
+	//boolean addCoin(Coin coin);
 
 	/**
 	 * @param position of the object to be deleted.

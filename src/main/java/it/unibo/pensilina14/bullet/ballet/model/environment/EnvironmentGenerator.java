@@ -77,10 +77,8 @@ public class EnvironmentGenerator implements LevelGenerator {
                         this.env.get().addPlatform(new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get(), 0, new Dimension2Dimpl(PLATFORM_SIZE, PLATFORM_SIZE)));
                         break;
                     case LevelEntity.COIN:
-                    	/*
-						this.env.get().addCoin(this.coinFactory.createStandardCoin(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
+                    	this.env.get().addItem(this.itemFactory.createCoinItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                        */
                     case LevelEntity.OBSTACLE:
                         this.env.get().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;

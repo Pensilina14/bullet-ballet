@@ -42,7 +42,7 @@ public class GameEnvironment implements Environment {
     private final Optional<List<PickupItem>> items;
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
-	private final Optional<List<Coin>> coins;
+	//private final Optional<List<Coin>> coins;
     private Optional<GameEventListener> eventListener;
 	
 	/**
@@ -61,7 +61,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -80,7 +80,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -104,7 +104,7 @@ public class GameEnvironment implements Environment {
 		this.items = Optional.of(new ArrayList<>());
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.of(l);
 	}
 	
@@ -120,8 +120,7 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final Optional<List<PhysicalObject>> getObjsList() {
-		//return this.mergeLists();
-		return null;
+		return this.mergeLists();
 	}
 	
 	@Override
@@ -169,10 +168,12 @@ public class GameEnvironment implements Environment {
 		return Optional.empty();
 	}
 
+	/*
 	@Override
 	public Optional<List<Coin>> getCoins() {
 		return this.coins.map(List::copyOf);
 	}
+	*/
 
 	@Override
 	public final void setPlayer(final Player player) {
@@ -305,15 +306,17 @@ public class GameEnvironment implements Environment {
 		this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
 		this.weapons.get().stream().forEach(i -> i.updateState());
-		this.coins.get().stream().forEach(PhysicalObject::updateState);
+		//this.coins.get().stream().forEach(PhysicalObject::updateState);
 		this.checkCollisions();
 	}
+	
 	
 	@Override
 	public final void setEventListener(final GameEventListener listener) {
 		this.eventListener = Optional.ofNullable(listener);
 	}
-
+	
+	/*
 	@Override
 	public final boolean addCoin(final Coin coin) {
 		if (this.coins.get().contains(coin)) {
@@ -323,7 +326,7 @@ public class GameEnvironment implements Environment {
 			return true;
 		}
 	}
-
+	*/
 
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
@@ -345,7 +348,7 @@ public class GameEnvironment implements Environment {
 		if (this.weapons.isPresent()) {
 			mergedList.get().addAll(this.weapons.get());
 		}
-		this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
+		//this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
 		return mergedList;
 	}
 
