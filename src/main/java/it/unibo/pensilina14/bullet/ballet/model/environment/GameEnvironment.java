@@ -264,7 +264,7 @@ public class GameEnvironment implements Environment {
 			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
 				if (obj instanceof Player) {
-					//this.player = Optional.empty();
+					this.player = Optional.empty();
 					return true;
 				} else if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
@@ -288,10 +288,11 @@ public class GameEnvironment implements Environment {
 		return false;
 	}
 	
+	/*
 	@Override
 	public final boolean deleteObject(final PhysicalObject obj) {
 		if (obj instanceof Player) {
-			//this.player = Optional.empty();
+			this.player = Optional.empty();
 			return true;
 		} else if (obj instanceof Enemy) {
 			this.enemies.get().remove(obj);
@@ -312,6 +313,7 @@ public class GameEnvironment implements Environment {
 			return false;
 		}
 	}
+	*/
 /*
 	private void checkBoundaries() {
 		final MutablePosition2D playerPos = this.player.get().getPosition();
@@ -367,7 +369,7 @@ public class GameEnvironment implements Environment {
 			}
 		});
 		this.bullets.get().stream().forEach(i -> i.updateState());
-		this.items.get().stream().forEach(i -> i.updateState());
+		//this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
 		//this.weapons.get().stream().forEach(i -> i.updateState());
 		this.coins.get().stream().forEach( i -> i.updateState());

@@ -178,7 +178,7 @@ public interface Environment {
 		}
 	}
 
-	boolean deleteObject(PhysicalObject obj);
+	//boolean deleteObject(PhysicalObject obj);
 	
 	/**
 	 *
