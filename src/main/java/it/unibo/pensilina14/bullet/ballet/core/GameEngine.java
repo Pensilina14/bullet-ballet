@@ -207,15 +207,18 @@ public class GameEngine implements Controller, GameEventListener {
 		// Set Weapon to Player
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
 		if (player.hasWeapon()) {
-			if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
+			final Weapon actualWeapon = player.getWeapon();
+			if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon()) && !weapon.equals(actualWeapon)) {
 				player.getWeapon().recharge();
 				AppLogger.getAppLogger().debug("Delete weapon");
-				env.deleteObject(weapon);
+				env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX()
+						, weapon.getPosition().get().getY()));			
 			} else {
 				player.getWeapon().setOff();
 				player.removeWeapon();
-				env.deleteObject(player.getWeapon());
-				this.view.get().deleteWeaponSpriteImage();
+				env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
+						, actualWeapon.getPosition().get().getY()));				
+				//this.view.get().deleteWeaponSpriteImage();
 				weapon.setOn();
 				player.setWeapon(weapon);
 			}
