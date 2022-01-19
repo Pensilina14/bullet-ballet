@@ -177,4 +177,6 @@ public interface Environment {
 		}
 	}
 
+	boolean deleteObject(PhysicalObject obj);
+
 }

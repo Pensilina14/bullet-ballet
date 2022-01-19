@@ -271,6 +271,7 @@ public class GameEnvironment implements Environment {
 					this.items.get().remove(obj); 
 					return true;
 				} else if (obj instanceof WeaponImpl) {
+					AppLogger.getAppLogger().debug("Delete weapon model");
 					this.weapons.get().remove(obj);
 					return true;
 				} else if (obj instanceof BulletImpl) {
@@ -280,6 +281,31 @@ public class GameEnvironment implements Environment {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public final boolean deleteObject(final PhysicalObject obj) {
+		if (obj instanceof Player) {
+			//this.player = Optional.empty();
+			return true;
+		} else if (obj instanceof Enemy) {
+			this.enemies.get().remove(obj);
+			return true;
+		} else if (obj instanceof ObstacleImpl) {
+			this.obstacles.get().remove(obj);
+			return true;
+		} else if (obj instanceof PickupItem) {
+			this.items.get().remove(obj); 
+			return true;
+		} else if (obj instanceof WeaponImpl) {
+			this.weapons.get().remove(obj);
+			return true;
+		} else if (obj instanceof BulletImpl) {
+			this.bullets.get().remove(obj);
+			return true;
+		} else {
+			return false;
+		}
 	}
 /*
 	private void checkBoundaries() {
@@ -323,7 +349,7 @@ public class GameEnvironment implements Environment {
 				e.resetLanding();
 			}
 			e.updateState();
-			AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
+			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
 		this.obstacles.get().stream().forEach(o -> o.updateState()); 
 		this.items.get().stream().forEach(i -> i.updateState()); 
