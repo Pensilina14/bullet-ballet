@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.CoinSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
@@ -48,7 +49,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
