@@ -7,6 +7,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
@@ -178,5 +179,11 @@ public interface Environment {
 	}
 
 	boolean deleteObject(PhysicalObject obj);
-
+	
+	/**
+	 *
+	 * @param coin is the {@link Coin} to be added.
+	 * @return boolean representing the success of the operation.
+	 */
+	boolean addCoin(Coin coin);
 }
