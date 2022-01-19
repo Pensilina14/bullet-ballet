@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.CoinSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
@@ -20,6 +21,7 @@ import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
@@ -54,6 +56,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class MapScene extends AbstractScene implements GameView{
@@ -75,6 +78,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
+	private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
 
     public MapScene(final GameState gameState) {
@@ -218,6 +222,16 @@ public class MapScene extends AbstractScene implements GameView{
 			}	
 		}
 		AppLogger.getAppLogger().debug("Weapons rendered");
+
+		//TODO: uncomment when it will be fixed
+		/*for(final Coin c : world.getCoins().get()){
+			final MutablePosition2D xPos = c.getPosition().get();
+			final CoinSprite coinSprite = new CoinSprite();
+			this.coinSprites.put(coinSprite, xPos);
+			this.gamePane.getChildren().add(coinSprite);
+		}
+		AppLogger.getAppLogger().debug("Coins rendered");*/
+
 		/*
 		 * Ui initializing
 		 */
