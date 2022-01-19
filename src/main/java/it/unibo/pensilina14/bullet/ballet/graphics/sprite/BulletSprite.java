@@ -26,14 +26,14 @@ public class BulletSprite extends Pane {
 	private final static int BULLET_SIZE = 20;
 	
 	public BulletSprite(final double x, final double y) throws IOException {
-		this.bulletImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/bullets/Classic.png")));
+		this.bulletImg = new Image(Files.newInputStream(Paths.get("res/assets/sprites/bullets/Bullet.png")));
 		this.bulletView = new ImageView(bulletImg);
 		this.renderPosition(x, y);
 		this.bulletView.setFitHeight(BULLET_SIZE);
 		this.bulletView.setFitWidth(BULLET_SIZE);
 		this.offsetX = 0;
         this.offsetY = -0;
-        this.bulletViewWidth = 24;
+        this.bulletViewWidth = 14;
         this.bulletViewHeight = 12;
 		bulletView.setViewport(new Rectangle2D(offsetX, offsetY, bulletViewWidth, bulletViewHeight));
 		getChildren().add(bulletView);
