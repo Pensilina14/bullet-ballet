@@ -9,7 +9,7 @@ public class Space implements Command {
 	
 	@Override
 	public void execute(final GameState env) {
-		final Weapon weapon = env.getGameEnvironment().getPlayer().get().getWeapon();
+		final Weapon weapon = env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon();
 		weapon.decreaseAmmo();		
 	}
 

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public abstract class AbstractContainer<X> implements Container<X> {
 	/**
 	 * 
 	 */
-	private final Map<GameEntities, List<X>> container;
+	private final Map<GameEntities, List<Optional<X>>> container;
 	
 	public AbstractContainer() {
 		
@@ -27,7 +28,7 @@ public abstract class AbstractContainer<X> implements Container<X> {
 	} 
 	
 	@Override
-	public Map<GameEntities, List<X>> getContainer() {
+	public Map<GameEntities, List<Optional<X>>> getContainer() {
 		return this.container;
 	}
 }

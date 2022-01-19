@@ -40,7 +40,7 @@ public class GameState {
 	}
 	
 	public boolean isGameOver() {
-		return this.env.getPlayer().get().getHealth() == 0;
+		return this.env.getEntityManager().getPlayer().get().getHealth() == 0;
 	}
 	
 	public void update() {

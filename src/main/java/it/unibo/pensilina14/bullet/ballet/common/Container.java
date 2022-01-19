@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.common;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Specifies a contract applicable to every class that needs to store informations
@@ -25,5 +26,5 @@ public interface Container<X> {
 	 * a {@link Map} which keys are {@link GameEntities} and 
 	 * actual entities or sprites of the entities, wrapped up in a {@link List}.
 	 */
-	Map<GameEntities, List<X>> getContainer();
+	Map<GameEntities, List<Optional<X>>> getContainer();
 }

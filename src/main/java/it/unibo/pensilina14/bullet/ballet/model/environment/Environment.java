@@ -1,19 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-import java.util.List;
-import java.util.Optional;
-
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.EntityManager;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
  * This interface wraps all the virtual game world and permits interaction
@@ -31,89 +21,11 @@ public interface Environment {
 	Dimension2D getDimension();
 
 	/**
-	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
-	 */
-	Optional<List<PhysicalObject>> getObjsList();
-	
-	/**
-	 * @return player of environment.
-	 */
-	Optional<Player> getPlayer();
-
-	/**
-	 * @return {@link List} of enemies({@link Enemy}) present in the environment.
-	 */
-	Optional<List<Enemy>> getEnemies();
-	
-	/**
-	 * @return {@link List} of obstacles({@link StaticObstacle}, {@link DynamicObstacle})
-	 * present in the environment.
-	 */
-	Optional<List<ObstacleImpl>> getObstacles();
-	
-	/**
-	 * @return {@link List} of items({@link Item}) present in the environment.
-	 */
-	Optional<List<PickupItem>> getItems();
-	
-	/**
+	 * Returns an {@link EntityManager}
 	 * 
-	 * @return {@link List} of platforms{@link Platform}) that compose the game trail.
+	 * @return entity manager of the implementing class.
 	 */
-	Optional<List<Platform>> getPlatforms();
-	
-	/**
-	 * 
-	 * @return {@link List} of weapons({@link Weapon}) present in the environment.
-	 */
-	Optional<List<Weapon>> getWeapons();
-	
-	/**
-	 * Sets the player.
-	 * 
-	 * @param player is the main character of the game.
-	 */
-	void setPlayer(Player player);
-	
-	/**
-	 * @param enemy which is the {@link Enemy} to be added.
-	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if character is already present.
-	 */
-	boolean addEnemy(Enemy enemy);
-	
-	/**
-	 * @param obstacle which is an {@link ObstacleImpl} to be added.
-	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if obstacle is already present and in case of a wrong parameter.
-	 */
-	boolean addObstacle(Obstacle obstacle);
-	
-	/**
-	 * @param item which is the {@link PickupItem} to be added.
-	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if item is already present.
-	 */
-	boolean addItem(Item item);
-	
-	/**
-	 * @param platform indicates the {@link Platform} to be added.
-	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if platform is already present.
-	 */
-	boolean addPlatform(Platform platform);
-	
-	/**
-	 * @param weapon is the {@link Weapon} to be added.
-	 * 
-	 * @return boolean representing the success of the operation.
-	 * Unsuccess is guaranteed if weapon is already present.
-	 */
-	boolean addWeapon(Weapon weapon);
+	EntityManager getEntityManager();
 
 	/**
 	 * @param position of the object to be deleted.
@@ -150,13 +62,13 @@ public interface Environment {
 		TEST(1.0),
 		EARTH(9.81),
 		MOON(6.673);
-		
+
 		private final double value;
 
 		GravityConstants(final double value) {
 			this.value = value;
 		}
-		
+
 		public double getValue() {
 			return this.value;
 		}

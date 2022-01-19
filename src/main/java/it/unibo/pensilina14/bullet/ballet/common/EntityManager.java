@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -23,7 +26,7 @@ public interface EntityManager {
 	 * 
 	 * @return the player
 	 */
-	Optional<List<Player>> getPlayer();
+	Optional<Player> getPlayer();
 	/**
 	 * Enemies getter.
 	 * 
@@ -41,7 +44,7 @@ public interface EntityManager {
 	 * 
 	 * @return the obstacles, refer to {@link ObstacleImpl}.
 	 */
-	Optional<List<ObstacleImpl>> getObstacle();
+	Optional<List<ObstacleImpl>> getObstacles();
 	/**
 	 * Weapons getter.
 	 * 
@@ -59,7 +62,7 @@ public interface EntityManager {
 	 * 
 	 * @param player (to be set)
 	 */
-	void setPlayer(Player player);
+	void setPlayer(Optional<Player> player);
 	/**
 	 * Adds an enemy({@link Enemy}) to the game.
 	 * 
@@ -75,7 +78,7 @@ public interface EntityManager {
 	 * @return true if item is not yet in the game,
 	 * false otherwise.
 	 */
-	boolean addItem(PickupItem item);
+	boolean addItem(Item item);
 	/**
 	 * Adds an obstacle({@link Obstacle}) to the game.
 	 * 
@@ -83,7 +86,14 @@ public interface EntityManager {
 	 * @return true if obstacle is not yet in the game,
 	 * false otherwise.
 	 */
-	boolean addObstacle(ObstacleImpl obstacle);
+	boolean addObstacle(Obstacle obstacle);
+	/**
+	 * @param platform indicates the {@link Platform} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if platform is already present.
+	 */
+	boolean addPlatform(Platform platform);
 	/**
 	 * Adds a weapon({@link Weapon}) to the game.
 	 * 
@@ -92,4 +102,8 @@ public interface EntityManager {
 	 * false otherwise.
 	 */
 	boolean addWeapon(Weapon weapon);
+	/**
+	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
+	 */
+	Optional<List<PhysicalObject>> getObjsList();
 }

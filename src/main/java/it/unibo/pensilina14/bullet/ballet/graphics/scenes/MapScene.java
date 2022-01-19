@@ -135,16 +135,16 @@ public class MapScene extends AbstractScene implements GameView{
 
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
     	
-    	if (world.getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getPlayer().get().getPosition().get();
+    	if (world.getEntityManager().getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
     		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
     				playerPos.getY())));
     		this.mainPlayer.setRight(playerPos);
         	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
-       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getPlayer().get()));
+       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
     	}
     	
-    	for (final Platform x : world.getPlatforms().get()) {
+    	for (final Platform x : world.getEntityManager().getPlatforms().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
     		this.platformSprites.put(newSprite, xPos);
@@ -152,7 +152,7 @@ public class MapScene extends AbstractScene implements GameView{
     	}
     	AppLogger.getAppLogger().debug("Platforms rendered.");
     	
-    	for (final Enemy x : world.getEnemies().get()) {
+    	for (final Enemy x : world.getEntityManager().getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
     				, xPos.getY());
@@ -162,7 +162,7 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Enemies rendered.");
 		
     	
-    	for (final Item x : world.getItems().get()) {
+    	for (final Item x : world.getEntityManager().getItems().get()) {
     	    final MutablePosition2D position = x.getPosition().get();
     		if (x.getItemId().equals(Items.DAMAGE)) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(position);
@@ -184,7 +184,7 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Items rendered.");
     	
 
-		for (final PhysicalObject x : world.getObstacles().get()) {
+		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		if (x instanceof Obstacle) {
     			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateStaticObstacleSprite(xPos);
@@ -195,7 +195,7 @@ public class MapScene extends AbstractScene implements GameView{
     		} 
     	}
 		
-		for (final Weapon x : world.getWeapons().get()) {
+		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
 			final MutablePosition2D xPos = x.getPosition().get();
 			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
 				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN, x
@@ -333,8 +333,8 @@ public class MapScene extends AbstractScene implements GameView{
     	final Environment env = this.gameState.getGameEnvironment();
     	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
 
-    	this.mainPlayer.getRight().setPosition(env.getPlayer().get().getPosition().get().getX()
-		, env.getPlayer().get().getPosition().get().getY());
+    	this.mainPlayer.getRight().setPosition(env.getEntityManager().getPlayer().get().getPosition().get().getX(), 
+    			env.getEntityManager().getPlayer().get().getPosition().get().getY());
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX(), this.mainPlayer.getRight().getY());
 //    	AppLogger.getAppLogger().debug("PlayerPos: " + this.mainPlayer.getRight().toString());
     	//AppLogger.getAppLogger().debug("Player sprite position updated");
@@ -371,15 +371,15 @@ public class MapScene extends AbstractScene implements GameView{
 		IntStream.range(0, this.hudList.size()).forEach(i -> {
 			final Label label = (Label) this.uiPane.getChildren().get(i);
 			if (this.checkChildrenById(i, HudLabels.HEALTH)) {
-				label.setText("Health: " + env.getPlayer().get().getHealth());
-			} else if(this.checkChildrenById(i, HudLabels.SCORE)) {
-				label.setText("Score: " + env.getPlayer().get().getCurrentScore().showScore());
+				label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
+			} else if (this.checkChildrenById(i, HudLabels.SCORE)) {
+				label.setText("Score: " + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
 			}
 		});
 		
     }
     
-    private final boolean checkChildrenById(final int i, final HudLabels label) {
+    private boolean checkChildrenById(final int i, final HudLabels label) {
     	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
     }
 
@@ -413,7 +413,7 @@ public class MapScene extends AbstractScene implements GameView{
 		this.appPane.setPrefWidth(width);
 	}
 	
-	public void deleteEnemySpriteImage(final MutablePosition2D position) {
+	public final void deleteEnemySpriteImage(final MutablePosition2D position) {
 		final MainEnemy enemy = enemySprites.entrySet()
                 .stream()
                 .filter(entry -> position.equals(entry.getValue()))
