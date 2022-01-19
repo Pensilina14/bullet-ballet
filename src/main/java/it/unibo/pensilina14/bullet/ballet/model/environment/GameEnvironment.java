@@ -168,8 +168,16 @@ public class GameEnvironment implements Environment {
 		}
 		return Optional.empty();
 	}
-	
-    @Override
+
+	@Override
+	public Optional<List<Coin>> getCoins() {
+		if(this.coins.isPresent()){
+			return Optional.of(List.copyOf(this.coins.get()));
+		}
+		return Optional.empty();
+	}
+
+	@Override
 	public final void setPlayer(final Player player) {
 		this.player = Optional.ofNullable(player);
 	}
