@@ -466,8 +466,8 @@ public class MapScene extends AbstractScene implements GameView{
 	}
 
 	@Override
-	public void generateBullet() throws IOException {
-		final MutablePosition2D pos = this.mainWeapon.get().getRight();
+	public void generateBullet(final MutablePosition2D pos) throws IOException {
+		//final MutablePosition2D pos = this.mainWeapon.get().getRight();
 		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
 		this.bulletSprites.put(bullet, pos);
 		this.gamePane.getChildren().add(bullet);		
