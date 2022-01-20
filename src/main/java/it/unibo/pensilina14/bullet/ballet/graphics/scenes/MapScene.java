@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -461,13 +462,23 @@ public class MapScene extends AbstractScene implements GameView{
 				.findFirst().get();
 		this.gamePane.getChildren().remove(bullet);
 		*/
-		/*this.bulletSprites.remove(bullet);
+		final List<BulletSprite> bullet = this.bulletSprites.entrySet()
+				.stream()
+				.filter(e -> position.equals(e.getValue()))
+				.map(x -> x.getKey())
+				.distinct()
+				.collect(Collectors.toList());
+		this.bulletSprites.keySet().removeAll(bullet);
+		this.gamePane.getChildren().removeAll(bullet);
+		//this.bulletSprites.remove(bullet);
+		/*
 		this.bulletSprites.forEach((x, y) -> {
 			AppLogger.getAppLogger().debug("Bullet pos view: " + y.toString());
 			if(y.equals(position)) {
 				this.gamePane.getChildren().remove(x);
 			}
-		});*/
+		});
+		*/
 	}
 	
 	@Override

@@ -35,6 +35,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWea
 import javafx.animation.AnimationTimer;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
@@ -256,9 +257,10 @@ public class GameEngine implements Controller, GameEventListener {
 		((BulletHitsEnemyEvent) e).getBullet()
 			.getEffect()
 			.applyEffect(enemy);
+		final Bullet bullet = ((BulletHitsEnemyEvent) e).getBullet();
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
-		//env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
-		//this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
 		//if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
