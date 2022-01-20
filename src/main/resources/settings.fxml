@@ -16,7 +16,7 @@
 
 <FlowPane columnHalignment="CENTER" orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.SettingsController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="SETTINGS">
+      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblSettings.text">
          <font>
             <Font name="Comic Sans MS Bold" size="48.0" />
          </font>
@@ -40,17 +40,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Audio" textFill="#d32c2c">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%lblAudio.text" textFill="#d32c2c">
                <font>
                   <Font name="Comic Sans MS" size="48.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Resolution" textFill="#d32c2c" GridPane.rowIndex="1">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%lblRes.text" textFill="#d32c2c" GridPane.rowIndex="1">
                <font>
                   <Font name="Comic Sans MS" size="48.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Difficulty" textFill="#d32c2c" GridPane.rowIndex="2">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%lblDifficulty.text" textFill="#d32c2c" GridPane.rowIndex="2">
                <font>
                   <Font name="Comic Sans MS" size="48.0" />
                </font>
@@ -82,7 +82,7 @@
                   </DropShadow>
                </effect>
             </ComboBox>
-            <Button mnemonicParsing="false" onMouseClicked="#goBackOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="GO BACK" textFill="#d32c2c" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#goBackOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnGoBack.text" textFill="#d32c2c" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -94,7 +94,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#submitSaveSettings" prefHeight="50.0" prefWidth="320.0" text="SAVE" textFill="#d32c2c" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#submitSaveSettings" prefHeight="50.0" prefWidth="320.0" text="%btnSave.text" textFill="#d32c2c" GridPane.rowIndex="3">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
