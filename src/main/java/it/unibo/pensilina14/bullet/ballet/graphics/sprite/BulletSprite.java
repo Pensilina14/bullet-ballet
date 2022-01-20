@@ -51,4 +51,8 @@ public class BulletSprite extends Pane {
     	this.setTranslateX(this.position.getX());
     	//System.out.println("Enemy View: \t" + this.position.getX());
     }
+
+	public MutablePosition2D getPosition() {
+		return this.position;
+	}
 }
