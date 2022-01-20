@@ -257,13 +257,13 @@ public class GameEngine implements Controller, GameEventListener {
 			.getEffect()
 			.applyEffect(enemy);
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
-		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
-		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
-		if(!enemy.isAlive()) {
+		//env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		//this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+		//if (!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
-			this.viewController.get().getGameView().deleteEnemySpriteImage(bulletPos);
-		}
+			this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
+		//}
 		AppLogger.getAppLogger().info("Bullet hits enemy");
 	}
 	
