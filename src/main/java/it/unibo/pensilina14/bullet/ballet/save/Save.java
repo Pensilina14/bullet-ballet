@@ -27,6 +27,7 @@ public final class Save {
     public static final String PLAYER_STRING = "Player"; //TODO: rename it better
     public static final String SCORE_STRING = "Score"; //TODO: rename it better
 
+    public static final String RESOLUTION_STRING = "Resolution";
     public static final String RESOLUTION_WIDTH_STRING = "Width";
     public static final String RESOLUTION_HEIGHT_STRING = "Height";
     public static final String DIFFICULTY_STRING = "Difficulty";
@@ -288,7 +289,7 @@ public final class Save {
      * @param audioVolume : the in-game audio volume.
      * @return : a boolean whether the file has been saved successfully or not.
      */
-    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final int audioVolume){
+    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume){
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = new JSONObject();
 

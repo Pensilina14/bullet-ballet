@@ -148,7 +148,7 @@ public class SaveTest {
         final int resWidth = 1920;
         final int resHeight = 1080;
         final String difficulty = "hard";
-        final int audioVolume = 30;
+        final double audioVolume = 30.0;
 
         final boolean hasSavedSettings = Save.saveSettings(resWidth, resHeight, difficulty, audioVolume);
 
@@ -170,7 +170,7 @@ public class SaveTest {
         final int resWidth2 = 1280;
         final int resHeight2 = 720;
         final String difficulty2 = "easy";
-        final int audioVolume2 = 20;
+        final double audioVolume2 = 20.0;
 
         final boolean hasUpdatedSettings = Save.saveSettings(resWidth2, resHeight2, difficulty2, audioVolume2);
 
