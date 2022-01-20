@@ -38,6 +38,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="%lblAudio.text" textFill="#d32c2c">
@@ -51,6 +52,11 @@
                </font>
             </Label>
             <Label alignment="CENTER" contentDisplay="CENTER" text="%lblDifficulty.text" textFill="#d32c2c" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Comic Sans MS" size="48.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%lblLanguage.text" textFill="#d32c2c" GridPane.rowIndex="3">
                <font>
                   <Font name="Comic Sans MS" size="48.0" />
                </font>
@@ -82,7 +88,7 @@
                   </DropShadow>
                </effect>
             </ComboBox>
-            <Button mnemonicParsing="false" onMouseClicked="#goBackOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnGoBack.text" textFill="#d32c2c" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#goBackOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnGoBack.text" textFill="#d32c2c" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -94,7 +100,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#submitSaveSettings" prefHeight="50.0" prefWidth="320.0" text="%btnSave.text" textFill="#d32c2c" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#submitSaveSettings" prefHeight="50.0" prefWidth="320.0" text="%btnSave.text" textFill="#d32c2c" GridPane.rowIndex="4">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -106,6 +112,15 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
+            <ComboBox fx:id="language" onMouseClicked="#showLanguagesOnMouseClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-radius: 30;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <effect>
+                  <DropShadow radius="13.795" spread="0.19" width="36.18">
+                     <color>
+                        <Color red="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ComboBox>
          </children>
          <FlowPane.margin>
             <Insets left="20.0" />
