@@ -11,7 +11,10 @@ import it.unibo.pensilina14.bullet.ballet.AnimationTimerImpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
+import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
@@ -32,72 +35,85 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWea
 import javafx.animation.AnimationTimer;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import javafx.animation.AnimationTimer;
 
+/**
+ * Manages a variety of game aspects such as input commands processing, event handling 
+ * and putting into communication model and view.
+ * 
+ * This class could be considered the core of the game itself.
+ *
+ */
 public class GameEngine implements Controller, GameEventListener {
-	
+	/**
+	 * Constant used to define command queue capacity.
+	 */
 	private static final int QUEUE_CAPACITY = 100;
 	
 	//private final long period = 1000; // 20 ms = 50 FPS 
 	
-	private Optional<GameView> view;
-	private Optional<GameState> gameState;
+	private Optional<ViewController> viewController;
+	private Optional<ModelController> modelController;
 	private final BlockingQueue<Command> cmdQueue;
+	/**
+	 * Data structure, for instance a {@link List}, whose goal is to
+	 * store all the incoming events from the model and view (?)
+	 */
 	private final List<GameEvent> eventQueue;
+	/**
+	 * This is the timer that temporizes the program.
+	 */
 	private final Optional<AnimationTimer> timer;
 	
+	/*
+	 * CONSTRUCTORS
+	 */
 	public GameEngine() {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
-		this.view = Optional.empty();
-		this.gameState = Optional.empty();
+		this.viewController = Optional.empty();
+		this.modelController = Optional.empty();
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
-	public GameEngine(final GameView view, final GameState game) {
+	public GameEngine(final ViewController view, final ModelController game) {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
-		this.view = Optional.of(view);
-		this.gameState = Optional.of(game);
+		this.viewController = Optional.of(view);
+		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
 	public final void setup() {
-		if (this.view.isEmpty()) {
-			this.view = Optional.of(new MapScene(this.gameState.get(), this));
-			this.view.get().setup(this);
+		if (this.viewController.isEmpty()) {
+			this.viewController = Optional.of(new ViewControllerImpl(
+					Optional.of(new MapScene(this.modelController.get().getGameState().get(), this)))
+					);
+			this.viewController.get().getGameView().setup(this);
 			AppLogger.getAppLogger().debug("View was empty so it was initialized.");
 		} else {
-			this.view.get().setup(this);
-			this.view.get().setInputController(this);
+			this.viewController.get().getGameView().setup(this);
+			this.viewController.get().getGameView().setInputController(this);
 			AppLogger.getAppLogger().debug("View input controller set.");
 		}
 
-		if (this.gameState.isEmpty()) {
-			this.gameState = Optional.of(new GameState());
-			this.gameState.get().setEventListener(this);
+		if (this.modelController.isEmpty()) {
+			this.modelController = Optional.of(new ModelControllerImpl(new GameState()));
+			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("There was no game state, new one instantiated.");
 		} else {
-			this.gameState.get().setEventListener(this);
+			this.modelController.get().setEventListener(this);
 			AppLogger.getAppLogger().debug("Game state present, event listener set only.");
 		}
 	}
 	
 	public final void mainLoop() {
-		while (!this.gameState.get().isGameOver()) {
+		while (!this.modelController.get().isGameOver()) {
 			this.processInput();
 			AppLogger.getAppLogger().debug("Input processed.");
 			this.updateGame();
 			AppLogger.getAppLogger().debug("Game model updated.");
-			try {
-				this.render();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.render();
 			AppLogger.getAppLogger().debug("Rendering ultimated.");
 		}
 		// GAME OVER
@@ -106,17 +122,18 @@ public class GameEngine implements Controller, GameEventListener {
 	public final void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
-			cmd.execute(this.gameState.get());
+			cmd.execute(this.modelController.get().getGameState().get());
 		}
 	}
 	
 	public void updateGame() {
-		this.gameState.get().update();
+		this.modelController.get().update();
 		this.checkEvents();
 	}
 	
-	public final void render() throws IOException {
-		this.view.get().draw();
+
+	public final void render() {
+		this.viewController.get().render();
 	}
 	
 	@Override
@@ -130,7 +147,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void checkEvents() {
-		final Environment env = this.gameState.get().getGameEnvironment();
+		final Environment env = this.modelController.get().getGameEnvironment();
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof PlayerHitsItemEvent) {
 				playerHitsPickUpObjEventHandler(env, e);
@@ -182,8 +199,8 @@ public class GameEngine implements Controller, GameEventListener {
 			// DELETE PLAYER SPRITE this.view.get()
 		}
 		if (!enemy.isAlive()) {
-			this.view.get().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
-					enemy.getPosition().get().getY()));
+			this.viewController.get().getGameView().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
+					enemy.getPosition().get().getY()));	
 		}
 	}
 
@@ -219,7 +236,7 @@ public class GameEngine implements Controller, GameEventListener {
 					player.removeWeapon();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
 							, actualWeapon.getPosition().get().getY()));				
-					this.view.get().deleteWeaponSpriteImage(actualWeapon.getPosition().get());
+					this.viewController.get().getGameView().deleteWeaponSpriteImage(actualWeapon.getPosition().get());
 					AppLogger.getAppLogger().debug("Delete weapon");
 					weapon.setOn();
 					player.setWeapon(weapon);
@@ -243,7 +260,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if(!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
-			this.view.get().deleteEnemySpriteImage(bulletPos);
+			this.viewController.get().getGameView().deleteEnemySpriteImage(bulletPos);
 		}
 		AppLogger.getAppLogger().info("Bullet hits enemy");
 	}

@@ -18,12 +18,7 @@ public class AnimationTimerImpl extends AnimationTimer {
 	public void handle(final long now) {
 		this.engine.processInput();
 		this.engine.updateGame();
-		try {
-			this.engine.render();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.engine.render();
 	}
 	
 	/*

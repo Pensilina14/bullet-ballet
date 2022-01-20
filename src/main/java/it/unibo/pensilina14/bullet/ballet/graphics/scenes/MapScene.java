@@ -29,10 +29,8 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -40,19 +38,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -78,6 +71,7 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
     private Map<BulletSprite, MutablePosition2D> bulletSprites;
+	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
 
     public MapScene(final GameState gameState) {
@@ -184,6 +178,11 @@ public class MapScene extends AbstractScene implements GameView{
         	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
+    		} else if (x.getItemId().equals(Items.COIN)) {
+    			final PhysicalObjectSprite itemSprite = spriteFactory.generateCoinItemSprite(position);
+        	    itemSprite.renderPosition(position.getX(), position.getY());
+        	    this.itemSprites.put(itemSprite, position);
+        	    this.gamePane.getChildren().add(itemSprite);
     		}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");
@@ -223,6 +222,16 @@ public class MapScene extends AbstractScene implements GameView{
 			}	
 		}
 		AppLogger.getAppLogger().debug("Weapons rendered");
+
+		//TODO: uncomment when it will be fixed
+		/*for(final Coin c : world.getCoins().get()){
+			final MutablePosition2D xPos = c.getPosition().get();
+			final CoinSprite coinSprite = new CoinSprite();
+			this.coinSprites.put(coinSprite, xPos);
+			this.gamePane.getChildren().add(coinSprite);
+		}
+		AppLogger.getAppLogger().debug("Coins rendered");*/
+
 		/*
 		 * Ui initializing
 		 */
@@ -323,9 +332,11 @@ public class MapScene extends AbstractScene implements GameView{
         
     }
     
+    /*
     private Optional<GameEngine> getController() {
     	return this.controller;
     }
+    */
 
     private void render() throws IOException {
     	//AppLogger.getAppLogger().debug("Inside render() method.");

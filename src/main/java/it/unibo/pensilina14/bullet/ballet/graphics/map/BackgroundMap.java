@@ -152,6 +152,7 @@ public class BackgroundMap {
         /*
         final int randomMap = rand.nextInt((max - min) + min);
         max - min + min = max, no?
+        Si ma in realtà era ((max - min) + 1) + min la formula.
         */
         for(final Maps m : Maps.values()){
             if(m.ordinal() == RAND.nextInt(max)){

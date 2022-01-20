@@ -3,13 +3,10 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
-import it.unibo.pensilina14.bullet.ballet.model.coin.CoinFactory;
-import it.unibo.pensilina14.bullet.ballet.model.coin.CoinFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
@@ -27,7 +24,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 	private final ObstacleFactory obstacleFactory;
 	private final ItemFactory itemFactory;
 	private final WeaponFactory weaponFactory;
-	private final CoinFactory coinFactory;
+	//private final CoinFactory coinFactory;
 	
 	public EnvironmentGenerator() {
 		this.levelLoader = new LevelLoader();
@@ -36,7 +33,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
 		this.weaponFactory = new WeaponFactoryImpl();
-		this.coinFactory = new CoinFactoryImpl();
+		//this.coinFactory = new CoinFactoryImpl();
 	}
 	
 	public EnvironmentGenerator(final Environment environment) {
@@ -46,7 +43,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
 		this.weaponFactory = new WeaponFactoryImpl();
-		this.coinFactory = new CoinFactoryImpl();
+		//this.coinFactory = new CoinFactoryImpl();
 	}
 	
 	public void setEnvironment(final Environment environment) {
@@ -77,7 +74,7 @@ public class EnvironmentGenerator implements LevelGenerator {
                         this.env.get().addPlatform(new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get(), 0, new Dimension2Dimpl(PLATFORM_SIZE, PLATFORM_SIZE)));
                         break;
                     case LevelEntity.COIN:
-						this.env.get().addCoin(this.coinFactory.createStandardCoin(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
+                    	this.env.get().addItem(this.itemFactory.createCoinItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
                     case LevelEntity.OBSTACLE:
                         this.env.get().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));

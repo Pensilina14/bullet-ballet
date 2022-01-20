@@ -7,7 +7,6 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
@@ -69,6 +68,12 @@ public interface Environment {
 	 * @return {@link List} of weapons({@link Weapon}) present in the environment.
 	 */
 	Optional<List<Weapon>> getWeapons();
+
+	/**
+	 *
+	 * @return {@link List} of coins ({@link Coin}) present in the environment.
+	 */
+	//Optional<List<Coin>> getCoins();
 	
 	/**
 	 * 
@@ -132,6 +137,13 @@ public interface Environment {
 	boolean addBullet(Bullet bullet);
 
 	/**
+	 *
+	 * @param coin is the {@link Coin} to be added.
+	 * @return boolean representing the success of the operation.
+	 */
+	//boolean addCoin(Coin coin);
+
+	/**
 	 * @param position of the object to be deleted.
 	 * 
 	 * The {@link PhysicalObject} to be deleted is first searched and then removed.
@@ -178,12 +190,4 @@ public interface Environment {
 		}
 	}
 
-	//boolean deleteObject(PhysicalObject obj);
-	
-	/**
-	 *
-	 * @param coin is the {@link Coin} to be added.
-	 * @return boolean representing the success of the operation.
-	 */
-	boolean addCoin(Coin coin);
 }

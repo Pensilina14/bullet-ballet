@@ -8,7 +8,6 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
@@ -48,7 +47,7 @@ public class GameEnvironment implements Environment {
     private final Optional<List<Platform>> platforms;
     private final Optional<List<Weapon>> weapons;
     private final Optional<List<Bullet>> bullets;
-	private final Optional<List<Coin>> coins;
+	//private final Optional<List<Coin>> coins;
     private Optional<GameEventListener> eventListener;
 	
 	/**
@@ -68,7 +67,7 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.bullets = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -88,7 +87,7 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.bullets = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.empty();
 	}
 	
@@ -113,7 +112,7 @@ public class GameEnvironment implements Environment {
 		this.platforms = Optional.of(new ArrayList<>());
 		this.weapons = Optional.of(new ArrayList<>());
 		this.bullets = Optional.of(new ArrayList<>());
-		this.coins = Optional.of(new ArrayList<>());
+		//this.coins = Optional.of(new ArrayList<>());
 		this.eventListener = Optional.of(l);
 	}
 	
@@ -185,7 +184,14 @@ public class GameEnvironment implements Environment {
 		return Optional.empty(); 
 	}
 	
-    @Override
+	/*
+	@Override
+	public Optional<List<Coin>> getCoins() {
+		return this.coins.map(List::copyOf);
+	}
+	*/
+
+	@Override
 	public final void setPlayer(final Player player) {
 		this.player = Optional.ofNullable(player);
 	}
@@ -371,16 +377,17 @@ public class GameEnvironment implements Environment {
 		this.bullets.get().stream().forEach(i -> i.updateState());
 		//this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
-		//this.weapons.get().stream().forEach(i -> i.updateState());
-		this.coins.get().stream().forEach( i -> i.updateState());
+		//this.coins.get().stream().forEach(PhysicalObject::updateState);
 		this.checkCollisions();
 	}
+	
 	
 	@Override
 	public final void setEventListener(final GameEventListener listener) {
 		this.eventListener = Optional.ofNullable(listener);
 	}
-
+	
+	/*
 	@Override
 	public final boolean addCoin(final Coin coin) {
 		if (this.coins.get().contains(coin)) {
@@ -390,7 +397,7 @@ public class GameEnvironment implements Environment {
 			return true;
 		}
 	}
-
+	*/
 
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
@@ -415,9 +422,11 @@ public class GameEnvironment implements Environment {
 		if (this.bullets.isPresent()) {
 			mergedList.get().addAll(this.bullets.get());
 		}
+		//this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
 		return mergedList;
 	}
-	
+
+	//TODO: collision for the coins
 	private void checkCollisions() {
 		final Map<String, EventChecker> eventCheckers = Map.of(
 				"playeritem", new CollisionEventChecker(this.items.get(), List.of(this.player.get())), 
