@@ -27,7 +27,6 @@ public final class Save {
     public static final String PLAYER_STRING = "Player"; //TODO: rename it better
     public static final String SCORE_STRING = "Score"; //TODO: rename it better
 
-    public static final String RESOLUTION_STRING = "Resolution";
     public static final String RESOLUTION_WIDTH_STRING = "Width";
     public static final String RESOLUTION_HEIGHT_STRING = "Height";
     public static final String DIFFICULTY_STRING = "Difficulty";
