@@ -442,23 +442,29 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void deleteBulletSpriteImage(final MutablePosition2D position) {
-		/*final BulletSprite bullet = this.bulletSprites.entrySet()
+		final BulletSprite bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
-				.map(Map.Entry::getKey)
+				.map(x -> x.getKey())
 				.findFirst().get();
-		this.bulletSprites.remove(bullet);*/
+		this.gamePane.getChildren().remove(bullet);
+		/*this.bulletSprites.remove(bullet);
 		this.bulletSprites.forEach((x, y) -> {
 			AppLogger.getAppLogger().debug("Bullet pos view: " + y.toString());
 			if(y.equals(position)) {
 				this.gamePane.getChildren().remove(x);
 			}
-		});
+		});*/
 	}
 
 	@Override
-	public void deleteWeaponSpriteImage() {
-		this.gamePane.getChildren().remove(this.mainWeapon.get().getLeft().get());
+	public void deleteWeaponSpriteImage(final MutablePosition2D position) {
+		final WeaponSprite weapon = this.weaponSprites.entrySet()
+				.stream()
+				.filter(entry -> position.equals(entry.getValue()))
+				.map(x -> x.getKey())
+				.findFirst().get();
+		this.gamePane.getChildren().remove(weapon);
 		this.mainWeapon = Optional.empty();
 	}
 

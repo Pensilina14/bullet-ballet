@@ -24,6 +24,6 @@ public interface GameView {
 	Pane getUiPane();
 	void deleteEnemySpriteImage(final MutablePosition2D position);
 	void deleteBulletSpriteImage(final MutablePosition2D position);
-	void deleteWeaponSpriteImage();
+	void deleteWeaponSpriteImage(final MutablePosition2D position);
 	void generateBullet(MutablePosition2D pos) throws IOException;
 }
