@@ -206,30 +206,30 @@ public class GameEngine implements Controller, GameEventListener {
 		final Player player = ((PlayerHitsWeaponEvent) e).getPlayer();
 		// Set Weapon to Player
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
-		if (player.hasWeapon()) {
-			final Weapon actualWeapon = player.getWeapon();
-			if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon()) && !weapon.equals(actualWeapon)) {
-				player.getWeapon().recharge();
-				AppLogger.getAppLogger().debug("Delete weapon");
-				env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX()
-						, weapon.getPosition().get().getY()));			
+		if(!weapon.isOn()) {
+			if (player.hasWeapon()) {
+				final Weapon actualWeapon = player.getWeapon();
+				if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
+					player.getWeapon().recharge();
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX()
+							, weapon.getPosition().get().getY()));			
+				} else {
+					
+					player.getWeapon().setOff();
+					player.removeWeapon();
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
+							, actualWeapon.getPosition().get().getY()));				
+					this.view.get().deleteWeaponSpriteImage(actualWeapon.getPosition().get());
+					AppLogger.getAppLogger().debug("Delete weapon");
+					weapon.setOn();
+					player.setWeapon(weapon);
+				}
 			} else {
-				player.getWeapon().setOff();
-				player.removeWeapon();
-				env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
-						, actualWeapon.getPosition().get().getY()));				
-				//this.view.get().deleteWeaponSpriteImage();
 				weapon.setOn();
 				player.setWeapon(weapon);
 			}
-			//this.view.get().getGamePane().getChildren().remove(this.view.get().getMainWeapon());
-
-		} else {
-			weapon.setOn();
-			player.setWeapon(weapon);
+			AppLogger.getAppLogger().info("player hits weapon");
 		}
-		//weapon.setPosition(player.getPosition().get());
-		AppLogger.getAppLogger().info("player hits weapon");
 	}
 	
 	private void bulletHitsEnemyEventHandler(final Environment env, final GameEvent e) {
@@ -239,12 +239,13 @@ public class GameEngine implements Controller, GameEventListener {
 			.applyEffect(enemy);
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
-		this.view.get().deleteBulletSpriteImage(bulletPos);
+		//this.view.get().deleteBulletSpriteImage(bulletPos);
 		if(!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
 			this.view.get().deleteEnemySpriteImage(bulletPos);
 		}
+		AppLogger.getAppLogger().info("Bullet hits enemy");
 	}
 	
 	public void start() {

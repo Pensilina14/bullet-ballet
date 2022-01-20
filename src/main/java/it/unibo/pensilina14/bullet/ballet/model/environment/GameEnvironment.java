@@ -4,6 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
@@ -344,10 +345,7 @@ public class GameEnvironment implements Environment {
 			} else {
 				this.player.get().resetLanding();
 			}
-			this.player.get().updateState(); 
-			if (this.player.get().hasWeapon()) {
-				this.player.get().getWeapon().setPosition(this.player.get().getPosition().get());
-			}
+			this.player.get().updateState();
 			this.player.get().getCurrentScore().increase();
 		}
 		this.enemies.get().stream().forEach(e -> {
@@ -365,9 +363,11 @@ public class GameEnvironment implements Environment {
 			if(!i.isOn()) {
 				i.updateState();
 			} else {
-				i.setPosition(this.player.get().getPosition().get());
+				final MutablePosition2D pos = this.player.get().getPosition().get();
+				i.setPosition(new MutablePosition2Dimpl(pos.getX()+15, pos.getY()+7));
 			}
 		});
+		
 		this.bullets.get().stream().forEach(i -> i.updateState());
 		//this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
