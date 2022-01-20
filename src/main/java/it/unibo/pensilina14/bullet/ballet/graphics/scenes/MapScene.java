@@ -467,6 +467,16 @@ public class MapScene extends AbstractScene implements GameView{
 			}
 		});*/
 	}
+	
+	@Override
+	public void deleteItemSprite(final MutablePosition2D position) {
+		final PhysicalObjectSprite item = this.itemSprites.entrySet()
+				.stream()
+				.filter(entry -> position.equals(entry.getValue()))
+				.map(x -> x.getKey())
+				.findFirst().get();
+		this.getGamePane().getChildren().remove(item);
+	}
 
 	@Override
 	public void deleteWeaponSpriteImage(final MutablePosition2D position) {

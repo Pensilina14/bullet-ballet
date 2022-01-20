@@ -214,6 +214,7 @@ public class GameEngine implements Controller, GameEventListener {
 		// Update environment
 		final MutablePosition2D pickupPos = ((PlayerHitsItemEvent) e).getItem().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(pickupPos.getX(), pickupPos.getY()));
+		this.viewController.get().getGameView().deleteItemSprite(pickupPos);
 		if (!player.isAlive()) {
 			//TODO DELETE SPRITE
 		}
@@ -229,7 +230,8 @@ public class GameEngine implements Controller, GameEventListener {
 				if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
 					player.getWeapon().recharge();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX()
-							, weapon.getPosition().get().getY()));			
+							, weapon.getPosition().get().getY()));	
+					this.viewController.get().getGameView().deleteWeaponSpriteImage(weapon.getPosition().get());
 				} else {
 					
 					player.getWeapon().setOff();
@@ -256,7 +258,7 @@ public class GameEngine implements Controller, GameEventListener {
 			.applyEffect(enemy);
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
-		//this.view.get().deleteBulletSpriteImage(bulletPos);
+		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
 		if(!enemy.isAlive()) {
 			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
 					, enemy.getPosition().get().getY()));
