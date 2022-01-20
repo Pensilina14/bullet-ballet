@@ -20,9 +20,9 @@ public class PageLoaderImpl implements PageLoader{
     private static final String LANGUAGES_PATH = "languages.bulletBallet";
     private static final String DEFAULT_LANGUAGE = "en_UK";
 
-    private final String language = (!Save.loadSettings().isEmpty()) ? Save.loadSettings().get(Save.DIFFICULTY_STRING) : PageLoaderImpl.DEFAULT_LANGUAGE; //TODO: al posto di Save.DIFFICULTY mettere language
+    private final String language = (!Save.loadSettings().isEmpty()) ? Save.loadSettings().get(Save.LANGUAGE_STRING) : PageLoaderImpl.DEFAULT_LANGUAGE;
 
-    private final Locale locale = new Locale("it_IT"); //TODO: qui devo mettere language nel parametro
+    private final Locale locale = new Locale(this.language);
     private final ResourceBundle bundle = ResourceBundle.getBundle(PageLoaderImpl.LANGUAGES_PATH, locale);
 
     @Override
