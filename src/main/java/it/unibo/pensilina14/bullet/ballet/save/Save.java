@@ -31,6 +31,7 @@ public final class Save {
     public static final String RESOLUTION_HEIGHT_STRING = "Height";
     public static final String DIFFICULTY_STRING = "Difficulty";
     public static final String AUDIO_STRING = "Audio";
+    public static final String LANGUAGE_STRING = "Language";
 
     /**
      * private constructor because I don't want the class to be instantiated.
@@ -286,9 +287,10 @@ public final class Save {
      * @param resHeight : the resolution's height of the game.
      * @param difficulty : the difficulty of the game.
      * @param audioVolume : the in-game audio volume.
+     * @param language  : the language
      * @return : a boolean whether the file has been saved successfully or not.
      */
-    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume){
+    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume, final String language){
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = new JSONObject();
 
@@ -300,6 +302,7 @@ public final class Save {
                 jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.put(Save.AUDIO_STRING, audioVolume);
+                jsonObject.put(Save.LANGUAGE_STRING, language);
 
                 byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
@@ -318,6 +321,7 @@ public final class Save {
                 jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.replace(Save.AUDIO_STRING, audioVolume);
+                jsonObject.replace(Save.LANGUAGE_STRING, language);
 
                 byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
@@ -358,10 +362,13 @@ public final class Save {
 
                 String audio = jsonObject.get(Save.AUDIO_STRING).toString();
 
+                String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
+
                 map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
                 map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 map.put(Save.DIFFICULTY_STRING, difficulty);
                 map.put(Save.AUDIO_STRING, audio);
+                map.put(Save.LANGUAGE_STRING, language);
 
             }
 
