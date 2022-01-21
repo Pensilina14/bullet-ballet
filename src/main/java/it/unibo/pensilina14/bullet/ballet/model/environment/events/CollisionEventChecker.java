@@ -1,21 +1,18 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 
 import java.util.List;
+import java.util.Optional;
 
-import it.unibo.pensilina14.bullet.ballet.model.characters.Characters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.Collision;
-import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionImpl;
+import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 public class CollisionEventChecker implements EventChecker {
@@ -23,13 +20,11 @@ public class CollisionEventChecker implements EventChecker {
 	private final EventBuffer eventBuffer;
 	private final List<? extends PhysicalObject> objects;
 	private final List<? extends PhysicalObject> otherObjects;
-	private final Collision collisionChecker;
 	
 	public CollisionEventChecker(final List<? extends PhysicalObject> objs, final List<? extends PhysicalObject> otherObjs) {
 		this.eventBuffer = new CollisionEventBuffer();
 		this.objects = objs;
 		this.otherObjects = otherObjs;
-		this.collisionChecker = new CollisionImpl();
 	}
 	
 	@Override
@@ -42,7 +37,7 @@ public class CollisionEventChecker implements EventChecker {
 
 	private void checkAllObjects(final boolean isSingleElemList, final PhysicalObject a) {
 		for (final PhysicalObject b : this.otherObjects) {
-			if (this.collisionChecker.areColliding(a, b)) {
+			if (Collision.areColliding(a, b)) {
 				checkPlayerAndItem(a, b);
 				checkPlayerAndEnemy(a, b);
 				checkPlayerAndObstacle(a, b);
@@ -102,7 +97,8 @@ public class CollisionEventChecker implements EventChecker {
 		if (a instanceof Platform && b instanceof Player) {
 			final Player player = (Player) b;
 			final Platform platform = (Platform) a;
-			this.eventBuffer.addEvent(new PlayerHitsPlatformEvent(player, platform));
+			final Optional<CollisionSides> side = Collision.getCollisionSide(b, a);
+			this.eventBuffer.addEvent(new PlayerHitsPlatformEvent(player, platform, side.get()));
 		}
 	}
 	

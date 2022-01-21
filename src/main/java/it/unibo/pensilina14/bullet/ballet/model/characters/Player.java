@@ -24,7 +24,7 @@ public class Player extends GameEntity implements Characters{
     private Optional<Weapon> weapon;
     
     private boolean landed;
-
+    private boolean blockedX;
 
     private EntityList.Characters.Player playerType;
 
@@ -202,7 +202,11 @@ public class Player extends GameEntity implements Characters{
     */
     @Override
     public void updateState() {
-    	this.moveRight(0);
+    	if (!this.blockedX) {
+    		this.moveRight(0);
+    	} else {
+    		this.moveLeft(1);
+    	}
     	if (!this.isAlive()) {
     		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
@@ -226,4 +230,16 @@ public class Player extends GameEntity implements Characters{
     public ScoreSystem getCurrentScore() {
     	return this.currentScore;
     }
-}
+    
+    public void blockX() {
+    	this.blockedX = true;
+    }
+    
+    public void unblockX() {
+    	this.blockedX = false;
+    }
+    
+    public boolean hasBlockedX() {
+    	return this.blockedX;
+    }
+} 
