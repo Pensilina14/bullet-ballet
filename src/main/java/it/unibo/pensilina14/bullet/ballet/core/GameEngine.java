@@ -21,6 +21,7 @@ import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
@@ -179,8 +180,20 @@ public class GameEngine implements Controller, GameEventListener {
 	private void playerHitsPlatformEventHandler(final Environment env, final GameEvent e) {
 		final Player player = ((PlayerHitsPlatformEvent) e).getPlayer();
 		final Platform platform = ((PlayerHitsPlatformEvent) e).getPlatform();
-		player.land();
-		player.moveUp(env.getGravity());
+		final CollisionSides side = ((PlayerHitsPlatformEvent) e).getCollisionSide();
+		if (side == CollisionSides.WEST) {
+			player.blockX();
+		} /*else if (side == CollisionSides.SOUTH) {
+			player.moveDown(env.getGravity());
+		} else if (side == CollisionSides.EAST) {
+			player.moveRight(1);
+		}*/ else {
+			if (player.hasBlockedX()) {
+				player.unblockX();
+			}
+			player.land();
+			player.moveUp(env.getGravity());
+		}
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
