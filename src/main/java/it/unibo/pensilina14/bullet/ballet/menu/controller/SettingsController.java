@@ -63,8 +63,6 @@ public class SettingsController implements Initializable {
         final ObservableList<String> resolutions = FXCollections.observableArrayList(Resolutions.FULLHD.toString(),
                 Resolutions.HD.toString());
         this.resolution.setItems(resolutions);
-        System.out.println(this.resolution.getSelectionModel());
-        
     }
 
     @FXML
@@ -75,7 +73,6 @@ public class SettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
-
         // Faccio un parsing molto semplice perch√® mi serve salvare solo la width e la height e non tutta la stringa.
         final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
         //Il 4 Ë un numero magico, va sostituito con una costante o enum

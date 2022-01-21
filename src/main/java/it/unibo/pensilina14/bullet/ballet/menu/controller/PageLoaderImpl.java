@@ -67,7 +67,7 @@ public class PageLoaderImpl implements PageLoader{
     }
     
     private String composeLanguageString(final Languages language) {
-    	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode().toString();
+    	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode();
     }
 
 	
