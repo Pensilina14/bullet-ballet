@@ -288,8 +288,7 @@ public class GameEngine implements Controller, GameEventListener {
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
 		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
-		this.viewController.get().getGameView().deleteEnemySpriteImage(bulletPos);
-		AppLogger.getAppLogger().info("Bullet hits enemy");
+		AppLogger.getAppLogger().info("Bullet hits platform");
 	}
 	
 	public void start() {

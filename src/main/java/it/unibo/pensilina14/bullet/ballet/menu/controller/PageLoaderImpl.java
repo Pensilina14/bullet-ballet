@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
@@ -18,7 +19,7 @@ public class PageLoaderImpl implements PageLoader{
 
     @Override
 	public void goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException {
-    	final Parent root = FXMLLoader.load(getClass().getResource(frame.toString()), getLanguage(language));
+    	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(language));
         final Scene scene = new Scene(root);
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
@@ -27,7 +28,7 @@ public class PageLoaderImpl implements PageLoader{
     
     @Override
     public void goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException {
-        final Parent root = FXMLLoader.load(getClass().getResource(frame.toString()), getLanguage(Languages.ENGLISH));
+        final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
         final Scene scene = new Scene(root);
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
@@ -36,7 +37,7 @@ public class PageLoaderImpl implements PageLoader{
     
     @Override
     public void goToSelectedPageOnInput(final Frames frame) throws IOException { 
-    	final Parent root = FXMLLoader.load(getClass().getResource(frame.toString()), getLanguage(Languages.ENGLISH));
+    	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
     	final Scene scene = new Scene(root);
     	final Stage window = new Stage();
     	window.setScene(scene);
@@ -45,7 +46,7 @@ public class PageLoaderImpl implements PageLoader{
     
     @Override
 	public void loadFirstScene(final Stage primaryStage, final Languages language) throws IOException {
-    	final Parent root = FXMLLoader.load(getClass().getResource(Frames.HOMEPAGE.toString()), getLanguage(language));
+    	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Frames.HOMEPAGE.toString())), getLanguage(language));
         final Scene scene = new Scene(root);
         primaryStage.setTitle("bullet-ballet");
         primaryStage.setScene(scene);
@@ -54,7 +55,7 @@ public class PageLoaderImpl implements PageLoader{
     
     @Override
     public void loadFirstScene (final Stage primaryStage) throws IOException{
-        final Parent root = FXMLLoader.load(getClass().getResource(Frames.HOMEPAGE.toString()), getLanguage(Languages.ENGLISH));
+        final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Frames.HOMEPAGE.toString())), getLanguage(Languages.ENGLISH));
         final Scene scene = new Scene(root);
         primaryStage.setTitle("bullet-ballet");
         primaryStage.setScene(scene);
