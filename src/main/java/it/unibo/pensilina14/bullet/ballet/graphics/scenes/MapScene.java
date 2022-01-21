@@ -464,21 +464,12 @@ public class MapScene extends AbstractScene implements GameView{
 		*/
 		final List<BulletSprite> bullet = this.bulletSprites.entrySet()
 				.stream()
-				.filter(e -> position.equals(e.getValue()))
+				.filter(e -> position.equals(e.getKey().getPosition()))
 				.map(x -> x.getKey())
 				.distinct()
 				.collect(Collectors.toList());
 		this.bulletSprites.keySet().removeAll(bullet);
 		this.gamePane.getChildren().removeAll(bullet);
-		//this.bulletSprites.remove(bullet);
-		/*
-		this.bulletSprites.forEach((x, y) -> {
-			AppLogger.getAppLogger().debug("Bullet pos view: " + y.toString());
-			if(y.equals(position)) {
-				this.gamePane.getChildren().remove(x);
-			}
-		});
-		*/
 	}
 	
 	@Override
