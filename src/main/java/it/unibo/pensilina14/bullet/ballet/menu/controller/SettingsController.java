@@ -27,6 +27,9 @@ public class SettingsController implements Initializable {
     private ComboBox<String> language;
     private final PageLoader loader = new PageLoaderImpl();
 
+    private static final int WIDTH_INDEX = 1;
+    private static final int HEIGHT_INDEX = 4;
+
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) { // Questo serve semplicemente per caricare le impostazioni
 
@@ -37,12 +40,7 @@ public class SettingsController implements Initializable {
             this.resolution.getSelectionModel().select(res);
             this.difficulty.getSelectionModel().select(settingsMap.get(Save.DIFFICULTY_STRING));
             this.audio.setValue(Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)));
-            final String loadLanguage = settingsMap.get(Save.LANGUAGE_STRING);
-            if(Objects.equals(loadLanguage, "en_UK")){
-                this.language.getSelectionModel().select(Languages.ENGLISH.getLanguage());
-            } else if(Objects.equals(loadLanguage, "it_IT")){
-                this.language.getSelectionModel().select(Languages.ITALIANO.getLanguage());
-            }
+            this.language.getSelectionModel().select(Languages.getLanguagesMap().get(settingsMap.get(Save.LANGUAGE_STRING)));
         }
     }
     
@@ -78,8 +76,7 @@ public class SettingsController implements Initializable {
 
         // Faccio un parsing molto semplice perch√® mi serve salvare solo la width e la height e non tutta la stringa.
         final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
-        //Il 4 Ë un numero magico, va sostituito con una costante o enum
-        final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(1)), Integer.parseInt(resList.get(4)),
+        final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
                 this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
                 Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning
         if(hasSaved){
