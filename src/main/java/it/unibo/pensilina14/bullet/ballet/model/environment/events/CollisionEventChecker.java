@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
@@ -44,6 +45,7 @@ public class CollisionEventChecker implements EventChecker {
 				checkBulletAndEnemy(a, b);
 				checkPlayerAndPlatform(a, b);
 				checkEnemyAndPlatform(a, b);
+				checkBulletAndPlatform(a, b);
 			}
 			if (isSingleElemList) {
 				break;
@@ -107,6 +109,14 @@ public class CollisionEventChecker implements EventChecker {
 			this.eventBuffer.addEvent(new EnemyHitsPlatformEvent(enemy, platform));
 		}
 	}
+	
+	private void checkBulletAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		if (a instanceof Platform && b instanceof Bullet) {
+			final Platform platform = (Platform) a;
+			final Bullet bullet = (Bullet) b;
+			this.eventBuffer.addEvent(new BulletHitsPlatformEvent(bullet, platform));
+		}
+	}	
 	
 	@Override
 	public final EventBuffer getBuffer() {
