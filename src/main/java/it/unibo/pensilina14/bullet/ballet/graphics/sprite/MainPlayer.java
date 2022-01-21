@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ public class MainPlayer extends Pane {
         this.playerView.setViewport(new Rectangle2D(offsetX, offsetY, playerViewWidth, playerViewHeight));
 
         this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), count, columns, offsetX, offsetY, playerViewWidth, playerViewHeight);
-
+        
         renderPosition(x, y);
 
         getChildren().addAll(this.playerView);
@@ -72,7 +73,7 @@ public class MainPlayer extends Pane {
         this.playerView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight));
 
         this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
-
+        
         renderPosition(x, y);
 
         getChildren().addAll(this.playerView);
@@ -86,6 +87,6 @@ public class MainPlayer extends Pane {
     }
 
     public final SpriteAnimation getSpriteAnimation() {
-        return animation;
+        return this.animation;
     }
 }

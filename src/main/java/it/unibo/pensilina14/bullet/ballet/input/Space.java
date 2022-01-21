@@ -6,6 +6,7 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
@@ -22,12 +23,13 @@ public class Space implements Command {
 		if (env.getGameEnvironment().getPlayer().get().hasWeapon()) {
 			final Weapon weapon = env.getGameEnvironment().getPlayer().get().getWeapon();
     		if(env.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
-    			env.getGameEnvironment().addBullet(new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment()
+    			final Bullet bullet = new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment()
     					, new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX()
-    							, weapon.getPosition().get().getY()), 1.0)));
+    							, weapon.getPosition().get().getY()), 1.0));
+    			env.getGameEnvironment().addBullet(bullet);
     			weapon.decreaseAmmo();
     			try {
-					this.mapScene.generateBullet(weapon.getPosition().get());
+					this.mapScene.generateBullet(bullet.getPosition().get());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
