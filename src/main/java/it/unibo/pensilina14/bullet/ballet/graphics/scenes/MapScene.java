@@ -454,14 +454,14 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void deleteBulletSpriteImage(final MutablePosition2D position) {
-		/*
+		
 		final BulletSprite bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
 				.map(x -> x.getKey())
 				.findFirst().get();
 		this.gamePane.getChildren().remove(bullet);
-		*/
+		/*
 		final List<BulletSprite> bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(e -> position.equals(e.getKey().getPosition()))
@@ -470,6 +470,7 @@ public class MapScene extends AbstractScene implements GameView{
 				.collect(Collectors.toList());
 		this.bulletSprites.keySet().removeAll(bullet);
 		this.gamePane.getChildren().removeAll(bullet);
+		*/
 	}
 	
 	@Override
