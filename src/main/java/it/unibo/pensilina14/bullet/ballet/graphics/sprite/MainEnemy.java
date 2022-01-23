@@ -30,7 +30,6 @@ public class MainEnemy extends Pane {
 
         this.enemyImage = new Image(Files.newInputStream(Paths.get("res/assets/sprites/characters/enemies/enemy_idle.png")));
         this.enemyView = new ImageView(this.enemyImage);
-        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
@@ -41,27 +40,16 @@ public class MainEnemy extends Pane {
 
         this.enemyView.setViewport(new Rectangle2D(offsetX, offsetY, enemyViewWidth, enemyViewHeight));
 
+        this.renderPosition(x, y);
+
         this.getChildren().add(this.enemyView);
         //MapScene.gamePane.getChildren().add(this);
     }
     
-    public void renderPosition(final double x, final double y) {
-    	this.setTranslateX(x);
-    	this.setTranslateY(y);
-    	this.position = new MutablePosition2Dimpl(x, y);
-    }
-    
-    public final void renderMovingPosition() {
-    	final double netx = this.position.getX() - 1.0;
-    	this.position.setPosition(netx, this.position.getY());
-    	this.setTranslateX(this.position.getX());
-    }
-
-    public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY
-    		, final int enemyViewWidth, final int enemyViewHeight){
+    public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY, 
+    		final int enemyViewWidth, final int enemyViewHeight) {
         this.enemyImage = enemyImage;
         this.enemyView = new ImageView(this.enemyImage);
-        this.renderPosition(x, y);
         this.enemyView.setFitWidth(MainEnemy.ENEMY_SIZE);
         this.enemyView.setFitHeight(MainEnemy.ENEMY_SIZE);
 
@@ -71,8 +59,20 @@ public class MainEnemy extends Pane {
         this.enemyViewHeight = enemyViewHeight;
 
         this.enemyView.setViewport(new Rectangle2D(this.offsetX, this.offsetY, this.enemyViewWidth, this.enemyViewHeight));
+        this.renderPosition(x, y);
 
         getChildren().addAll(this.enemyView);
     }
-
+    
+    public void renderPosition(final double x, final double y) {
+    	this.enemyView.setTranslateX(x);
+    	this.enemyView.setTranslateY(y);
+    	this.position = new MutablePosition2Dimpl(x, y);
+    }
+    
+    public final void renderMovingPosition() {
+    	final double netx = this.position.getX() - 1.0;
+    	this.position.setPosition(netx, this.position.getY());
+    	this.enemyView.setTranslateX(this.position.getX());
+    }
 }

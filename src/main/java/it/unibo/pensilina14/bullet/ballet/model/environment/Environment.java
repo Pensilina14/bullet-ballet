@@ -11,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -67,6 +68,18 @@ public interface Environment {
 	 * @return {@link List} of weapons({@link Weapon}) present in the environment.
 	 */
 	Optional<List<Weapon>> getWeapons();
+
+	/**
+	 *
+	 * @return {@link List} of coins ({@link Coin}) present in the environment.
+	 */
+	//Optional<List<Coin>> getCoins();
+	
+	/**
+	 * 
+	 * @return {@link List} of bullets({@link Bullet}) present in the environment.
+	 */
+	Optional<List<Bullet>> getBullets();
 	
 	/**
 	 * Sets the player.
@@ -114,6 +127,21 @@ public interface Environment {
 	 * Unsuccess is guaranteed if weapon is already present.
 	 */
 	boolean addWeapon(Weapon weapon);
+	
+	/**
+	 * @param bullet is the {@link Bullet} to be added.
+	 * 
+	 * @return boolean representing the success of the operation.
+	 * Unsuccess is guaranteed if bullet is already present.
+	 */
+	boolean addBullet(Bullet bullet);
+
+	/**
+	 *
+	 * @param coin is the {@link Coin} to be added.
+	 * @return boolean representing the success of the operation.
+	 */
+	//boolean addCoin(Coin coin);
 
 	/**
 	 * @param position of the object to be deleted.
@@ -147,6 +175,7 @@ public interface Environment {
 	 * EARTH and MOON's provided.
 	 */
 	enum GravityConstants {
+		TEST(1.0),
 		EARTH(9.81),
 		MOON(6.673);
 		
@@ -160,4 +189,5 @@ public interface Environment {
 			return this.value;
 		}
 	}
+
 }

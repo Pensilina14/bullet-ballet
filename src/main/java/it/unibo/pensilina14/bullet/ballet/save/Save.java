@@ -15,19 +15,23 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
-public final class Save { //TODO: rename in Data?
+public final class Save {
 
-    private static final String SAVE_PATH = "data/saves/save_file.dat"; //TODO: aggiungere paths
-    private static final String LEVEL_PATH = "data/levels/"; //TODO: data/levels/
-    //private static final String ENCRYPTED_LEVEL_PATH = "data/levels/"; //TODO: aggiungere path, remove
-    private static final String SETTINGS_PATH = "data/settings/"; //TODO: data/settings/...
-    private static final String ENCRYPTED_SETTINGS_PATH = ""; //TODO: aggiungere path
+    public static final String SAVE_PATH = "data/saves/save_file.dat";
+    private static final String LEVEL_PATH = "data/levels/";
+    public static final String SETTINGS_PATH = "data/settings/settings.dat";
 
     private static final String OLD_FILE_EXTENSION = ".txt";
     private static final String ENCRYPTED_FILES_EXTENSION = ".dat";
 
-    private static final String PLAYER_STRING = "Player"; //TODO: rename it better
-    private static final String SCORE_STRING = "Score"; //TODO: rename it better
+    public static final String PLAYER_STRING = "Player"; //TODO: rename it better
+    public static final String SCORE_STRING = "Score"; //TODO: rename it better
+
+    public static final String RESOLUTION_WIDTH_STRING = "Width";
+    public static final String RESOLUTION_HEIGHT_STRING = "Height";
+    public static final String DIFFICULTY_STRING = "Difficulty";
+    public static final String AUDIO_STRING = "Audio";
+    public static final String LANGUAGE_STRING = "Language";
 
     /**
      * private constructor because I don't want the class to be instantiated.
@@ -42,7 +46,7 @@ public final class Save { //TODO: rename in Data?
      * If the files didn't exist it will be created.
      * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
-    public static void saveData(final String playerName, final int playerScore){
+    public static void saveGameStatistics(final String playerName, final int playerScore){ //TODO: opzionale : salvare il tempo.
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
@@ -94,8 +98,8 @@ public final class Save { //TODO: rename in Data?
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
      */
-    public static LinkedHashMap<String, Integer> loadSaveFile(){  //TODO: rename in loadData oppure semplicemente load oppure loadSaveFile
-        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+    public static LinkedHashMap<String, String> loadGameStatistics(){
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
 
@@ -120,7 +124,7 @@ public final class Save { //TODO: rename in Data?
                 String score = (String)player.get(Save.SCORE_STRING);
                 System.out.println("score: " + score);
 
-                map.put(name, Integer.valueOf(score));
+                map.put(name, String.valueOf(score));
 
             }
 
@@ -132,42 +136,62 @@ public final class Save { //TODO: rename in Data?
     }
 
     /**
-     * It will delete all the data stored in the save_file.txt, but it will keep the file.
+     *
+     * @param oldPlayer : the name of the player that you want to update
+     * @param oldScore : the score of the player that you want to update
+     * @param newPlayer : the new name of the player
+     * @param newScore : the new score of the player
+     * @return : a boolean whether the operation has been executed successfully
      */
-    public static void resetSaveFile(){
+    public static boolean updateGameStatistics(final String oldPlayer, final int oldScore, final String newPlayer, final int newScore) {
+        final JSONParser jsonParser = new JSONParser();
+        JSONArray jsonArray;
+
+        final File file = new File(Save.SAVE_PATH);
 
         try {
+            final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+            final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
 
-            FileWriter fileWriter = new FileWriter(Save.SAVE_PATH, false); // mettendo false ricrea il file, cancellando quello che c'era prima.
-            fileWriter.close();
+            Object obj = jsonParser.parse(clearGameStatistics);
+            jsonArray = (JSONArray) obj;
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+            for(Object o : jsonArray){
 
-    //TODO: saveLevel not ready.
-    /*public static void saveLevel(ArrayList<String> newLevel, int levelNumber){ //TODO: modify and test it.
-        try {
-            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + ".txt");
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                JSONObject player = (JSONObject) o;
 
-            for(String s : newLevel){
-                bufferedWriter.write(String.valueOf(s));
-                bufferedWriter.newLine();
+                player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
+                player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
             }
 
-            bufferedWriter.flush();
+            System.out.println("jsonArray: " + jsonArray); //TODO: remove
 
-            fileWriter.close();
-            bufferedWriter.close();
+            byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(encryptedStatistics);
+
+            stream.close();
 
         } catch(Exception e){
             e.printStackTrace();
+            return false;
         }
-    }*/
 
-    //TODO: add javadoc
+        return true;
+    }
+
+    /**
+     * It encrypts the .txt level files into .dat files and remove the old .txt
+     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+     * @throws NoSuchPaddingException: padding not available.
+     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+     * @throws NoSuchAlgorithmException: algorithm doesn't exist.
+     * @throws InvalidKeySpecException: invalid key specifications.
+     * @throws BadPaddingException: input data not properly padded.
+     * @throws IOException: fail or interrupted I/O operations.
+     * @throws InvalidKeyException: invalid key.
+     */
     public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
         int numberOfLevels = getNumberOfLevels(Save.OLD_FILE_EXTENSION);
 
@@ -210,7 +234,19 @@ public final class Save { //TODO: rename in Data?
         return level;
     }
 
-    //TODO: add javadoc
+    /**
+     *
+     * @param levelNumber : the number of the level that you want to load
+     * @return a String[] of the level
+     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+     * @throws NoSuchPaddingException: padding not available.
+     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+     * @throws NoSuchAlgorithmException: algorithm doesn't exist.
+     * @throws InvalidKeySpecException: invalid key specifications.
+     * @throws BadPaddingException: input data not properly padded.
+     * @throws IOException: fail or interrupted I/O operations.
+     * @throws InvalidKeyException: invalid key.
+     */
     public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
         String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Save.ENCRYPTED_FILES_EXTENSION;
         byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
@@ -237,12 +273,9 @@ public final class Save { //TODO: rename in Data?
 
     /**
      *
-     * @return int: the number of files in the directory "levels/", so all the levels stored.
+     * @param extension : the extension of the level files.
+     * @return : an int with the number of the levels present in the levels' directory.
      */
-    public static int getNumberOfLevels(){ //TODO: remove
-        return Objects.requireNonNull(new File(Save.LEVEL_PATH).listFiles()).length;
-    }
-
     public static int getNumberOfLevels(String extension){
         File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
@@ -250,44 +283,109 @@ public final class Save { //TODO: rename in Data?
 
     /**
      *
-     * @param oldPlayer: the name of the Player that we want to find and replace.
-     * @param oldScore: the score of the player that we want to find and replace.
-     * @param newPlayer: the name with which we want to replace it.
-     * @param newScore: the score with which we want to replace it.
+     * @param resWidth : the resolution's width of the game.
+     * @param resHeight : the resolution's height of the game.
+     * @param difficulty : the difficulty of the game.
+     * @param audioVolume : the in-game audio volume.
+     * @param language  : the language
+     * @return : a boolean whether the file has been saved successfully or not.
      */
-    public static void modifySaveFile(String oldPlayer, int oldScore, String newPlayer, int newScore){ //TODO: rename it in playerToSearch ?, modify it to use it with JSON.
+    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume, final String language){
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = new JSONObject();
+
+        File file = new File(Save.SETTINGS_PATH);
+
         try {
-            File saveFile = new File("save_file.txt");
-            FileReader fileReader = new FileReader(saveFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            if(file.length() == 0){
+                jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+                jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
+                jsonObject.put(Save.AUDIO_STRING, audioVolume);
+                jsonObject.put(Save.LANGUAGE_STRING, language);
 
-            String line;
-            ArrayList<String> modifiedDataList = new ArrayList<>();
+                byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
-            while((line = bufferedReader.readLine()) != null && line.length() != 0){
-                if(line.contains(oldPlayer)){
-                    line = line.replace(oldPlayer, newPlayer);
-                }
-                if(line.contains(String.valueOf(oldScore))){
-                    line = line.replace(String.valueOf(oldScore), String.valueOf(newScore));
-                }
-                modifiedDataList.add(line);
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(encryptedSettings);
+
+                fileOutputStream.close();
+            } else {
+                byte[] decryptedSettings = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+                String decryptedSettingsString = new String(decryptedSettings, StandardCharsets.UTF_8);
+                Object obj = jsonParser.parse(decryptedSettingsString);
+
+                jsonObject = (JSONObject) obj;
+
+                jsonObject.replace(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+                jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
+                jsonObject.replace(Save.AUDIO_STRING, audioVolume);
+                jsonObject.replace(Save.LANGUAGE_STRING, language);
+
+                byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(encryptedMessage);
+
+                fileOutputStream.close();
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @return an HashMap<String, String> with the settings' data.
+     */
+    public static HashMap<String, String> loadSettings(){
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+
+            String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
+
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
+
+            for(int i = 0; i < jsonObject.size(); i++){
+
+                String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
+
+                String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
+
+                String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
+
+                String audio = jsonObject.get(Save.AUDIO_STRING).toString();
+
+                String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
+
+                map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+                map.put(Save.DIFFICULTY_STRING, difficulty);
+                map.put(Save.AUDIO_STRING, audio);
+                map.put(Save.LANGUAGE_STRING, language);
+
             }
 
-            fileReader.close();
-            bufferedReader.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
 
-            FileWriter fileWriter = new FileWriter(saveFile);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            for(String s : modifiedDataList){
-                bufferedWriter.write(s);
-                bufferedWriter.newLine();
-            }
-            bufferedWriter.flush();
-
+    /**
+     *
+     * @param filePath : the path of the file that you want to reset all the data.
+     */
+    public static void resetFile(final String filePath){
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, false); // mettendo false ricrea il file, cancellando quello che c'era prima.
             fileWriter.close();
-            bufferedWriter.close();
 
         }catch(Exception e){
             e.printStackTrace();

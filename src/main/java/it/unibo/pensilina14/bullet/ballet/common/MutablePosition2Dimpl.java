@@ -57,5 +57,10 @@ public class MutablePosition2Dimpl implements MutablePosition2D {
 		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[x=" + this.getX() + " y=" + this.getY() + "]";
+	}
   
 }

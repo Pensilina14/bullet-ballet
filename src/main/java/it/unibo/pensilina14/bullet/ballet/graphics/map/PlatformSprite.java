@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -10,10 +11,11 @@ import java.nio.file.Paths;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 
 public class PlatformSprite extends Pane {
 
-    public enum Platforms { //TODO: mettere l'enum a parte?
+    public enum Platforms { //TODO: mettere l'enum a parte
         HALLOWEEN_PLATFORM("res/assets/maps/Tiles/halloween_tile.png"),
         CAVE_PLATFORM("res/assets/maps/Tiles/rock_tile2.png"),
         CAVE_PLATFORM2("res/assets/maps/Tiles/rock_tile4.png"),
@@ -45,36 +47,27 @@ public class PlatformSprite extends Pane {
         }
     }
 
-    private static final int SIZE = 60;
-
-    //private Platforms platformType; //TODO: remove
-
-    /*private int minY;
-    private int minX;
-    private int platformWidth;
-    private int platformHeight;*/
     private MutablePosition2D position;
-
-    public PlatformSprite(final Platforms platformType, final double x, final double y) throws IOException {
-
-        //this.platformType = platformType; //TODO: remove
-        /*this.minX = 0;
-        this.minY = 0;
-        this.platformWidth = 60;
-        this.platformHeight = 60;*/
+    /*
+     * NOTE:
+     * Temporary solution because this class could be 
+     * put under PhysicalObjectSprite implementations.
+     */
+    public PlatformSprite(final Platforms platformType, final Platform platform) throws IOException {
         final ImageView platformView = new ImageView(new Image(Files.newInputStream(Paths.get(platformType.getPath()))));
-
-        this.renderPosition(x, y);
-
-        platformView.setFitWidth(PlatformSprite.SIZE);
-        platformView.setFitHeight(PlatformSprite.SIZE);
+        final double platformWidth = platform.getDimension().get().getWidth();
+        final double platformHeight = platform.getDimension().get().getHeight();
+        this.position = platform.getPosition().get();
+        this.renderPosition(this.position.getX(), this.position.getY());
+        platformView.setFitWidth(platformWidth);
+        platformView.setFitHeight(platformHeight);
+        platformView.setViewport(new Rectangle2D(0, 0, platformWidth, platformHeight));
         this.getChildren().add(platformView);
     }
 
-    public final void renderPosition(final double x, final double y) throws IOException {
+    public final void renderPosition(final double x, final double y) {
         this.setTranslateX(x);
         this.setTranslateY(y);
-
         this.position = new MutablePosition2Dimpl(x, y);
     }
     

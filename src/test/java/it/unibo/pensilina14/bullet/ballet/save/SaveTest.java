@@ -5,6 +5,7 @@ import org.junit.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -20,10 +21,10 @@ import static org.junit.Assert.*;
 public class SaveTest {
 
     @Test
-    public void saveAndLoad(){
+    public void saveAndLoadStatisticsTest(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
-        Save.resetSaveFile();
+        Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Paolo";
         final int playerScore = 7;
@@ -31,32 +32,80 @@ public class SaveTest {
         final String playerName2 = "Giorgio";
         final int playerScore2 = 14;
 
-        Save.saveData(playerName, playerScore);
-        Save.saveData(playerName2, playerScore2);
+        Save.saveGameStatistics(playerName, playerScore);
+        Save.saveGameStatistics(playerName2, playerScore2);
 
-        final LinkedHashMap<String, Integer> map;
+        final LinkedHashMap<String, String> map;
 
-        map = Save.loadSaveFile();
+        map = Save.loadGameStatistics();
 
         assertNotNull(map);
         assertFalse(map.isEmpty());
 
         final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, playerName2));
-        final ArrayList<Integer> playersScoreList = new ArrayList<>(Arrays.asList(playerScore, playerScore2));
+        final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(playerScore2)));
 
         assertTrue(map.keySet().containsAll(playersNameList));
         assertTrue(map.values().containsAll(playersScoreList));
     }
 
     @Test
+    public void updateStatisticsTest(){
+        Save.resetFile(Save.SAVE_PATH);
+
+        final String playerName = "Alessio";
+        final int playerScore = 7;
+
+        final String playerName2 = "Gigi";
+        final int playerScore2 = 14;
+
+        final String playerName3 = "Pluto";
+        final int playerScore3 = 5;
+
+        Save.saveGameStatistics(playerName, playerScore);
+        Save.saveGameStatistics(playerName2, playerScore2);
+        Save.saveGameStatistics(playerName3, playerScore3);
+
+        final String newPlayerName = "Mario";
+        final int newPlayerScore = 18;
+
+        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI
+
+        final boolean hasUpdated = Save.updateGameStatistics(playerName2, playerScore2, newPlayerName, newPlayerScore);
+
+        assertTrue(hasUpdated);
+
+        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI ANCHE NEL FILE
+
+        final HashMap<String, String> statisticsMap = Save.loadGameStatistics();
+
+        final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, newPlayerName, playerName3));
+        final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(newPlayerScore), String.valueOf(playerScore3)));
+
+        // CONTROLLO CHE CI SIANO TUTTI I DATI AGGIORNATI
+
+        assertTrue(statisticsMap.keySet().containsAll(playersNameList));
+        assertTrue(statisticsMap.values().containsAll(playersScoreList));
+
+        // CONTROLLO CHE I DATI CHE SON STATI RIMPIAZZATI NON SIANO PRESENTI
+
+        assertFalse(statisticsMap.containsValue(playerName2));
+        assertFalse(statisticsMap.containsValue(String.valueOf(playerScore2)));
+    }
+
+    @Test
     public void resetTest(){
-        Save.resetSaveFile();
+        final File statisticsFile = new File(Save.SAVE_PATH);
 
-        HashMap<String, Integer> resetResults;
+        Save.resetFile(statisticsFile.getPath());
 
-        resetResults = Save.loadSaveFile();
+        assertEquals(0, statisticsFile.length());
 
-        assertTrue(resetResults.isEmpty());
+        final File settingsFile = new File(Save.SETTINGS_PATH);
+
+        Save.resetFile(settingsFile.getPath());
+
+        assertEquals(0, settingsFile.length());
     }
 
     @Test
@@ -68,7 +117,7 @@ public class SaveTest {
 
         assertTrue(level.length != 0);
 
-        final int max_levels = 3;
+        final int max_levels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
         final int numberOfLevels = Save.getNumberOfLevels(".txt");
 
         assertEquals(max_levels, numberOfLevels);
@@ -90,38 +139,58 @@ public class SaveTest {
         assertTrue(s.length != 0);
     }
 
-    /*@Test
-    public void modifyDataTest(){ //TODO: uncomment when the method will be fixed
-        //data.resetSaveFile();
-        Save.resetSaveFile();
+    @Test
+    public void saveAndLoadSettingsTest(){
 
-        final String player = "Pippo";
-        final int playerScore = 14;
+        // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
+        Save.resetFile(Save.SETTINGS_PATH);
 
-        final String player2 = "Giorgio";
-        final int playerScore2 = 8;
+        final int resWidth = 1920;
+        final int resHeight = 1080;
+        final String difficulty = "hard";
+        final double audioVolume = 30.0;
+        final String language = "it_IT";
 
-        //data.save(player, playerScore);
-        //data.save(player2, playerScore2);
-        Save.save(player, playerScore);
-        Save.save(player2, playerScore2);
+        final boolean hasSavedSettings = Save.saveSettings(resWidth, resHeight, difficulty, audioVolume, language);
 
-        HashMap<String, Integer> results = new HashMap<>();
-        results = Save.load(); //data.load();
+        assertTrue(hasSavedSettings);
 
-        assertFalse(results.isEmpty());
+        final HashMap<String, String> settingsMap = new HashMap<>();
 
-        final String playerRename = "Marco";
-        final int newPlayerScore = 5;
+        settingsMap.put(Save.RESOLUTION_WIDTH_STRING, String.valueOf(resWidth));
+        settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight));
+        settingsMap.put(Save.DIFFICULTY_STRING, difficulty);
+        settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume));
+        settingsMap.put(Save.LANGUAGE_STRING, language);
 
-        //data.modifySaveFile(player, playerScore, playerRename, newPlayerScore);
-        Save.modifySaveFile(player, playerScore, playerRename, newPlayerScore);
+        HashMap<String, String> loadedSettings = Save.loadSettings();
 
-        results.clear();
-        results = Save.load(); //data.load();
+        assertFalse(loadedSettings.isEmpty());
+        assertEquals(settingsMap, loadedSettings);
 
-        assertTrue(results.containsKey(playerRename));
-        assertTrue(results.containsValue(newPlayerScore));
-    }*/
+        // AGGIORNAMENTO DEI DATI
+        final int resWidth2 = 1280;
+        final int resHeight2 = 720;
+        final String difficulty2 = "easy";
+        final double audioVolume2 = 20.0;
+        final String language2 = "en_UK";
+
+        final boolean hasUpdatedSettings = Save.saveSettings(resWidth2, resHeight2, difficulty2, audioVolume2, language2);
+
+        assertTrue(hasUpdatedSettings);
+
+        settingsMap.clear();
+
+        settingsMap.put(Save.RESOLUTION_WIDTH_STRING, String.valueOf(resWidth2));
+        settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight2));
+        settingsMap.put(Save.DIFFICULTY_STRING, difficulty2);
+        settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume2));
+        settingsMap.put(Save.LANGUAGE_STRING, language2);
+
+        loadedSettings = Save.loadSettings();
+
+        assertFalse(loadedSettings.isEmpty());
+        assertEquals(settingsMap, loadedSettings);
+    }
 
 }

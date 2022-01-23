@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+
 public class MainPlayer extends Pane {
 
     private final Image playerImg ;
@@ -21,6 +24,7 @@ public class MainPlayer extends Pane {
     private final int offsetY;
     private final int playerViewWidth;
     private final int playerViewHeight;
+    private MutablePosition2D position;
 
     private final SpriteAnimation animation;
 
@@ -44,8 +48,7 @@ public class MainPlayer extends Pane {
 
         this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), count, columns, offsetX, offsetY, playerViewWidth, playerViewHeight);
 
-        this.playerView.setTranslateX(x);
-        this.playerView.setTranslateY(y);
+        renderPosition(x, y);
 
         getChildren().addAll(this.playerView);
     }
@@ -70,8 +73,7 @@ public class MainPlayer extends Pane {
 
         this.animation = new SpriteAnimation(this.playerView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, this.playerViewWidth, this.playerViewHeight);
 
-        this.playerView.setTranslateX(x);
-        this.playerView.setTranslateY(y);
+        renderPosition(x, y);
 
         getChildren().addAll(this.playerView);
     }
@@ -79,6 +81,8 @@ public class MainPlayer extends Pane {
     public void renderPosition(final double x, final double y) {
     	this.playerView.setTranslateX(x);
     	this.playerView.setTranslateY(y);
+    	this.position = new MutablePosition2Dimpl(x, y);
+    	//System.out.println("Player View: \t" + this.position.getX());
     }
 
     public final SpriteAnimation getSpriteAnimation() {
