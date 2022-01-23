@@ -1,9 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
+import java.util.HashMap;
+
 public enum Languages {
 
-    ENGLISH("English", "en_UK"),
-    ITALIANO("Italiano", "it_IT");
+    ENGLISH("English", "en_uk"),
+    ITALIANO("Italiano", "it_it");
 
     private final String language;
     private final String countryCode;
@@ -19,6 +21,14 @@ public enum Languages {
 
     public String getCountryCode(){
         return this.countryCode;
+    }
+
+    public static HashMap<String, String> getLanguagesMap(){
+        HashMap<String,String> languagesMap = new HashMap<>();
+        for(var l : Languages.values()){
+            languagesMap.put(l.getCountryCode(), l.getLanguage());
+        }
+        return languagesMap;
     }
 
 }

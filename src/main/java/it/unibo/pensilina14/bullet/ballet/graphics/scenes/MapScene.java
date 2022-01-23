@@ -29,6 +29,7 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -38,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -250,6 +252,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void update() throws IOException {
+
     	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
 //    	if (this.keysPressed.contains(KeyCode.UP)) {
@@ -264,11 +267,11 @@ public class MapScene extends AbstractScene implements GameView{
 //			}
 //		}, 250L);
 //	}
-    	
+    	this.mainPlayer.left.get().getSpriteAnimation().play();
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
         	//AppLogger.getAppLogger().info("Key 'UP' pressed.");
-        	this.mainPlayer.left.get().getSpriteAnimation().play();
+        	this.mainPlayer.left.get().getSpriteAnimation().stop();
             this.controller.get().notifyCommand(new Up());
         }
         
@@ -303,7 +306,7 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.UP)) {
         	//AppLogger.getAppLogger().info("Key 'UP' released.");
-        	this.mainPlayer.left.get().getSpriteAnimation().stop();
+        	this.mainPlayer.left.get().getSpriteAnimation().play();
         	this.keysReleased.remove(KeyCode.UP);
         }
 
@@ -454,30 +457,22 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void deleteBulletSpriteImage(final MutablePosition2D position) {
-		/*
+		
 		final BulletSprite bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
 				.map(x -> x.getKey())
 				.findFirst().get();
 		this.gamePane.getChildren().remove(bullet);
-		*/
+		/*
 		final List<BulletSprite> bullet = this.bulletSprites.entrySet()
 				.stream()
-				.filter(e -> position.equals(e.getValue()))
+				.filter(e -> position.equals(e.getKey().getPosition()))
 				.map(x -> x.getKey())
 				.distinct()
 				.collect(Collectors.toList());
 		this.bulletSprites.keySet().removeAll(bullet);
 		this.gamePane.getChildren().removeAll(bullet);
-		//this.bulletSprites.remove(bullet);
-		/*
-		this.bulletSprites.forEach((x, y) -> {
-			AppLogger.getAppLogger().debug("Bullet pos view: " + y.toString());
-			if(y.equals(position)) {
-				this.gamePane.getChildren().remove(x);
-			}
-		});
 		*/
 	}
 	
