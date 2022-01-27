@@ -31,7 +31,6 @@ public class ViewControllerImpl implements ViewController {
 		try {
 			this.gameView.get().draw();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -42,5 +41,10 @@ public class ViewControllerImpl implements ViewController {
 	@Override
 	public GameView getGameView() {
 		return this.gameView.get();
+	}
+
+	@Override
+	public void stopPlayerAnimation() {
+		this.gameView.get().stopPlayerAnimation();
 	}
 }

@@ -30,6 +30,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameOverEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
@@ -130,6 +131,9 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public void updateGame() {
+		if (this.modelController.get().getGameState().get().isGameOver()) {
+			this.timer.get().stop();
+		}
 		this.modelController.get().update();
 		this.checkEvents();
 	}
@@ -168,6 +172,8 @@ public class GameEngine implements Controller, GameEventListener {
 				enemyHitsPlatformEventHandler(env, e);
 			} else if (e instanceof BulletHitsPlatformEvent) {
 				bulletHitsPlatformEventHandler(env, e);
+			} else if(e instanceof GameOverEvent) {
+				gameOverEventHandler(e);
 			}
 		});
 		this.eventQueue.clear();
@@ -289,6 +295,12 @@ public class GameEngine implements Controller, GameEventListener {
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
 		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
 		AppLogger.getAppLogger().info("Bullet hits platform");
+	}
+	
+	private void gameOverEventHandler(final GameEvent e) {
+		final Player player = ((GameOverEvent) e).getPlayer();
+		this.viewController.get().stopPlayerAnimation();
+		this.stop();
 	}
 	
 	public void start() {

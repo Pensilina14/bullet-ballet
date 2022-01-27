@@ -23,4 +23,9 @@ public interface ViewController {
 	 * @return {@link GameView} anchored to this controller.
 	 */
 	GameView getGameView();
+	
+	/**
+	 * Un po' di documentazione che se no pare spoglio 
+	 */
+	void stopPlayerAnimation();
 }

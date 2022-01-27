@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameOverEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
@@ -270,10 +271,7 @@ public class GameEnvironment implements Environment {
 		for (final PhysicalObject obj : allObjsList) {
 			final MutablePosition2D objPos = obj.getPosition().get();
 			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
-				if (obj instanceof Player) {
-					this.player = Optional.empty();
-					return true;
-				} else if (obj instanceof Enemy) {
+				if (obj instanceof Enemy) {
 					this.enemies.get().remove(obj);
 					return true;
 				} else if (obj instanceof ObstacleImpl) {
@@ -342,18 +340,13 @@ public class GameEnvironment implements Environment {
 
 	@Override
 	public final void updateState() {
-		if (this.player.isEmpty()) {
-			System.exit(1);
-			// GAME OVER
+		if (!this.player.get().hasLanded()) {
+			this.player.get().moveDown(this.gravity);
 		} else {
-			if (!this.player.get().hasLanded()) {
-				this.player.get().moveDown(this.gravity);
-			} else {
-				this.player.get().resetLanding();
-			}
-			this.player.get().updateState();
-			this.player.get().getCurrentScore().increase();
+			this.player.get().resetLanding();
 		}
+		this.player.get().updateState();
+		this.player.get().getCurrentScore().increase();
 		this.enemies.get().stream().forEach(e -> {
 			if (!e.hasLanded()) {
 				e.moveDown(this.gravity);
@@ -375,9 +368,11 @@ public class GameEnvironment implements Environment {
 		});
 		
 		this.bullets.get().stream().forEach(i -> i.updateState());
-		//this.items.get().stream().forEach(i -> i.updateState());
 		this.platforms.get().stream().forEach(i -> i.updateState());
 		//this.coins.get().stream().forEach(PhysicalObject::updateState);
+		if (!this.player.get().isAlive()) {		
+			this.eventListener.get().notifyEvent(new GameOverEvent(this.player.get()));
+		}
 		this.checkCollisions();
 	}
 	

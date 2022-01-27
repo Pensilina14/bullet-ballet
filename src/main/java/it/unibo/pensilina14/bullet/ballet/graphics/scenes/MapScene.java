@@ -504,4 +504,10 @@ public class MapScene extends AbstractScene implements GameView{
 		this.bulletSprites.put(bullet, pos);
 		this.gamePane.getChildren().add(bullet);		
 	}
+	
+	@Override
+	public void stopPlayerAnimation() {
+		this.mainPlayer.getLeft().get().getSpriteAnimation().stop();
+	}
+	
 }
