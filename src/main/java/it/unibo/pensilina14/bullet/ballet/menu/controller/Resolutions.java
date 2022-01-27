@@ -26,17 +26,8 @@ public enum Resolutions {
 		return "[ " + this.width + " ], [ " + this.height + " ]";
 	}
 
-	//TODO: si può tenere o questo o gli altri due qua sotto
 	public static Resolutions getDefaultResolution(){
 		return Resolutions.HD;
-	}
-
-	public static int getDefaultWidth(){
-		return Resolutions.HD.getWidth();
-	}
-
-	public static int getDefaultHeight(){
-		return Resolutions.HD.getHeight();
 	}
 	
 }
