@@ -22,6 +22,10 @@ public enum Coins {
         return this.path;
     }
 
+    public Coins getDefaultCoin(){
+        return Coins.GOLD_COIN;
+    }
+
     public static Coins coinChooser(){
         final int max = Coins.values().length;
         final Random rand = new Random();

@@ -43,6 +43,10 @@ public enum Maps {
         return this.path;
     }
 
+    public static Maps getDefaultMap(){
+        return Maps.HALLOWEEN;
+    }
+
     public static Maps mapChooser(){
         final int max = Maps.values().length;
         final Random rand = new Random();
@@ -54,7 +58,7 @@ public enum Maps {
         return Maps.HALLOWEEN;
     }
 
-    public String getRandomMapPath(){
+    public static String getRandomMapPath(){
         final int max = Maps.values().length;
         final Random rand = new Random();
         for(var m : Maps.values()){
