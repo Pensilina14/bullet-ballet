@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.BulletSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
@@ -414,7 +415,7 @@ public class MapScene extends AbstractScene implements GameView{
     	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
     }
 
-    public final void setMap(final BackgroundMap.Maps map) {
+    public final void setMap(final Maps map) {
         this.map.setMap(map);
     }
 
