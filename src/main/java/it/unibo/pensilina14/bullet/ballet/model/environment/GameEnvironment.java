@@ -8,6 +8,7 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
@@ -138,50 +139,32 @@ public class GameEnvironment implements Environment {
 	
 	@Override
 	public final Optional<List<Enemy>> getEnemies() {
-		if (this.enemies.isPresent()) {
-			return Optional.of(List.copyOf(this.enemies.get()));
-		}
-		return Optional.empty();
+		return this.enemies.map(List::copyOf);
 	}
 
 	@Override
 	public final Optional<List<ObstacleImpl>> getObstacles() {
-		if (this.obstacles.isPresent()) {
-			return Optional.of(List.copyOf(this.obstacles.get()));
-		}
-		return Optional.empty();
+		return this.obstacles.map(List::copyOf);
 	}
 
 	@Override
 	public final Optional<List<PickupItem>> getItems() {
-		if (this.items.isPresent()) {
-			return Optional.of(List.copyOf(this.items.get()));
-		}
-		return Optional.empty();
+		return this.items.map(List::copyOf);
 	}
 	
 	@Override
 	public final Optional<List<Platform>> getPlatforms() {
-		if (this.platforms.isPresent()) {
-			return Optional.of(List.copyOf(this.platforms.get()));
-		}
-		return Optional.empty();
+		return this.platforms.map(List::copyOf);
 	}
 	
 	@Override
 	public final Optional<List<Weapon>> getWeapons() {
-		if (this.weapons.isPresent()) {
-			return Optional.of(List.copyOf(this.weapons.get()));
-		}
-		return Optional.empty();
+		return this.weapons.map(List::copyOf);
 	}
 	
 	@Override
 	public final Optional<List<Bullet>> getBullets() {
-		if (this.bullets.isPresent()) {
-			return Optional.of(List.copyOf(this.bullets.get()));
-		}
-		return Optional.empty(); 
+		return this.bullets.map(List::copyOf);
 	}
 	
 	/*
@@ -354,7 +337,7 @@ public class GameEnvironment implements Environment {
 			this.player.get().updateState();
 			this.player.get().getCurrentScore().increase();
 		}
-		this.enemies.get().stream().forEach(e -> {
+		this.enemies.get().forEach(e -> {
 			if (!e.hasLanded()) {
 				e.moveDown(this.gravity);
 			} else {
@@ -363,9 +346,9 @@ public class GameEnvironment implements Environment {
 			e.updateState();
 			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
-		this.obstacles.get().stream().forEach(o -> o.updateState()); 
-		this.items.get().stream().forEach(i -> i.updateState()); 
-		this.weapons.get().stream().forEach(i -> {
+		this.obstacles.get().forEach(GameEntity::updateState);
+		this.items.get().forEach(GameEntity::updateState);
+		this.weapons.get().forEach(i -> {
 			if(!i.isOn()) {
 				i.updateState();
 			} else {
@@ -374,9 +357,9 @@ public class GameEnvironment implements Environment {
 			}
 		});
 		
-		this.bullets.get().stream().forEach(i -> i.updateState());
+		this.bullets.get().forEach(PhysicalObject::updateState);
 		//this.items.get().stream().forEach(i -> i.updateState());
-		this.platforms.get().stream().forEach(i -> i.updateState());
+		this.platforms.get().forEach(GameEntity::updateState);
 		//this.coins.get().stream().forEach(PhysicalObject::updateState);
 		this.checkCollisions();
 	}
@@ -401,27 +384,13 @@ public class GameEnvironment implements Environment {
 
 	private Optional<List<PhysicalObject>> mergeLists() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
-		if (this.player.isPresent()) {
-			mergedList.get().addAll(List.of(this.player.get()));
-		}
-		if (this.enemies.isPresent()) {
-			mergedList.get().addAll(this.enemies.get());
-		}
-		if (this.obstacles.isPresent()) {
-			mergedList.get().addAll(this.obstacles.get());
-		}
-		if (this.items.isPresent()) {
-            mergedList.get().addAll(this.items.get());
-		}
-		if (this.platforms.isPresent()) {
-			mergedList.get().addAll(this.platforms.get());
-		}
-		if (this.weapons.isPresent()) {
-			mergedList.get().addAll(this.weapons.get());
-		}
-		if (this.bullets.isPresent()) {
-			mergedList.get().addAll(this.bullets.get());
-		}
+		this.player.ifPresent(value -> mergedList.get().addAll(List.of(value)));
+		this.enemies.ifPresent(enemyList -> mergedList.get().addAll(enemyList));
+		this.obstacles.ifPresent(obstacleList -> mergedList.get().addAll(obstacleList));
+		this.items.ifPresent(pickupItems -> mergedList.get().addAll(pickupItems));
+		this.platforms.ifPresent(platformList -> mergedList.get().addAll(platformList));
+		this.weapons.ifPresent(weaponList -> mergedList.get().addAll(weaponList));
+		this.bullets.ifPresent(bulletList -> mergedList.get().addAll(bulletList));
 		//this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
 		return mergedList;
 	}
@@ -444,7 +413,7 @@ public class GameEnvironment implements Environment {
 			// Notify everything to the {@link GameEventListener}.
 			final List<GameEvent> events = new ArrayList<>(checker.getBuffer().getEvents());
 			if (!events.isEmpty()) {
-				events.stream().forEach(e -> {
+				events.forEach(e -> {
 					this.eventListener.get().notifyEvent(e);
 				});
 			}
