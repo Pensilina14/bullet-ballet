@@ -19,6 +19,9 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
@@ -173,7 +176,12 @@ public class GameEngine implements Controller, GameEventListener {
 			} else if (e instanceof BulletHitsPlatformEvent) {
 				bulletHitsPlatformEventHandler(env, e);
 			} else if(e instanceof GameOverEvent) {
-				gameOverEventHandler(e);
+				try {
+					gameOverEventHandler(e);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		this.eventQueue.clear();
@@ -297,9 +305,11 @@ public class GameEngine implements Controller, GameEventListener {
 		AppLogger.getAppLogger().info("Bullet hits platform");
 	}
 	
-	private void gameOverEventHandler(final GameEvent e) {
+	private void gameOverEventHandler(final GameEvent e) throws IOException {
 		final Player player = ((GameOverEvent) e).getPlayer();
 		this.viewController.get().stopPlayerAnimation();
+		this.viewController.get().getGameView().autoKill();
+		this.viewController.get().changeScene(Frames.HOMEPAGE);
 		this.stop();
 	}
 	

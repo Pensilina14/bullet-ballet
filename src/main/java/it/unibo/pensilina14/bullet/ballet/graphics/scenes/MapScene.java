@@ -30,6 +30,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import javafx.animation.TranslateTransition;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -39,6 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -508,6 +510,13 @@ public class MapScene extends AbstractScene implements GameView{
 	@Override
 	public void stopPlayerAnimation() {
 		this.mainPlayer.getLeft().get().getSpriteAnimation().stop();
+	}
+	
+	@Override
+	public void autoKill() {
+		//super.root.getChildren().clear();
+		//this.root.getChildren().clear();
+		
 	}
 	
 }

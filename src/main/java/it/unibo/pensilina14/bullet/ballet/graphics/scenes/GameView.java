@@ -27,4 +27,5 @@ public interface GameView {
 	void generateBullet(MutablePosition2D pos) throws IOException;
 	void deleteItemSprite(MutablePosition2D position);
 	void stopPlayerAnimation();
+	void autoKill();
 }
