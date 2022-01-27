@@ -3,6 +3,8 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
+import it.unibo.pensilina14.bullet.ballet.common.EntityManager;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
@@ -39,30 +41,31 @@ public class GameEnvironmentTest {
   private final ObstacleFactory obstacleFactory = new ObstacleFactoryImpl();
   private final ItemFactory itemFactory = new ItemFactoryImpl();
   private final GameEventListener evListener = new GameEngine();
+  private final EntityManager entityManager = new EntityContainer();
 
-//  @Test
-//  public void testGameEnvironment() {
-//    final Environment gameEnv = new GameEnvironment();
-//    
-//    assertEquals(gameEnv.getGravity(), GravityConstants.EARTH.getValue(), DELTA);
-//    assertTrue(gameEnv.getPlayer().isEmpty());
-//    assertEquals(gameEnv.getEnemies().get(), new ArrayList<>());
-//    assertEquals(gameEnv.getObstacles().get(), new ArrayList<>());
-//    assertEquals(gameEnv.getItems().get(), new ArrayList<>());
-//  }
-//
-//  @Test
-//  public void testGameEnvironmentWithArgs() {
-//    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, Optional.empty(), this.evListener);
-//    final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0), gameEnv);
-//    gameEnv.setPlayer(player);
-//    
-//    assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
-//    assertEquals(gameEnv.getPlayer(), Optional.of(player));
-//    assertEquals(gameEnv.getEnemies().get(), new ArrayList<>());
-//    assertEquals(gameEnv.getObstacles().get(), new ArrayList<>());
-//    assertEquals(gameEnv.getItems().get(), new ArrayList<>());
-//  }
+  @Test
+  public void testGameEnvironment() {
+    final Environment gameEnv = new GameEnvironment();
+    
+    assertEquals(gameEnv.getGravity(), GravityConstants.EARTH.getValue(), DELTA);
+    assertTrue(gameEnv.getEntityManager().getPlayer().isEmpty());
+    assertEquals(gameEnv.getEntityManager().getEnemies().get(), new ArrayList<>());
+    assertEquals(gameEnv.getEntityManager().getObstacles().get(), new ArrayList<>());
+    assertEquals(gameEnv.getEntityManager().getItems().get(), new ArrayList<>());
+  }
+
+  @Test
+  public void testGameEnvironmentWithArgs() {
+    final Environment gameEnv = new GameEnvironment(GravityConstants.MOON.getValue(), GameEnvironment.DEFAULT_DIM, GameEnvironment.DEFAULT_DIM, this.entityManager, this.evListener);
+    final Player player = this.characterFactory.createPlayer(EntityList.Characters.Player.PLAYER1, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0), gameEnv);
+    gameEnv.getEntityManager().setPlayer(Optional.of(player));
+    
+    assertEquals(gameEnv.getGravity(), GravityConstants.MOON.getValue(), DELTA);
+    assertEquals(gameEnv.getEntityManager().getPlayer(), Optional.of(player));
+    assertEquals(gameEnv.getEntityManager().getEnemies().get(), new ArrayList<>());
+    assertEquals(gameEnv.getEntityManager().getObstacles().get(), new ArrayList<>());
+    assertEquals(gameEnv.getEntityManager().getItems().get(), new ArrayList<>());
+  }
 //
 //  @Test
 //  public void testDeleteObjByPosition() {
