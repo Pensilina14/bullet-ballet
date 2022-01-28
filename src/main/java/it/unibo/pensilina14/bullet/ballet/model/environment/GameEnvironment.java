@@ -340,8 +340,15 @@ public class GameEnvironment implements Environment {
 			e.updateState();
 			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
-		this.obstacles.get().forEach(GameEntity::updateState);
-		this.items.get().forEach(GameEntity::updateState);
+		this.obstacles.get().forEach(o -> {
+			if (!o.hasLanded()) {
+				o.moveDown(this.gravity);
+			} else {
+				o.resetLanding();
+			}
+			o.updateState();
+		});
+		this.items.get().forEach(i -> {i.updateState();});
 		this.weapons.get().forEach(i -> {
 			if(!i.isOn()) {
 				i.updateState();

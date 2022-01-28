@@ -304,14 +304,12 @@ public class MapScene extends AbstractScene implements GameView{
         	this.controller.get().stop();
         	final PageLoader pageLoaderImpl = new PageLoaderImpl();
         	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
-        	//this.controller.get().notifyCommand(new Esc());
         	window.setOnCloseRequest(e -> {
         		this.controller.get().start();
         	});
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
-        	//AppLogger.getAppLogger().info("Key 'UP' released.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
         	this.keysReleased.remove(KeyCode.UP);
         }
@@ -389,7 +387,7 @@ public class MapScene extends AbstractScene implements GameView{
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> {
-			x.renderMovingPosition();
+			x.renderPosition(y.getX(), y.getY());
     		//AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");

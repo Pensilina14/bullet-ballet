@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class ObstacleImpl extends GameEntity implements Obstacle{
 
 	//private Random random = new Random();
+	public int dumbCounter;
 	
 	public ObstacleImpl(final SpeedVector2D speedVector, final Environment gameEnvironment
 			, final double mass, final Dimension2D dimension) {
@@ -18,21 +19,22 @@ public class ObstacleImpl extends GameEntity implements Obstacle{
 
 	@Override
 	public void rotate() {
-		/*
-		final double rand = random.nextDouble();
-		if (rand % 2 == 0) {
-			this.moveRight(5);
-			System.out.println("right");
-		} else {
-			this.moveLeft(5);
-			System.out.println("left");
-		}
-		*/
+		if (this.dumbCounter < 50) {
+    		this.moveUp(10);
+    		this.dumbCounter++;
+    	} else if (this.dumbCounter >= 50) {
+    		this.moveDown(8);
+    		this.dumbCounter++;
+    		if (this.dumbCounter == 100) {
+    			this.dumbCounter = 0;
+    		}
+    	}
 	}
 
 	@Override
 	public void updateState() {
-		//this.rotate();
+		this.getSpeedVector().get().noSpeedVectorSum(-GameEntity.MS_TO_S, 0);
+    	rotate();
 	}
 
 }
