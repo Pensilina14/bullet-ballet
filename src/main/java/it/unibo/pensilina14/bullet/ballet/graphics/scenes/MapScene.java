@@ -289,11 +289,6 @@ public class MapScene extends AbstractScene implements GameView{
             this.controller.get().notifyCommand(new Right());
         }
 
-        if (this.keysPressed.contains(KeyCode.DOWN)) { 
-        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
-            this.controller.get().notifyCommand(new Down());
-        }
-
         if (this.keysPressed.contains(KeyCode.LEFT)) {
         	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
@@ -325,11 +320,6 @@ public class MapScene extends AbstractScene implements GameView{
         	//AppLogger.getAppLogger().info("Key 'RIGHT' released.");
             this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
-        }
-
-        if (this.keysReleased.contains(KeyCode.DOWN)) { 
-        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
-        	this.keysReleased.remove(KeyCode.DOWN);
         }
 
         if (this.keysReleased.contains(KeyCode.LEFT)) {
