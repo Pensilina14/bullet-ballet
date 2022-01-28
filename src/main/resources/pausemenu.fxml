@@ -10,7 +10,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="597.0" prefWidth="785.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
    <children>
       <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblPause.text" AnchorPane.bottomAnchor="533.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
@@ -27,7 +26,7 @@
       </Label>
       <VBox alignment="CENTER" prefHeight="597.0" prefWidth="791.0" spacing="50.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
+            <Button fx:id="resumeButton" mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
