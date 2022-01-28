@@ -39,6 +39,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsIte
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
 import javafx.animation.AnimationTimer;
+import javafx.stage.WindowEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;

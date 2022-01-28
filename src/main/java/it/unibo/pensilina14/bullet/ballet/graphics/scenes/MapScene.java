@@ -523,9 +523,8 @@ public class MapScene extends AbstractScene implements GameView{
 	
 	@Override
 	public void autoKill() {
-		//super.root.getChildren().clear();
-		//this.root.getChildren().clear();
-		
+		final Window window = this.getWindow();
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 	
 }

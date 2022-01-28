@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
@@ -20,6 +21,12 @@ public class PageLoaderImpl implements PageLoader{
 
     //TODO: volendo si possono unire in un metodo quelli con la lingua e quelli con la width e la height.
 
+    private Optional<Window> window;
+    
+    public PageLoaderImpl() {
+    	this.window = Optional.empty();
+    }
+    
     @Override
 	public Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException {
     	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(language));
@@ -27,6 +34,7 @@ public class PageLoaderImpl implements PageLoader{
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+       	this.setWindow(window);
         return window;
 	}
 
@@ -37,6 +45,7 @@ public class PageLoaderImpl implements PageLoader{
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+        this.setWindow(window);
         return window;
     }
 
@@ -47,6 +56,7 @@ public class PageLoaderImpl implements PageLoader{
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+        this.setWindow(window);
         return window;
     }
     
@@ -57,6 +67,7 @@ public class PageLoaderImpl implements PageLoader{
     	final Stage window = new Stage();
     	window.setScene(scene);
     	window.show();
+    	this.setWindow(window);
     	return window;
     }
     
@@ -85,6 +96,16 @@ public class PageLoaderImpl implements PageLoader{
         primaryStage.setTitle("bullet-ballet");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    @Override
+    public void setWindow(final Window window) {
+    	this.window = Optional.of(window);
+    }
+    
+    @Override
+    public Window getWindow() {
+    	return this.window.get();
     }
     
    private ResourceBundle getLanguage(final Languages language) {

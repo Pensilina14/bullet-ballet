@@ -71,5 +71,8 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      */
     void loadFirstScene (final Stage primaryStage, final Languages language, final int width, final int height) throws IOException;
     
+    void setWindow(final Window window);
+    
+    Window getWindow();
     
 }
