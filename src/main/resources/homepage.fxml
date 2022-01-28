@@ -5,14 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.HomePageController">
+
+<AnchorPane prefHeight="511.0" prefWidth="772.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.HomePageController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="BULLET BALLET">
+      <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="BULLET BALLET" AnchorPane.bottomAnchor="438.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
          <font>
             <Font name="Comic Sans MS Bold" size="48.0" />
          </font>
@@ -24,12 +25,9 @@
             </InnerShadow>
          </effect>
       </Label>
-      <VBox alignment="CENTER" prefHeight="505.0" prefWidth="638.0" spacing="50.0">
-         <FlowPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </FlowPane.margin>
+      <VBox alignment="CENTER" prefHeight="511.0" prefWidth="791.0" spacing="50.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#newGameOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="NEW GAME" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#newGameOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnNewGame.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -41,7 +39,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="SETTINGS" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnSettings.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -53,7 +51,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#statsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="GAME STATS" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#statsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnStats.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -65,7 +63,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="EXIT" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="%btnExit.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -83,4 +81,4 @@
          </padding>
       </VBox>
    </children>
-</FlowPane>
+</AnchorPane>

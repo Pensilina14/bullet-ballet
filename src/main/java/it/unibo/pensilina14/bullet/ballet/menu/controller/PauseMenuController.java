@@ -9,10 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class PauseMenuController {
 	
+	@FXML
+    private Button resumeButton;
 	private final PageLoader loader = new PageLoaderImpl();
 	
 	@FXML
@@ -32,13 +37,22 @@ public class PauseMenuController {
 	}
 
 	@FXML void resumeGame(final MouseEvent event) {
-		AppLogger.getAppLogger().info("Resume.");
-		System.out.println("Resume Game, wait for update");
-		// TODO add implementation
+		final Window window = resumeButton.getScene().getWindow();
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 	
 	@FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
         loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
     }
+	
+	@FXML
+	void backToHomepage(final MouseEvent event) {
+		try {
+			loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

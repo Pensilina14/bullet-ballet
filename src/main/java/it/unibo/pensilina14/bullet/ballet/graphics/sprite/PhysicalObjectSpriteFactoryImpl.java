@@ -56,4 +56,11 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
                 .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
         return new PhysicalObjectSprite(Images.POISONING_ITEM, position, item);
     }
+    
+    @Override
+    public PhysicalObjectSprite generateCoinItemSprite(final MutablePosition2D position) throws IOException{
+        final PhysicalObject item = itemFact
+                .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.COIN, position, item);
+    }
 }

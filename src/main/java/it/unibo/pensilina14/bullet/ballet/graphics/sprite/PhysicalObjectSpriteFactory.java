@@ -10,5 +10,6 @@ public interface PhysicalObjectSpriteFactory {
     PhysicalObjectSprite generateHealingItemSprite(final MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generateDamagingItemSprite(final MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generatePoisoningItemSprite(final MutablePosition2D position) throws IOException;
+    PhysicalObjectSprite generateCoinItemSprite(final MutablePosition2D position) throws IOException;
     
 }

@@ -26,5 +26,6 @@ public interface ItemFactory {
      * @return an Item with a damaging {@link Effects}
      */
     Item createDamagingItem(Environment environment, SpeedVector2D speedVector);
+    Item createCoinItem(Environment environment, SpeedVector2D speedVector);
     
 }

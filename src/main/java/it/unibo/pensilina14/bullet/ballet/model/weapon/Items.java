@@ -5,7 +5,8 @@ public enum Items {
     HEART("heart"),
     WEAPON("weapon"),
     DAMAGE("damage"),
-    POISON("poison");
+    POISON("poison"),
+    COIN("coin");
     
     private final String itemID;
     

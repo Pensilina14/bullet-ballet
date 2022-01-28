@@ -2,9 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.List;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
-public interface Weapon extends Item {
+public interface Weapon extends PhysicalObject {
 	
 	/*
 	 * @return the number of bullets remaining
@@ -55,4 +57,17 @@ public interface Weapon extends Item {
 	 * @return type of weapon.
 	 */
 	EntityList.Weapons getTypeOfWeapon();
+
+	boolean isOn();
+
+	void setOn();
+
+	void setOff();
+
+	void setPosition(MutablePosition2D newPos);
+
+	void recharge();
+	
+
+	
 }

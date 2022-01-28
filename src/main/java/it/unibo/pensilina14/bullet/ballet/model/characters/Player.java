@@ -20,9 +20,11 @@ public class Player extends GameEntity implements Characters{
 
     private String name;
 
-    private Weapon weapon;
+
+    private Optional<Weapon> weapon;
     
     private boolean landed;
+    private boolean blockedX;
 
     private EntityList.Characters.Player playerType;
 
@@ -38,6 +40,7 @@ public class Player extends GameEntity implements Characters{
         this.name = name;
         this.health = 100.0;
         this.mana = Optional.of(100.0);
+        this.weapon = Optional.empty();
     }
 
     public Player(final String name, final double health,final Optional<Double> mana, final Dimension2D dimension
@@ -46,6 +49,7 @@ public class Player extends GameEntity implements Characters{
         this.name = name;
         this.health = health;
         this.mana = mana;
+        this.weapon = Optional.empty();
     }
 
     public Player(final EntityList.Characters.Player playerType, final Dimension2D dimension
@@ -53,6 +57,7 @@ public class Player extends GameEntity implements Characters{
         super(vector, environment, mass, dimension);
 
         this.playerType = playerType;
+        
         setPlayerType();
     }
 
@@ -84,6 +89,7 @@ public class Player extends GameEntity implements Characters{
                 minHealth = 80.0;
                 minMana = 50.0;
                 this.name = "Player1";
+                this.weapon = Optional.empty();
                 this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
                 this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 break;
@@ -91,6 +97,7 @@ public class Player extends GameEntity implements Characters{
                 minHealth = 65.0;
                 minMana = 70.0;
                 this.name = "Player2";
+                this.weapon = Optional.empty();
                 this.health = this.rand.nextDouble() * (MAX - minHealth)+ minHealth;
                 this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
@@ -99,6 +106,7 @@ public class Player extends GameEntity implements Characters{
                 minHealth = 50.0;
                 minMana = 85.0;
                 this.name = "Player3";
+                this.weapon = Optional.empty();
                 this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
                 this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
@@ -120,7 +128,8 @@ public class Player extends GameEntity implements Characters{
 
     @Override
     public boolean isAlive() {
-        return this.health > 0.0;
+        return this.health > 0.0
+        		&& this.getPosition().get().getY() < 1000;
     }
 
     @Override
@@ -130,12 +139,16 @@ public class Player extends GameEntity implements Characters{
 
     @Override
     public Weapon getWeapon() {
-        return this.weapon;
+        return this.weapon.get();
     }
 
     @Override
     public void setWeapon(final Weapon weapon) {
-        this.weapon = weapon;
+        this.weapon = Optional.of(weapon);
+    }
+    
+    public void removeWeapon() {
+    	this.weapon = Optional.empty();
     }
 
     @Override
@@ -176,13 +189,29 @@ public class Player extends GameEntity implements Characters{
         return this.playerType;
     }
     
+    public boolean hasWeapon() {
+    	return this.weapon.isPresent();
+    }
+    
+    /*@Override
+    public void updateState() {
+    	if(hasWeapon()) {
+    		this.weapon.get().setPosition(this.getPosition().get());
+    	}
+    	
+    }
+    */
     @Override
     public void updateState() {
-    	this.moveRight(0);
+    	if (!this.blockedX) {
+    		this.moveRight(0);
+    	} else {
+    		this.moveLeft(1);
+    	}
     	if (!this.isAlive()) {
     		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
-    	AppLogger.getAppLogger().info("HEALTH: " + String.valueOf(this.getHealth()));
+    	AppLogger.getAppLogger().info(" " + this.getPosition().get().getCoordinates() + " ");
     }
     /*
      * Following code could be universalized for every game entity.
@@ -202,4 +231,16 @@ public class Player extends GameEntity implements Characters{
     public ScoreSystem getCurrentScore() {
     	return this.currentScore;
     }
-}
+    
+    public void blockX() {
+    	this.blockedX = true;
+    }
+    
+    public void unblockX() {
+    	this.blockedX = false;
+    }
+    
+    public boolean hasBlockedX() {
+    	return this.blockedX;
+    }
+} 

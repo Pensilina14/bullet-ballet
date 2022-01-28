@@ -31,6 +31,7 @@ public final class Save {
     public static final String RESOLUTION_HEIGHT_STRING = "Height";
     public static final String DIFFICULTY_STRING = "Difficulty";
     public static final String AUDIO_STRING = "Audio";
+    public static final String LANGUAGE_STRING = "Language";
 
     /**
      * private constructor because I don't want the class to be instantiated.
@@ -101,33 +102,36 @@ public final class Save {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
+        File statsFile = new File(Save.SAVE_PATH);
 
+        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
         try {
-            byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
+            if(statsFile.length() != 0){
+                byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
 
-            String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
+                String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
 
-            System.out.println("decryptedMessage: " + Arrays.toString(decryptedMessage)); //TODO: remove
-            System.out.println("clearMessage: " + clearMessage); //TODO: remove
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
+                System.out.println("decryptedMessage: " + Arrays.toString(decryptedMessage)); //TODO: remove
+                System.out.println("clearMessage: " + clearMessage); //TODO: remove
+                JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
 
-            //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
+                //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
 
-            for(Object o : jsonArray){
+                for (Object o : jsonArray) {
 
-                JSONObject player = (JSONObject)o;
+                    JSONObject player = (JSONObject) o;
 
-                String name = (String)player.get(Save.PLAYER_STRING);
-                System.out.println("name: " + name);
+                    String name = (String) player.get(Save.PLAYER_STRING);
+                    System.out.println("name: " + name);
 
-                String score = (String)player.get(Save.SCORE_STRING);
-                System.out.println("score: " + score);
+                    String score = (String) player.get(Save.SCORE_STRING);
+                    System.out.println("score: " + score);
 
-                map.put(name, String.valueOf(score));
+                    map.put(name, String.valueOf(score));
 
+                }
             }
-
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -148,31 +152,33 @@ public final class Save {
 
         final File file = new File(Save.SAVE_PATH);
 
+        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
         try {
-            final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
-            final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
+            if(file.length() != 0){
+                final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+                final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
 
-            Object obj = jsonParser.parse(clearGameStatistics);
-            jsonArray = (JSONArray) obj;
+                Object obj = jsonParser.parse(clearGameStatistics);
+                jsonArray = (JSONArray) obj;
 
-            for(Object o : jsonArray){
+                for (Object o : jsonArray) {
 
-                JSONObject player = (JSONObject) o;
+                    JSONObject player = (JSONObject) o;
 
-                player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
-                player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
+                    player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
+                    player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
+                }
+
+                System.out.println("jsonArray: " + jsonArray); //TODO: remove
+
+                byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+
+                FileOutputStream stream = new FileOutputStream(file);
+                stream.write(encryptedStatistics);
+
+                stream.close();
             }
-
-            System.out.println("jsonArray: " + jsonArray); //TODO: remove
-
-            byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
-
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write(encryptedStatistics);
-
-            stream.close();
-
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -286,20 +292,23 @@ public final class Save {
      * @param resHeight : the resolution's height of the game.
      * @param difficulty : the difficulty of the game.
      * @param audioVolume : the in-game audio volume.
+     * @param language  : the language
      * @return : a boolean whether the file has been saved successfully or not.
      */
-    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final int audioVolume){
+    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume, final String language){
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = new JSONObject();
 
         File file = new File(Save.SETTINGS_PATH);
 
+        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
         try {
             if(file.length() == 0){
                 jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
                 jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.put(Save.AUDIO_STRING, audioVolume);
+                jsonObject.put(Save.LANGUAGE_STRING, language);
 
                 byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
@@ -318,6 +327,7 @@ public final class Save {
                 jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
                 jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
                 jsonObject.replace(Save.AUDIO_STRING, audioVolume);
+                jsonObject.replace(Save.LANGUAGE_STRING, language);
 
                 byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
@@ -341,33 +351,40 @@ public final class Save {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
+        File settingsFile = new File(Save.SETTINGS_PATH);
+
         try {
-            byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+            if(settingsFile.length() != 0){
+                byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
 
-            String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
+                String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
 
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
+                JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
 
-            for(int i = 0; i < jsonObject.size(); i++){
+                for (int i = 0; i < jsonObject.size(); i++) {
 
-                String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
+                    String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
 
-                String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
+                    String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
 
-                String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
+                    String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
 
-                String audio = jsonObject.get(Save.AUDIO_STRING).toString();
+                    String audio = jsonObject.get(Save.AUDIO_STRING).toString();
 
-                map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
-                map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
-                map.put(Save.DIFFICULTY_STRING, difficulty);
-                map.put(Save.AUDIO_STRING, audio);
+                    String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
 
+                    map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+                    map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+                    map.put(Save.DIFFICULTY_STRING, difficulty);
+                    map.put(Save.AUDIO_STRING, audio);
+                    map.put(Save.LANGUAGE_STRING, language);
+                }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         return map;
     }
 
