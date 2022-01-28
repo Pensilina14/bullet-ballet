@@ -19,6 +19,14 @@ public class GameState {
 		this.generator.generate();
 	}
 	
+	public GameState(final Environment env) {
+		this.score = 0;
+		this.generator = new EnvironmentGenerator();
+		this.env = env;
+		this.generator.setEnvironment(env);
+		this.generator.generate();
+	}
+	
 	public Environment getGameEnvironment() {
 		return this.env;
 	}

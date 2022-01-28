@@ -33,7 +33,7 @@ public enum GameEntities {
 	/**
 	 * The number of entity types present in the game.
 	 */
-	private static final int ENTITY_TYPES = 5;
+	private static final int ENTITY_TYPES = 6;
 	
 	/**
 	 * Simple getter method for {@link ENTITY_TYPES}.

@@ -51,11 +51,19 @@ public class GameEngine implements Controller, GameEventListener {
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
-	public GameEngine(final GameView view, final GameState game) {
+	public GameEngine(final GameState gameState) {
+		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
+		this.eventQueue = new LinkedList<>();
+		this.view = Optional.empty();
+		this.gameState = Optional.of(gameState);
+		this.timer = Optional.of(new AnimationTimerImpl(this));
+	}
+	
+	public GameEngine(final GameView view, final GameState gameState) {
 		this.cmdQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 		this.eventQueue = new LinkedList<>();
 		this.view = Optional.of(view);
-		this.gameState = Optional.of(game);
+		this.gameState = Optional.of(gameState);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 	}
 	
