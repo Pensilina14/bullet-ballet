@@ -26,6 +26,10 @@ public enum GameEntities {
 	 */
 	WEAPON,
 	/**
+	 * Bullet shoot out of the weapon on user input.
+	 */
+	BULLET,
+	/**
 	 * Squared objects that float onto the background
 	 */
 	PLATFORM;
@@ -33,7 +37,7 @@ public enum GameEntities {
 	/**
 	 * The number of entity types present in the game.
 	 */
-	private static final int ENTITY_TYPES = 6;
+	private static final int ENTITY_TYPES = 7;
 	
 	/**
 	 * Simple getter method for {@link ENTITY_TYPES}.
@@ -45,6 +49,6 @@ public enum GameEntities {
 	}
 	
 	public static final List<GameEntities> getList() {
-		return List.of(PLAYER, ENEMY, PICKUP_ITEM, OBSTACLE, WEAPON, PLATFORM);
+		return List.of(PLAYER, ENEMY, PICKUP_ITEM, OBSTACLE, WEAPON, BULLET, PLATFORM);
 	}
 }

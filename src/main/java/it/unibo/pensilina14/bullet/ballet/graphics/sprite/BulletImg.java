@@ -1,9 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
 public enum BulletImg {
-	CLASSICAL("Normal", "res/assets/sprites/bullets/Classic.png"),
-	TOXIC("Toxic", "res/assets/sprites/bullets/Classic.png"),
-	SOPORIFIC("Soporofic", "res/assets/sprites/bullets/Classic.png");
+	CLASSICAL("Normal", ""),
+	TOXIC("Toxic", ""),
+	SOPORIFIC("Soporofic", "");
 	
 	private final String name;
 	private final String path;

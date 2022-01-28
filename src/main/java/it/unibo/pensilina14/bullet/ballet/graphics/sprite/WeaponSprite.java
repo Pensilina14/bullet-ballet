@@ -37,17 +37,30 @@ public class WeaponSprite extends Pane {
 		}
 	}
 	/// Add image for weapon
-	private final static int DEFAULT_VALUE = 0;
+	private final Image weaponImage;
+	private final ImageView weaponView;
+	private final int offsetX;
+	private final int offsetY;
+	private final WeaponsImg typeOfImage;
 	private MutablePosition2D position;
+	private final static int WEAPON_SIZE = 35;
+	private final static int WEAPON_VIEW_WIDTH = 30;
+	private final static int WEAPON_VIEW_HEIGHT = 42;
 
-    public WeaponSprite(final WeaponsImg img, final Weapon weapon, final double x, final double y) throws  IOException{
-		final Image weaponImg = new Image(Files.newInputStream(Paths.get(img.getPath())));
-    	final ImageView weaponView= new ImageView(weaponImg);
-    	final double weaponWidth = weapon.getDimension().get().getWidth();
-    	final double weaponHeight = weapon.getDimension().get().getHeight();
+
+
+    public WeaponSprite(final WeaponsImg img, final double x, final double y) throws  IOException{
+		this.weaponImage = new Image(Files.newInputStream(Paths.get(img.getPath())));
+    	this.weaponView = new ImageView(this.weaponImage);
+    	this.typeOfImage = img;
     	this.renderPosition(x, y);
-    	weaponView.setViewport(new Rectangle2D(DEFAULT_VALUE, DEFAULT_VALUE, weaponWidth, weaponHeight));
-    	this.getChildren().add(weaponView);
+    	this.offsetX = 0;
+    	this.offsetY = 0;
+    	this.weaponView.setFitWidth(WeaponSprite.WEAPON_SIZE);
+    	this.weaponView.setFitHeight(WeaponSprite.WEAPON_SIZE);
+    	this.weaponView.setViewport(new Rectangle2D(this.offsetX, this.offsetY
+    			, WeaponSprite.WEAPON_VIEW_WIDTH, WeaponSprite.WEAPON_VIEW_HEIGHT));
+    	this.getChildren().add(this.weaponView);
     }
     
     public void renderPosition(final double x, final double y) {
@@ -60,6 +73,14 @@ public class WeaponSprite extends Pane {
     	final double netx = this.position.getX() - 1.0;
     	this.position.setPosition(netx, this.position.getY());
     	this.setTranslateX(this.position.getX());
+    }
+    
+    public WeaponsImg getTypeOfImage() {
+    	return this.typeOfImage;
+    }
+    
+    public MutablePosition2D getPosition() {
+    	return this.position;
     }
 }
     

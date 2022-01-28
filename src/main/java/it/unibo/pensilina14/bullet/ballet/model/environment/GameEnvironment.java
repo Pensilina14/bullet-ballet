@@ -6,6 +6,8 @@ import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
 import it.unibo.pensilina14.bullet.ballet.common.EntityManager;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -15,9 +17,12 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +117,14 @@ public class GameEnvironment implements Environment {
 				} else if (obj instanceof PickupItem) {
 					this.entities.getItems().get().remove(obj); 
 					return true;
-				} 
+				} else if (obj instanceof WeaponImpl) {
+					AppLogger.getAppLogger().debug("Delete weapon model");
+					this.entities.getWeapons().get().remove(obj);
+					return true;
+				} else if (obj instanceof BulletImpl) {
+					this.entities.getBullets().get().remove(obj);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -139,13 +151,23 @@ public class GameEnvironment implements Environment {
 				e.resetLanding();
 			}
 			e.updateState();
+			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
 		this.entities.getObstacles().get().stream().forEach(o -> o.updateState()); 
 		this.entities.getItems().get().stream().forEach(i -> i.updateState());
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
-		this.entities.getWeapons().get().stream().forEach(i -> i.updateState());
+		this.entities.getWeapons().get().stream().forEach(i -> {
+			if(!i.isOn()) {
+				i.updateState();
+			} else {
+				final MutablePosition2D pos = player.get().getPosition().get();
+				i.setPosition(new MutablePosition2Dimpl(pos.getX()+15, pos.getY()+7));
+			}
+		});
+		this.entities.getBullets().get().stream().forEach(i -> i.updateState());
 		this.checkCollisions();
 	}
+	
 	
 	@Override
 	public final void setEventListener(final GameEventListener listener) {
@@ -158,7 +180,10 @@ public class GameEnvironment implements Environment {
 				"playerenemy", new CollisionEventChecker(this.entities.getEnemies().get(), List.of(this.entities.getPlayer().get())), 
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
-				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get())
+				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
+				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get())),
+				"bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()),
+				"bulletPlatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get())
 		);
 
 		for (final EventChecker checker : eventCheckers.values()) {
@@ -171,6 +196,8 @@ public class GameEnvironment implements Environment {
 				});
 			}
 		}
+
+
 	}
 
 	@Override

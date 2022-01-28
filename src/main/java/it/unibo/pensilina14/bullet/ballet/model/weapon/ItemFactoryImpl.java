@@ -30,7 +30,13 @@ public class ItemFactoryImpl implements ItemFactory{
 	@Override
 	public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
-				, Items.DAMAGE, effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()));
+				, Items.DAMAGE, effectFact.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
+	}
+	
+	@Override
+	public Item createCoinItem(final Environment environment, final SpeedVector2D speedVector) {
+		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
+				, Items.COIN, effectFact.createHealEffect(0));
 	}
 	
 }

@@ -10,16 +10,16 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
+<FlowPane orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="Pause">
+      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblPause.text">
          <font>
             <Font name="Comic Sans MS Bold" size="48.0" />
          </font>
          <effect>
             <InnerShadow choke="0.02">
                <color>
-                  <Color blue="0.125490203499794" green="0.125490203499794" red="1.0" />
+                  <Color red="1.0" green="0.125490203499794" blue="0.125490203499794" />
                </color>
             </InnerShadow>
          </effect>
@@ -29,11 +29,11 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </FlowPane.margin>
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="RESUME" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
-                        <Color blue="0.12365984171628952" green="0.12365984171628952" red="0.9210526347160339" />
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
                      </color>
                   </DropShadow>
                </effect>
@@ -41,7 +41,19 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="SETTINGS" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnPauseSettings.text" textFill="#d32c2c">
+               <effect>
+                  <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                     <color>
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="Comic Sans MS" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#backToHomepage" prefHeight="50.0" prefWidth="320.0" text="HOME" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -57,7 +69,7 @@
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
-                        <Color blue="0.12365984171628952" green="0.12365984171628952" red="0.9210526347160339" />
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
                      </color>
                   </DropShadow>
                </effect>
@@ -65,6 +77,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
+            
          </children>
          <padding>
             <Insets left="10.0" top="10.0" />

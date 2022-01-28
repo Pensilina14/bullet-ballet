@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet;
 
+import java.io.IOException;
+
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import javafx.animation.AnimationTimer;
 

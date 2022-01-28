@@ -148,9 +148,10 @@ public class SaveTest {
         final int resWidth = 1920;
         final int resHeight = 1080;
         final String difficulty = "hard";
-        final int audioVolume = 30;
+        final double audioVolume = 30.0;
+        final String language = "it_IT";
 
-        final boolean hasSavedSettings = Save.saveSettings(resWidth, resHeight, difficulty, audioVolume);
+        final boolean hasSavedSettings = Save.saveSettings(resWidth, resHeight, difficulty, audioVolume, language);
 
         assertTrue(hasSavedSettings);
 
@@ -160,6 +161,7 @@ public class SaveTest {
         settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight));
         settingsMap.put(Save.DIFFICULTY_STRING, difficulty);
         settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume));
+        settingsMap.put(Save.LANGUAGE_STRING, language);
 
         HashMap<String, String> loadedSettings = Save.loadSettings();
 
@@ -170,9 +172,10 @@ public class SaveTest {
         final int resWidth2 = 1280;
         final int resHeight2 = 720;
         final String difficulty2 = "easy";
-        final int audioVolume2 = 20;
+        final double audioVolume2 = 20.0;
+        final String language2 = "en_UK";
 
-        final boolean hasUpdatedSettings = Save.saveSettings(resWidth2, resHeight2, difficulty2, audioVolume2);
+        final boolean hasUpdatedSettings = Save.saveSettings(resWidth2, resHeight2, difficulty2, audioVolume2, language2);
 
         assertTrue(hasUpdatedSettings);
 
@@ -182,6 +185,7 @@ public class SaveTest {
         settingsMap.put(Save.RESOLUTION_HEIGHT_STRING, String.valueOf(resHeight2));
         settingsMap.put(Save.DIFFICULTY_STRING, difficulty2);
         settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume2));
+        settingsMap.put(Save.LANGUAGE_STRING, language2);
 
         loadedSettings = Save.loadSettings();
 

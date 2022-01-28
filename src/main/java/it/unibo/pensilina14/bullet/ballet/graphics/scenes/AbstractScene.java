@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public abstract class AbstractScene extends Scene {
         });
     }
 
-    public abstract void draw();
+    public abstract void draw() throws IOException;
 
 	public void setHeight(final double heigth) {
 		this.root.setMaxHeight(heigth);

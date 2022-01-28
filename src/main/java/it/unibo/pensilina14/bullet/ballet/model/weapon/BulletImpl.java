@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class BulletImpl extends GameEntity implements Bullet {
 
+	private static final double MS_TO_S = 3;
 	private final String name;
 	private double damage;
 	private boolean fired;
@@ -71,6 +72,11 @@ public class BulletImpl extends GameEntity implements Bullet {
 	@Override
 	public void moveToRandomPosition() {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void updateState() {
+		this.getSpeedVector().get().noSpeedVectorSum(MS_TO_S, 0);
 	}
 
 }

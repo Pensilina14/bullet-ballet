@@ -5,10 +5,14 @@ import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
+import it.unibo.pensilina14.bullet.ballet.model.coin.CoinImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -51,6 +55,12 @@ public interface EntityManager {
 	 * @return the weapons, refer to {@link Weapon}.
 	 */
 	Optional<List<Weapon>> getWeapons();
+	/**
+	 * Gets a {@link List} of {@link Bullet}(s).
+	 * 
+	 * @return the bullets in-game.
+	 */
+	Optional<List<BulletImpl>> getBullets();
 	/**
 	 * Platforms getter.
 	 * 
@@ -102,6 +112,13 @@ public interface EntityManager {
 	 * false otherwise.
 	 */
 	boolean addWeapon(Weapon weapon);
+	/**
+	 * Adds a bullet({@link Bullet}) to the game.
+	 * 
+	 * @param bullet
+	 * @return true if bullet is added, false if not.
+	 */
+	boolean addBullet(Bullet bullet);
 	/**
 	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
 	 */

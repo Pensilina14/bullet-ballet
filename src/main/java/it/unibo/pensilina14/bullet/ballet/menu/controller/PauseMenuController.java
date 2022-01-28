@@ -41,4 +41,14 @@ public class PauseMenuController {
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
         loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
     }
+	
+	@FXML
+	void backToHomepage(final MouseEvent event) {
+		try {
+			loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

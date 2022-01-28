@@ -11,27 +11,22 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public class WeaponFactoryImpl implements WeaponFactory {
 	
 	private final EffectFactory effectFactory = new EffectFactoryImpl();
-	private static final int DIMENSION = 50;
+	private static final int DIMENSION = 35;
 	private static final int MASS = 5;
-	
-	//private final SpeedVector2D speedVector = new SpeedVector2DImpl(position, SPEED);
-	
+		
 	@Override
-	public Weapon createGun(final SpeedVector2D speedVector, final Environment gameEnv) {
-		return new WeaponImpl(EntityList.Weapons.GUN, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector, Items.WEAPON,
-				effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
+	public WeaponImpl createGun(final Environment gameEnv, final SpeedVector2D speedVector) {
+		return new WeaponImpl(EntityList.Weapons.GUN, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector);
 	}
 
 	@Override
-	public Weapon createShotGun(final SpeedVector2D speedVector, final Environment gameEnv) {
-		return new WeaponImpl(EntityList.Weapons.SHOTGUN, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector, Items.WEAPON,
-				effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
+	public WeaponImpl createShotGun(final Environment gameEnv, final SpeedVector2D speedVector) {
+		return new WeaponImpl(EntityList.Weapons.SHOTGUN, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector);
 	}
 
 	@Override
-	public Weapon createAuto(final SpeedVector2D speedVector, final Environment gameEnv) {
-		return new WeaponImpl(EntityList.Weapons.AUTO, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector, Items.WEAPON,
-				effectFactory.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
+	public WeaponImpl createAuto(final Environment gameEnv, final SpeedVector2D speedVector) {
+		return new WeaponImpl(EntityList.Weapons.AUTO, new Dimension2Dimpl(DIMENSION, DIMENSION), gameEnv, MASS, speedVector);
 	}
 
 }

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
+import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public class WeaponImpl extends PickupItem implements Weapon {
+public class WeaponImpl extends GameEntity implements Weapon {
 
 	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
 	private static final double DAMAGE_FACTOR_SHOTGUN = 1.5;
@@ -20,6 +22,7 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	private final int limitBullets;
 	private final int limitChargers;
 	private final String name;
+	private boolean mode;
 	
 	///it keeps the index of ammo left in the current charger
 	private int currentAmmo;
@@ -32,14 +35,15 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	private double damageFactor;
 	
 	public WeaponImpl(final EntityList.Weapons weaponType, final Dimension2D dimension, final Environment gameEnvironment, 
-            final double mass, final SpeedVector2D vector, final Items id, 
-            final Effect effect) {
-		super(vector, gameEnvironment, mass, dimension, id, effect);
+            final double mass, final SpeedVector2D vector) {
+		super(vector, gameEnvironment, mass, dimension);
 		this.name = weaponType.getName();
 		this.limitBullets = weaponType.getLimBullets();
 		this.limitChargers = weaponType.getLimChargers();
 		this.currentAmmo = limitBullets;
 		this.weaponType = weaponType;
+		this.mode = false;
+		this.indexCharger = 0;
 		this.initializeWeapon();
 	}	
 	
@@ -114,15 +118,17 @@ public class WeaponImpl extends PickupItem implements Weapon {
 	
 	@Override
 	public void decreaseAmmo() {
-		if(this.hasAmmo()) {
-			this.currentAmmo--;
-		}else {
-			this.switchCharger();
-			System.out.println(this.bandolier);
-			this.currentAmmo--;
+		if (isOn()) {
+			if (this.hasAmmo()) {
+				this.currentAmmo--;
+			} else {
+				this.switchCharger();
+				//System.out.println(this.bandolier);
+				this.currentAmmo--;
+			}
+			this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
+			this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 		}
-		this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
-		this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 	}
 	
 	@Override
@@ -154,6 +160,22 @@ public class WeaponImpl extends PickupItem implements Weapon {
 		this.currentAmmo = this.bandolier.get(this.indexCharger).size();
 		//this.bandolier.stream().filter(x -> x.isEmpty()).distinct().findFirst().get().addAll(charger);
 	}
+	
+	@Override
+	public void recharge() {
+		final List<Bullet> charger = new ArrayList<>(this.limitBullets);
+		for (int i = 0; i < this.limitBullets; i++) {
+			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
+		}
+		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
+		this.switchCharger().addAll(charger);
+		final boolean b = !this.hasAmmo(this.bandolier.get(indexCharger--));
+		if (b) {
+			this.indexCharger--;
+		}
+		this.currentAmmo = this.bandolier.get(this.indexCharger).size()-1;
+		
+	}
 
     
     private List<Bullet> switchCharger() {
@@ -172,5 +194,28 @@ public class WeaponImpl extends PickupItem implements Weapon {
     public EntityList.Weapons getTypeOfWeapon(){
     	return this.weaponType;
     }
-
+    
+    @Override
+    public boolean isOn() {
+    	return this.mode;
+    }
+    
+    @Override
+    public void setOn() {
+    	this.mode = true;
+    }
+    
+    @Override
+    public void setOff() {
+    	this.mode = false;
+    }
+    
+    @Override
+    public void setPosition(final MutablePosition2D newPos) {
+    	this.getPosition().get().setPosition(newPos.getX(), newPos.getY());
+    }
+    
+    public int getIndexCharger() {
+    	return this.indexCharger;
+    }
 }

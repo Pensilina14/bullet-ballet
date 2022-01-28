@@ -8,11 +8,15 @@ import java.util.stream.Collectors;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
+import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
+import it.unibo.pensilina14.bullet.ballet.model.coin.CoinImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -105,11 +109,26 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Optional<List<BulletImpl>> getBullets() {
+		final List<GameEntity> bullets = this.getContainer().get(GameEntities.BULLET).stream()
+				.map(x -> x.get())
+				.collect(Collectors.toList());
+		if (!bullets.isEmpty() && bullets.get(0) instanceof BulletImpl) {
+			return Optional.of(bullets.stream()
+					.map(e -> (BulletImpl) e)
+					.collect(Collectors.toList()));
+		}
+		return Optional.empty();
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Optional<List<Platform>> getPlatforms() {
 		final List<GameEntity> platforms = this.getContainer().get(GameEntities.PLATFORM).stream()
 				.map(x -> x.get())
 				.collect(Collectors.toList());
-		if (!platforms.isEmpty() && platforms.get(0) instanceof Enemy) {
+		if (!platforms.isEmpty() && platforms.get(0) instanceof Platform) {
 			return Optional.of(platforms.stream()
 					.map(e -> (Platform) e)
 					.collect(Collectors.toList()));
@@ -205,6 +224,28 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 * {@inheritDoc}
 	 */
 	@Override
+	public boolean addBullet(final Bullet bullet) {
+		Optional<BulletImpl> bulletImpl = Optional.empty();
+		try {
+			bulletImpl = Optional.of((BulletImpl) bullet);
+		} catch (final ClassCastException e) {
+			AppLogger.getAppLogger().error("Error while casting Bullet object to BulletImpl object.");
+			e.printStackTrace();
+		}
+		if (bulletImpl.isPresent()) {
+			if (this.getContainer().get(GameEntities.BULLET).contains(Optional.of(bulletImpl.get()))) {
+				return false;
+			} else {
+				this.getContainer().get(GameEntities.BULLET).add(Optional.of(bulletImpl.get()));
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public boolean addPlatform(final Platform platform) {
 		if (this.getContainer().get(GameEntities.PLATFORM).contains(Optional.of(platform))) {
 			return false;
@@ -237,6 +278,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 		if (this.getWeapons().isPresent()) {
 			mergedList.get().addAll(this.getWeapons().get());
 		}
+		if (this.getBullets().isPresent()) {
+			mergedList.get().addAll(this.getBullets().get());
+		}
 		return mergedList;
 	}
+	
 }
