@@ -128,7 +128,8 @@ public class Player extends GameEntity implements Characters{
 
     @Override
     public boolean isAlive() {
-        return this.health > 0.0;
+        return this.health > 0.0
+        		&& this.getPosition().get().getY() < 1000;
     }
 
     @Override
@@ -210,7 +211,7 @@ public class Player extends GameEntity implements Characters{
     	if (!this.isAlive()) {
     		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
-    	AppLogger.getAppLogger().info("HEALTH: " + String.valueOf(this.getHealth()));
+    	AppLogger.getAppLogger().info(" " + this.getPosition().get().getCoordinates() + " ");
     }
     /*
      * Following code could be universalized for every game entity.
