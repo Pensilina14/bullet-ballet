@@ -5,14 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane orientation="VERTICAL" prefHeight="603.0" prefWidth="722.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
+
+<AnchorPane prefHeight="597.0" prefWidth="785.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblPause.text">
+      <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblPause.text" AnchorPane.bottomAnchor="533.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Comic Sans MS Bold" size="48.0" />
          </font>
@@ -24,10 +25,7 @@
             </InnerShadow>
          </effect>
       </Label>
-      <VBox alignment="CENTER" prefHeight="505.0" prefWidth="638.0" spacing="50.0">
-         <FlowPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </FlowPane.margin>
+      <VBox alignment="CENTER" prefHeight="597.0" prefWidth="791.0" spacing="50.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
                <effect>
@@ -57,7 +55,7 @@
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
-                        <Color blue="0.12365984171628952" green="0.12365984171628952" red="0.9210526347160339" />
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
                      </color>
                   </DropShadow>
                </effect>
@@ -78,10 +76,10 @@
                </font>
             </Button>
             
-         </children>
+               </children>
          <padding>
             <Insets left="10.0" top="10.0" />
          </padding>
       </VBox>
    </children>
-</FlowPane>
+</AnchorPane>

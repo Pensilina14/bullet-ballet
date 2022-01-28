@@ -83,8 +83,8 @@ public class SettingsController implements Initializable {
         }
     }
     
-    private Alert generateSaveSettingsAlert(final AlertType alertType) {
-    	final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void generateSaveSettingsAlert(final AlertType alertType) {
+    	final Alert alert = new Alert(alertType);
     	if (alertType.equals(AlertType.INFORMATION)) {
     		alert.setTitle("Save Settings"); 
             alert.setHeaderText("Save"); 
@@ -96,7 +96,6 @@ public class SettingsController implements Initializable {
             alert.setContentText("Save has not been executed.");
             alert.show();
     	}
-    	return alert;
     }
     
 }
