@@ -18,9 +18,7 @@ import javafx.stage.Window;
 public class PageLoaderImpl implements PageLoader{
     
     private static final String LANGUAGES_PATH = "languages.bulletBallet";
-
-    //TODO: volendo si possono unire in un metodo quelli con la lingua e quelli con la width e la height.
-
+    private static final int MENU_DIMENSION = 550;
     private Optional<Window> window;
     
     public PageLoaderImpl() {
@@ -63,7 +61,7 @@ public class PageLoaderImpl implements PageLoader{
     @Override
     public Window goToSelectedPageOnInput(final Frames frame) throws IOException { 
     	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
-    	final Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
+    	final Scene scene = new Scene(root);
     	final Stage window = new Stage();
     	window.setScene(scene);
     	window.show();
@@ -92,7 +90,7 @@ public class PageLoaderImpl implements PageLoader{
     @Override
     public void loadFirstScene (final Stage primaryStage) throws IOException{
         final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Frames.HOMEPAGE.toString())), getLanguage(Languages.ENGLISH));
-        final Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
+        final Scene scene = new Scene(root, MENU_DIMENSION, MENU_DIMENSION);
         primaryStage.setTitle("bullet-ballet");
         primaryStage.setScene(scene);
         primaryStage.show();
