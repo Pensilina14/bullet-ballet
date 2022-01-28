@@ -37,8 +37,6 @@ public class PauseMenuController {
 	}
 
 	@FXML void resumeGame(final MouseEvent event) {
-		AppLogger.getAppLogger().info("Resume.");
-		System.out.println("Resume Game, wait for update");
 		final Window window = resumeButton.getScene().getWindow();
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
