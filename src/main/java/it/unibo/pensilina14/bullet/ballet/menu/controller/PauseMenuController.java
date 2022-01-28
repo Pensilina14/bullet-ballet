@@ -34,7 +34,6 @@ public class PauseMenuController {
 	@FXML void resumeGame(final MouseEvent event) {
 		AppLogger.getAppLogger().info("Resume.");
 		System.out.println("Resume Game, wait for update");
-		// TODO add implementation
 	}
 	
 	@FXML

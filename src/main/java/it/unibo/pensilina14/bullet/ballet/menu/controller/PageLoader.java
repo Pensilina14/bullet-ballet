@@ -1,8 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
+
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public interface PageLoader { //TODO: volendo si possono rimuovere quelli con lingua e unirli a quelli con la width e la height
     
@@ -14,7 +17,7 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      * @param event
      * @throws IOException: fail or interrupted I/O operations.
      */
-	void goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException;
+	Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException;
 
     /**
      *
@@ -25,7 +28,7 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      * @param height: the height of the screen.
      * @throws IOException: fail or interrupted I/O operations.
      */
-    void goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language, final int width, final int height) throws IOException;
+    Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language, final int width, final int height) throws IOException;
 
     /**
      *
@@ -33,14 +36,14 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      * @param event: an event.
      * @throws IOException: fail or interrupted I/O operations.
      */
-    void goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException;
+    Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException;
 
     /**
      *
      * @param frame: the selected menu.
      * @throws IOException: fail or interrupted I/O operations.
      */
-    void goToSelectedPageOnInput(final Frames frame) throws IOException;
+   	Window goToSelectedPageOnInput(final Frames frame) throws IOException;
     /**
      * 
      * This will load the software's first scene.
@@ -67,5 +70,6 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      * @throws IOException: fail or interrupted I/O operations.
      */
     void loadFirstScene (final Stage primaryStage, final Languages language, final int width, final int height) throws IOException;
+    
     
 }

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class PageLoaderImpl implements PageLoader{
     
@@ -20,39 +21,43 @@ public class PageLoaderImpl implements PageLoader{
     //TODO: volendo si possono unire in un metodo quelli con la lingua e quelli con la width e la height.
 
     @Override
-	public void goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException {
+	public Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language) throws IOException {
     	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(language));
         final Scene scene = new Scene(root);
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+        return window;
 	}
 
     @Override
-    public void goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language, final int width, final int height) throws IOException {
+    public Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event, final Languages language, final int width, final int height) throws IOException {
         final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(language));
         final Scene scene = new Scene(root, width, height);
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+        return window;
     }
 
     @Override
-    public void goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException {
+    public Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException {
         final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
         final Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
+        return window;
     }
     
     @Override
-    public void goToSelectedPageOnInput(final Frames frame) throws IOException { 
+    public Window goToSelectedPageOnInput(final Frames frame) throws IOException { 
     	final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
     	final Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
     	final Stage window = new Stage();
     	window.setScene(scene);
     	window.show();
+    	return window;
     }
     
     @Override
@@ -86,7 +91,7 @@ public class PageLoaderImpl implements PageLoader{
 	    final Locale locale = new Locale(composeLanguageString(language));
 	    return ResourceBundle.getBundle(PageLoaderImpl.LANGUAGES_PATH, locale);
     }
-    
+   
     private String composeLanguageString(final Languages language) {
     	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode();
     }

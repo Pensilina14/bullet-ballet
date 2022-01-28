@@ -20,6 +20,9 @@ import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -41,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
@@ -303,8 +307,12 @@ public class MapScene extends AbstractScene implements GameView{
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
         	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
         	this.controller.get().stop();
-        	this.controller.get().notifyCommand(new Esc());
-        	this.controller.get().start();
+        	final PageLoader pageLoaderImpl = new PageLoaderImpl();
+        	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
+        	//this.controller.get().notifyCommand(new Esc());
+        	window.setOnCloseRequest(e -> {
+        		this.controller.get().start();
+        	});
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
