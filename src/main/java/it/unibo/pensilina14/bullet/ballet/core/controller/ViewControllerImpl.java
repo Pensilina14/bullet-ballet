@@ -7,9 +7,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 /**
  * {@inheritDoc}

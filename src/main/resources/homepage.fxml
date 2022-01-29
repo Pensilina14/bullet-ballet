@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="511.0" prefWidth="772.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.HomePageController">
+<AnchorPane prefHeight="511.0" prefWidth="772.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.HomePageController">
    <children>
       <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="BULLET BALLET" AnchorPane.bottomAnchor="438.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
          <font>
