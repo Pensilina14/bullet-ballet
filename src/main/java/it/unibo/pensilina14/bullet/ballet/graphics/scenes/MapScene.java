@@ -33,6 +33,9 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.animation.TranslateTransition;
 import javafx.event.Event;
 import javafx.geometry.Insets;
@@ -84,12 +87,14 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<BulletSprite, MutablePosition2D> bulletSprites;
 	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
+    private final SoundsFactory soundsFactory;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.soundsFactory = new SoundsFactoryImpl();
     }	
 
     public MapScene(final GameState gameState, final GameEngine ctrlr) {
@@ -97,6 +102,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.soundsFactory = new SoundsFactoryImpl();
     }
 
     public final void setup(final GameEngine controller) {
@@ -278,7 +284,6 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.left.get().getSpriteAnimation().play();
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
-        	new AudioClip(this.getClass().getResource("/jump2.mp4").toExternalForm()).play();
         	//AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().stop();
             this.controller.get().notifyCommand(new Up());
@@ -298,13 +303,13 @@ public class MapScene extends AbstractScene implements GameView{
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
-        	new AudioClip(this.getClass().getResource("/shot2.mp4").toExternalForm()).play();
+        	this.soundsFactory.createSound(Sounds.SHOT).play();
         	this.controller.get().notifyCommand(new Space(this));
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
         	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
-        	new AudioClip(this.getClass().getResource("/healtIncrement.mp4").toExternalForm()).play();
+        	this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT);
         	this.controller.get().stop();
         	final PageLoader pageLoaderImpl = new PageLoaderImpl();
         	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
