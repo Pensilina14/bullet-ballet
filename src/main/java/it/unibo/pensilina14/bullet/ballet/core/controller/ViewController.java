@@ -1,6 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.core.controller;
 
+import java.io.IOException;
+
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 
 /**
  * This is the contract for classes that 
@@ -23,4 +26,16 @@ public interface ViewController {
 	 * @return {@link GameView} anchored to this controller.
 	 */
 	GameView getGameView();
+	
+	/**
+	 * Un po' di documentazione che se no pare spoglio 
+	 */
+	void stopPlayerAnimation();
+	
+	/**
+	 * Un po' di documentazione che se no pare spoglio 
+	 */
+	void changeScene(Frames frame) throws IOException;
+	
+	
 }

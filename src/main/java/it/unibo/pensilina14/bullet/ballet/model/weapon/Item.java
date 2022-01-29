@@ -15,5 +15,4 @@ public interface Item extends PhysicalObject{
 	*/
 	Effect getEffect();
 	
-	void moveToRandomPosition();
 }

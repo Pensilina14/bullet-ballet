@@ -1,11 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.test;
 
-import it.unibo.pensilina14.bullet.ballet.graphics.map.CoinSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.*;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
-import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
@@ -21,7 +19,7 @@ public class MapTest {
     @Test
     public void platformTest() throws IOException { //TODO: lasciare solo mapTest
         //TODO: platform Test
-        PlatformSprite platform = new PlatformSprite(PlatformSprite.Platforms.DESERT_PLATFORM, 
+        PlatformSprite platform = new PlatformSprite(Platforms.DESERT_PLATFORM,
            new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 0.0), new GameEnvironment(), 0.0, new Dimension2Dimpl(0, 0)));
 
         String path = "res/assets/maps/Tiles/desert_platform2.png";
@@ -30,9 +28,9 @@ public class MapTest {
     @Test
     public void coinTest() throws IOException { //TODO: lasciare solo mapTest
         //TODO: coins test
-        CoinSprite coinSprite = new CoinSprite(CoinSprite.Coins.GOLD_COIN, 0,0);
+        CoinSprite coinSprite = new CoinSprite(Coins.GOLD_COIN, 0,0);
 
-        coinSprite.coinChooser();
+        //Coins.coinChooser();
     }
 
     @Test
@@ -51,10 +49,10 @@ public class MapTest {
     public void mapTest(){
         //TODO: map test
         BackgroundMap map = new BackgroundMap();
-        map.setMap(BackgroundMap.Maps.CAVE);
+        map.setMap(Maps.CAVE);
 
-        assertEquals(BackgroundMap.Maps.CAVE.getPath(), map.getMap().getPath());
-        assertEquals(PlatformSprite.Platforms.CAVE_PLATFORM, map.getPlatformType());
+        assertEquals(Maps.CAVE.getPath(), map.getMap().getPath());
+        assertEquals(Platforms.CAVE_PLATFORM, map.getPlatformType());
 
         final int width = 1280;
         final int height = 720;
@@ -65,7 +63,7 @@ public class MapTest {
         //Check whether map, platform and coin are in range of enum.
         // MAP TYPE CHECK
         boolean mapTypeChecker = false;
-        for(BackgroundMap.Maps m : BackgroundMap.Maps.values()){
+        for(Maps m : Maps.values()){
             if (m == map.getMap()) {
                 mapTypeChecker = true;
                 break;
@@ -77,7 +75,7 @@ public class MapTest {
         // PLATFORM TYPE CHECK
 
         boolean platformTypeChecker = false;
-        for(PlatformSprite.Platforms p : PlatformSprite.Platforms.values()){
+        for(Platforms p : Platforms.values()){
             if (p == map.getPlatformType()) {
                 platformTypeChecker = true;
                 break;
@@ -90,7 +88,7 @@ public class MapTest {
         // COIN TYPE CHECK
 
         boolean coinTypeChecker = false;
-        for(CoinSprite.Coins c : CoinSprite.Coins.values()){
+        for(Coins c : Coins.values()){
             if (c == map.getCoinType()) {
                 coinTypeChecker = true;
                 break;

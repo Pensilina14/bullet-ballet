@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.BulletSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
@@ -19,6 +20,9 @@ import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -29,7 +33,11 @@ import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.animation.TranslateTransition;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -39,6 +47,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -76,12 +87,14 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<BulletSprite, MutablePosition2D> bulletSprites;
 	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
+    private final SoundsFactory soundsFactory;
 
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.soundsFactory = new SoundsFactoryImpl();
     }	
 
     public MapScene(final GameState gameState, final GameEngine ctrlr) {
@@ -89,6 +102,7 @@ public class MapScene extends AbstractScene implements GameView{
         this.controller = Optional.of(ctrlr);
         this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+        this.soundsFactory = new SoundsFactoryImpl();
     }
 
     public final void setup(final GameEngine controller) {
@@ -194,7 +208,7 @@ public class MapScene extends AbstractScene implements GameView{
 		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		if (x instanceof Obstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateStaticObstacleSprite(xPos);
+    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
     			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
     			this.obstacleSprites.put(obstacleSprite, xPos);
     			this.gamePane.getChildren().add(obstacleSprite);
@@ -282,11 +296,6 @@ public class MapScene extends AbstractScene implements GameView{
             this.controller.get().notifyCommand(new Right());
         }
 
-        if (this.keysPressed.contains(KeyCode.DOWN)) { 
-        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
-            this.controller.get().notifyCommand(new Down());
-        }
-
         if (this.keysPressed.contains(KeyCode.LEFT)) {
         	//AppLogger.getAppLogger().info("Key 'LEFT' pressed.");
             this.controller.get().notifyCommand(new Left());
@@ -294,18 +303,22 @@ public class MapScene extends AbstractScene implements GameView{
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+        	this.soundsFactory.createSound(Sounds.SHOT).play();
         	this.controller.get().notifyCommand(new Space(this));
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
         	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT);
         	this.controller.get().stop();
-        	this.controller.get().notifyCommand(new Esc());
-        	this.controller.get().start();
+        	final PageLoader pageLoaderImpl = new PageLoaderImpl();
+        	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
+        	window.setOnCloseRequest(e -> {
+        		this.controller.get().start();
+        	});
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
-        	//AppLogger.getAppLogger().info("Key 'UP' released.");
         	this.mainPlayer.left.get().getSpriteAnimation().play();
         	this.keysReleased.remove(KeyCode.UP);
         }
@@ -314,11 +327,6 @@ public class MapScene extends AbstractScene implements GameView{
         	//AppLogger.getAppLogger().info("Key 'RIGHT' released.");
             this.mainPlayer.left.get().getSpriteAnimation().stop();
         	this.keysReleased.remove(KeyCode.RIGHT);
-        }
-
-        if (this.keysReleased.contains(KeyCode.DOWN)) { 
-        	//AppLogger.getAppLogger().info("Key 'DOWN' pressed.");
-        	this.keysReleased.remove(KeyCode.DOWN);
         }
 
         if (this.keysReleased.contains(KeyCode.LEFT)) {
@@ -388,7 +396,7 @@ public class MapScene extends AbstractScene implements GameView{
 		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> {
-			x.renderMovingPosition();
+			x.renderPosition(y.getX(), y.getY());
     		//AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
 		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
@@ -414,7 +422,7 @@ public class MapScene extends AbstractScene implements GameView{
     	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
     }
 
-    public final void setMap(final BackgroundMap.Maps map) {
+    public final void setMap(final Maps map) {
         this.map.setMap(map);
     }
 
@@ -503,4 +511,26 @@ public class MapScene extends AbstractScene implements GameView{
 		this.bulletSprites.put(bullet, pos);
 		this.gamePane.getChildren().add(bullet);		
 	}
+	
+	@Override
+	public void stopPlayerAnimation() {
+		this.mainPlayer.getLeft().get().getSpriteAnimation().stop();
+	}
+	
+	@Override
+	public void autoKill() {
+		final Window window = this.getWindow();
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	}
+
+	@Override
+	public void deleteObstacleSpriteImage(final MutablePosition2D position) {
+		final PhysicalObjectSprite obstacle = this.obstacleSprites.entrySet()
+				.stream()
+				.filter(entry -> position.equals(entry.getValue()))
+				.map(x -> x.getKey())
+				.findFirst().get();
+		this.getGamePane().getChildren().remove(obstacle);
+	}
+	
 }

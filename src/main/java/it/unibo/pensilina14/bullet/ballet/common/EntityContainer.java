@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.coin.Coin;
-import it.unibo.pensilina14.bullet.ballet.model.coin.CoinImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;

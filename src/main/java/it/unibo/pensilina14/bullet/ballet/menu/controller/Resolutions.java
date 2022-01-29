@@ -25,5 +25,9 @@ public enum Resolutions {
 	public String toString() {
 		return "[ " + this.width + " ], [ " + this.height + " ]";
 	}
+
+	public static Resolutions getDefaultResolution(){
+		return Resolutions.HD;
+	}
 	
 }

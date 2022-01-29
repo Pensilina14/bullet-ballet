@@ -11,7 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.OBSTACLES;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacles;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 
