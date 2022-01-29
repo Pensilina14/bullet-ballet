@@ -25,6 +25,7 @@ public class SettingsController implements Initializable {
     private ComboBox<String> difficulty;
     @FXML
     private ComboBox<String> language;
+    
     private final PageLoader loader = new PageLoaderImpl();
 
     private static final int WIDTH_INDEX = 1;
@@ -71,8 +72,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
-        // Faccio un parsing molto semplice perchè mi serve salvare solo la width e la height e non tutta la stringa.
-        final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
+		final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
         final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
                 this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
                 Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning

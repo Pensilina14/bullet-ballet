@@ -18,7 +18,6 @@ import javafx.stage.Window;
 public class PageLoaderImpl implements PageLoader{
     
     private static final String LANGUAGES_PATH = "languages.bulletBallet";
-    private static final int MENU_DIMENSION = 550;
     private Optional<Window> window;
     
     public PageLoaderImpl() {
@@ -50,7 +49,7 @@ public class PageLoaderImpl implements PageLoader{
     @Override
     public Window goToSelectedPageOnInput(final Frames frame, final MouseEvent event) throws IOException {
         final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(frame.toString())), getLanguage(Languages.ENGLISH));
-        final Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
+        final Scene scene = new Scene(root);
         final Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
         window.setScene(scene);
         window.show();
@@ -90,7 +89,7 @@ public class PageLoaderImpl implements PageLoader{
     @Override
     public void loadFirstScene (final Stage primaryStage) throws IOException{
         final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Frames.HOMEPAGE.toString())), getLanguage(Languages.ENGLISH));
-        final Scene scene = new Scene(root, MENU_DIMENSION, MENU_DIMENSION);
+        final Scene scene = new Scene(root);
         primaryStage.setTitle("bullet-ballet");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -115,6 +114,8 @@ public class PageLoaderImpl implements PageLoader{
     	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode();
     }
 
+    /*
+    La dimensione che salviamo fa riferimento al gioco, quindi questi due metodi andrebbero passati a FormController.java
     private int getScreenWidth() {
         return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_WIDTH_STRING)) : Resolutions.getDefaultResolution().getWidth();
     }
@@ -122,5 +123,5 @@ public class PageLoaderImpl implements PageLoader{
     private int getScreenHeight() {
         return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_HEIGHT_STRING)) : Resolutions.getDefaultResolution().getHeight();
     }
-    
+    */
 }
