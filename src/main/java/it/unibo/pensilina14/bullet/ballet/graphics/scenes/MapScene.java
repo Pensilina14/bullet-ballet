@@ -509,7 +509,7 @@ public class MapScene extends AbstractScene implements GameView{
 		//final MutablePosition2D pos = this.mainWeapon.get().getRight();
 		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
 		this.bulletSprites.put(bullet, pos);
-		this.gamePane.getChildren().add(bullet);		
+		this.gamePane.getChildren().add(bullet);
 	}
 	
 	@Override

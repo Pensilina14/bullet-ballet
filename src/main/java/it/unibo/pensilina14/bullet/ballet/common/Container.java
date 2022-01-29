@@ -26,5 +26,5 @@ public interface Container<X> {
 	 * a {@link Map} which keys are {@link GameEntities} and 
 	 * actual entities or sprites of the entities, wrapped up in a {@link List}.
 	 */
-	Map<GameEntities, List<Optional<X>>> getContainer();
+	Map<GameEntities, Optional<List<X>>> getContainer();
 }

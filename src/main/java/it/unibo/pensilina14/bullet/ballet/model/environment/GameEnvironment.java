@@ -159,7 +159,7 @@ public class GameEnvironment implements Environment {
 		});
 		this.entities.getItems().get().forEach(i -> i.updateState());
 		this.entities.getWeapons().get().forEach(i -> {
-			if(!i.isOn()) {
+			if (!i.isOn()) {
 				i.updateState();
 			} else {
 				final MutablePosition2D pos = player.get().getPosition().get();
@@ -172,10 +172,11 @@ public class GameEnvironment implements Environment {
 		} 
 
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
-		if (!player.get().isAlive()) {		
+		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
 		this.checkCollisions();
+		AppLogger.getAppLogger().debug(this.entities.getObjsList().toString());
 	}
 	
 	
@@ -202,10 +203,11 @@ public class GameEnvironment implements Environment {
 				"bulletObstacle", new CollisionEventChecker(this.entities.getObstacles().get(), this.entities.getBullets().get())
 				);
 			this.checkAll(bulletEventsCheckers);
+			AppLogger.getAppLogger().debug("Checked collision on bullet type objects.");
 		}
 	}
 	
-	private void checkAll(Map<String, EventChecker> checkersMap) {
+	private void checkAll(final Map<String, EventChecker> checkersMap) {
 		for (final EventChecker checker : checkersMap.values()) {
 			checker.check();
 			final List<GameEvent> events = new ArrayList<>(checker.getBuffer().getEvents());

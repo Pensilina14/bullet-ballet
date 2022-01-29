@@ -176,6 +176,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private void checkEvents() {
 		final Environment env = this.modelController.get().getGameEnvironment();
+		AppLogger.getAppLogger().debug(this.eventQueue.toString());
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof PlayerHitsItemEvent) {
 				playerHitsPickUpObjEventHandler(env, e);
@@ -193,7 +194,7 @@ public class GameEngine implements Controller, GameEventListener {
 				enemyHitsPlatformEventHandler(env, e);
 			} else if (e instanceof BulletHitsPlatformEvent) {
 				bulletHitsPlatformEventHandler(env, e);
-			} else if(e instanceof GameOverEvent) {
+			} else if (e instanceof GameOverEvent) {
 				try {
 					gameOverEventHandler(e);
 				} catch (IOException e1) {
@@ -293,7 +294,6 @@ public class GameEngine implements Controller, GameEventListener {
 							, weapon.getPosition().get().getY()));	
 					this.viewController.get().getGameView().deleteWeaponSpriteImage(weapon.getPosition().get());
 				} else {
-					
 					player.getWeapon().setOff();
 					player.removeWeapon();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
@@ -324,7 +324,7 @@ public class GameEngine implements Controller, GameEventListener {
 					, enemy.getPosition().get().getY()));
 			this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
 		//}
-		AppLogger.getAppLogger().info("Bullet hits enemy");
+		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
 	private void bulletHitsObstacleEventHandler(final Environment env, final GameEvent e) {
@@ -335,14 +335,14 @@ public class GameEngine implements Controller, GameEventListener {
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX()
 				, obstacle.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteObstacleSpriteImage(obstacle.getPosition().get());
-		AppLogger.getAppLogger().info("Bullet hits obstacle");
+		AppLogger.getAppLogger().collision("Bullet hits obstacle");
 	}
 	
 	private void bulletHitsPlatformEventHandler(final Environment env, final GameEvent e) {
 		final MutablePosition2D bulletPos = ((BulletHitsPlatformEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
 		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
-		AppLogger.getAppLogger().info("Bullet hits platform");
+		AppLogger.getAppLogger().collision("Bullet hits platform");
 	}
 	
 	private void gameOverEventHandler(final GameEvent e) throws IOException {

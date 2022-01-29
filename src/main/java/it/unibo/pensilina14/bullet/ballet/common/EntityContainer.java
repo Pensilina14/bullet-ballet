@@ -35,8 +35,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<Player> getPlayer() {
-		final List<GameEntity> player = this.getContainer().get(GameEntities.PLAYER).stream()
-				.map(x -> x.get())
+		final List<GameEntity> player = this.getContainer().get(GameEntities.PLAYER).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!player.isEmpty() && player.get(0) instanceof Player) {
 			return Optional.of((Player) player.get(0));
@@ -48,8 +48,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<Enemy>> getEnemies() {
-		final List<GameEntity> enemies = this.getContainer().get(GameEntities.ENEMY).stream()
-				.map(x -> x.get())
+		final List<GameEntity> enemies = this.getContainer().get(GameEntities.ENEMY).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!enemies.isEmpty() && enemies.get(0) instanceof Enemy) {
 			return Optional.of(enemies.stream()
@@ -63,8 +63,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<PickupItem>> getItems() {
-		final List<GameEntity> items = this.getContainer().get(GameEntities.PICKUP_ITEM).stream()
-				.map(x -> x.get())
+		final List<GameEntity> items = this.getContainer().get(GameEntities.PICKUP_ITEM).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!items.isEmpty() && items.get(0) instanceof PickupItem) {
 			return Optional.of(items.stream()
@@ -78,8 +78,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<ObstacleImpl>> getObstacles() {
-		final List<GameEntity> obstacles = this.getContainer().get(GameEntities.OBSTACLE).stream()
-				.map(x -> x.get())
+		final List<GameEntity> obstacles = this.getContainer().get(GameEntities.OBSTACLE).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!obstacles.isEmpty() && obstacles.get(0) instanceof ObstacleImpl) {
 			return Optional.of(obstacles.stream()
@@ -93,8 +93,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<Weapon>> getWeapons() {
-		final List<GameEntity> weapons = this.getContainer().get(GameEntities.WEAPON).stream()
-				.map(x -> x.get())
+		final List<GameEntity> weapons = this.getContainer().get(GameEntities.WEAPON).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!weapons.isEmpty() && weapons.get(0) instanceof Weapon) {
 			return Optional.of(weapons.stream()
@@ -108,8 +108,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<BulletImpl>> getBullets() {
-		final List<GameEntity> bullets = this.getContainer().get(GameEntities.BULLET).stream()
-				.map(x -> x.get())
+		final List<GameEntity> bullets = this.getContainer().get(GameEntities.BULLET).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!bullets.isEmpty() && bullets.get(0) instanceof BulletImpl) {
 			return Optional.of(bullets.stream()
@@ -123,8 +123,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public Optional<List<Platform>> getPlatforms() {
-		final List<GameEntity> platforms = this.getContainer().get(GameEntities.PLATFORM).stream()
-				.map(x -> x.get())
+		final List<GameEntity> platforms = this.getContainer().get(GameEntities.PLATFORM).get()
+				.stream()
 				.collect(Collectors.toList());
 		if (!platforms.isEmpty() && platforms.get(0) instanceof Platform) {
 			return Optional.of(platforms.stream()
@@ -138,17 +138,17 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public void setPlayer(final Optional<Player> player) {
-		this.getContainer().get(GameEntities.PLAYER).add(Optional.of(player.get()));
+		this.getContainer().get(GameEntities.PLAYER).get().add(player.get());
 	}
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean addEnemy(final Enemy enemy) {
-		if (this.getContainer().get(GameEntities.ENEMY).contains(Optional.of(enemy))) {
+		if (this.getContainer().get(GameEntities.ENEMY).get().contains(enemy)) {
 			return false;
 		} else {
-			this.getContainer().get(GameEntities.ENEMY).add(Optional.ofNullable(enemy));
+			this.getContainer().get(GameEntities.ENEMY).get().add(enemy);
 			return true;
 		}
 	}
@@ -165,10 +165,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 			e.printStackTrace();
 		}
 		if (pickupItem.isPresent()) {
-			if (this.getContainer().get(GameEntities.PICKUP_ITEM).contains(Optional.of(pickupItem.get()))) {
+			if (this.getContainer().get(GameEntities.PICKUP_ITEM).get().contains(pickupItem.get())) {
 				return false;
 			} else {
-				this.getContainer().get(GameEntities.PICKUP_ITEM).add(Optional.of(pickupItem.get()));
+				this.getContainer().get(GameEntities.PICKUP_ITEM).get().add(pickupItem.get());
 				return true;
 			}
 		}
@@ -187,10 +187,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 			e.printStackTrace();
 		}
 		if (obstacleImpl.isPresent()) {
-			if (this.getContainer().get(GameEntities.OBSTACLE).contains(Optional.of(obstacleImpl.get()))) {
+			if (this.getContainer().get(GameEntities.OBSTACLE).get().contains(obstacleImpl.get())) {
 				return false;
 			} else {
-				this.getContainer().get(GameEntities.OBSTACLE).add(Optional.of(obstacleImpl.get()));
+				this.getContainer().get(GameEntities.OBSTACLE).get().add(obstacleImpl.get());
 				return true;
 			}
 		}
@@ -209,10 +209,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 			e.printStackTrace();
 		}
 		if (weaponImpl.isPresent()) {
-			if (this.getContainer().get(GameEntities.WEAPON).contains(Optional.of(weaponImpl.get()))) {
+			if (this.getContainer().get(GameEntities.WEAPON).get().contains(weaponImpl.get())) {
 				return false;
 			} else {
-				this.getContainer().get(GameEntities.WEAPON).add(Optional.of(weaponImpl.get()));
+				this.getContainer().get(GameEntities.WEAPON).get().add(weaponImpl.get());
 				return true;
 			}
 		}
@@ -231,10 +231,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 			e.printStackTrace();
 		}
 		if (bulletImpl.isPresent()) {
-			if (this.getContainer().get(GameEntities.BULLET).contains(Optional.of(bulletImpl.get()))) {
+			if (this.getContainer().get(GameEntities.BULLET).get().contains(bulletImpl.get())) {
 				return false;
 			} else {
-				this.getContainer().get(GameEntities.BULLET).add(Optional.of(bulletImpl.get()));
+				this.getContainer().get(GameEntities.BULLET).get().add(bulletImpl.get());
 				return true;
 			}
 		}
@@ -245,10 +245,10 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	 */
 	@Override
 	public boolean addPlatform(final Platform platform) {
-		if (this.getContainer().get(GameEntities.PLATFORM).contains(Optional.of(platform))) {
+		if (this.getContainer().get(GameEntities.PLATFORM).get().contains(platform)) {
 			return false;
 		} else {
-			this.getContainer().get(GameEntities.PLATFORM).add(Optional.of(platform));
+			this.getContainer().get(GameEntities.PLATFORM).get().add(platform);
 			return true;
 		}
 	}
