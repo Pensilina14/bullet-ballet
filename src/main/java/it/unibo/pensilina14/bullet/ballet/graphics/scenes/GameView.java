@@ -24,6 +24,7 @@ public interface GameView {
 	void deleteEnemySpriteImage(final MutablePosition2D position);
 	void deleteBulletSpriteImage(final MutablePosition2D position);
 	void deleteWeaponSpriteImage(final MutablePosition2D position);
+	void deleteObstacleSpriteImage(final MutablePosition2D position);
 	void generateBullet(MutablePosition2D pos) throws IOException;
 	void deleteItemSprite(MutablePosition2D position);
 	void stopPlayerAnimation();

@@ -208,7 +208,7 @@ public class MapScene extends AbstractScene implements GameView{
 		for (final PhysicalObject x : world.getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
     		if (x instanceof Obstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateStaticObstacleSprite(xPos);
+    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
     			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
     			this.obstacleSprites.put(obstacleSprite, xPos);
     			this.gamePane.getChildren().add(obstacleSprite);
@@ -522,6 +522,16 @@ public class MapScene extends AbstractScene implements GameView{
 	public void autoKill() {
 		final Window window = this.getWindow();
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	}
+
+	@Override
+	public void deleteObstacleSpriteImage(final MutablePosition2D position) {
+		final PhysicalObjectSprite obstacle = this.obstacleSprites.entrySet()
+				.stream()
+				.filter(entry -> position.equals(entry.getValue()))
+				.map(x -> x.getKey())
+				.findFirst().get();
+		this.getGamePane().getChildren().remove(obstacle);
 	}
 	
 }

@@ -28,6 +28,7 @@ import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsPlatformEvent;
@@ -42,6 +43,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.media.AudioClip;
 import javafx.stage.WindowEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -198,6 +200,8 @@ public class GameEngine implements Controller, GameEventListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			} else if (e instanceof BulletHitsObstacleEvent) {
+				bulletHitsObstacleEventHandler(env, e);
 			}
 		});
 		this.eventQueue.clear();
@@ -321,6 +325,17 @@ public class GameEngine implements Controller, GameEventListener {
 			this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
 		//}
 		AppLogger.getAppLogger().info("Bullet hits enemy");
+	}
+	
+	private void bulletHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		final Obstacle obstacle = ((BulletHitsObstacleEvent) e).getObstacle();
+		final MutablePosition2D bulletPos = ((BulletHitsObstacleEvent) e).getBullet().getPosition().get();
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX()
+				, obstacle.getPosition().get().getY()));
+		this.viewController.get().getGameView().deleteObstacleSpriteImage(obstacle.getPosition().get());
+		AppLogger.getAppLogger().info("Bullet hits obstacle");
 	}
 	
 	private void bulletHitsPlatformEventHandler(final Environment env, final GameEvent e) {

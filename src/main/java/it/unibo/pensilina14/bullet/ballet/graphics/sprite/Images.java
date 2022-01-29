@@ -7,8 +7,8 @@ public enum Images {
     POISONING_ITEM("poison", "res/assets/sprites/items/poison.png"),
     HEALING_ITEM("heart","res/assets/sprites/items/heart.png"),
     DAMAGING_ITEM("damage", "res/assets/sprites/items/snail.png"),
-    STATIC_OBSTACLE("static obstacle", "res/assets/sprites/obstacles/Jump.png"),
-    DYNAMIC_OBSTACLE("dynamic obstacle", "res/assets/sprites/obstacles/dynamicObstacle.png"),
+    BUNNY("bunny", "res/assets/sprites/obstacles/Jump.png"),
+    WUT("dynamic obstacle", "res/assets/sprites/obstacles/dynamicObstacle.png"),
 	COIN("coin", Coins.getRandomCoinPath());
     
     private final String fileName;

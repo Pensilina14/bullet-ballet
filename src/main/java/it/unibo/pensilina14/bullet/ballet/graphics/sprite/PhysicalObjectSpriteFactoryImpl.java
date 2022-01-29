@@ -26,14 +26,14 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     public PhysicalObjectSprite generateDynamicObstacleSprite(final MutablePosition2D position) throws IOException {
         final PhysicalObject dynamicObstacle = obstacleFact
                 .createStandardObstacle(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
-        return new PhysicalObjectSprite(Images.DYNAMIC_OBSTACLE, position, dynamicObstacle);
+        return new PhysicalObjectSprite(Images.WUT, position, dynamicObstacle);
     }
 
     @Override
-    public PhysicalObjectSprite generateStaticObstacleSprite(final MutablePosition2D position) throws IOException {
+    public PhysicalObjectSprite generateBunnySprite(final MutablePosition2D position) throws IOException {
         final PhysicalObject staticObstacle = obstacleFact
                 .createStandardObstacle(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
-        return new PhysicalObjectSprite(Images.STATIC_OBSTACLE, position, staticObstacle);
+        return new PhysicalObjectSprite(Images.BUNNY, position, staticObstacle);
     }
 
     @Override
