@@ -65,6 +65,7 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private Optional<ViewController> viewController;
 	private Optional<ModelController> modelController;
+	private final AudioClip audioClip;
 	private final BlockingQueue<Command> cmdQueue;
 	/**
 	 * Data structure, for instance a {@link List}, whose goal is to
@@ -85,6 +86,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController = Optional.empty();
 		this.modelController = Optional.empty();
 		this.timer = Optional.of(new AnimationTimerImpl(this));
+		this.audioClip = new AudioClip(this.getClass().getResource("/soundtrack.mp4").toExternalForm());
 	}
 	
 	public GameEngine(final ViewController view, final ModelController game) {
@@ -93,6 +95,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController = Optional.of(view);
 		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
+		this.audioClip = new AudioClip(this.getClass().getResource("/soundtrack.mp4").toExternalForm());
 	}
 	
 	public final void setup() {
@@ -140,6 +143,9 @@ public class GameEngine implements Controller, GameEventListener {
 	public void updateGame() {
 		if (this.modelController.get().getGameState().get().isGameOver()) {
 			this.timer.get().stop();
+		}
+		if (!this.audioClip.isPlaying()) {
+			this.audioClip.play();
 		}
 		this.modelController.get().update();
 		this.checkEvents();
@@ -319,7 +325,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void gameOverEventHandler(final GameEvent e) throws IOException {
-		new AudioClip(this.getClass().getResource("/fall-2.mp4").toExternalForm()).play();
+		new AudioClip(this.getClass().getResource("/fall-2.mp4").toExternalForm());
 		final Player player = ((GameOverEvent) e).getPlayer();
 		this.viewController.get().stopPlayerAnimation();
 		this.viewController.get().getGameView().autoKill();
