@@ -334,10 +334,12 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public void start() {
+		this.audioClip.play();
 		this.timer.get().start();
 	}
 	
 	public void stop() {
+		this.audioClip.stop();
 		this.timer.get().stop();
 	}
 }
