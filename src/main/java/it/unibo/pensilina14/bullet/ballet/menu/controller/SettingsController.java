@@ -48,7 +48,7 @@ public class SettingsController implements Initializable {
     
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
@@ -74,15 +74,28 @@ public class SettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
-    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
-		final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
-        final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
-                this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
-                Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning
-        if(hasSaved){
-            generateSaveSettingsAlert(Alert.AlertType.INFORMATION);
-        } else {
-        	generateSaveSettingsAlert(Alert.AlertType.ERROR);
+    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+
+        // L'audio non è vuoto, è di default come 0.0 quindi non penso servi controllarlo.
+        // Questa parentesi serve così evito di scrivere tre volte il !.
+        if(!(this.resolution.getSelectionModel().isEmpty()
+                || this.difficulty.getSelectionModel().isEmpty()
+                || this.language.getSelectionModel().isEmpty())){
+
+            final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
+
+            final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
+                    this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
+                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning
+
+            if(hasSaved){
+                generateSaveSettingsAlert(Alert.AlertType.INFORMATION);
+            } else {
+                generateSaveSettingsAlert(Alert.AlertType.ERROR);
+            }
+
+        } else { // Qui probabilmente si può rifattorizzare meglio.
+            generateSaveSettingsAlert(AlertType.ERROR);
         }
     }
     
