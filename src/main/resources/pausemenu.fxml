@@ -50,7 +50,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#backToHomepage" prefHeight="50.0" prefWidth="320.0" text="HOME" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#backToHomepage" prefHeight="50.0" prefWidth="320.0" text="%btnPauseToMenu.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
@@ -62,7 +62,7 @@
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="EXIT" textFill="#d32c2c">
+            <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="%btnPauseExit.text" textFill="#d32c2c">
                <effect>
                   <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                      <color>
