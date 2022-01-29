@@ -68,11 +68,6 @@ public class BulletImpl extends GameEntity implements Bullet {
 	public EntityList.BulletType getBulletType() {
 		return this.bulletType;
 	}
-
-	@Override
-	public void moveToRandomPosition() {
-		// TODO Auto-generated method stub
-	}
 	
 	@Override
 	public void updateState() {
