@@ -39,10 +39,13 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsIte
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
 import javafx.animation.AnimationTimer;
+import javafx.scene.media.AudioClip;
 import javafx.stage.WindowEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 /**
@@ -215,6 +218,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		new AudioClip(this.getClass().getResource("/damage.mp4").toExternalForm()).play();
 		AppLogger.getAppLogger().collision("player hit an obstacle.");
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
@@ -239,6 +243,14 @@ public class GameEngine implements Controller, GameEventListener {
 	private void playerHitsPickUpObjEventHandler(final Environment env, final GameEvent e) {
 		AppLogger.getAppLogger().collision("player picked up an obj.");
 		final Player player = ((PlayerHitsItemEvent) e).getPlayer();
+		final Item item = ((PlayerHitsItemEvent) e).getItem();
+		if (item.getItemId().equals(Items.HEART)) {
+			new AudioClip(this.getClass().getResource("/healtIncrement.mp4").toExternalForm()).play();
+		}else if (item.getItemId().equals(Items.COIN)) {
+			new AudioClip(this.getClass().getResource("/coin.mp4").toExternalForm()).play();
+		} else {
+			new AudioClip(this.getClass().getResource("/damage.mp4").toExternalForm()).play();
+		}
 		// Apply item effect on character
 		((PlayerHitsItemEvent) e).getItem()
 			.getEffect()
@@ -307,6 +319,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void gameOverEventHandler(final GameEvent e) throws IOException {
+		new AudioClip(this.getClass().getResource("/fall2.mp4").toExternalForm()).play();
 		final Player player = ((GameOverEvent) e).getPlayer();
 		this.viewController.get().stopPlayerAnimation();
 		this.viewController.get().getGameView().autoKill();

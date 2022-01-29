@@ -14,6 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 
 public class SettingsController implements Initializable {
 
@@ -47,6 +48,7 @@ public class SettingsController implements Initializable {
     
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
+    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
@@ -72,6 +74,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
+    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
 		final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
         final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
                 this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),

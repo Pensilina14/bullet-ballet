@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class FormController {
@@ -35,6 +36,7 @@ public class FormController {
     }
     
     private void newGame(final MouseEvent event) {
+    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
     	final Game game = new Game();
     	game.getSettings().setDifficulty(Difficulties.EASY);
     	game.getSettings().setResolution(Resolutions.FULLHD);

@@ -28,9 +28,11 @@ public class ObstacleImpl extends GameEntity implements Obstacle{
 	}
 
 	private void checkChanges() {
+		increaseCounter();
 		if (this.counter == Obstacles.MAX_ITERATIONS_DELTA.getValue()) {
 			this.counter = 0;
 		}
+		
 	}
 	
 	private void increaseCounter() {

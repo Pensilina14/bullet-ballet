@@ -44,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -277,6 +278,7 @@ public class MapScene extends AbstractScene implements GameView{
     	this.mainPlayer.left.get().getSpriteAnimation().play();
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
+        	new AudioClip(this.getClass().getResource("/jump2.mp4").toExternalForm()).play();
         	//AppLogger.getAppLogger().info("Key 'UP' pressed.");
         	this.mainPlayer.left.get().getSpriteAnimation().stop();
             this.controller.get().notifyCommand(new Up());
@@ -296,11 +298,13 @@ public class MapScene extends AbstractScene implements GameView{
         
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+        	new AudioClip(this.getClass().getResource("/shot2.mp4").toExternalForm()).play();
         	this.controller.get().notifyCommand(new Space(this));
         }
         
         if (this.keysReleased.contains(KeyCode.ESCAPE)) {
         	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+        	new AudioClip(this.getClass().getResource("/healtIncrement.mp4").toExternalForm()).play();
         	this.controller.get().stop();
         	final PageLoader pageLoaderImpl = new PageLoaderImpl();
         	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
