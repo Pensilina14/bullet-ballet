@@ -319,7 +319,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void gameOverEventHandler(final GameEvent e) throws IOException {
-		new AudioClip(this.getClass().getResource("/fall2.mp4").toExternalForm()).play();
+		new AudioClip(this.getClass().getResource("/fall-2.mp4").toExternalForm()).play();
 		final Player player = ((GameOverEvent) e).getPlayer();
 		this.viewController.get().stopPlayerAnimation();
 		this.viewController.get().getGameView().autoKill();
