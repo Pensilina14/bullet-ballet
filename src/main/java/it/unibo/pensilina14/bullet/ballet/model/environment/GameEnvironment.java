@@ -157,14 +157,16 @@ public class GameEnvironment implements Environment {
 		this.entities.getItems().get().stream().forEach(i -> i.updateState());
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
 		this.entities.getWeapons().get().stream().forEach(i -> {
-			if(!i.isOn()) {
+			if (!i.isOn()) {
 				i.updateState();
 			} else {
 				final MutablePosition2D pos = player.get().getPosition().get();
-				i.setPosition(new MutablePosition2Dimpl(pos.getX()+15, pos.getY()+7));
+				i.setPosition(new MutablePosition2Dimpl(pos.getX() + 15, pos.getY() + 7));
 			}
 		});
-		this.entities.getBullets().get().stream().forEach(i -> i.updateState());
+		if (this.entities.getBullets().isPresent()) {
+			this.entities.getBullets().get().stream().forEach(i -> i.updateState());
+		} 
 		this.checkCollisions();
 	}
 	
@@ -181,14 +183,23 @@ public class GameEnvironment implements Environment {
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
 				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
-				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get())),
+				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
+				);
+		this.checkAll(eventCheckers);
+
+		if (this.entities.getBullets().isPresent()) {
+			final Map<String, EventChecker> bulletEventsCheckers = Map.of(
 				"bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()),
 				"bulletPlatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get())
-		);
+				);
+			this.checkAll(bulletEventsCheckers);
+		}
 
-		for (final EventChecker checker : eventCheckers.values()) {
+	}
+	
+	private void checkAll(Map<String, EventChecker> checkersMap) {
+		for (final EventChecker checker : checkersMap.values()) {
 			checker.check();
-			// Notify everything to the {@link GameEventListener}.
 			final List<GameEvent> events = new ArrayList<>(checker.getBuffer().getEvents());
 			if (!events.isEmpty()) {
 				events.stream().forEach(e -> {
@@ -196,12 +207,10 @@ public class GameEnvironment implements Environment {
 				});
 			}
 		}
-
-
 	}
 
 	@Override
-	public EntityManager getEntityManager() {
+	public final EntityManager getEntityManager() {
 		return this.entities;
 	}
 }
