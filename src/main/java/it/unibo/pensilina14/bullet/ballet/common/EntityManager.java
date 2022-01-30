@@ -58,7 +58,7 @@ public interface EntityManager {
 	 * 
 	 * @return the bullets in-game.
 	 */
-	Optional<List<BulletImpl>> getBullets();
+	Optional<List<Bullet>> getBullets();
 	/**
 	 * Platforms getter.
 	 * 
@@ -70,7 +70,7 @@ public interface EntityManager {
 	 * 
 	 * @param player (to be set)
 	 */
-	void setPlayer(Optional<Player> player);
+	void setPlayer(Player player);
 	/**
 	 * Adds an enemy({@link Enemy}) to the game.
 	 * 

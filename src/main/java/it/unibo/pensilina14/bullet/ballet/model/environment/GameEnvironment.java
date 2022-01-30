@@ -192,19 +192,12 @@ public class GameEnvironment implements Environment {
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
 				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
-				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
-				);
-		this.checkAll(eventCheckers);
-
-		if (this.entities.getBullets().isPresent()) {
-			final Map<String, EventChecker> bulletEventsCheckers = Map.of(
+				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get())),
 				"bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()),
 				"bulletPlatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get()),
 				"bulletObstacle", new CollisionEventChecker(this.entities.getObstacles().get(), this.entities.getBullets().get())
 				);
-			this.checkAll(bulletEventsCheckers);
-			AppLogger.getAppLogger().debug("Checked collision on bullet type objects.");
-		}
+		this.checkAll(eventCheckers);
 	}
 	
 	private void checkAll(final Map<String, EventChecker> checkersMap) {

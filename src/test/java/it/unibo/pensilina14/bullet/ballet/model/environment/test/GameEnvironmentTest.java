@@ -73,7 +73,7 @@ public class GameEnvironmentTest {
     final Weapon weapon = this.weaponFactory.createGun(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 0.0));
     final Bullet bullet = this.bulletFactory.createClassicBullet(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
     
-    gameEnv.getEntityManager().setPlayer(Optional.of(player));
+    gameEnv.getEntityManager().setPlayer(player);
     final boolean addEnemyOutput = gameEnv.getEntityManager().addEnemy(enemy);
     final boolean addObstacleOutput = gameEnv.getEntityManager().addObstacle(obstacle);
     final boolean addItemOutput = gameEnv.getEntityManager().addItem(item);
