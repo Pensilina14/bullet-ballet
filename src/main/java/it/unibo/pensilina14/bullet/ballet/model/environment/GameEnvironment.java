@@ -176,7 +176,6 @@ public class GameEnvironment implements Environment {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
 		this.checkCollisions();
-		AppLogger.getAppLogger().debug(this.entities.getObjsList().toString());
 	}
 	
 	

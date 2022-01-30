@@ -108,6 +108,8 @@ public class GameEnvironmentTest {
 			new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 0), DEFAULT_SPEED));
 	final Item item = this.itemFactory.createDamagingItem(gameEnv, 
 			new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 100), DEFAULT_SPEED));
+	final Weapon weapon = this.weaponFactory.createAuto(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 0), DEFAULT_SPEED));
+	final Bullet bullet = new BulletFactoryImpl().createClassicBullet(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(101, 100), DEFAULT_SPEED));
 	/*
 	 * ELABORATION
 	 * #subtest1 -- player
@@ -126,6 +128,18 @@ public class GameEnvironmentTest {
 	final Optional<List<PickupItem>> itemsBefore = gameEnv.getEntityManager().getItems();
 	gameEnv.deleteObjByPosition(pos3);
 	final Optional<List<PickupItem>> itemsAfter = gameEnv.getEntityManager().getItems();
+	// #subtest4 -- weapons
+	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 100);
+	final boolean addWeaponOutput = gameEnv.getEntityManager().addWeapon(weapon);
+	final Optional<List<Weapon>> weaponsBefore = gameEnv.getEntityManager().getWeapons();
+	gameEnv.deleteObjByPosition(pos4);
+	final Optional<List<Weapon>> weaponsAfter = gameEnv.getEntityManager().getWeapons();
+	// #subtest5 -- bullets
+		final ImmutablePosition2D pos5 = new ImmutablePosition2Dimpl(101, 100);
+		final boolean addBulletOutput = gameEnv.getEntityManager().addBullet(bullet);
+		final Optional<List<Bullet>> bulletsBefore = gameEnv.getEntityManager().getBullets();
+		gameEnv.deleteObjByPosition(pos5);
+		final Optional<List<Bullet>> bulletsAfter = gameEnv.getEntityManager().getBullets();
 	/*
 	 * ASSERTIONS
 	 * #subtestassert1 -- player
@@ -139,5 +153,13 @@ public class GameEnvironmentTest {
 	assertTrue(addItemOutput);
 	assertEquals(itemsBefore, Optional.of(List.of(item)));
 	assertTrue(itemsAfter.isPresent());
+	// #subtestassert4 -- weapons
+	assertTrue(addWeaponOutput);
+	assertEquals(weaponsBefore, Optional.of(List.of(weapon)));
+	assertTrue(weaponsAfter.isPresent());
+	// #subtestassert5 -- bullets
+	assertTrue(addBulletOutput);
+	assertEquals(bulletsBefore, Optional.of(List.of(bullet)));
+	assertTrue(bulletsAfter.isPresent());
   }
 }

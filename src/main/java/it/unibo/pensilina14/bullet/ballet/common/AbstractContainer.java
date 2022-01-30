@@ -20,6 +20,7 @@ public abstract class AbstractContainer<X> implements Container<X> {
 		IntStream.iterate(0, x -> x + 1)
 		.limit(GameEntities.count())
 		.forEach(x -> this.container.put(GameEntities.getList().get(x), Optional.of(new ArrayList<>())));
+		AppLogger.getAppLogger().debug(container.toString());
 	}
 	
 	@Override
