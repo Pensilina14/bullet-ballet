@@ -192,11 +192,13 @@ public class GameEnvironment implements Environment {
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
 				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
-				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get())),
-				"bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()),
-				"bulletPlatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get()),
-				"bulletObstacle", new CollisionEventChecker(this.entities.getObstacles().get(), this.entities.getBullets().get())
+				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
 				);
+		if(!this.entities.getBullets().isEmpty()) {
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()));
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get()));
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getObstacles().get(), this.entities.getBullets().get()));
+		}
 		this.checkAll(eventCheckers);
 	}
 	
