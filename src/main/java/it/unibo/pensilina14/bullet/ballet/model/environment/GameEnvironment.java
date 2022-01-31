@@ -196,15 +196,9 @@ public class GameEnvironment implements Environment {
 				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
 				));
 		if(this.entities.getBullets().isPresent()) {
-			try {
-				eventCheckers.putIfAbsent("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
-				//eventCheckers.put();
-				eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
-				eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getObstacles().get()));
-			} catch (UnsupportedOperationException e) {
-				e.printStackTrace();
-				javafx.application.Platform.exit();
-			}
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getObstacles().get()));
 		}
 		this.checkAll(eventCheckers);
 	}
