@@ -8,8 +8,8 @@ public class ObstacleFactoryImpl implements ObstacleFactory{
 
 	@Override
 	public Obstacle createStandardObstacle(final Environment environment, final SpeedVector2D vector) {
-		return new ObstacleImpl(vector, environment, OBSTACLES.MASS.getValue()
-				, new Dimension2Dimpl(OBSTACLES.WIDTH.getValue(), OBSTACLES.HEIGHT.getValue()));
+		return new ObstacleImpl(vector, environment, Obstacles.MASS.getValue()
+				, new Dimension2Dimpl(Obstacles.WIDTH.getValue(), Obstacles.HEIGHT.getValue()));
 	}
 
 }

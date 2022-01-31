@@ -1,13 +1,15 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.map.Coins;
+
 public enum Images {
 
     POISONING_ITEM("poison", "res/assets/sprites/items/poison.png"),
     HEALING_ITEM("heart","res/assets/sprites/items/heart.png"),
     DAMAGING_ITEM("damage", "res/assets/sprites/items/snail.png"),
-    STATIC_OBSTACLE("static obstacle", "res/assets/sprites/obstacles/obstacle.png"),
-    DYNAMIC_OBSTACLE("dynamic obstacle", "res/assets/sprites/obstacles/dynamicObstacle.png"),
-	COIN("dynamic obstacle", "res/assets/sprites/coins/MonedaD.png");
+    BUNNY("bunny", "res/assets/sprites/obstacles/Jump.png"),
+    WUT("dynamic obstacle", "res/assets/sprites/obstacles/dynamicObstacle.png"),
+	COIN("coin", Coins.getRandomCoinPath());
     
     private final String fileName;
     private final String objectName;

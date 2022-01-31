@@ -5,6 +5,7 @@ public enum Frames {
     HOMEPAGE("/homepage.fxml"),
     SETTINGS("/settings.fxml"),
 	PAUSEMENU("/pausemenu.fxml"),
+	FORM("/form.fxml"),
     GAMESTATS("/gameStats.fxml");
     
     private final String fileName;

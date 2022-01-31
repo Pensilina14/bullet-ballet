@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.GameView;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 
 /**
  * {@inheritDoc}
@@ -31,7 +34,6 @@ public class ViewControllerImpl implements ViewController {
 		try {
 			this.gameView.get().draw();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -43,4 +45,16 @@ public class ViewControllerImpl implements ViewController {
 	public GameView getGameView() {
 		return this.gameView.get();
 	}
+
+	@Override
+	public void stopPlayerAnimation() {
+		this.gameView.get().stopPlayerAnimation();
+	}
+
+	@Override
+	public void changeScene(final Frames frame) throws IOException {
+		final PageLoader pageLoader = new PageLoaderImpl();
+		pageLoader.goToSelectedPageOnInput(Frames.HOMEPAGE);
+	}
+	
 }

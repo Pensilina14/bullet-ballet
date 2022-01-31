@@ -12,27 +12,6 @@ import java.util.Random;
 
 public class CoinSprite extends Pane {
 
-    public enum Coins {//TODO: mettere l'enum a parte?
-        GOLD_COIN("res/assets/sprites/coins/MonedaD.png"),
-        SILVER_COIN("res/assets/sprites/coins/MonedaP.png"),
-        RED_COIN("res/assets/sprites/coins/MonedaR.png"),
-        EMERALD_COIN("res/assets/sprites/coins/spr_coin_strip4.png"),
-        LIGHT_BLUE_COIN("res/assets/sprites/coins/spr_coin_azu.png"),
-        YELLOW_COIN("res/assets/sprites/coins/spr_coin_ama.png"),
-        GREY_COIN("res/assets/sprites/coins/spr_coin_gri.png"),
-        RED_COIN2("res/assets/sprites/coins/spr_coin_roj.png"); //TODO: rename it differently
-
-        private final String path;
-
-        Coins(final String path) {
-            this.path = path;
-        }
-
-        public String getPath() {
-            return this.path;
-        }
-    }
-
     private ImageView coinView;
     private final Coins coinType;
     private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
@@ -75,7 +54,7 @@ public class CoinSprite extends Pane {
             case LIGHT_BLUE_COIN:
             case YELLOW_COIN:
             case GREY_COIN:
-            case RED_COIN2:
+            case RUBY_COIN:
                 minX = 3;
                 minY = 1;
                 coinWidth = 10;
@@ -89,19 +68,6 @@ public class CoinSprite extends Pane {
             default:
                 break; //TODO: default case
         }
-    }
-
-    public final Coins coinChooser(){
-        final int max = CoinSprite.Coins.values().length;
-        //final int min = 0;
-        /*max -min +min = max, no?*/
-        final int randomMap = RAND.nextInt(max); // nextInt : 0 incluso, max escluso.
-        for (final Coins c : Coins.values()) {
-            if (c.ordinal() == randomMap) {
-                return c;
-            }
-        }
-        return CoinSprite.DEFAULT_COIN;
     }
 
 }

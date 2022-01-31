@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 
 public class GameStatsController implements Initializable{
 
@@ -27,6 +28,7 @@ public class GameStatsController implements Initializable{
 
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
+    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 

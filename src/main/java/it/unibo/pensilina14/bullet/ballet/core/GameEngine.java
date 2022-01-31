@@ -19,26 +19,39 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.Controller;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
+import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameOverEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
 import javafx.animation.AnimationTimer;
+import javafx.scene.media.AudioClip;
+import javafx.stage.WindowEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
+import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 
 /**
  * Manages a variety of game aspects such as input commands processing, event handling 
@@ -57,6 +70,8 @@ public class GameEngine implements Controller, GameEventListener {
 	
 	private Optional<ViewController> viewController;
 	private Optional<ModelController> modelController;
+	private final SoundsFactory soundsFactory;
+	private final AudioClip soundtrack;
 	private final BlockingQueue<Command> cmdQueue;
 	/**
 	 * Data structure, for instance a {@link List}, whose goal is to
@@ -77,6 +92,8 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController = Optional.empty();
 		this.modelController = Optional.empty();
 		this.timer = Optional.of(new AnimationTimerImpl(this));
+		this.soundsFactory = new SoundsFactoryImpl();
+		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK);
 	}
 	
 	public GameEngine(final ViewController view, final ModelController game) {
@@ -85,6 +102,8 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController = Optional.of(view);
 		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
+		this.soundsFactory = new SoundsFactoryImpl();
+		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK);
 	}
 	
 	public final void setup() {
@@ -130,6 +149,12 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public void updateGame() {
+		if (this.modelController.get().getGameState().get().isGameOver()) {
+			this.timer.get().stop();
+		}
+		if (!this.soundtrack.isPlaying()) {
+			this.soundtrack.play();
+		}
 		this.modelController.get().update();
 		this.checkEvents();
 	}
@@ -168,6 +193,15 @@ public class GameEngine implements Controller, GameEventListener {
 				enemyHitsPlatformEventHandler(env, e);
 			} else if (e instanceof BulletHitsPlatformEvent) {
 				bulletHitsPlatformEventHandler(env, e);
+			} else if(e instanceof GameOverEvent) {
+				try {
+					gameOverEventHandler(e);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (e instanceof BulletHitsObstacleEvent) {
+				bulletHitsObstacleEventHandler(env, e);
 			}
 		});
 		this.eventQueue.clear();
@@ -200,6 +234,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void playerHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		AppLogger.getAppLogger().collision("player hit an obstacle.");
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
@@ -224,6 +259,14 @@ public class GameEngine implements Controller, GameEventListener {
 	private void playerHitsPickUpObjEventHandler(final Environment env, final GameEvent e) {
 		AppLogger.getAppLogger().collision("player picked up an obj.");
 		final Player player = ((PlayerHitsItemEvent) e).getPlayer();
+		final Item item = ((PlayerHitsItemEvent) e).getItem();
+		if (item.getItemId().equals(Items.HEART)) {
+			this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT).play();
+		}else if (item.getItemId().equals(Items.COIN)) {
+			this.soundsFactory.createSound(Sounds.COIN).play();
+		} else {
+			this.soundsFactory.createSound(Sounds.DAMAGE).play();
+		}
 		// Apply item effect on character
 		((PlayerHitsItemEvent) e).getItem()
 			.getEffect()
@@ -284,6 +327,17 @@ public class GameEngine implements Controller, GameEventListener {
 		AppLogger.getAppLogger().info("Bullet hits enemy");
 	}
 	
+	private void bulletHitsObstacleEventHandler(final Environment env, final GameEvent e) {
+		final Obstacle obstacle = ((BulletHitsObstacleEvent) e).getObstacle();
+		final MutablePosition2D bulletPos = ((BulletHitsObstacleEvent) e).getBullet().getPosition().get();
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX()
+				, obstacle.getPosition().get().getY()));
+		this.viewController.get().getGameView().deleteObstacleSpriteImage(obstacle.getPosition().get());
+		AppLogger.getAppLogger().info("Bullet hits obstacle");
+	}
+	
 	private void bulletHitsPlatformEventHandler(final Environment env, final GameEvent e) {
 		final MutablePosition2D bulletPos = ((BulletHitsPlatformEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
@@ -291,11 +345,22 @@ public class GameEngine implements Controller, GameEventListener {
 		AppLogger.getAppLogger().info("Bullet hits platform");
 	}
 	
+	private void gameOverEventHandler(final GameEvent e) throws IOException {
+		final Player player = ((GameOverEvent) e).getPlayer();
+		this.viewController.get().stopPlayerAnimation();
+		this.viewController.get().getGameView().autoKill();
+		this.viewController.get().changeScene(Frames.HOMEPAGE);
+		this.soundsFactory.createSound(Sounds.FALL).play();
+		this.stop();
+	}
+	
 	public void start() {
+		this.soundtrack.play();
 		this.timer.get().start();
 	}
 	
 	public void stop() {
+		this.soundtrack.stop();
 		this.timer.get().stop();
 	}
 }

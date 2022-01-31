@@ -20,8 +20,6 @@ public class Esc implements Command {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 }

@@ -1,6 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public enum Languages {
 
@@ -23,9 +24,9 @@ public enum Languages {
         return this.countryCode;
     }
 
-    public static HashMap<String, String> getLanguagesMap(){
-        HashMap<String,String> languagesMap = new HashMap<>();
-        for(var l : Languages.values()){
+    public static Map<String, String> getLanguagesMap(){
+        final Map<String,String> languagesMap = new HashMap<>();
+        for(final var l : Languages.values()){
             languagesMap.put(l.getCountryCode(), l.getLanguage());
         }
         return languagesMap;

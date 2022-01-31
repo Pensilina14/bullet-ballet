@@ -22,7 +22,7 @@ public class Enemy extends GameEntity implements Characters{
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
-    
+   	public int dumbCounter = 0; 
     private boolean landed;
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
@@ -173,6 +173,15 @@ public class Enemy extends GameEntity implements Characters{
 			.deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
     }
+    
+    private boolean moroccanMoveDown() {
+    	if (this.landed) {
+    		this.moveDown(20);
+    		return true; 
+    	}
+    	return false;
+    }
+    
     /*
      * Following code could be universalized for every game entity.
      */
@@ -187,4 +196,5 @@ public class Enemy extends GameEntity implements Characters{
     public void resetLanding() {
     	this.landed = false;
     }
+
 }

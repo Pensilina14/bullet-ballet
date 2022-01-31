@@ -28,11 +28,5 @@ public class PickupItem extends GameEntity implements Item {
 	public Effect getEffect() {
 		return this.effect;
 	}
-
-	@Override
-	public void moveToRandomPosition() {
-	}
-	
-	
 	
 }

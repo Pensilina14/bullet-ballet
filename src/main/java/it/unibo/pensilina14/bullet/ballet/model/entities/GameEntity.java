@@ -39,6 +39,7 @@ public class GameEntity implements PhysicalObject{
 	private final Environment gameEnvironment;
 	private final double mass;
 	private final Dimension2D dimension;
+	private boolean landed;
 	
 	public GameEntity(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass, final Dimension2D dimension) {
 		super();
@@ -46,6 +47,7 @@ public class GameEntity implements PhysicalObject{
 		this.gameEnvironment = gameEnvironment;
 		this.mass = mass;
 		this.dimension = dimension;
+		this.landed = false;
 	}
 	
 	@Override
@@ -105,5 +107,17 @@ public class GameEntity implements PhysicalObject{
 		}
 		return false;
 	}
+	
+	 public boolean hasLanded() {
+    	return this.landed;
+	 }
+	    
+	 public void land() {
+		this.landed = true;
+	 }
+	    
+	 public void resetLanding() {
+		 this.landed = false;
+	 }
 	
 }
