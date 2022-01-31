@@ -27,6 +27,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -185,18 +186,25 @@ public class GameEnvironment implements Environment {
 	}
 
 	private void checkCollisions() {
-		final Map<String, EventChecker> eventCheckers = Map.of(
+		final Map<String, EventChecker> eventCheckers = new HashMap<>();
+		eventCheckers.putAll(Map.of(
 				"playeritem", new CollisionEventChecker(this.entities.getItems().get(), List.of(this.entities.getPlayer().get())), 
 				"playerenemy", new CollisionEventChecker(this.entities.getEnemies().get(), List.of(this.entities.getPlayer().get())), 
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
 				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
 				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
-				);
-		if(!this.entities.getBullets().isEmpty()) {
-			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getEnemies().get(), this.entities.getBullets().get()));
-			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getBullets().get()));
-			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getObstacles().get(), this.entities.getBullets().get()));
+				));
+		if(this.entities.getBullets().isPresent()) {
+			try {
+				eventCheckers.putIfAbsent("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
+				//eventCheckers.put();
+				eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
+				eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getObstacles().get()));
+			} catch (UnsupportedOperationException e) {
+				e.printStackTrace();
+				javafx.application.Platform.exit();
+			}
 		}
 		this.checkAll(eventCheckers);
 	}
