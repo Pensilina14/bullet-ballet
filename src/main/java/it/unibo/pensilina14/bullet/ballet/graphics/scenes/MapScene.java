@@ -405,7 +405,7 @@ public class MapScene extends AbstractScene implements GameView{
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
 		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
-		this.bulletSprites.forEach((x, y) -> x.renderMovingPosition());
+		this.bulletSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
 		
 		IntStream.range(0, this.hudList.size()).forEach(i -> {
 			final Label label = (Label) this.uiPane.getChildren().get(i);
