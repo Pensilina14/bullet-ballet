@@ -17,7 +17,7 @@ import javafx.stage.Window;
 
 public class PageLoaderImpl implements PageLoader{
     
-    private static final String LANGUAGES_PATH = "languages.bulletBallet";
+    static final String LANGUAGES_PATH = "languages.bulletBallet";
     private Optional<Window> window;
     
     public PageLoaderImpl() {
