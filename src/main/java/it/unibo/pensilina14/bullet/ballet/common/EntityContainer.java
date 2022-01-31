@@ -37,7 +37,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<Player> getPlayer() {
 		final List<GameEntity> player = this.getContainer().get(GameEntities.PLAYER).get();
 		if (!player.isEmpty() && player.get(0) instanceof Player) {
-			return Optional.of((Player) player.get(0));
+			return Optional.ofNullable((Player) player.get(0));
 		}
 		return Optional.empty();
 	}
@@ -48,7 +48,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<Enemy>> getEnemies() {
 		final List<GameEntity> enemies = this.getContainer().get(GameEntities.ENEMY).get();
 		if (!enemies.isEmpty() && enemies.get(0) instanceof Enemy) {
-			return Optional.of(enemies.stream()
+			return Optional.ofNullable(enemies.stream()
 					.map(e -> (Enemy) e)
 					.collect(Collectors.toList()));
 		}
@@ -61,7 +61,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<PickupItem>> getItems() {
 		final List<GameEntity> items = this.getContainer().get(GameEntities.PICKUP_ITEM).get();
 		if (!items.isEmpty() && items.get(0) instanceof PickupItem) {
-			return Optional.of(items.stream()
+			return Optional.ofNullable(items.stream()
 					.map(e -> (PickupItem) e)
 					.collect(Collectors.toList()));
 		}
@@ -74,7 +74,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<ObstacleImpl>> getObstacles() {
 		final List<GameEntity> obstacles = this.getContainer().get(GameEntities.OBSTACLE).get();
 		if (!obstacles.isEmpty() && obstacles.get(0) instanceof ObstacleImpl) {
-			return Optional.of(obstacles.stream()
+			return Optional.ofNullable(obstacles.stream()
 					.map(e -> (ObstacleImpl) e)
 					.collect(Collectors.toList()));
 		}
@@ -87,7 +87,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<Weapon>> getWeapons() {
 		final List<GameEntity> weapons = this.getContainer().get(GameEntities.WEAPON).get();
 		if (!weapons.isEmpty() && weapons.get(0) instanceof Weapon) {
-			return Optional.of(weapons.stream()
+			return Optional.ofNullable(weapons.stream()
 					.map(e -> (Weapon) e)
 					.collect(Collectors.toList()));
 		}
@@ -100,7 +100,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<Bullet>> getBullets() {
 		final List<GameEntity> bullets = this.getContainer().get(GameEntities.BULLET).get();
 		if (!bullets.isEmpty() && bullets.get(0) instanceof Bullet) {
-			return Optional.of(bullets.stream()
+			return Optional.ofNullable(bullets.stream()
 					.map(e -> (Bullet) e)
 					.collect(Collectors.toList()));
 		}
@@ -113,7 +113,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<Platform>> getPlatforms() {
 		final List<GameEntity> platforms = this.getContainer().get(GameEntities.PLATFORM).get();
 		if (!platforms.isEmpty() && platforms.get(0) instanceof Platform) {
-			return Optional.of(platforms.stream()
+			return Optional.ofNullable(platforms.stream()
 					.map(e -> (Platform) e)
 					.collect(Collectors.toList()));
 		}
