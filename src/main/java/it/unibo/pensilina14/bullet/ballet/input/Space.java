@@ -22,18 +22,19 @@ public class Space implements Command {
 	public void execute(final GameState env) {
 		if (env.getGameEnvironment().getEntityManager().getPlayer().get().hasWeapon()) {
 			final Weapon weapon = env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon();
-    		if (env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon().hasAmmo()) {
+    		if (weapon.hasAmmo()) {
     			final Bullet bullet = new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment(),
     					new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX(), 
     							weapon.getPosition().get().getY()), 1.0));
     			env.getGameEnvironment().getEntityManager().addBullet(bullet);
-    			weapon.decreaseAmmo();
     			try {
 					this.mapScene.generateBullet(bullet.getPosition().get());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+    			weapon.decreaseAmmo();
+    			
     		}
 		}
 	}
