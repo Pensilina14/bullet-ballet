@@ -28,6 +28,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -103,31 +104,8 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
-		final List<PhysicalObject> allObjsList = this.entities.getObjsList().get();
-		for (final PhysicalObject obj : allObjsList) {
-			final MutablePosition2D objPos = obj.getPosition().get();
-			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
-				if (obj instanceof Enemy) {
-					this.entities.getEnemies().get().remove(obj);
-					return true;
-				} else if (obj instanceof ObstacleImpl) {
-					this.entities.getObstacles().get().remove(obj);
-					return true;
-				} else if (obj instanceof PickupItem) {
-					this.entities.getItems().get().remove(obj); 
-					return true;
-				} else if (obj instanceof WeaponImpl) {
-					AppLogger.getAppLogger().debug("Delete weapon model");
-					this.entities.getWeapons().get().remove(obj);
-					return true;
-				} else if (obj instanceof BulletImpl) {
-					this.entities.getBullets().get().remove(obj);
-					return true;
-				}
-			}
-		}
-		return false;
+	public final boolean deleteObjByPosition(final ImmutablePosition2D targetPos) {
+		return this.entities.deleteEntity(targetPos);
 	}
 
 	@Override

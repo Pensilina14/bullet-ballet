@@ -1,7 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -214,9 +217,28 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	public Optional<List<PhysicalObject>> getObjsList() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
 		for (final Optional<List<GameEntity>> entityList : this.getContainer().values()) {
-			entityList.ifPresent(e -> mergedList.get().addAll(e));
+			entityList.ifPresent(e -> mergedList.get().addAll(List.copyOf(e)));
 		}
 		return mergedList;
+	}
+	
+	@Override
+	public final boolean deleteEntity(final ImmutablePosition2D pos) {
+		for (final Entry<GameEntities, Optional<List<GameEntity>>> entry : this.getContainer().entrySet()) {
+			if (entry.getValue().isPresent()) {
+				final Iterator<GameEntity> iter = entry.getValue().get().iterator();
+				while (iter.hasNext()) {
+					final GameEntity entity = iter.next();
+					if (entity.getPosition().get().equals(new MutablePosition2Dimpl(pos))) {
+						iter.remove();
+						return true;
+					}
+				}
+			} else {
+				throw new NoSuchElementException();
+			}
+		}
+		return false;
 	}
 	
 }

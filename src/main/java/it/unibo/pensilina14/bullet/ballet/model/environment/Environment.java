@@ -28,7 +28,7 @@ public interface Environment {
 	EntityManager getEntityManager();
 
 	/**
-	 * @param position of the object to be deleted.
+	 * @param targetPos of the object to be deleted.
 	 * 
 	 * The {@link PhysicalObject} to be deleted is first searched and then removed.
 	 * 
@@ -36,7 +36,7 @@ public interface Environment {
 	 * 		   false otherwise. 
 	 * 		   Could be false if there was no object at position..
 	 */
-	boolean deleteObjByPosition(ImmutablePosition2D position);
+	boolean deleteObjByPosition(ImmutablePosition2D targetPos);
 	
 	/**
 	 * @param dt is the given time instant when the environment must be updated

@@ -121,4 +121,11 @@ public interface EntityManager {
 	 * @return a {@link List<PhysicalObject>} that contains every object in the game.
 	 */
 	Optional<List<PhysicalObject>> getObjsList();
+	/**
+	 * Deletes an entity from the container given its position.
+	 * @param pos {@link ImmutablePosition2D}
+	 * @return true if entity has been deleted successfully;
+	 * false if not.
+	 */
+	boolean deleteEntity(ImmutablePosition2D pos);
 }
