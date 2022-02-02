@@ -208,10 +208,12 @@ public class Player extends GameEntity implements Characters{
     	} else {
     		this.moveLeft(1);
     	}
+    	/*
     	if (!this.isAlive()) {
     		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
     	AppLogger.getAppLogger().info(" " + this.getPosition().get().getCoordinates() + " ");
+    	*/
     }
     /*
      * Following code could be universalized for every game entity.
