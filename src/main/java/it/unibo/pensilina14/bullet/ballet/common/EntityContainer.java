@@ -213,26 +213,8 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 	@Override
 	public Optional<List<PhysicalObject>> getObjsList() {
 		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
-		if (this.getPlayer().isPresent()) {
-			mergedList.get().addAll(List.of(this.getPlayer().get()));
-		}
-		if (this.getEnemies().isPresent()) {
-			mergedList.get().addAll(this.getEnemies().get());
-		}
-		if (this.getObstacles().isPresent()) {
-			mergedList.get().addAll(this.getObstacles().get());
-		}
-		if (this.getItems().isPresent()) {
-            mergedList.get().addAll(this.getItems().get());
-		}
-		if (this.getPlatforms().isPresent()) {
-			mergedList.get().addAll(this.getPlatforms().get());
-		}
-		if (this.getWeapons().isPresent()) {
-			mergedList.get().addAll(this.getWeapons().get());
-		}
-		if (this.getBullets().isPresent()) {
-			mergedList.get().addAll(this.getBullets().get());
+		for (final Optional<List<GameEntity>> entityList : this.getContainer().values()) {
+			entityList.ifPresent(e -> mergedList.get().addAll(e));
 		}
 		return mergedList;
 	}

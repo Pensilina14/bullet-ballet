@@ -195,7 +195,7 @@ public class GameEnvironment implements Environment {
 				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
 				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
 				));
-		if(this.entities.getBullets().isPresent()) {
+		if (this.entities.getBullets().isPresent()) {
 			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
 			eventCheckers.put("bulletPlatform", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
 			eventCheckers.put("bulletObstacle", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getObstacles().get()));
