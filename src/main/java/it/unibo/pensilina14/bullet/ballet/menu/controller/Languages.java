@@ -32,4 +32,8 @@ public enum Languages {
         return languagesMap;
     }
 
+    public static Languages getDefaultLanguage(){
+        return Languages.ENGLISH;
+    }
+
 }

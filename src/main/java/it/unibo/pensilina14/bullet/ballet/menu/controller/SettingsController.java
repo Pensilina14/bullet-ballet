@@ -43,6 +43,11 @@ public class SettingsController implements Initializable {
             this.difficulty.getSelectionModel().select(settingsMap.get(Save.DIFFICULTY_STRING));
             this.audio.setValue(Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)));
             this.language.getSelectionModel().select(Languages.getLanguagesMap().get(settingsMap.get(Save.LANGUAGE_STRING)));
+        } else {
+            this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
+            this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
+            this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
+            // Per l'audio non serve mettere un default perchè sta già a 0.0
         }
     }
     
