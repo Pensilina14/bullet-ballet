@@ -4,5 +4,6 @@ public enum CollisionSides {
 	NORTH,
 	EAST,
 	SOUTH,
+	NOCOLL,
 	WEST;
 }

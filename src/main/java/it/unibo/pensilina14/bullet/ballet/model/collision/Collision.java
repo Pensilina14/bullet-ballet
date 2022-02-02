@@ -25,7 +25,7 @@ public final class Collision {
 		} else if (whoHits.getPosition().get().getX() > whoGetsHit.getPosition().get().getX()) {
             return Optional.of(CollisionSides.EAST);
 		} else {
-			return Optional.empty();
+			return Optional.of(CollisionSides.NOCOLL);
 		}
 	}
 	
