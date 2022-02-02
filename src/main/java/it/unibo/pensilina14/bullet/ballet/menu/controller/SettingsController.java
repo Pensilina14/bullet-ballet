@@ -83,9 +83,10 @@ public class SettingsController implements Initializable {
 
         // L'audio non è vuoto, è di default come 0.0 quindi non penso servi controllarlo.
         // Questa parentesi serve così evito di scrivere tre volte il !.
-        if(!(this.resolution.getSelectionModel().isEmpty()
-                || this.difficulty.getSelectionModel().isEmpty()
-                || this.language.getSelectionModel().isEmpty())){
+
+        if(!(this.resolution.getSelectionModel().getSelectedItem().isBlank()
+                || this.difficulty.getSelectionModel().getSelectedItem().isBlank()
+                || this.language.getSelectionModel().getSelectedItem().isBlank())){
 
             final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
 
