@@ -39,6 +39,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsEne
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsItemEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsWeaponEvent;
+import it.unibo.pensilina14.bullet.ballet.save.Save;
 import javafx.animation.AnimationTimer;
 import javafx.scene.media.AudioClip;
 import javafx.stage.WindowEvent;
@@ -351,6 +352,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
 		this.soundsFactory.createSound(Sounds.FALL).play();
+		Save.saveGameStatistics(player.getName(), player.getCurrentScore().showScore());
 		this.stop();
 	}
 	
