@@ -3,10 +3,10 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 public class Statistics {
     
     private final String playerName;
-    private final int points;
+    private final double points;
     private final double time;
     
-    public Statistics(final String playerName, final int points, final double time) {
+    public Statistics(final String playerName, final double points, final double time) {
         super();
         this.playerName = playerName;
         this.points = points;
@@ -17,7 +17,7 @@ public class Statistics {
         return this.playerName;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return this.points;
     }
 
