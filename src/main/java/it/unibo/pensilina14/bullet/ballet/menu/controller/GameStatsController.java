@@ -40,8 +40,9 @@ public class GameStatsController implements Initializable{
         this.setCells();
         final ObservableList<Statistics> list = FXCollections.observableArrayList();
 
-        if(!Save.loadGameStatistics().isEmpty()){
-            Map<String, String> statsMap = Save.loadGameStatistics();
+        final Map<String, String> statsMap = Save.loadGameStatistics();
+
+        if(!statsMap.isEmpty()){
             for(var s : statsMap.keySet()){
                 list.add(new Statistics(s, Double.parseDouble(statsMap.get(s)), -1.0)); //TODO: il tempo ho messo -1.0 perchè non l'abbiamo, se non lo facciamo è da togliere.
             }
