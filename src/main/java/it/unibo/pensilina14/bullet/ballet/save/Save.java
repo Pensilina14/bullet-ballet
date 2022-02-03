@@ -46,7 +46,7 @@ public final class Save {
      * If the files didn't exist it will be created.
      * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
-    public static void saveGameStatistics(final String playerName, final int playerScore){ //TODO: opzionale : salvare il tempo.
+    public static void saveGameStatistics(final String playerName, final double playerScore){ //TODO: opzionale : salvare il tempo.
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
