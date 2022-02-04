@@ -46,7 +46,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		//this.coinFactory = new CoinFactoryImpl();
 	}
 	
-	public void setEnvironment(final Environment environment) {
+	public final void setEnvironment(final Environment environment) {
 		this.env = Optional.of(environment);
 	}
 
@@ -67,41 +67,41 @@ public class EnvironmentGenerator implements LevelGenerator {
         for (int i = 0; i < this.levelLoader.getLevel().length; i++) {
             final String line = this.levelLoader.getLevel()[i];
             for (int j = 0; j < line.length(); j++){
-                switch(line.charAt(j)) {
-					case LevelEntity.EMPTY: //TODO: use an enum?
+                switch (String.valueOf(line.charAt(j))) {
+					case LevelEntity.EMPTY.getValue(): //TODO.getValue(): use an enum?
                     	break;
-					case LevelEntity.PLATFORM:
+					case LevelEntity.PLATFORM.getValue():
                         this.env.get().getEntityManager().addPlatform(new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get(), 0, new Dimension2Dimpl(PLATFORM_SIZE, PLATFORM_SIZE)));
                         break;
-                    case LevelEntity.COIN:
+                    case LevelEntity.COIN.getValue():
                     	this.env.get().getEntityManager().addItem(this.itemFactory.createCoinItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.OBSTACLE:
+                    case LevelEntity.OBSTACLE.getValue():
                         this.env.get().getEntityManager().addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.GUN:
+                    case LevelEntity.GUN.getValue():
                         this.env.get().getEntityManager().addWeapon(this.weaponFactory.createGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.SHOTHUN:
+                    case LevelEntity.SHOTGUN.getValue():
                     	this.env.get().getEntityManager().addWeapon(this.weaponFactory.createShotGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                     	break;
-                    case LevelEntity.AUTOGUN:
+                    case LevelEntity.AUTOGUN.getValue():
                     	this.env.get().getEntityManager().addWeapon(this.weaponFactory.createAuto(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                     	break;
-                    case LevelEntity.PLAYER:
+                    case LevelEntity.PLAYER.getValue():
                     	//final MutablePosition2D platPos = this.env.getPlatforms().get().get(0).getPosition();
                         this.env.get().getEntityManager().setPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 2.0), this.env.get()));
                     	break;
-                    case LevelEntity.HEART:
+                    case LevelEntity.HEART.getValue():
                         this.env.get().getEntityManager().addItem(this.itemFactory.createHealingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.POISON:
+                    case LevelEntity.POISON.getValue():
                         this.env.get().getEntityManager().addItem(this.itemFactory.createPoisoningItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.DAMAGE:
+                    case LevelEntity.DAMAGE.getValue():
                         this.env.get().getEntityManager().addItem(this.itemFactory.createDamagingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0)));
                         break;
-                    case LevelEntity.ENEMY:
+                    case LevelEntity.ENEMY.getValue():
                         this.env.get().getEntityManager().addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * PLATFORM_SIZE, i * PLATFORM_SIZE), 1.0), this.env.get()));
                         break;
                 	default:
