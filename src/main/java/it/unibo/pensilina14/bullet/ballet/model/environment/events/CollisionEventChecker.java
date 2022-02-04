@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 import java.util.List;
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.Collision;
@@ -88,10 +89,12 @@ public class CollisionEventChecker implements EventChecker {
 	}
 	
 	private void checkBulletAndEnemy(final PhysicalObject a, final PhysicalObject b) {
+		AppLogger.getAppLogger().debug("Checking bullet and enemy collision.");
 		if (a instanceof BulletImpl && b instanceof Enemy) {
 			final Enemy enemy = (Enemy) b;
 			final BulletImpl bullet = (BulletImpl) a;
 			this.eventBuffer.addEvent(new BulletHitsEnemyEvent(bullet, enemy));
+			AppLogger.getAppLogger().debug("Checked bullet and enemy collision, added to buffer");
 		}
 	}
 	
@@ -113,18 +116,22 @@ public class CollisionEventChecker implements EventChecker {
 	}
 	
 	private void checkBulletAndPlatform(final PhysicalObject a, final PhysicalObject b) {
+		AppLogger.getAppLogger().debug("Checking bullet and platform collision");
 		if (a instanceof Platform && b instanceof Bullet) {
 			final Platform platform = (Platform) a;
 			final Bullet bullet = (Bullet) b;
 			this.eventBuffer.addEvent(new BulletHitsPlatformEvent(bullet, platform));
+			AppLogger.getAppLogger().debug("Checked bullet and platform collision, added to buffer");
 		}
 	}	
 	
 	private void checkBulletAndObstacle(final PhysicalObject a, final PhysicalObject b) {
+		AppLogger.getAppLogger().debug("Checked bullet and obstacle collision");
 		if (a instanceof Bullet && b instanceof Obstacle) {
 			final BulletImpl bullet = (BulletImpl) a;
 			final Obstacle obstacle = (Obstacle) b;
 			this.eventBuffer.addEvent(new BulletHitsObstacleEvent(bullet, obstacle));
+			AppLogger.getAppLogger().debug("Checked bullet and obstacle collision, added to buffer");
 		}
 	}
 	

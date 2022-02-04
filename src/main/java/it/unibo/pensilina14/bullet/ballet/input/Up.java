@@ -25,7 +25,7 @@ public class Up implements Command {
 	
 	@Override
 	public final void execute(final GameState env) {
-		final Player player = env.getGameEnvironment().getPlayer().get();
+		final Player player = env.getGameEnvironment().getEntityManager().getPlayer().get();
 		if (player.hasLanded()) {
 			player.moveUp(this.movement);
 			final SoundsFactory soundsFactory = new SoundsFactoryImpl();

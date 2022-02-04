@@ -13,7 +13,7 @@ public class Left implements Command {
 	
 	@Override
 	public void execute(final GameState env) {
-		final Player player = env.getGameEnvironment().getPlayer().get();
+		final Player player = env.getGameEnvironment().getEntityManager().getPlayer().get();
 		player.moveLeft(MOVEMENT_DELTA);
 	}
 

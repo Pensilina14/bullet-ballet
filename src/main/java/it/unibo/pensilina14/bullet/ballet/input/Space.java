@@ -20,24 +20,22 @@ public class Space implements Command {
 	
 	@Override
 	public void execute(final GameState env) {
-		if (env.getGameEnvironment().getPlayer().get().hasWeapon()) {
-			final Weapon weapon = env.getGameEnvironment().getPlayer().get().getWeapon();
-    		if(env.getGameEnvironment().getPlayer().get().getWeapon().hasAmmo()) {
-    			final Bullet bullet = new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment()
-    					, new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX()
-    							, weapon.getPosition().get().getY()), 1.0));
-    			env.getGameEnvironment().addBullet(bullet);
-    			weapon.decreaseAmmo();
+		if (env.getGameEnvironment().getEntityManager().getPlayer().get().hasWeapon()) {
+			final Weapon weapon = env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon();
+    		if (weapon.hasAmmo()) {
+    			final Bullet bullet = new BulletFactoryImpl().createClassicBullet(env.getGameEnvironment(),
+    					new SpeedVector2DImpl(new MutablePosition2Dimpl(weapon.getPosition().get().getX(), 
+    							weapon.getPosition().get().getY()), 1.0));
+    			env.getGameEnvironment().getEntityManager().addBullet(bullet);
     			try {
 					this.mapScene.generateBullet(bullet.getPosition().get());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+    			weapon.decreaseAmmo();
+    			
     		}
 		}
-		
 	}
-
 }

@@ -1,6 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 import it.unibo.pensilina14.bullet.ballet.Game;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
@@ -14,6 +16,7 @@ import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class FormController {
+
 	@FXML
     private TextField insertionForm;
 
@@ -36,7 +39,7 @@ public class FormController {
     }
     
     private void newGame(final MouseEvent event) {
-    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
     	final Game game = new Game();
     	game.getSettings().setDifficulty(Difficulties.EASY);
     	game.getSettings().setResolution(Resolutions.FULLHD);
@@ -51,4 +54,11 @@ public class FormController {
         stage.show();
         game.start();
     }
+
+	//TODO: recuperare il nome del player dal textfield e metterlo nella classe Player, nel name.
+	//TODO: uncomment when it will be fixed.
+	/*public static String getPlayerName(){
+		return insertionForm.getText();
+	}*/
+
 }

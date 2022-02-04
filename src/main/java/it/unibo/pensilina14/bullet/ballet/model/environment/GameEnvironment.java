@@ -2,6 +2,8 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
+import it.unibo.pensilina14.bullet.ballet.common.EntityManager;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
@@ -25,6 +27,8 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,14 +46,7 @@ public class GameEnvironment implements Environment {
 
     private final double gravity;
     private final Dimension2D dimension;
-    private Optional<Player> player;
-    private final Optional<List<Enemy>> enemies;
-    private final Optional<List<ObstacleImpl>> obstacles;
-    private final Optional<List<PickupItem>> items;
-    private final Optional<List<Platform>> platforms;
-    private final Optional<List<Weapon>> weapons;
-    private final Optional<List<Bullet>> bullets;
-	//private final Optional<List<Coin>> coins;
+    private final EntityManager entities;
     private Optional<GameEventListener> eventListener;
 	
 	/**
@@ -58,18 +55,10 @@ public class GameEnvironment implements Environment {
 	 * Ideally we don't want this if not for <strong>testing</strong> purposes.
 	 * </p>
 	 */
-
 	public GameEnvironment() {
 		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
-		this.player = Optional.empty();
-		this.enemies = Optional.of(new ArrayList<>());
-		this.obstacles = Optional.of(new ArrayList<>());
-		this.items = Optional.of(new ArrayList<>());
-		this.platforms = Optional.of(new ArrayList<>());
-		this.weapons = Optional.of(new ArrayList<>());
-		this.bullets = Optional.of(new ArrayList<>());
-		//this.coins = Optional.of(new ArrayList<>());
+		this.entities = new EntityContainer();
 		this.eventListener = Optional.empty();
 	}
 	
@@ -82,14 +71,7 @@ public class GameEnvironment implements Environment {
 	public GameEnvironment(final double height, final double width) {
 		this.gravity = GravityConstants.TEST.getValue();
 		this.dimension = new Dimension2Dimpl(height, width);
-		this.player = Optional.empty();
-		this.enemies = Optional.of(new ArrayList<>());
-		this.obstacles = Optional.of(new ArrayList<>());
-		this.items = Optional.of(new ArrayList<>());
-		this.platforms = Optional.of(new ArrayList<>());
-		this.weapons = Optional.of(new ArrayList<>());
-		this.bullets = Optional.of(new ArrayList<>());
-		//this.coins = Optional.of(new ArrayList<>());
+		this.entities = new EntityContainer();
 		this.eventListener = Optional.empty();
 	}
 	
@@ -101,20 +83,13 @@ public class GameEnvironment implements Environment {
 	 * @param gravity
 	 * @param height
 	 * @param width
-	 * @param player is the player to be set as the one and only {@link Player} in the game.
+	 * @param container is the {@link EntityContainer} to be set as the one and only in this game environment.
 	 * @param l is the event listener that is going to "listen" to the events launched in this {@link Environment}.
 	 */
-	public GameEnvironment(final double gravity, final double height, final double width, final Optional<Player> player, final GameEventListener l) {
+	public GameEnvironment(final double gravity, final double height, final double width, final EntityManager container, final GameEventListener l) {
 		this.gravity = gravity;
 		this.dimension = new Dimension2Dimpl(height, width);
-		this.player = player;
-		this.enemies = Optional.of(new ArrayList<>());
-		this.obstacles = Optional.of(new ArrayList<>());
-		this.items = Optional.of(new ArrayList<>());
-		this.platforms = Optional.of(new ArrayList<>());
-		this.weapons = Optional.of(new ArrayList<>());
-		this.bullets = Optional.of(new ArrayList<>());
-		//this.coins = Optional.of(new ArrayList<>());
+		this.entities = container;
 		this.eventListener = Optional.of(l);
 	}
 	
@@ -129,209 +104,22 @@ public class GameEnvironment implements Environment {
 	}
 
 	@Override
-	public final Optional<List<PhysicalObject>> getObjsList() {
-		return this.mergeLists();
+	public final boolean deleteObjByPosition(final ImmutablePosition2D targetPos) {
+		return this.entities.deleteEntity(targetPos);
 	}
-	
-	@Override
-	public final Optional<Player> getPlayer() {
-		return this.player;
-	}
-	
-	@Override
-	public final Optional<List<Enemy>> getEnemies() {
-		return this.enemies.map(List::copyOf);
-	}
-
-	@Override
-	public final Optional<List<ObstacleImpl>> getObstacles() {
-		return this.obstacles.map(List::copyOf);
-	}
-
-	@Override
-	public final Optional<List<PickupItem>> getItems() {
-		return this.items.map(List::copyOf);
-	}
-	
-	@Override
-	public final Optional<List<Platform>> getPlatforms() {
-		return this.platforms.map(List::copyOf);
-	}
-	
-	@Override
-	public final Optional<List<Weapon>> getWeapons() {
-		return this.weapons.map(List::copyOf);
-	}
-	
-	@Override
-	public final Optional<List<Bullet>> getBullets() {
-		return this.bullets.map(List::copyOf);
-	}
-	
-	/*
-	@Override
-	public Optional<List<Coin>> getCoins() {
-		return this.coins.map(List::copyOf);
-	}
-	*/
-
-	@Override
-	public final void setPlayer(final Player player) {
-		this.player = Optional.ofNullable(player);
-	}
-
-	@Override
-	public final boolean addEnemy(final Enemy enemy) {
-		if (this.enemies.get().contains(enemy)) {
-			return false;
-		} else {
-			this.enemies.get().add(enemy);
-			return true;
-		}
-	}
-	
-	@Override
-	public final boolean addObstacle(final Obstacle obstacle) {
-		/*
-		 * Type validity check: 
-		 * 	verify if obstacle is a StaticObstacle or DynamicObstacle since 
-		 * 	parameter type is open to all PhysicalObject.
-		 * 	Use wisely.
-		 */
-		final ObstacleImpl o = (ObstacleImpl) obstacle;
-		if (this.obstacles.get().contains(o)) {
-			return false;
-		} else {
-			this.obstacles.get().add(o);
-			return true;
-		}	
-	}
-
-	@Override
-	public final boolean addItem(final Item item) {
-		final PickupItem i = (PickupItem) item;
-		if (this.items.get().contains(i)) {
-			return false;
-		} else {
-			this.items.get().add(i);
-			return true;
-		}
-	}
-	
-	@Override
-	public final boolean addPlatform(final Platform platform) {
-		if (this.platforms.get().contains(platform)) {
-			return false;
-		} else {
-			this.platforms.get().add(platform);
-			return true;
-		}
-	}
-	
-	@Override
-	public final boolean addWeapon(final Weapon weapon) {
-		if (this.weapons.get().contains(weapon)) {
-			return false;
-		} else {
-			this.weapons.get().add(weapon);
-			return true;
-		}
-	}
-	
-	@Override
-	public final boolean addBullet(final Bullet bullet) {
-		if (this.bullets.get().contains(bullet)) {
-			return false;
-		} else {
-			this.bullets.get().add(bullet);
-			return true;
-		}
-	}
-
-	@Override
-	public final boolean deleteObjByPosition(final ImmutablePosition2D position) {
-		final List<PhysicalObject> allObjsList = this.mergeLists().get();
-		for (final PhysicalObject obj : allObjsList) {
-			final MutablePosition2D objPos = obj.getPosition().get();
-			if (objPos.getX() == position.getX() && objPos.getY() == position.getY()) {
-				if (obj instanceof Enemy) {
-					this.enemies.get().remove(obj);
-					return true;
-				} else if (obj instanceof ObstacleImpl) {
-					this.obstacles.get().remove(obj);
-					return true;
-				} else if (obj instanceof PickupItem) {
-					this.items.get().remove(obj); 
-					return true;
-				} else if (obj instanceof WeaponImpl) {
-					AppLogger.getAppLogger().debug("Delete weapon model");
-					this.weapons.get().remove(obj);
-					return true;
-				} else if (obj instanceof BulletImpl) {
-					this.bullets.get().remove(obj);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/*
-	@Override
-	public final boolean deleteObject(final PhysicalObject obj) {
-		if (obj instanceof Player) {
-			this.player = Optional.empty();
-			return true;
-		} else if (obj instanceof Enemy) {
-			this.enemies.get().remove(obj);
-			return true;
-		} else if (obj instanceof ObstacleImpl) {
-			this.obstacles.get().remove(obj);
-			return true;
-		} else if (obj instanceof PickupItem) {
-			this.items.get().remove(obj); 
-			return true;
-		} else if (obj instanceof WeaponImpl) {
-			this.weapons.get().remove(obj);
-			return true;
-		} else if (obj instanceof BulletImpl) {
-			this.bullets.get().remove(obj);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	*/
-/*
-	private void checkBoundaries() {
-		final MutablePosition2D playerPos = this.player.get().getPosition();
-		final Dimension2D playerDim = this.player.get().getDimension();
-		if (playerPos.getY() < 0) {
-			this.player.get().getPosition().setPosition(playerPos.getX(), 0);
-		} else if (playerPos.getY() + playerDim.getHeight() > this.windowDimension.get().getHeight()) {
-			this.player.get().getPosition().setPosition(playerPos.getX()
-					, playerPos.getY() - playerDim.getHeight());
-		}
-		if (playerPos.getX() < 0) {
-			this.player.get().getPosition().setPosition(0, playerPos.getY());
-		} else if (playerPos.getX() + playerDim.getWidth() > this.windowDimension.get().getWidth()) {
-			this.player.get().getPosition().setPosition(playerPos.getX() - playerDim.getWidth()
-					, playerPos.getY());
-		}
-	}
-*/
 
 	@Override
 	public final void updateState() {
-		if (!this.player.get().hasLanded()) {
-			this.player.get().moveDown(this.gravity);
+		final Optional<Player> player = this.entities.getPlayer();
+		if (!player.get().hasLanded()) {
+			player.get().moveDown(this.gravity);
 		} else {
-			this.player.get().resetLanding();
+			player.get().resetLanding();
 		}
 		
-		this.player.get().updateState();
-		this.player.get().getCurrentScore().increase();
-		this.enemies.get().stream().forEach(e -> {
+		player.get().updateState();
+		player.get().getCurrentScore().increase();
+		this.entities.getEnemies().get().stream().forEach(e -> {
 			if (!e.hasLanded()) {
 				e.moveDown(this.gravity);
 			} else {
@@ -340,7 +128,7 @@ public class GameEnvironment implements Environment {
 			e.updateState();
 			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
-		this.obstacles.get().forEach(o -> {
+		this.entities.getObstacles().get().forEach(o -> {
 			if (!o.hasLanded()) {
 				o.moveDown(this.gravity);
 			} else {
@@ -348,21 +136,23 @@ public class GameEnvironment implements Environment {
 			}
 			o.updateState();
 		});
-		this.items.get().forEach(i -> {i.updateState();});
-		this.weapons.get().forEach(i -> {
-			if(!i.isOn()) {
+		this.entities.getItems().get().forEach(i -> i.updateState());
+		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
+			if (!i.isOn()) {
 				i.updateState();
 			} else {
-				final MutablePosition2D pos = this.player.get().getPosition().get();
-				i.setPosition(new MutablePosition2Dimpl(pos.getX()+15, pos.getY()+7));
+				final MutablePosition2D pos = player.get().getPosition().get();
+				i.setPosition(new MutablePosition2Dimpl(pos.getX() + 15, pos.getY() + 7));
 			}
-		});
-		
-		this.bullets.get().stream().forEach(i -> i.updateState());
-		this.platforms.get().stream().forEach(i -> i.updateState());
-		//this.coins.get().stream().forEach(PhysicalObject::updateState);
-		if (!this.player.get().isAlive()) {		
-			this.eventListener.get().notifyEvent(new GameOverEvent(this.player.get()));
+		}));
+
+		if (this.entities.getBullets().isPresent()) {
+			this.entities.getBullets().get().stream().forEach(i -> i.updateState());
+		} 
+
+		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
+		if (!player.get().isAlive()) {
+			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
 		this.checkCollisions();
 	}
@@ -372,49 +162,28 @@ public class GameEnvironment implements Environment {
 	public final void setEventListener(final GameEventListener listener) {
 		this.eventListener = Optional.ofNullable(listener);
 	}
-	
-	/*
-	@Override
-	public final boolean addCoin(final Coin coin) {
-		if (this.coins.get().contains(coin)) {
-			return false;
-		} else {
-			this.coins.get().add(coin);
-			return true;
-		}
-	}
-	*/
 
-	private Optional<List<PhysicalObject>> mergeLists() {
-		final Optional<List<PhysicalObject>> mergedList = Optional.of(new ArrayList<>());
-		this.player.ifPresent(value -> mergedList.get().addAll(List.of(value)));
-		this.enemies.ifPresent(enemyList -> mergedList.get().addAll(enemyList));
-		this.obstacles.ifPresent(obstacleList -> mergedList.get().addAll(obstacleList));
-		this.items.ifPresent(pickupItems -> mergedList.get().addAll(pickupItems));
-		this.platforms.ifPresent(platformList -> mergedList.get().addAll(platformList));
-		this.weapons.ifPresent(weaponList -> mergedList.get().addAll(weaponList));
-		this.bullets.ifPresent(bulletList -> mergedList.get().addAll(bulletList));
-		//this.coins.ifPresent(coinList -> mergedList.get().addAll(coinList));
-		return mergedList;
-	}
-
-	//TODO: collision for the coins
 	private void checkCollisions() {
-		final Map<String, EventChecker> eventCheckers = Map.of(
-				"playeritem", new CollisionEventChecker(this.items.get(), List.of(this.player.get())), 
-				"playerenemy", new CollisionEventChecker(this.enemies.get(), List.of(this.player.get())), 
-				"playerobstacle", new CollisionEventChecker(this.obstacles.get(), List.of(this.player.get())), 
-				"playerplatform", new CollisionEventChecker(this.platforms.get(), List.of(this.player.get())), 
-				"enemyplatform", new CollisionEventChecker(this.platforms.get(), this.enemies.get()),
-				"playerWeapon", new CollisionEventChecker(this.weapons.get(), List.of(this.player.get())),
-				"bulletEnemy", new CollisionEventChecker(this.bullets.get(), this.enemies.get()),
-				"bulletPlatform", new CollisionEventChecker(this.bullets.get(), this.platforms.get()),
-				"bulletObstacle", new CollisionEventChecker(this.bullets.get(), this.obstacles.get())
-		);
-
-		for (final EventChecker checker : eventCheckers.values()) {
+		final Map<String, EventChecker> eventCheckers = new HashMap<>();
+		eventCheckers.putAll(Map.of(
+				"playeritem", new CollisionEventChecker(this.entities.getItems().get(), List.of(this.entities.getPlayer().get())), 
+				"playerenemy", new CollisionEventChecker(this.entities.getEnemies().get(), List.of(this.entities.getPlayer().get())), 
+				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
+				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
+				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
+				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
+				));
+		if (this.entities.getBullets().isPresent()) {
+			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
+			eventCheckers.put("bulletPlatform", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
+			eventCheckers.put("bulletObstacle", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getObstacles().get()));
+		}
+		this.checkAll(eventCheckers);
+	}
+	
+	private void checkAll(final Map<String, EventChecker> checkersMap) {
+		for (final EventChecker checker : checkersMap.values()) {
 			checker.check();
-			// Notify everything to the {@link GameEventListener}.
 			final List<GameEvent> events = new ArrayList<>(checker.getBuffer().getEvents());
 			if (!events.isEmpty()) {
 				events.forEach(e -> {
@@ -422,7 +191,10 @@ public class GameEnvironment implements Environment {
 				});
 			}
 		}
+	}
 
-
+	@Override
+	public final EntityManager getEntityManager() {
+		return this.entities;
 	}
 }

@@ -13,7 +13,7 @@ public class Right implements Command {
 	
 	@Override
 	public final void execute(final GameState env) {
-		final Player player = env.getGameEnvironment().getPlayer().get();
+		final Player player = env.getGameEnvironment().getEntityManager().getPlayer().get();
 		System.out.println(player.getPosition().get().getCoordinates());
 		player.moveRight(Right.MOVEMENT_DELTA);
 
