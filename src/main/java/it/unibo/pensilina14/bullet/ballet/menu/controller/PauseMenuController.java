@@ -63,27 +63,12 @@ public class PauseMenuController {
 	void backToHomepage(final MouseEvent event) {
 		new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
 		try {
-			final Stage stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
-			final Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Frames.HOMEPAGE.toString())), getLanguage(Languages.ENGLISH));
-			final Scene scene = new Scene(root);
-			final Window window = resumeButton.getScene().getWindow();
+			final Window window = resumeButton.getScene().getWindow();			
+			window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_HIDDEN));
 			window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
-			stage.setScene(scene);
-			stage.show();
-			
-			//loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
+			loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	private ResourceBundle getLanguage(final Languages language) {
-	    final Locale locale = new Locale(composeLanguageString(language));
-	    return ResourceBundle.getBundle(PageLoaderImpl.LANGUAGES_PATH, locale);
-    }
-	
-    private String composeLanguageString(final Languages language) {
-    	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode();
-    }
 }
