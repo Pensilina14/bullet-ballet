@@ -46,7 +46,7 @@ public class GameEnvironment implements Environment {
 
     private final double gravity;
     private final Dimension2D dimension;
-    private final EntityManager entities;
+    private EntityManager entities;
     private Optional<GameEventListener> eventListener;
 	
 	/**

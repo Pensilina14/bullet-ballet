@@ -11,59 +11,59 @@ public enum LevelEntity {
 	/**
 	 * Represents an empty(air) spot.
 	 */
-    EMPTY("0"),
+    EMPTY('0'),
     /**
      * Represents a {@link Platform} that fills the tile it stays in.
      */
-    PLATFORM("1"),
+    PLATFORM('1'),
     /**
      * Stands for a coin.
      */
-    COIN("2"),
+    COIN('2'),
     /**
      * Represents an {@link Obstacle}.
      */
-    OBSTACLE("3"),
+    OBSTACLE('3'),
     /**
      * Outlines a {@link EntityList#Weapons#GUN}.
      */
-    GUN("G"),
+    GUN('G'),
     /**
      * Outlines a {@link EntityList#Weapons#SHOTGUN}.
      */
-    SHOTGUN("S"),
+    SHOTGUN('S'),
     /**
      * Outlines a {@link EntityList#Weapons#AUTOGUN}.
      */
-    AUTOGUN("A"),
+    AUTOGUN('A'),
     /**
      * Represents the {@link Player}.
      */
-    PLAYER("P"),
+    PLAYER('P'),
     /**
      * Figures an heart {@link Item}. For further reference look into {@link Items#HEART}.
      */
-    HEART("*"),
+    HEART('*'),
     /**
      * Figures a poison {@link Item}. For further reference look into {@link Items#POISON}.
      */
-    POISON("x"),
+    POISON('x'),
     /**
      * Figures a damage {@link Item}. For further reference look into {@link Items#DAMAGE}.
      */
-    DAMAGE("d"),
+    DAMAGE('d'),
     /**
      * Represents an {@link Enemy}.
      */
-    ENEMY("!");
+    ENEMY('!');
 
-    private final String value;
+    private final char value;
 
-    LevelEntity(final String value) {
+    LevelEntity(final char value) {
         this.value = value;
     }
 
-    public final String getValue() { 
+    public final char getValue() { 
         return this.value;
     }
     /**

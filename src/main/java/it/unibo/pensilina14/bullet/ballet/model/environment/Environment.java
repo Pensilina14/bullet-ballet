@@ -20,8 +20,8 @@ public interface Environment {
 	 */
 	Dimension2D getDimension();
 
-	/**
-	 * Returns an {@link EntityManager}
+    /**
+	 * Returns an {@link EntityManager}.
 	 * 
 	 * @return entity manager of the implementing class.
 	 */
