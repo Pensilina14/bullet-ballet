@@ -59,9 +59,7 @@ public class EnvironmentGenerator implements LevelGenerator {
             final String line = this.levelLoader.getLevel()[i];
             for (int j = 0; j < line.length(); j++) {
             	final char symbol = line.charAt(j);
-            	if (symbol == LevelEntity.EMPTY.getValue()) {
-            		
-            	} else if (symbol == LevelEntity.PLATFORM.getValue()) {
+            	if (symbol == LevelEntity.PLATFORM.getValue()) {
             		entityManagerBuilder.addPlatform(new Platform(
             				new SpeedVector2DImpl(
             						new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), 
@@ -70,26 +68,35 @@ public class EnvironmentGenerator implements LevelGenerator {
             						new Dimension2Dimpl(TILE_SIZE, TILE_SIZE)
             				));
             	} else if (symbol == LevelEntity.COIN.getValue()) {
-            		entityManagerBuilder.addItem(this.itemFactory.createCoinItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addItem(this.itemFactory.createCoinItem(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.OBSTACLE.getValue()) {
-            		entityManagerBuilder.addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addObstacle(this.obstacleFactory.createStandardObstacle(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.GUN.getValue()) {
-            		entityManagerBuilder.addWeapon(this.weaponFactory.createGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addWeapon(this.weaponFactory.createGun(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.SHOTGUN.getValue()) {
-            		entityManagerBuilder.addWeapon(this.weaponFactory.createShotGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addWeapon(this.weaponFactory.createShotGun(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.AUTOGUN.getValue()) {
-            		entityManagerBuilder.addWeapon(this.weaponFactory.createAuto(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addWeapon(this.weaponFactory.createAuto(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.PLAYER.getValue()) {
-            		entityManagerBuilder.addPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 2.0), this.env.get()));
+            		entityManagerBuilder.addPlayer(this.charactersFactory.createRandomPlayer(
+            				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 2.0), this.env.get()));
             	} else if (symbol == LevelEntity.HEART.getValue()) {
-            		entityManagerBuilder.addItem(this.itemFactory.createHealingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addItem(this.itemFactory.createHealingItem(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.POISON.getValue()) {
-            		entityManagerBuilder.addItem(this.itemFactory.createPoisoningItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addItem(this.itemFactory.createPoisoningItem(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.DAMAGE.getValue()) {
-            		entityManagerBuilder.addItem(this.itemFactory.createDamagingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+            		entityManagerBuilder.addItem(this.itemFactory.createDamagingItem(
+            				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
             	} else if (symbol == LevelEntity.ENEMY.getValue()) {
-            		entityManagerBuilder.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), this.env.get()));
-            	} else {
+            		entityManagerBuilder.addEnemy(this.charactersFactory.createRandomEnemy(
+            				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), this.env.get()));
             	}
             }
         }
