@@ -137,14 +137,14 @@ public class GameEnvironment implements Environment {
 			o.updateState();
 		});
 		this.entities.getItems().get().forEach(i -> i.updateState());
-		this.entities.getWeapons().get().forEach(i -> {
+		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
 			if (!i.isOn()) {
 				i.updateState();
 			} else {
 				final MutablePosition2D pos = player.get().getPosition().get();
 				i.setPosition(new MutablePosition2Dimpl(pos.getX() + 15, pos.getY() + 7));
 			}
-		});
+		}));
 
 		if (this.entities.getBullets().isPresent()) {
 			this.entities.getBullets().get().stream().forEach(i -> i.updateState());
