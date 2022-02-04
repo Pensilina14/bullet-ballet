@@ -43,6 +43,11 @@ public class SettingsController implements Initializable {
             this.difficulty.getSelectionModel().select(settingsMap.get(Save.DIFFICULTY_STRING));
             this.audio.setValue(Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)));
             this.language.getSelectionModel().select(Languages.getLanguagesMap().get(settingsMap.get(Save.LANGUAGE_STRING)));
+        } else {
+            this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
+            this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
+            this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
+            // Per l'audio non serve mettere un default perchè sta già a 0.0
         }
     }
     
@@ -78,9 +83,10 @@ public class SettingsController implements Initializable {
 
         // L'audio non è vuoto, è di default come 0.0 quindi non penso servi controllarlo.
         // Questa parentesi serve così evito di scrivere tre volte il !.
-        if(!(this.resolution.getSelectionModel().isEmpty()
-                || this.difficulty.getSelectionModel().isEmpty()
-                || this.language.getSelectionModel().isEmpty())){
+
+        if(!(this.resolution.getSelectionModel().getSelectedItem().isBlank()
+                || this.difficulty.getSelectionModel().getSelectedItem().isBlank()
+                || this.language.getSelectionModel().getSelectedItem().isBlank())){
 
             final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
 

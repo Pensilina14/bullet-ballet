@@ -2,8 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
+import it.unibo.pensilina14.bullet.ballet.save.Save;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,7 +31,7 @@ public class GameStatsController implements Initializable{
 
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-    	new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
@@ -36,8 +39,16 @@ public class GameStatsController implements Initializable{
     public void initialize(final URL location, final ResourceBundle resources) {
         this.setCells();
         final ObservableList<Statistics> list = FXCollections.observableArrayList();
-        list.add(new Statistics("Alessandro", 10, 0.5));
-        tableView.setItems(list);
+
+        final Map<String, String> statsMap = Save.loadGameStatistics();
+
+        if(!statsMap.isEmpty()){
+            for(var s : statsMap.keySet()){
+                list.add(new Statistics(s, Double.parseDouble(statsMap.get(s)), -1.0)); //TODO: il tempo ho messo -1.0 perchè non l'abbiamo, se non lo facciamo è da togliere.
+            }
+        }
+
+        this.tableView.setItems(list);
     }
     
     private void setCells() {

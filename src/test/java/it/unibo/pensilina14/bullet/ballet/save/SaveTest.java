@@ -27,10 +27,10 @@ public class SaveTest {
         Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Paolo";
-        final int playerScore = 7;
+        final double playerScore = 7.0;
 
         final String playerName2 = "Giorgio";
-        final int playerScore2 = 14;
+        final double playerScore2 = 14.0;
 
         Save.saveGameStatistics(playerName, playerScore);
         Save.saveGameStatistics(playerName2, playerScore2);

@@ -19,5 +19,9 @@ public enum Difficulties {
     public String toString() {
         return this.difficulty;
     }
+
+	public static Difficulties getDefaultDifficulty(){
+		return Difficulties.MEDIUM;
+	}
 	
 }
