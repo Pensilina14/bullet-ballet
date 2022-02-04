@@ -362,6 +362,7 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	public void stop() {
+		this.viewController.get().stopPlayerAnimation();
 		this.soundtrack.stop();
 		this.timer.get().stop();
 	}
