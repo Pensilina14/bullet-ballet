@@ -25,6 +25,10 @@ public class Enemy extends GameEntity implements Characters{
    	public int dumbCounter = 0; 
     private boolean landed;
 
+    private static final double MAX_RANGE = 7.0; //TODO: oppure tenere un solo range per tutti. //TODO: forse incrementarlo.
+
+    private final double enemyRange = getRandomRange();
+
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
 
         super(vector, environment, mass, dimension);
@@ -195,6 +199,44 @@ public class Enemy extends GameEntity implements Characters{
     
     public void resetLanding() {
     	this.landed = false;
+    }
+
+    private double getRandomRange(){
+        return rand.nextDouble() * Enemy.MAX_RANGE;
+    }
+
+    //TODO: forse passare l'index dell'enemy come parametro non serve.
+    public boolean isPlayerInRange(final int enemyIndex){
+        final double xPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
+        final double yPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
+
+        final double xEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getX();
+        final double yEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getY();
+
+        //final double range = getRandomRange(); //TODO: il range o fisso per tutti gli enemy o così com'è adesso ovvero casuale.
+
+        System.out.println("Player X: " + xPlayer); //TODO: remove
+        System.out.println("Player Y: " + yPlayer); //TODO: remove
+
+        System.out.println("Enemy X: " + xEnemy); //TODO: remove
+        System.out.println("Enemy Y: " + yEnemy); //TODO: remove
+
+        final double distance = Math.sqrt((xPlayer - xEnemy) + (yPlayer - yEnemy)); //TODO: la radice quadrata si può anche togliere, è lenta e non serve.
+
+        //TODO: LERP
+
+        System.out.println("Enemy Range: " + this.enemyRange); //TODO: remove
+        System.out.println("Distanza player ed Enemy: " + distance); //TODO: remove
+
+        return distance <= this.enemyRange;
+    }
+
+    public double getRange(){
+        return this.enemyRange;
+    }
+
+    public double getMaxRange(){
+        return Enemy.MAX_RANGE;
     }
 
 }
