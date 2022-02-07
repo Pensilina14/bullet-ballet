@@ -28,7 +28,7 @@ public class GameEntityTest {
     
     @Test
     public void testMoveUP() {
-    	/* devo capire cosa c'è che non va...
+    	/* devo capire cosa c'Ã¨ che non va...
         final boolean isStill = !gameObject.moveUp(800);
         assertTrue(isStill);
         */
