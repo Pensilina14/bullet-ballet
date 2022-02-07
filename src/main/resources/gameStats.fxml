@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="598.0" prefWidth="793.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.GameStatsController">
    <children>
       <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblGameStats.text" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
@@ -48,4 +49,7 @@
          </font>
       </Button>
    </children>
+   <stylesheets>
+      <URL value="@css/style.css" />
+   </stylesheets>
 </AnchorPane>
