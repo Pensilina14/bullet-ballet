@@ -1,9 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.SpriteAnimation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,13 +17,20 @@ public class CoinSprite extends Pane {
     private ImageView coinView;
     private final Coins coinType;
     private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
+
+    private final int count = 3;
+    private final int columns = 1;
+    private final int offsetX = 0;
+    private final int offsetY = 0;
     private static final Random RAND = new Random();
+
+    private SpriteAnimation animation;
 
     public CoinSprite(){
         this.coinType = DEFAULT_COIN;
     }
 
-    public CoinSprite(final Coins coinType, final int x, final int y) throws IOException {
+    public CoinSprite(final Coins coinType, final double x, final double y) throws IOException {
 
         this.coinType = coinType;
 
@@ -30,7 +39,7 @@ public class CoinSprite extends Pane {
         getChildren().add(this.coinView);
     }
 
-    private void setCoin(final int x, final int y) throws IOException {
+    private void setCoin(final double x, final double y) throws IOException {
         final int minX;
         final int minY;
         final int coinWidth;
@@ -49,6 +58,8 @@ public class CoinSprite extends Pane {
                 this.setTranslateY(y);
                 this.getProperties().put("alive", true);
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
+
+                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
                 break;
             case EMERALD_COIN:
             case LIGHT_BLUE_COIN:
@@ -64,6 +75,8 @@ public class CoinSprite extends Pane {
                 this.setTranslateY(y);
                 this.getProperties().put("alive", true);
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
+
+                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
                 break;
             default:
                 break; //TODO: default case
