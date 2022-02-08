@@ -6,7 +6,10 @@ import java.util.Map;
 public enum Languages {
 
     ENGLISH("English", "en_uk"),
-    ITALIANO("Italiano", "it_it");
+    ITALIANO("Italiano", "it_it"),
+    ESPAÑOL("Español", "es_es"), // Se si modifica la N in ESPANOL la si deve modificare anche nel parametro language altrimenti non va.
+    DEUTSCH("Deutsch", "de_de"),
+    POLSKI("Polski", "pl_pl");
 
     private final String language;
     private final String countryCode;
