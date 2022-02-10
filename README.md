@@ -1,18 +1,11 @@
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Pensilina14/bullet-ballet?style=flat-square)
-
 ![Lines of code](https://img.shields.io/tokei/lines/github/Pensilina14/bullet-ballet?style=flat-square)
-
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/Pensilina14/bullet-ballet?style=flat-square)
-
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Pensilina14/bullet-ballet?style=flat-square)
-
 ![GitHub Release Date](https://img.shields.io/github/release-date/Pensilina14/bullet-ballet?style=flat-square)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/Pensilina14/bullet-ballet?style=flat-square)
-
 [![GitHub stars](https://img.shields.io/github/stars/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet/stargazers)
-
 [![GitHub license](https://img.shields.io/github/license/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet)
 
 ### Bullet Ballet
