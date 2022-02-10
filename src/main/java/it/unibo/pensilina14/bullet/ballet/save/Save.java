@@ -146,7 +146,7 @@ public final class Save {
      * @param newScore : the new score of the player
      * @return : a boolean whether the operation has been executed successfully
      */
-    public static boolean updateGameStatistics(final String oldPlayer, final int oldScore, final String newPlayer, final int newScore) {
+    public static boolean updateGameStatistics(final String oldPlayer, final double oldScore, final String newPlayer, final double newScore) {
         final JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 

@@ -54,20 +54,20 @@ public class SaveTest {
         Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Alessio";
-        final int playerScore = 7;
+        final double playerScore = 7.0;
 
         final String playerName2 = "Gigi";
-        final int playerScore2 = 14;
+        final double playerScore2 = 14.0;
 
         final String playerName3 = "Pluto";
-        final int playerScore3 = 5;
+        final double playerScore3 = 5.0;
 
         Save.saveGameStatistics(playerName, playerScore);
         Save.saveGameStatistics(playerName2, playerScore2);
         Save.saveGameStatistics(playerName3, playerScore3);
 
         final String newPlayerName = "Mario";
-        final int newPlayerScore = 18;
+        final double newPlayerScore = 18.0;
 
         // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI
 
