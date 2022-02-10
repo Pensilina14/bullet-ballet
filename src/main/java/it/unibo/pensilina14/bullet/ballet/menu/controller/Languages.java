@@ -9,7 +9,9 @@ public enum Languages {
     ITALIANO("Italiano", "it_it"),
     ESPAÑOL("Español", "es_es"), // Se si modifica la N in ESPANOL la si deve modificare anche nel parametro language altrimenti non va.
     DEUTSCH("Deutsch", "de_de"),
-    POLSKI("Polski", "pl_pl");
+    POLSKI("Polski", "pl_pl"),
+    RUSSIAN("Russian", "ru_ru"),
+    MSA("MSA", "msa_msa");
 
     private final String language;
     private final String countryCode;
