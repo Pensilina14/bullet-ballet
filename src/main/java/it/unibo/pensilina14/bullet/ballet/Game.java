@@ -17,9 +17,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 public class Game {
     private final ModelController model;
     private final ViewController view;
-    public final GameEngine engine;
-    private final Settings settings; 
-
+    private final GameEngine engine;
+    private final GameInfo settings; 
+    
     public enum Scenes {
     	/**
     	 * 
@@ -31,13 +31,22 @@ public class Game {
         MAP_SCENE;
     }
 
-    public Game() {
-    	this.model = new ModelControllerImpl(new GameState());
+//    public Game() {
+//    	this.model = new ModelControllerImpl(new GameState());
+//        this.view = new ViewControllerImpl(Optional.of(
+//        		new MapScene(this.model.getGameState().get())
+//        		));
+//        this.engine = new GameEngine(this.view, this.model);
+//        //this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
+//    }
+    
+    public Game(final String playerName) {
+    	this.model = new ModelControllerImpl(new GameState(playerName));
         this.view = new ViewControllerImpl(Optional.of(
         		new MapScene(this.model.getGameState().get())
         		));
         this.engine = new GameEngine(this.view, this.model);
-        this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
+        this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
     }
 
 //    public Game(final GameState gameState, final GameView gameView, final GameEngine gameEngine) {
@@ -72,7 +81,7 @@ public class Game {
     }
     
     
-    public final Settings getSettings() {
+    public final GameInfo getSettings() {
     	return this.settings;
     }
     

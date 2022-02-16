@@ -3,12 +3,12 @@ package it.unibo.pensilina14.bullet.ballet;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Difficulties;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Resolutions;
 
-public class SettingsImpl implements Settings{
+public class GameInfoImpl implements GameInfo{
 
 	private Resolutions resolution;
 	private Difficulties difficulty;
 	
-	public SettingsImpl(final Resolutions resolution, final Difficulties difficulty) {
+	public GameInfoImpl(final Resolutions resolution, final Difficulties difficulty) {
 		this.resolution = resolution;
 		this.difficulty = difficulty;
 	}
