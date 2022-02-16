@@ -111,30 +111,8 @@ public class GameEnvironment implements Environment {
 	@Override
 	public final void updateState() {
 		final Optional<Player> player = this.entities.getPlayer();
-		if (!player.get().hasLanded()) {
-			player.get().moveDown(this.gravity);
-		} else {
-			player.get().resetLanding();
-		}
-		
 		player.get().updateState();
 		player.get().getCurrentScore().increase();
-		this.entities.getEnemies().get().stream().forEach(e -> {
-			if (!e.hasLanded()) {
-				e.moveDown(this.gravity);
-			} else {
-				e.resetLanding();
-			}
-			e.updateState();
-		}); 
-		this.entities.getObstacles().get().forEach(o -> {
-			if (!o.hasLanded()) {
-				o.moveDown(this.gravity);
-			} else {
-				o.resetLanding();
-			}
-			o.updateState();
-		});
 		this.entities.getItems().get().forEach(i -> i.updateState());
 		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
 			if (!i.isOn()) {
@@ -153,6 +131,7 @@ public class GameEnvironment implements Environment {
 		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
+		this.checkGravity();
 		this.checkCollisions();
 	}
 	
@@ -162,6 +141,31 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.ofNullable(listener);
 	}
 
+	private void checkGravity() {
+		final Optional<Player> player = this.entities.getPlayer();
+		if (!player.get().hasLanded()) {
+			player.get().moveDown(this.gravity);
+		} else {
+			player.get().resetLanding();
+		}
+		this.entities.getEnemies().get().stream().forEach(e -> {
+			if (!e.hasLanded()) {
+				e.moveDown(this.gravity);
+			} else {
+				e.resetLanding();
+			}
+			e.updateState();
+		});
+		this.entities.getObstacles().get().forEach(o -> {
+			if (!o.hasLanded()) {
+				o.moveDown(this.gravity);
+			} else {
+				o.resetLanding();
+			}
+			o.updateState();
+		});
+	}
+	
 	private void checkCollisions() {
 		final Map<String, EventChecker> eventCheckers = new HashMap<>();
 		eventCheckers.putAll(Map.of(
