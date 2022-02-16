@@ -357,8 +357,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.soundsFactory.createSound(Sounds.FALL).play();
 		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());  
 	    final Date date = new Date();
-	    System.out.println(formatter.format(date));
-		Save.saveGameStatistics(this.modelController.get().getGameState().get().getPlayerName(), player.getCurrentScore().showScore());
+		Save.saveGameStatistics(this.modelController.get().getGameState().get().getPlayerName(), player.getCurrentScore().showScore(), formatter.format(date));
 		this.stop();
 	}
 	
