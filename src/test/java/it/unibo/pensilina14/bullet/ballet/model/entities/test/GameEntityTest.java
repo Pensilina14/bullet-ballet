@@ -28,10 +28,10 @@ public class GameEntityTest {
     
     @Test
     public void testMoveUP() {
-    	/* devo capire cosa c'è che non va...
-        final boolean isStill = !gameObject.moveUp(800);
+        boolean isStill = gameObject.moveUp(800);
         assertTrue(isStill);
-        */
+        isStill = !gameObject.moveUp(-800);
+        assertTrue(isStill);
     }
     
     
@@ -60,16 +60,6 @@ public class GameEntityTest {
         final boolean isMoving = gameObject.moveLeft(testPosition - this.gameObject.getDimension().get().getWidth());
         assertTrue(isMoving);
     }
-//    
-//    @Test
-//    public void testUpdateState() {
-//        final SpeedVector2D vector = dynamicObstacle.getSpeedVector();
-//        final MutablePosition2D prevPosition = vector.getPosition();
-//        prevPosition.setPosition(dynamicObstacle.getPosition().getX() + TIME * MS_TO_S, 
-//                dynamicObstacle.getPosition().getY() + TIME * MS_TO_S);
-//        dynamicObstacle.updateState(TIME);
-//        assertEquals(dynamicObstacle.getPosition(), prevPosition); 
-//    }
 	
 	
 }
