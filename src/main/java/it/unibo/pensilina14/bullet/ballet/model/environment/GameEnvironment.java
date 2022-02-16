@@ -46,7 +46,7 @@ public class GameEnvironment implements Environment {
 
     private final double gravity;
     private final Dimension2D dimension;
-    private EntityManager entities;
+    private final EntityManager entities;
     private Optional<GameEventListener> eventListener;
 	
 	/**
@@ -126,7 +126,6 @@ public class GameEnvironment implements Environment {
 				e.resetLanding();
 			}
 			e.updateState();
-			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
 		}); 
 		this.entities.getObstacles().get().forEach(o -> {
 			if (!o.hasLanded()) {

@@ -8,7 +8,6 @@ import it.unibo.pensilina14.bullet.ballet.common.EntityManagerBuilder;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
@@ -60,7 +59,6 @@ public class EnvironmentGenerator implements LevelGenerator {
             	populate(entityManagerBuilder, i, line, j); 
             }
         }
-		AppLogger.getAppLogger().debug(((EntityContainer) entityManagerBuilder.build()).getContainer().toString());
 	}
 
 	private void populate(final EntityManagerBuilder entityManagerBuilder, final int i, final String line, final int j) {
@@ -99,43 +97,53 @@ public class EnvironmentGenerator implements LevelGenerator {
 	}
 
 	private void generateEnemy(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addEnemy(this.charactersFactory.createRandomEnemy(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), this.env.get()));
+		entityManagerBuilder.addEnemy(this.charactersFactory.createRandomEnemy(
+				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), this.env.get()));
 	}
 
 	private void generatePoison(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addItem(this.itemFactory.createDamagingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addItem(this.itemFactory.createDamagingItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generatePoisoningItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addItem(this.itemFactory.createPoisoningItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addItem(this.itemFactory.createPoisoningItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateHealingItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addItem(this.itemFactory.createHealingItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addItem(this.itemFactory.createHealingItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateAuto(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addWeapon(this.weaponFactory.createAuto(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addWeapon(this.weaponFactory.createAuto(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateShotGun(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addWeapon(this.weaponFactory.createShotGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addWeapon(this.weaponFactory.createShotGun(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateStandardGun(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addWeapon(this.weaponFactory.createGun(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addWeapon(this.weaponFactory.createGun(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateStandardObstacle(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addObstacle(this.obstacleFactory.createStandardObstacle(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addObstacle(this.obstacleFactory.createStandardObstacle(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
 	private void generateCoin(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addItem(this.itemFactory.createCoinItem(this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+		entityManagerBuilder.addItem(this.itemFactory.createCoinItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 	
 	private void generatePlayer(final EntityManagerBuilder e, final int i, final int j) {
-		e.addPlayer(this.charactersFactory.createRandomPlayer(new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 2.0), this.env.get()));
+		e.addPlayer(this.charactersFactory.createRandomPlayer(
+				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 2.0), this.env.get()));
 	}
 	
 	@Override
