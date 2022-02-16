@@ -3,10 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 import javafx.collections.ObservableList;
@@ -18,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 public class GameStatsController implements Initializable{
 
@@ -29,7 +27,7 @@ public class GameStatsController implements Initializable{
     @FXML
     private TableColumn<Statistics, Integer> points;
     @FXML
-    private TableColumn<Statistics, Double> time;
+    private TableColumn<Statistics, String> date;
 
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
@@ -42,11 +40,11 @@ public class GameStatsController implements Initializable{
         this.setCells();
         final ObservableList<Statistics> list = FXCollections.observableArrayList();
 
-        final Map<String, String> statsMap = Save.loadGameStatistics();
+        final LinkedHashMap<String, MutablePair<String, String>> statsMap = Save.loadGameStatistics();
 
         if(!statsMap.isEmpty()){
             for(final var s : statsMap.keySet()){
-                list.add(new Statistics(s, Double.parseDouble(statsMap.get(s)), -1)); //TODO: il tempo ho messo -1.0 perchè non l'abbiamo, se non lo facciamo è da togliere.
+                list.add(new Statistics(s, Double.parseDouble(String.valueOf(statsMap.get(s).getLeft())), statsMap.get(s).getRight()));
             }
         }
 
@@ -56,7 +54,7 @@ public class GameStatsController implements Initializable{
     private void setCells() {
         this.playerName.setCellValueFactory(new PropertyValueFactory<Statistics, String>("playerName"));
         this.points.setCellValueFactory(new PropertyValueFactory<Statistics, Integer>("points"));
-        this.time.setCellValueFactory(new PropertyValueFactory<Statistics, Double>("time"));
+        this.date.setCellValueFactory(new PropertyValueFactory<Statistics, String>("date"));
     }
 
 }
