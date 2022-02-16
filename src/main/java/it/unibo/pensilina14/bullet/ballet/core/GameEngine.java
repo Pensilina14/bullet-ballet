@@ -1,6 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.core;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -352,6 +354,9 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
 		this.soundsFactory.createSound(Sounds.FALL).play();
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+	    final Date date = new Date();  
+	    System.out.println(formatter.format(date));  
 		Save.saveGameStatistics(player.getName(), player.getCurrentScore().showScore());
 		this.stop();
 	}

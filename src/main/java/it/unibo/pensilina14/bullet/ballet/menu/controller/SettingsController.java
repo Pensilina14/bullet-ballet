@@ -61,7 +61,7 @@ public class SettingsController implements Initializable {
     void showDifficultiesOnMouseClick(final MouseEvent event) {
         final ObservableList<String> difficulties = FXCollections.observableArrayList();
         // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
-        for(var d : Difficulties.values()){
+        for(final var d : Difficulties.values()){
             difficulties.add(d.toString());
         }
         this.difficulty.setItems(difficulties);
@@ -71,7 +71,7 @@ public class SettingsController implements Initializable {
     void showResolutionsOnMouseClicked(final MouseEvent event) {
         final ObservableList<String> resolutions = FXCollections.observableArrayList();
         // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
-        for(var r : Resolutions.values()){
+        for(final var r : Resolutions.values()){
             resolutions.add(r.toString());
         }
         this.resolution.setItems(resolutions);
@@ -81,7 +81,7 @@ public class SettingsController implements Initializable {
     void showLanguagesOnMouseClick(final MouseEvent event) {
         final ObservableList<String> languages = FXCollections.observableArrayList();
         // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
-        for( var l : Languages.values()){
+        for(final var l : Languages.values()){
             languages.add(l.getLanguage());
         }
         this.language.setItems(languages);
