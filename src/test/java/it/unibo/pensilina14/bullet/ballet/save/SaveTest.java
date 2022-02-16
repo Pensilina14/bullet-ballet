@@ -46,10 +46,12 @@ public class SaveTest {
         final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(playerScore2)));
         final ArrayList<String> playersDateList = new ArrayList<>(Arrays.asList(date, date2));
 
-        //final ArrayList<List<String>> values = new ArrayList<>(Arrays.asList(playersScoreList, playersDateList)); //TODO: fix
-
         assertTrue(map.keySet().containsAll(playersNameList));
-        //assertTrue(map.values().containsAll(playersScoreList)); //TODO: fix
+
+        for(final var v : map.values()){
+            assertTrue(playersScoreList.contains(v.getLeft()));
+            assertTrue(playersDateList.contains(v.getRight()));
+        }
     }
 
     @Test
@@ -88,16 +90,21 @@ public class SaveTest {
 
         final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, newPlayerName, playerName3));
         final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(newPlayerScore), String.valueOf(playerScore3)));
+        final ArrayList<String> playerDateList = new ArrayList<>(Arrays.asList(date, date2, date3, newPlayerDate));
 
         // CONTROLLO CHE CI SIANO TUTTI I DATI AGGIORNATI
 
         assertTrue(statisticsMap.keySet().containsAll(playersNameList));
-        //assertTrue(statisticsMap.values().containsAll(playersScoreList)); //TODO: fix
+
+        for(final var v : statisticsMap.values()){
+            assertTrue(playersScoreList.contains(v.getLeft()));
+            assertTrue(playerDateList.contains(v.getRight()));
+        }
 
         // CONTROLLO CHE I DATI CHE SON STATI RIMPIAZZATI NON SIANO PRESENTI
 
         assertFalse(statisticsMap.containsKey(playerName2));
-        assertFalse(statisticsMap.containsValue(new MutablePair<>(playerScore2, date2)));
+        assertFalse(statisticsMap.containsValue(new MutablePair<>(String.valueOf(playerScore2), date2)));
     }
 
     @Test
