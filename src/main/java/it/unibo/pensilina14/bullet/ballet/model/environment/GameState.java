@@ -4,12 +4,13 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventList
 
 public class GameState {
 	
+	private final static double WIDTH = 1882;
+	private final static double HEIGHT = 11;
+	private final String playerName;
 	private int score;
 	private final Environment env;
 	private final LevelGenerator generator;
-	private final static double WIDTH = 1882;
-	private final static double HEIGHT = 11;
-	
+
 	
 	public GameState() {
 		this.score = 0;
@@ -17,13 +18,23 @@ public class GameState {
 		this.env = new GameEnvironment(HEIGHT, WIDTH);
 		this.generator.setEnvironment(this.env);
 		this.generator.generate();
+		this.playerName = "unknown";
 	}
 	
-	public GameState(final Environment env) {
+//	public GameState(final Environment env) {
+//		this.score = 0;
+//		this.generator = new EnvironmentGenerator();
+//		this.env = env;
+//		this.generator.setEnvironment(env);
+//		this.generator.generate();
+//	}
+	
+	public GameState(final String playerName) {
+		this.playerName = playerName;
 		this.score = 0;
 		this.generator = new EnvironmentGenerator();
-		this.env = env;
-		this.generator.setEnvironment(env);
+		this.env = new GameEnvironment(HEIGHT, WIDTH);
+		this.generator.setEnvironment(this.env);
 		this.generator.generate();
 	}
 	
@@ -53,5 +64,9 @@ public class GameState {
 	
 	public void update() {
 		this.env.updateState();
+	}
+	
+	public String getPlayerName() {
+		return this.playerName;
 	}
 }

@@ -1,8 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.core;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -352,7 +355,10 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
 		this.soundsFactory.createSound(Sounds.FALL).play();
-		Save.saveGameStatistics(player.getName(), player.getCurrentScore().showScore());
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());  
+	    final Date date = new Date();
+	    System.out.println(formatter.format(date));
+		Save.saveGameStatistics(this.modelController.get().getGameState().get().getPlayerName(), player.getCurrentScore().showScore());
 		this.stop();
 	}
 	
