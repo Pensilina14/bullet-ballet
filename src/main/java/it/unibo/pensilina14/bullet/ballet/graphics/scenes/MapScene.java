@@ -62,11 +62,8 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new StackPane(); 
-    
-    private final BackgroundMap map = new BackgroundMap();
-
     private ImageView backgroundView;
-
+    private final BackgroundMap map = new BackgroundMap();
     private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
     private Optional<MutablePair<Optional<WeaponSprite>, MutablePosition2D>> mainWeapon;
 
@@ -78,7 +75,6 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
     private Map<BulletSprite, MutablePosition2D> bulletSprites;
-	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
     private final SoundsFactory soundsFactory;
 
@@ -139,39 +135,58 @@ public class MapScene extends AbstractScene implements GameView{
     
     private void initialize() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
-    	// final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
+    	initializePlayer(world);
+    	initializePlatforms(world);
+    	initializeEnemies(world);
+    	initializeItems(world, spriteFactory);
+		initializeObstacles(world, spriteFactory);
+		initializeWeapons(world);
+    }
 
-    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
-    	
-    	if (world.getEntityManager().getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
-    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
-    				playerPos.getY())));
-    		this.mainPlayer.setRight(playerPos);
-        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
-       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
-    	}
-    	
-    	for (final Platform x : world.getEntityManager().getPlatforms().get()) {
+	private void initializeWeapons(final Environment world) throws IOException {
+		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
+			final MutablePosition2D xPos = x.getPosition().get();
+			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Gun rendered");
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Shotgun rendered");
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Automatic weapon rendered");
+			}	
+		}
+		AppLogger.getAppLogger().debug("Weapons rendered");
+	}
+
+	private void initializeObstacles(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
+			throws IOException {
+		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
-    		this.platformSprites.put(newSprite, xPos);
-    		this.gamePane.getChildren().add(newSprite);
+    		if (x instanceof Obstacle) {
+    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
+    			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
+    			this.obstacleSprites.put(obstacleSprite, xPos);
+    			this.gamePane.getChildren().add(obstacleSprite);
+    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
+    		} 
     	}
-    	AppLogger.getAppLogger().debug("Platforms rendered.");
-    	
-    	for (final Enemy x : world.getEntityManager().getEnemies().get()) {
-    		final MutablePosition2D xPos = x.getPosition().get();
-    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
-    				, xPos.getY());
-    		this.enemySprites.put(enemySprite, xPos);
-    		this.gamePane.getChildren().add(enemySprite);
-    	}
-    	AppLogger.getAppLogger().debug("Enemies rendered.");
-		
-    	
-    	for (final Item x : world.getEntityManager().getItems().get()) {
+	}
+
+	private void initializeItems(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
+			throws IOException {
+		for (final Item x : world.getEntityManager().getItems().get()) {
     	    final MutablePosition2D position = x.getPosition().get();
     		if (x.getItemId().equals(Items.DAMAGE)) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(position);
@@ -196,43 +211,39 @@ public class MapScene extends AbstractScene implements GameView{
     		}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");
-    	
+	}
 
-		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
+	private void initializeEnemies(final Environment world) throws IOException {
+		for (final Enemy x : world.getEntityManager().getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		if (x instanceof Obstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
-    			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
-    			this.obstacleSprites.put(obstacleSprite, xPos);
-    			this.gamePane.getChildren().add(obstacleSprite);
-    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
-    		} 
+    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
+    				, xPos.getY());
+    		this.enemySprites.put(enemySprite, xPos);
+    		this.gamePane.getChildren().add(enemySprite);
     	}
-		
-		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
-			final MutablePosition2D xPos = x.getPosition().get();
-			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Gun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Shotgun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Automatic weapon rendered");
-			}	
-		}
-		AppLogger.getAppLogger().debug("Weapons rendered");
-    }
+    	AppLogger.getAppLogger().debug("Enemies rendered.");
+	}
+
+	private void initializePlatforms(final Environment world) throws IOException {
+		for (final Platform x : world.getEntityManager().getPlatforms().get()) {
+    		final MutablePosition2D xPos = x.getPosition().get();
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
+    		this.platformSprites.put(newSprite, xPos);
+    		this.gamePane.getChildren().add(newSprite);
+    	}
+    	AppLogger.getAppLogger().debug("Platforms rendered.");
+	}
+
+	private void initializePlayer(final Environment world) throws IOException {
+		if (world.getEntityManager().getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
+    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
+    				playerPos.getY())));
+    		this.mainPlayer.setRight(playerPos);
+        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
+       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
+    	}
+	}
 
     @Override
     public final void draw() throws IOException {
@@ -404,7 +415,6 @@ public class MapScene extends AbstractScene implements GameView{
                 .filter(entry -> position.equals(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst().get();
-		//enemySprites.remove(enemy);
 		this.gamePane.getChildren().remove(enemy);
 	}
 
