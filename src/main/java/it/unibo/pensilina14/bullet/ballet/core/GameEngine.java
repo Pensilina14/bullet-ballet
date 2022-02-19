@@ -31,7 +31,6 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsEnemyEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsObstacleEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.BulletHitsPlatformEvent;
-import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EnemyHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
@@ -174,7 +173,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.eventQueue.add(e);
 	}
 	
-	private void checkEvents() {
+	private void checkEvents(){
 		final Environment env = this.modelController.get().getGameEnvironment();
 		AppLogger.getAppLogger().debug(this.eventQueue.toString());
 		this.eventQueue.stream().forEach(e -> {
