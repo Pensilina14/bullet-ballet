@@ -22,8 +22,8 @@ public final class Save {
     private static final String LEVEL_PATH = "data/levels/";
     public static final String SETTINGS_PATH = "data/settings/settings.dat";
 
-    private static final String OLD_FILE_EXTENSION = ".txt";
-    private static final String ENCRYPTED_FILES_EXTENSION = ".dat";
+    private static final String OLD_FILE_EXTENSION = ".txt"; //TODO: remove
+    private static final String ENCRYPTED_FILES_EXTENSION = ".dat"; //TODO: remove
 
     public static final String PLAYER_STRING = "Player";
     public static final String SCORE_STRING = "Score";
@@ -213,11 +213,11 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        int numberOfLevels = getNumberOfLevels(Save.OLD_FILE_EXTENSION);
+        int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
 
         for(int i = 0; i < numberOfLevels; i++){
-            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + ".txt";
-            String levelEncrypted = Save.LEVEL_PATH + "level" + i + ".dat";
+            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + Extensions.TXT.getExtension();
+            String levelEncrypted = Save.LEVEL_PATH + "level" + i + Extensions.DAT.getExtension();
             SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
             //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
@@ -237,7 +237,7 @@ public final class Save {
         String line;
 
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + ".txt")); //TODO: cambiare .txt in .dat
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
                 levelList.add(String.valueOf(line));
@@ -268,7 +268,7 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Save.ENCRYPTED_FILES_EXTENSION;
+        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
         byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
         String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
         //String[] level = clearLevel.split("\\n+"); //TODO: remove
@@ -283,7 +283,7 @@ public final class Save {
      */
     public static void resetLevelFile(int levelNumber){ //TODO: forse non serve.
         try {
-            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + ".txt", false);
+            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
             fileWriter.close();
 
         } catch(Exception e){
@@ -299,6 +299,11 @@ public final class Save {
     public static int getNumberOfLevels(String extension){
         File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
+    }
+
+    public static int getNumberOfLevels(Extensions extension){
+        File levelsDirectory = new File(Save.LEVEL_PATH);
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension.getExtension()))).length;
     }
 
     /**
