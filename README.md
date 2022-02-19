@@ -10,10 +10,10 @@
 
 ### Bullet Ballet
 
-Bullet Ballet is a 2D platformer developed for a University Project at the University _Alma Mater Studiorum_ of Bologna by
+Bullet Ballet is a 2D platformer developed for a University Project at the _Alma Mater Studiorum_ of Bologna by
 	Leon Baiocchi, Alessandro Pioggia, Federico Brunelli, Luca Rengo.
 
-The aim of the game is that of surviving the level's enemies, traps, potions and get to the end of it.
+The goal of the game is that of surviving the level's enemies, traps, potions and get to the end of it.
 The player is allowed to pickup items that will help him/her to go through the level like weapons, health and coins for the in-game economy.
 
 At the end of the match, the player's name and score will be saved and will be showed in the in-game stats panel.
