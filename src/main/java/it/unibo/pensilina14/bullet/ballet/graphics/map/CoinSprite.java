@@ -23,7 +23,6 @@ public class CoinSprite extends Pane {
     private final int offsetX = 0;
     private final int offsetY = 0;
     private static final Random RAND = new Random();
-
     private SpriteAnimation animation;
 
     public CoinSprite(){

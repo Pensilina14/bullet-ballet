@@ -70,8 +70,18 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      */
     void loadFirstScene (final Stage primaryStage, final Languages language, final int width, final int height) throws IOException;
     
+    /**
+     * 
+     * @param window
+     * 
+     * This will set a new window
+     */
     void setWindow(final Window window);
     
+    /**
+     * 
+     * @return the fxml page related window
+     */
     Window getWindow();
     
 }

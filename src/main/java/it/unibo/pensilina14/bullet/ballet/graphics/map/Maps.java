@@ -61,7 +61,7 @@ public enum Maps {
     public static String getRandomMapPath(){
         final int max = Maps.values().length;
         final Random rand = new Random();
-        for(var m : Maps.values()){
+        for(final var m : Maps.values()){
             if(m.ordinal() == rand.nextInt(max)){
                 return m.getPath();
             }
