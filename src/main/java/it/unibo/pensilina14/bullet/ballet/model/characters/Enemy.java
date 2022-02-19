@@ -22,10 +22,9 @@ public class Enemy extends GameEntity implements Characters{
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
-   	public int dumbCounter = 0; 
     private boolean landed;
 
-    private static final double MAX_RANGE = 7.0; //TODO: oppure tenere un solo range per tutti. //TODO: forse incrementarlo.
+    private static final double MAX_RANGE = 7.0;
 
     private final double enemyRange = getRandomRange();
 
@@ -76,7 +75,6 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy1";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case ENEMY2:
                 minHealth = 60.0;
@@ -84,7 +82,6 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("M4A1"); //TODO: add weapon
                 break;
             case ENEMY3:
                 minHealth = 40.0;
@@ -92,13 +89,8 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("Bazooka"); //TODO: add weapon
                 break;
         }
-    }
-
-    private void AI(){
-        // TODO: AI of Enemy
     }
 
     @Override
@@ -176,14 +168,6 @@ public class Enemy extends GameEntity implements Characters{
 			this.getGameEnvironment().get()
 			.deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
-    }
-    
-    private boolean moroccanMoveDown() {
-    	if (this.landed) {
-    		this.moveDown(20);
-    		return true; 
-    	}
-    	return false;
     }
     
     /*

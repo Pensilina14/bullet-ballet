@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,11 +22,12 @@ public final class Save {
     private static final String LEVEL_PATH = "data/levels/";
     public static final String SETTINGS_PATH = "data/settings/settings.dat";
 
-    private static final String OLD_FILE_EXTENSION = ".txt";
-    private static final String ENCRYPTED_FILES_EXTENSION = ".dat";
+    private static final String OLD_FILE_EXTENSION = ".txt"; //TODO: remove
+    private static final String ENCRYPTED_FILES_EXTENSION = ".dat"; //TODO: remove
 
-    public static final String PLAYER_STRING = "Player"; //TODO: rename it better
-    public static final String SCORE_STRING = "Score"; //TODO: rename it better
+    public static final String PLAYER_STRING = "Player";
+    public static final String SCORE_STRING = "Score";
+    public static final String DATE_STRING = "Date";
 
     public static final String RESOLUTION_WIDTH_STRING = "Width";
     public static final String RESOLUTION_HEIGHT_STRING = "Height";
@@ -42,11 +44,12 @@ public final class Save {
      *
      * @param playerName:  the name of the player that you want to save.
      * @param playerScore: the score of the player that you want to save.
+     * @param date: the date of when the game has been played.
      * The data is encrypted and saved in .dat file.
      * If the files didn't exist it will be created.
      * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
-    public static void saveGameStatistics(final String playerName, final double playerScore){ //TODO: opzionale : salvare il tempo.
+    public static void saveGameStatistics(final String playerName, final double playerScore, final String date){
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
@@ -58,6 +61,7 @@ public final class Save {
                 LinkedHashMap<String, String> map = new LinkedHashMap<>();
                 map.put(Save.PLAYER_STRING, playerName);
                 map.put(Save.SCORE_STRING, String.valueOf(playerScore));
+                map.put(Save.DATE_STRING, date);
                 jsonArray.add(map);
 
                 byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
@@ -78,6 +82,7 @@ public final class Save {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put(Save.PLAYER_STRING, playerName);
                 jsonObject.put(Save.SCORE_STRING, String.valueOf(playerScore));
+                jsonObject.put(Save.DATE_STRING, date);
 
                 jsonArray.add(jsonObject);
 
@@ -98,8 +103,8 @@ public final class Save {
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
      */
-    public static LinkedHashMap<String, String> loadGameStatistics(){
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    public static LinkedHashMap<String, MutablePair<String, String>> loadGameStatistics(){
+        LinkedHashMap<String, MutablePair<String, String>> map = new LinkedHashMap<>();
         JSONParser jsonParser = new JSONParser();
 
         File statsFile = new File(Save.SAVE_PATH);
@@ -122,13 +127,19 @@ public final class Save {
                     JSONObject player = (JSONObject) o;
 
                     String name = (String) player.get(Save.PLAYER_STRING);
-                    System.out.println("name: " + name);
+                    System.out.println("name: " + name); //TODO: remove
 
                     String score = (String) player.get(Save.SCORE_STRING);
-                    System.out.println("score: " + score);
+                    System.out.println("score: " + score); //TODO: remove
 
-                    map.put(name, String.valueOf(score));
+                    String date = (String) player.get(Save.DATE_STRING);
+                    System.out.println("date: " + date); //TODO: remove
 
+                    map.put(name, new MutablePair<>(String.valueOf(score), date));
+                    System.out.println("loaded stats map: " + map); //TODO: remove
+
+                    System.out.println("getLeft(): " + map.get(name).getLeft()); //TODO: remove
+                    System.out.println("getRight(): " + map.get(name).getRight()); //TODO: remove
                 }
             }
         } catch (Exception e) {
@@ -144,9 +155,12 @@ public final class Save {
      * @param oldScore : the score of the player that you want to update
      * @param newPlayer : the new name of the player
      * @param newScore : the new score of the player
+     * @param oldDate : the date when the game has been played.
+     * @param newDate : the new date when the game has been played.
      * @return : a boolean whether the operation has been executed successfully
      */
-    public static boolean updateGameStatistics(final String oldPlayer, final double oldScore, final String newPlayer, final double newScore) {
+    public static boolean updateGameStatistics(final String oldPlayer, final double oldScore, final String newPlayer, final double newScore,
+                                               final String oldDate, final String newDate) {
         final JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
@@ -167,6 +181,7 @@ public final class Save {
 
                     player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
                     player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
+                    player.replace(Save.DATE_STRING, oldDate, newDate);
                 }
 
                 System.out.println("jsonArray: " + jsonArray); //TODO: remove
@@ -198,11 +213,11 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        int numberOfLevels = getNumberOfLevels(Save.OLD_FILE_EXTENSION);
+        int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
 
         for(int i = 0; i < numberOfLevels; i++){
-            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + ".txt";
-            String levelEncrypted = Save.LEVEL_PATH + "level" + i + ".dat";
+            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + Extensions.TXT.getExtension();
+            String levelEncrypted = Save.LEVEL_PATH + "level" + i + Extensions.DAT.getExtension();
             SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
             //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
@@ -222,7 +237,7 @@ public final class Save {
         String line;
 
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + ".txt")); //TODO: cambiare .txt in .dat
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
 
             while((line = bufferedReader.readLine()) != null && line.length() != 0){
                 levelList.add(String.valueOf(line));
@@ -253,7 +268,7 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Save.ENCRYPTED_FILES_EXTENSION;
+        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
         byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
         String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
         //String[] level = clearLevel.split("\\n+"); //TODO: remove
@@ -268,7 +283,7 @@ public final class Save {
      */
     public static void resetLevelFile(int levelNumber){ //TODO: forse non serve.
         try {
-            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + ".txt", false);
+            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
             fileWriter.close();
 
         } catch(Exception e){
@@ -284,6 +299,11 @@ public final class Save {
     public static int getNumberOfLevels(String extension){
         File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
+    }
+
+    public static int getNumberOfLevels(Extensions extension){
+        File levelsDirectory = new File(Save.LEVEL_PATH);
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension.getExtension()))).length;
     }
 
     /**

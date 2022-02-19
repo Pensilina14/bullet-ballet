@@ -13,8 +13,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFa
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
-import it.unibo.pensilina14.bullet.ballet.input.Down;
-import it.unibo.pensilina14.bullet.ballet.input.Esc;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
@@ -36,8 +34,6 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
-import javafx.animation.TranslateTransition;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -47,10 +43,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -59,7 +53,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -69,11 +62,8 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new StackPane(); 
-    
-    private final BackgroundMap map = new BackgroundMap();
-
     private ImageView backgroundView;
-
+    private final BackgroundMap map = new BackgroundMap();
     private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
     private Optional<MutablePair<Optional<WeaponSprite>, MutablePosition2D>> mainWeapon;
 
@@ -85,7 +75,6 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
     private Map<WeaponSprite, MutablePosition2D> weaponSprites;
     private Map<BulletSprite, MutablePosition2D> bulletSprites;
-	//private Map<CoinSprite, MutablePosition2D> coinSprites;
     private List<Hud> hudList;
     private final SoundsFactory soundsFactory;
 
@@ -146,39 +135,58 @@ public class MapScene extends AbstractScene implements GameView{
     
     private void initialize() throws IOException {
     	final Environment world = this.gameState.getGameEnvironment();
-    	// final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
 	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
+    	initializePlayer(world);
+    	initializePlatforms(world);
+    	initializeEnemies(world);
+    	initializeItems(world, spriteFactory);
+		initializeObstacles(world, spriteFactory);
+		initializeWeapons(world);
+    }
 
-    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
-    	
-    	if (world.getEntityManager().getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
-    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
-    				playerPos.getY())));
-    		this.mainPlayer.setRight(playerPos);
-        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
-       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
-    	}
-    	
-    	for (final Platform x : world.getEntityManager().getPlatforms().get()) {
+	private void initializeWeapons(final Environment world) throws IOException {
+		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
+			final MutablePosition2D xPos = x.getPosition().get();
+			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Gun rendered");
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Shotgun rendered");
+			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
+				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO
+						, xPos.getX(), xPos.getY());
+				this.weaponSprites.put(weaponSprite, xPos);
+				this.gamePane.getChildren().add(weaponSprite);
+				AppLogger.getAppLogger().info("Automatic weapon rendered");
+			}	
+		}
+		AppLogger.getAppLogger().debug("Weapons rendered");
+	}
+
+	private void initializeObstacles(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
+			throws IOException {
+		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
-    		this.platformSprites.put(newSprite, xPos);
-    		this.gamePane.getChildren().add(newSprite);
+    		if (x instanceof Obstacle) {
+    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
+    			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
+    			this.obstacleSprites.put(obstacleSprite, xPos);
+    			this.gamePane.getChildren().add(obstacleSprite);
+    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
+    		} 
     	}
-    	AppLogger.getAppLogger().debug("Platforms rendered.");
-    	
-    	for (final Enemy x : world.getEntityManager().getEnemies().get()) {
-    		final MutablePosition2D xPos = x.getPosition().get();
-    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
-    				, xPos.getY());
-    		this.enemySprites.put(enemySprite, xPos);
-    		this.gamePane.getChildren().add(enemySprite);
-    	}
-    	AppLogger.getAppLogger().debug("Enemies rendered.");
-		
-    	
-    	for (final Item x : world.getEntityManager().getItems().get()) {
+	}
+
+	private void initializeItems(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
+			throws IOException {
+		for (final Item x : world.getEntityManager().getItems().get()) {
     	    final MutablePosition2D position = x.getPosition().get();
     		if (x.getItemId().equals(Items.DAMAGE)) {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(position);
@@ -203,57 +211,39 @@ public class MapScene extends AbstractScene implements GameView{
     		}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");
-    	
+	}
 
-		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
+	private void initializeEnemies(final Environment world) throws IOException {
+		for (final Enemy x : world.getEntityManager().getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		if (x instanceof Obstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(xPos);
-    			obstacleSprite.renderPosition(xPos.getX(), xPos.getY());
-    			this.obstacleSprites.put(obstacleSprite, xPos);
-    			this.gamePane.getChildren().add(obstacleSprite);
-    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
-    		} 
+    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
+    				, xPos.getY());
+    		this.enemySprites.put(enemySprite, xPos);
+    		this.gamePane.getChildren().add(enemySprite);
     	}
-		
-		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
-			final MutablePosition2D xPos = x.getPosition().get();
-			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Gun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Shotgun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO
-						, xPos.getX(), xPos.getY());
-				this.weaponSprites.put(weaponSprite, xPos);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Automatic weapon rendered");
-			}	
-		}
-		AppLogger.getAppLogger().debug("Weapons rendered");
+    	AppLogger.getAppLogger().debug("Enemies rendered.");
+	}
 
-		//TODO: uncomment when it will be fixed
-		/*for(final Coin c : world.getCoins().get()){
-			final MutablePosition2D xPos = c.getPosition().get();
-			final CoinSprite coinSprite = new CoinSprite();
-			this.coinSprites.put(coinSprite, xPos);
-			this.gamePane.getChildren().add(coinSprite);
-		}
-		AppLogger.getAppLogger().debug("Coins rendered");*/
+	private void initializePlatforms(final Environment world) throws IOException {
+		for (final Platform x : world.getEntityManager().getPlatforms().get()) {
+    		final MutablePosition2D xPos = x.getPosition().get();
+    		final PlatformSprite newSprite = new PlatformSprite(this.map.getPlatformType(), x);
+    		this.platformSprites.put(newSprite, xPos);
+    		this.gamePane.getChildren().add(newSprite);
+    	}
+    	AppLogger.getAppLogger().debug("Platforms rendered.");
+	}
 
-		/*
-		 * Ui initializing
-		 */
-			
-    }
+	private void initializePlayer(final Environment world) throws IOException {
+		if (world.getEntityManager().getPlayer().isPresent()) {
+    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
+    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
+    				playerPos.getY())));
+    		this.mainPlayer.setRight(playerPos);
+        	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
+       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
+    	}
+	}
 
     @Override
     public final void draw() throws IOException {
@@ -266,21 +256,7 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
     private void update() throws IOException {
-
-    	//AppLogger.getAppLogger().debug("Inside update() method, checks input keys.");
     	
-//    	if (this.keysPressed.contains(KeyCode.UP)) {
-//		//AppLogger.getAppLogger().info("Key 'UP' pressed.");
-//		this.mainPlayer.left.get().getSpriteAnimation().play();
-//		this.controller.get().notifyCommand(new Up(5));
-//		final Timer t = new Timer();
-//		t.schedule(new TimerTask() {
-//			@Override
-//			public void run() {
-//				MapScene.this.getController().get().notifyCommand(new Down(5));
-//			}
-//		}, 250L);
-//	}
     	this.mainPlayer.left.get().getSpriteAnimation().play();
     	
         if (this.keysPressed.contains(KeyCode.UP)) { 
@@ -343,23 +319,10 @@ public class MapScene extends AbstractScene implements GameView{
         }
         
     }
-    
-    /*
-    private Optional<GameEngine> getController() {
-    	return this.controller;
-    }
-    */
 
     private void render() throws IOException {
-    	//AppLogger.getAppLogger().debug("Inside render() method.");
-    	//AppLogger.getAppLogger().debug("appPane: " + this.appPane.getChildren().toString());
-    	//AppLogger.getAppLogger().debug("gamePane: " + this.gamePane.getChildren().toString());
-
-    	final int platformSize = this.gameState.getEnvGenerator().getPlatformSize();
-
     	final Environment env = this.gameState.getGameEnvironment();
-    	//final PhysicalObjectSpriteFactory physObjSpriteFactory = new PhysicalObjectSpriteFactoryImpl(this, world);
-
+    	
     	this.mainPlayer.getRight().setPosition(env.getEntityManager().getPlayer().get().getPosition().get().getX(), 
     			env.getEntityManager().getPlayer().get().getPosition().get().getY());
     	this.mainPlayer.left.get().renderPosition(this.mainPlayer.getRight().getX(), this.mainPlayer.getRight().getY());
@@ -376,34 +339,27 @@ public class MapScene extends AbstractScene implements GameView{
     		} else {
     			final MutablePosition2D pos = this.mainPlayer.getRight();
     			this.mainWeapon.get().getLeft().get().renderPosition(pos.getX(), pos.getY());
-    			//AppLogger.getAppLogger().debug("WeaponView pos: " + this.mainWeapon.get().getLeft().get().getPosition());
     		}
     	}
     	
     	this.platformSprites.forEach((x, y) -> {
     		x.renderMovingPosition();
     	});
-    	//AppLogger.getAppLogger().debug("Platforms sprite position updated");
 
     	this.enemySprites.forEach((x, y) ->  {
     		x.renderPosition(y.getX(), y.getY());
     	});
-		//AppLogger.getAppLogger().debug("Enemies sprite position updated");
 
 		this.itemSprites.forEach((x, y) -> {
 			x.renderMovingPosition();
 		});
-		//AppLogger.getAppLogger().debug("Item sprite position updated");
 
 		this.obstacleSprites.forEach((x, y) -> {
 			x.renderPosition(y.getX(), y.getY());
-    		//AppLogger.getAppLogger().debug("ObstaclePos: " + y.toString());
 		});
-		//AppLogger.getAppLogger().debug("Obstacles sprite position updated");
 		
 		
 		this.weaponSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
-		//AppLogger.getAppLogger().debug("Weapons sprite position updated");
 		
 		this.bulletSprites.forEach((x, y) -> x.renderPosition(y.getX(), y.getY()));
 		
@@ -459,7 +415,6 @@ public class MapScene extends AbstractScene implements GameView{
                 .filter(entry -> position.equals(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst().get();
-		//enemySprites.remove(enemy);
 		this.gamePane.getChildren().remove(enemy);
 	}
 
@@ -471,16 +426,6 @@ public class MapScene extends AbstractScene implements GameView{
 				.map(x -> x.getKey())
 				.findFirst().get();
 		this.gamePane.getChildren().remove(bullet);
-		/*
-		final List<BulletSprite> bullet = this.bulletSprites.entrySet()
-				.stream()
-				.filter(e -> position.equals(e.getKey().getPosition()))
-				.map(x -> x.getKey())
-				.distinct()
-				.collect(Collectors.toList());
-		this.bulletSprites.keySet().removeAll(bullet);
-		this.gamePane.getChildren().removeAll(bullet);
-		*/
 	}
 	
 	@Override
@@ -506,7 +451,6 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void generateBullet(final MutablePosition2D pos) throws IOException {
-		//final MutablePosition2D pos = this.mainWeapon.get().getRight();
 		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
 		this.bulletSprites.put(bullet, pos);
 		this.gamePane.getChildren().add(bullet);

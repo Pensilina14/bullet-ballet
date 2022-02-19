@@ -1,9 +1,12 @@
 package it.unibo.pensilina14.bullet.ballet.sounds;
 
-import javafx.scene.media.AudioClip;
 
 public interface SoundsFactory {
-
-	AudioClip createSound(Sounds sound);
 	
+	/**
+	 * 
+	 * @param sound
+	 * @return a Sound object containing a referement to AudioClip
+	 */
+	Sound createSound(final Sounds sound);
 }

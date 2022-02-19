@@ -43,7 +43,6 @@ public class MainEnemy extends Pane {
         this.renderPosition(x, y);
 
         this.getChildren().add(this.enemyView);
-        //MapScene.gamePane.getChildren().add(this);
     }
     
     public MainEnemy(final Image enemyImage, final double x, final double y, final int offsetX, final int offsetY, 

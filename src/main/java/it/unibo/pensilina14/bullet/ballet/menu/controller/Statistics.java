@@ -4,13 +4,12 @@ public class Statistics {
     
     private final String playerName;
     private final double points;
-    private final double time;
+    private final String date;
     
-    public Statistics(final String playerName, final double points, final double time) {
-        super();
+    public Statistics(final String playerName, final double points, final String date) {
         this.playerName = playerName;
         this.points = points;
-        this.time = time;
+        this.date = date;
     }
 
     public String getPlayerName() {
@@ -21,14 +20,14 @@ public class Statistics {
         return this.points;
     }
 
-    public double getTime() {
-        return this.time;
+    public String getDate() {
+        return this.date;
     }
 
     @Override
     public String toString() {
         return "Statistics [playerName=" + this.playerName +
-                ", points=" + this.points + ", time=" + this.time + "]";
+                ", points=" + this.points + ", date=" + this.date + "]";
     }
      
 }

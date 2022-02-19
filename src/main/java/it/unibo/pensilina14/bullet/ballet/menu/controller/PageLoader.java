@@ -2,7 +2,6 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -71,8 +70,18 @@ public interface PageLoader { //TODO: volendo si possono rimuovere quelli con li
      */
     void loadFirstScene (final Stage primaryStage, final Languages language, final int width, final int height) throws IOException;
     
+    /**
+     * 
+     * @param window
+     * 
+     * This will set a new window
+     */
     void setWindow(final Window window);
     
+    /**
+     * 
+     * @return the fxml page related window
+     */
     Window getWindow();
     
 }
