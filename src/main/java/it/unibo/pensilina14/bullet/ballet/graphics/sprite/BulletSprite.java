@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 
 public class BulletSprite extends Pane {
 	
-
 	private final Image bulletImg;
 	private final ImageView bulletView;
 	private final int offsetX;

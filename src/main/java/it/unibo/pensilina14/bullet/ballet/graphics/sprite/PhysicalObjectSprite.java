@@ -31,7 +31,6 @@ public class PhysicalObjectSprite extends Pane{
         this.getChildren().add(imageView);
     }
 
-    
     public void renderPosition(final double x, final double y) {
     	this.setTranslateX(x);
     	this.setTranslateY(y);

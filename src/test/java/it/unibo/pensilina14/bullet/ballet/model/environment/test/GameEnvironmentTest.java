@@ -54,7 +54,7 @@ public class GameEnvironmentTest {
   @Test
   public void testGameEnvironment() {
     final Environment gameEnv = new GameEnvironment();
-    
+
     assertEquals(gameEnv.getGravity(), GravityConstants.TEST.getValue(), DELTA);
     assertTrue(gameEnv.getEntityManager().getPlayer().isEmpty());
     assertEquals(gameEnv.getEntityManager().getEnemies(), Optional.empty());
@@ -72,7 +72,7 @@ public class GameEnvironmentTest {
     final Platform platform = new Platform(new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 1.0), gameEnv, 1, new Dimension2Dimpl(0, 0));
     final Weapon weapon = this.weaponFactory.createGun(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 0), 0.0));
     final Bullet bullet = this.bulletFactory.createClassicBullet(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(0.0, 0.0), 0.0));
-    
+
     gameEnv.getEntityManager().setPlayer(player);
     final boolean addEnemyOutput = gameEnv.getEntityManager().addEnemy(enemy);
     final boolean addObstacleOutput = gameEnv.getEntityManager().addObstacle(obstacle);

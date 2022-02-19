@@ -113,7 +113,9 @@ public class GameEnvironment implements Environment {
 		final Optional<Player> player = this.entities.getPlayer();
 		player.get().updateState();
 		player.get().getCurrentScore().increase();
+		
 		this.entities.getItems().get().forEach(i -> i.updateState());
+		
 		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
 			if (!i.isOn()) {
 				i.updateState();
@@ -128,9 +130,11 @@ public class GameEnvironment implements Environment {
 		} 
 
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
+		
 		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
+		
 		this.checkGravity();
 		this.checkCollisions();
 	}
@@ -142,12 +146,18 @@ public class GameEnvironment implements Environment {
 	}
 
 	private void checkGravity() {
+		/* 
+		 * Player gets afflicted by gravity.
+		 */
 		final Optional<Player> player = this.entities.getPlayer();
 		if (!player.get().hasLanded()) {
 			player.get().moveDown(this.gravity);
 		} else {
 			player.get().resetLanding();
 		}
+		/*
+		 * Enemies get afflicted by gravity.
+		 */
 		this.entities.getEnemies().get().stream().forEach(e -> {
 			if (!e.hasLanded()) {
 				e.moveDown(this.gravity);
@@ -156,6 +166,9 @@ public class GameEnvironment implements Environment {
 			}
 			e.updateState();
 		});
+		/*
+		 * Obstacles get afflicted by gravity.
+		 */
 		this.entities.getObstacles().get().forEach(o -> {
 			if (!o.hasLanded()) {
 				o.moveDown(this.gravity);
