@@ -22,14 +22,11 @@ public enum Maps {
     ICE("res/assets/maps/Backgrounds/ice_background.jpg"),
     ICE2("res/assets/maps/Backgrounds/ice_background2.png"),
     FUTURISTIC("res/assets/maps/Backgrounds/futuristic_background.jpg"),
-    //FUTURISTIC3("res/assets/maps/Backgrounds/futuristic_city_background.gif"), //TODO: mi da la nausea, da rimuovere
     SCIFI("res/assets/maps/Backgrounds/scifi_background.jpg"),
     PLANET("res/assets/maps/Backgrounds/scifi_martian_background.jpg"),
     PLANET2("res/assets/maps/Backgrounds/scifi_alien_planet_background.jpg"),
     SPACESHIP("res/assets/maps/Backgrounds/spaceship_interior_background.jpg"),
     SPACE("res/assets/maps/Backgrounds/space_background6.png"),
-    //SPACE2("res/assets/maps/Backgrounds/space_pixel_art_background.jpg"), //TODO: ci potrebbe stare
-    //SPACE3("res/assets/maps/Backgrounds/space_pixel_art_background2.gif"), //TODO: ci potrebbe quasi stare
     CITY("res/assets/maps/Backgrounds/city_background2.png"),
     CITY2("res/assets/maps/Backgrounds/city_background4.jpg");
 
@@ -55,7 +52,7 @@ public enum Maps {
                 return m;
             }
         }
-        return Maps.HALLOWEEN;
+        return Maps.getDefaultMap();
     }
 
     public static String getRandomMapPath(){
@@ -66,7 +63,7 @@ public enum Maps {
                 return m.getPath();
             }
         }
-        return Maps.HALLOWEEN.getPath();
+        return Maps.getDefaultMap().getPath();
     }
 
 }

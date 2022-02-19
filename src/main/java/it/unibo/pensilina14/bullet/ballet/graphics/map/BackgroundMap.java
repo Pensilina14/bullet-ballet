@@ -97,7 +97,7 @@ public class BackgroundMap {
         return this.map;
     }
 
-    public void setMap(final Maps map) { //TODO: renome in mapSetter
+    public void setMap(final Maps map) {
         this.map = map;
 
         initMap();

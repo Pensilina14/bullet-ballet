@@ -61,9 +61,6 @@ public class CharactersTest {
         player.decreaseMana(55.0);
         assertFalse(player.manaLeft());
 
-        // WEAPON
-        //TODO: weapon test
-
     }
 
     @Test
@@ -75,12 +72,6 @@ public class CharactersTest {
 
         assertTrue(player1.getHealth() >= 80.0 && player1.getHealth() <= 100.0);
         assertTrue(player1.getMana().get() >= 50.0 && player1.getMana().get() <= 100.0);
-
-        // WEAPON
-        //TODO: weapon test
-
-        //assertEquals("AK-47", player1.getWeapon().getName());
-        //assertEquals(100, player1.getWeapon().getTotalAmmo());
     }
 
 
@@ -125,8 +116,6 @@ public class CharactersTest {
         assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);
 
         assertSame("Enemy1", enemy1.getName());
-
-        //assertEquals("AK-47",enemy1.getWeapon().getName()); //TODO: weapon test
     }
 
     @Test

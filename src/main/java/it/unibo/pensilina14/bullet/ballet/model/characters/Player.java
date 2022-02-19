@@ -4,9 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
-import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
@@ -100,7 +98,6 @@ public class Player extends GameEntity implements Characters{
                 this.weapon = Optional.empty();
                 this.health = this.rand.nextDouble() * (MAX - minHealth)+ minHealth;
                 this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
-                //this.weapon = new WeaponImpl("Knife"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case PLAYER3:
                 minHealth = 50.0;
@@ -109,7 +106,6 @@ public class Player extends GameEntity implements Characters{
                 this.weapon = Optional.empty();
                 this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
                 this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
-                //this.weapon = new WeaponImpl("AK-47"); //TODO: add weapon, WeaponFactoryImpl
                 break;
             default:
             	break;

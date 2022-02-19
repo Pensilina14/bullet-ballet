@@ -1,6 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
-public enum Platforms { //TODO: mettere l'enum a parte
+public enum Platforms {
     HALLOWEEN_PLATFORM("res/assets/maps/Tiles/halloween_tile.png"),
     CAVE_PLATFORM("res/assets/maps/Tiles/rock_tile2.png"),
     CAVE_PLATFORM2("res/assets/maps/Tiles/rock_tile4.png"),

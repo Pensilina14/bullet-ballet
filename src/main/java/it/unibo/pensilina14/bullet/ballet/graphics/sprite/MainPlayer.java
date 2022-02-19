@@ -82,7 +82,6 @@ public class MainPlayer extends Pane {
     	this.playerView.setTranslateX(x);
     	this.playerView.setTranslateY(y);
     	this.position = new MutablePosition2Dimpl(x, y);
-    	//System.out.println("Player View: \t" + this.position.getX());
     }
 
     public final SpriteAnimation getSpriteAnimation() {

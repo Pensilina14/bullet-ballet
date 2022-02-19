@@ -45,21 +45,6 @@ public class CoinSprite extends Pane {
         final int coinHeight;
 
         switch(this.coinType){
-            case GOLD_COIN:
-            case SILVER_COIN:
-            case RED_COIN:
-                minX = 0;
-                minY = 0;
-                coinWidth = 14;
-                coinHeight = 16;
-                this.coinView = new ImageView(new Image(Files.newInputStream(Paths.get(this.coinType.getPath()))));
-                this.setTranslateX(x);
-                this.setTranslateY(y);
-                this.getProperties().put("alive", true);
-                this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
-
-                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
-                break;
             case EMERALD_COIN:
             case LIGHT_BLUE_COIN:
             case YELLOW_COIN:
@@ -77,8 +62,22 @@ public class CoinSprite extends Pane {
 
                 this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
                 break;
+            case RED_COIN:
+            case SILVER_COIN:
+            case GOLD_COIN:
             default:
-                break; //TODO: default case
+                minX = 0;
+                minY = 0;
+                coinWidth = 14;
+                coinHeight = 16;
+                this.coinView = new ImageView(new Image(Files.newInputStream(Paths.get(this.coinType.getPath()))));
+                this.setTranslateX(x);
+                this.setTranslateY(y);
+                this.getProperties().put("alive", true);
+                this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
+
+                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
+                break;
         }
     }
 
