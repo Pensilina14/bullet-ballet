@@ -15,6 +15,7 @@ public class SoundImpl implements Sound{
 
 	@Override
 	public void play() {
+		//TODO recuperare salvataggio audio
 		this.audioClip.get().play(VOLUME);
 	}
 
