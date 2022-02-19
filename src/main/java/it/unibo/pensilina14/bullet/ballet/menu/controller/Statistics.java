@@ -7,7 +7,6 @@ public class Statistics {
     private final String date;
     
     public Statistics(final String playerName, final double points, final String date) {
-        super();
         this.playerName = playerName;
         this.points = points;
         this.date = date;

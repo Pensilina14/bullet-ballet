@@ -2,7 +2,6 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;

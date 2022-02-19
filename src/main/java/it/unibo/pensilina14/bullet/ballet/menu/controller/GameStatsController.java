@@ -2,10 +2,12 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class GameStatsController implements Initializable{
@@ -31,7 +32,8 @@ public class GameStatsController implements Initializable{
 
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+    	final SoundsFactory soundsFactory = new SoundsFactoryImpl();
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
