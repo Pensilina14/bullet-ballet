@@ -10,7 +10,6 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
