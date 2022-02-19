@@ -258,6 +258,7 @@ public class GameEngine implements Controller, GameEventListener {
 			this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT).play();
 		}else if (item.getItemId().equals(Items.COIN)) {
 			this.soundsFactory.createSound(Sounds.COIN).play();
+			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase();
 		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
@@ -314,6 +315,7 @@ public class GameEngine implements Controller, GameEventListener {
 					, enemy.getPosition().get().getY()));
 			this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
 		//}
+		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase();
 		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
