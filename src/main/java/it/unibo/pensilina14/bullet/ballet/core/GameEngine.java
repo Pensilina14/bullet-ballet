@@ -53,6 +53,7 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sound;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
@@ -75,7 +76,7 @@ public class GameEngine implements Controller, GameEventListener {
 	private Optional<ViewController> viewController;
 	private Optional<ModelController> modelController;
 	private final SoundsFactory soundsFactory;
-	private final AudioClip soundtrack;
+	private final Sound soundtrack;
 	private final BlockingQueue<Command> cmdQueue;
 	/**
 	 * Data structure, for instance a {@link List}, whose goal is to
@@ -156,7 +157,7 @@ public class GameEngine implements Controller, GameEventListener {
 		if (this.modelController.get().getGameState().get().isGameOver()) {
 			this.timer.get().stop();
 		}
-		if (!this.soundtrack.isPlaying()) {
+		if (!this.soundtrack.getAudioClip().isPlaying()) {
 			this.soundtrack.play();
 		}
 		this.modelController.get().update();

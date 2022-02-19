@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 public class PlayerHitsWeaponEvent implements GameEvent {

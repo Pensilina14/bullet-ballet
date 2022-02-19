@@ -22,7 +22,6 @@ public class Enemy extends GameEntity implements Characters{
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
-   	public int dumbCounter = 0; 
     private boolean landed;
 
     private static final double MAX_RANGE = 7.0; //TODO: oppure tenere un solo range per tutti. //TODO: forse incrementarlo.
@@ -176,14 +175,6 @@ public class Enemy extends GameEntity implements Characters{
 			this.getGameEnvironment().get()
 			.deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     	}
-    }
-    
-    private boolean moroccanMoveDown() {
-    	if (this.landed) {
-    		this.moveDown(20);
-    		return true; 
-    	}
-    	return false;
     }
     
     /*

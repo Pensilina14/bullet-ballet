@@ -2,19 +2,11 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Random;
 
 public class LevelLoader {
 
-    private String[] level;
+    private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
 
@@ -26,12 +18,6 @@ public class LevelLoader {
     public LevelLoader(){
 
         this.level = Save.oldLoadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
-        //this.level = Save.oldLoadLevel(1); 
-//        try { // commentate questo blocco try/catch se dovete usare i .txt
-//            this.level = Save.loadLevel(getRandomLevel());
-//        } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e) { //TODO: volendo abbreviare in Exception e
-//            e.printStackTrace();
-//        }
         this.levelWidth = this.level[0].length();
         this.levelHeight = this.level.length;
     }
