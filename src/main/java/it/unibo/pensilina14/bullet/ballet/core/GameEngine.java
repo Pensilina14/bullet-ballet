@@ -60,9 +60,9 @@ import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
  *
  */
 public class GameEngine implements Controller, GameEventListener {
-	/**
-	 * Constant used to define command queue capacity.
-	 */
+    /**
+     * Constant used to define command queue capacity.
+     */
 	private static final int QUEUE_CAPACITY = 100;
 	
 	//private final long period = 1000; // 20 ms = 50 FPS 
@@ -74,7 +74,7 @@ public class GameEngine implements Controller, GameEventListener {
 	private final BlockingQueue<Command> cmdQueue;
 	/**
 	 * Data structure, for instance a {@link List}, whose goal is to
-	 * store all the incoming events from the model and view (?)
+	 * store all the incoming events from the model and view. 
 	 */
 	private final List<GameEvent> eventQueue;
 	/**
@@ -147,7 +147,7 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 	}
 	
-	public void updateGame() {
+	public final void updateGame() {
 		if (this.modelController.get().getGameState().get().isGameOver()) {
 			this.timer.get().stop();
 		}
@@ -218,11 +218,7 @@ public class GameEngine implements Controller, GameEventListener {
 		final CollisionSides side = ((PlayerHitsPlatformEvent) e).getCollisionSide();
 		if (side == CollisionSides.WEST) {
 			player.blockX();
-		} /*else if (side == CollisionSides.SOUTH) {
-			player.moveDown(env.getGravity());
-		} else if (side == CollisionSides.EAST) {
-			player.moveRight(1);
-		}*/ else {
+		} else {
 			if (player.hasBlockedX()) {
 				player.unblockX();
 			}
@@ -239,7 +235,7 @@ public class GameEngine implements Controller, GameEventListener {
 		player.decreaseHealth((double) (obstacle.getMass() / 50));
 	}
 
-	private void playerHitsEnemyEventHandler( final GameEvent e) {
+	private void playerHitsEnemyEventHandler(final GameEvent e) {
 		AppLogger.getAppLogger().collision("player hit an enemy.");
 		final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 		final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
@@ -256,7 +252,7 @@ public class GameEngine implements Controller, GameEventListener {
 		final Item item = ((PlayerHitsItemEvent) e).getItem();
 		if (item.getItemId().equals(Items.HEART)) {
 			this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT).play();
-		}else if (item.getItemId().equals(Items.COIN)) {
+		} else if (item.getItemId().equals(Items.COIN)) {
 			this.soundsFactory.createSound(Sounds.COIN).play();
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase();
 		} else {
@@ -276,19 +272,19 @@ public class GameEngine implements Controller, GameEventListener {
 		final Player player = ((PlayerHitsWeaponEvent) e).getPlayer();
 		// Set Weapon to Player
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
-		if(!weapon.isOn()) {
+		if (!weapon.isOn()) {
 			if (player.hasWeapon()) {
 				final Weapon actualWeapon = player.getWeapon();
 				if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
 					player.getWeapon().recharge();
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX()
-							, weapon.getPosition().get().getY()));	
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX(),
+							weapon.getPosition().get().getY()));	
 					this.viewController.get().getGameView().deleteWeaponSpriteImage(weapon.getPosition().get());
 				} else {
 					player.getWeapon().setOff();
 					player.removeWeapon();
-					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX()
-							, actualWeapon.getPosition().get().getY()));				
+					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX(),
+							actualWeapon.getPosition().get().getY()));
 					this.viewController.get().getGameView().deleteWeaponSpriteImage(actualWeapon.getPosition().get());
 					AppLogger.getAppLogger().debug("Delete weapon");
 					weapon.setOn();
@@ -310,12 +306,10 @@ public class GameEngine implements Controller, GameEventListener {
 		final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
 		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
-		//if (!enemy.isAlive()) {
-			env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX()
-					, enemy.getPosition().get().getY()));
-			this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
-		//}
-		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase();
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
+				enemy.getPosition().get().getY()));
+		this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
+		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(100);
 		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
@@ -324,9 +318,10 @@ public class GameEngine implements Controller, GameEventListener {
 		final MutablePosition2D bulletPos = ((BulletHitsObstacleEvent) e).getBullet().getPosition().get();
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
 		this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
-		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX()
-				, obstacle.getPosition().get().getY()));
+		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX(),
+				obstacle.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteObstacleSpriteImage(obstacle.getPosition().get());
+		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(100);
 		AppLogger.getAppLogger().collision("Bullet hits obstacle");
 	}
 	
@@ -343,18 +338,18 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
 		this.soundsFactory.createSound(Sounds.FALL).play();
-		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());  
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 	    final Date date = new Date();
 		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(), player.getCurrentScore().showScore(), formatter.format(date));
 		this.stop();
 	}
 	
-	public void start() {
+	public final void start() {
 		this.soundtrack.play();
 		this.timer.get().start();
 	}
 	
-	public void stop() {
+	public final void stop() {
 		this.soundtrack.stop();
 		this.timer.get().stop();
 	}
