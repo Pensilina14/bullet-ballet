@@ -1,7 +1,22 @@
 package it.unibo.pensilina14.bullet.ballet.model.score;
 
 public interface ScoreSystem {
+	
+	enum ScoreBonus {
+		KILL_ENEMY(100),
+		DESTROY_OBSTACLE(150),
+		COLLECT_COIN(50);
 
+		private final int bonus;
+
+		ScoreBonus(final int bonus) {
+			this.bonus = bonus;
+		}
+		
+		public final int getBonus() {
+			return this.bonus;
+		}
+	}
 	/**
 	 * Increases the score counter.
 	 */

@@ -44,6 +44,7 @@ import javafx.animation.AnimationTimer;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.PlayerHitsPlatformEvent;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
+import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
@@ -254,7 +255,7 @@ public class GameEngine implements Controller, GameEventListener {
 			this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT).play();
 		} else if (item.getItemId().equals(Items.COIN)) {
 			this.soundsFactory.createSound(Sounds.COIN).play();
-			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase();
+			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
 		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
@@ -309,7 +310,7 @@ public class GameEngine implements Controller, GameEventListener {
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(enemy.getPosition().get().getX(),
 				enemy.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
-		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(100);
+		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.KILL_ENEMY.getBonus());
 		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
@@ -321,7 +322,7 @@ public class GameEngine implements Controller, GameEventListener {
 		env.deleteObjByPosition(new ImmutablePosition2Dimpl(obstacle.getPosition().get().getX(),
 				obstacle.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteObstacleSpriteImage(obstacle.getPosition().get());
-		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(100);
+		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.DESTROY_OBSTACLE.getBonus());
 		AppLogger.getAppLogger().collision("Bullet hits obstacle");
 	}
 	
