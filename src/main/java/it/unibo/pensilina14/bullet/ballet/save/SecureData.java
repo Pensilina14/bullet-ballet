@@ -19,8 +19,6 @@ import java.security.spec.KeySpec;
 
 public final class SecureData {
 
-    //TODO: al posto di salvare dati in formato di caratteri strani nel file, inserire l'encoding in hex o base64.
-
     private final static String ENCRYPTION_STANDARD = "AES";
     private final static int KEY_SIZE = 256;
     private final static String TRANSFORMATION_ALGORITHM = "PBKDF2WithHmacSHA256";

@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
-import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -83,10 +82,13 @@ public class MainPlayer extends Pane {
     	this.playerView.setTranslateX(x);
     	this.playerView.setTranslateY(y);
     	this.position = new MutablePosition2Dimpl(x, y);
-    	//System.out.println("Player View: \t" + this.position.getX());
     }
 
     public final SpriteAnimation getSpriteAnimation() {
         return this.animation;
+    }
+    
+    public final MutablePosition2D getPosition() {
+    	return this.position;
     }
 }

@@ -7,28 +7,15 @@ import it.unibo.pensilina14.bullet.ballet.common.EntityManager;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
-import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
-import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
-import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEventListener;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameOverEvent;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.CollisionEventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.EventChecker;
 import it.unibo.pensilina14.bullet.ballet.model.environment.events.GameEvent;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.PickupItem;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -111,32 +98,11 @@ public class GameEnvironment implements Environment {
 	@Override
 	public final void updateState() {
 		final Optional<Player> player = this.entities.getPlayer();
-		if (!player.get().hasLanded()) {
-			player.get().moveDown(this.gravity);
-		} else {
-			player.get().resetLanding();
-		}
-		
 		player.get().updateState();
 		player.get().getCurrentScore().increase();
-		this.entities.getEnemies().get().stream().forEach(e -> {
-			if (!e.hasLanded()) {
-				e.moveDown(this.gravity);
-			} else {
-				e.resetLanding();
-			}
-			e.updateState();
-			//AppLogger.getAppLogger().debug("Enemy pos: " + e.getPosition().toString());
-		}); 
-		this.entities.getObstacles().get().forEach(o -> {
-			if (!o.hasLanded()) {
-				o.moveDown(this.gravity);
-			} else {
-				o.resetLanding();
-			}
-			o.updateState();
-		});
+		
 		this.entities.getItems().get().forEach(i -> i.updateState());
+		
 		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
 			if (!i.isOn()) {
 				i.updateState();
@@ -151,9 +117,12 @@ public class GameEnvironment implements Environment {
 		} 
 
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
+		
 		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
+		
+		this.checkGravity();
 		this.checkCollisions();
 	}
 	
@@ -163,6 +132,40 @@ public class GameEnvironment implements Environment {
 		this.eventListener = Optional.ofNullable(listener);
 	}
 
+	private void checkGravity() {
+		/* 
+		 * Player gets afflicted by gravity.
+		 */
+		final Optional<Player> player = this.entities.getPlayer();
+		if (!player.get().hasLanded()) {
+			player.get().moveDown(this.gravity);
+		} else {
+			player.get().resetLanding();
+		}
+		/*
+		 * Enemies get afflicted by gravity.
+		 */
+		this.entities.getEnemies().get().stream().forEach(e -> {
+			if (!e.hasLanded()) {
+				e.moveDown(this.gravity);
+			} else {
+				e.resetLanding();
+			}
+			e.updateState();
+		});
+		/*
+		 * Obstacles get afflicted by gravity.
+		 */
+		this.entities.getObstacles().get().forEach(o -> {
+			if (!o.hasLanded()) {
+				o.moveDown(this.gravity);
+			} else {
+				o.resetLanding();
+			}
+			o.updateState();
+		});
+	}
+	
 	private void checkCollisions() {
 		final Map<String, EventChecker> eventCheckers = new HashMap<>();
 		eventCheckers.putAll(Map.of(

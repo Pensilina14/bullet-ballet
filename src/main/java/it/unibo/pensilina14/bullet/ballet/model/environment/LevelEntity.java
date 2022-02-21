@@ -1,81 +1,75 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-/*public enum LevelEntity { //TODO: rename?
+import java.util.List;
 
+/**
+ * This enumeration keeps all the entities that
+ * could be present inside the game along 
+ * with their symbol reference written in the map file. 
+ */
+public enum LevelEntity {
+	/**
+	 * Represents an empty(air) spot.
+	 */
     EMPTY('0'),
+    /**
+     * Represents a {@link Platform} that fills the tile it stays in.
+     */
     PLATFORM('1'),
+    /**
+     * Stands for a coin.
+     */
     COIN('2'),
+    /**
+     * Represents an {@link Obstacle}.
+     */
     OBSTACLE('3'),
-    WEAPON('4'),
+    /**
+     * Outlines a {@link EntityList#Weapons#GUN}.
+     */
+    GUN('G'),
+    /**
+     * Outlines a {@link EntityList#Weapons#SHOTGUN}.
+     */
+    SHOTGUN('S'),
+    /**
+     * Outlines a {@link EntityList#Weapons#AUTOGUN}.
+     */
+    AUTOGUN('A'),
+    /**
+     * Represents the {@link Player}.
+     */
     PLAYER('P'),
-    ITEM('*'),
+    /**
+     * Figures an heart {@link Item}. For further reference look into {@link Items#HEART}.
+     */
+    HEART('*'),
+    /**
+     * Figures a poison {@link Item}. For further reference look into {@link Items#POISON}.
+     */
+    POISON('x'),
+    /**
+     * Figures a damage {@link Item}. For further reference look into {@link Items#DAMAGE}.
+     */
+    DAMAGE('d'),
+    /**
+     * Represents an {@link Enemy}.
+     */
     ENEMY('!');
 
-    final char s;
+    private final char value;
 
-    LevelEntity(final char s){
-        this.s = s;
+    LevelEntity(final char value) {
+        this.value = value;
     }
 
-    public final char getSymbol(){ //TODO: rename getAsChar() o getCharacter()
-        return this.s;
+    public final char getValue() { 
+        return this.value;
     }
-
-}*/
-
-public final class LevelEntity{ //TODO: fix the enum and use that
-	/**
-	 * 
-	 */
-    public static final char EMPTY = '0';
     /**
-     * 
+     * @return a {@link List} containing all the elements of {@link this} enumeration.
      */
-    public static final char PLATFORM = '1';
-    /**
-     * 
-     */
-    public static final char COIN = '2';
-    /**
-     * 
-     */
-    public static final char OBSTACLE = '3';
-    /**
-     * 
-     */
-    public static final char GUN = 'G';
-    /**
-     * 
-     */
-    public static final char SHOTHUN = 'S';
-    /**
-     * 
-     */
-    public static final char AUTOGUN = 'A';
-    /**
-     * 
-     */
-    public static final char PLAYER = 'P';
-    /**
-     * 
-     */
-    public static final char HEART = '*';
-    /**
-     * 
-     */
-    public static final char POISON = 'x';
-    /**
-     * 
-     */
-    public static final char DAMAGE = 'd';
-    /**
-     * 
-     */
-    public static final char ENEMY = '!';
-	
-    private LevelEntity(){
-
+    public final List<LevelEntity> getEntities() {
+        return List.of(EMPTY, PLATFORM, COIN, OBSTACLE, GUN, SHOTGUN, AUTOGUN, PLAYER, HEART, POISON, DAMAGE, ENEMY);
     }
-
-
 }

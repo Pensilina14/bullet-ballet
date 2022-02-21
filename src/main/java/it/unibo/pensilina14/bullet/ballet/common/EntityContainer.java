@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
@@ -241,4 +240,73 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	public static class Builder implements EntityManagerBuilder {
+		private final EntityManager entities;
+
+		public Builder() {
+			this.entities = new EntityContainer();
+		}
+        /**
+		 * Thanks to this constuctor, this class can be used
+		 * to build pre-existent {@link EntityManager}(s).
+		 * The Builder pattern intent is beyond that since it's
+		 * a creational pattern, so if you want to create from zero
+		 * a new object check the constructor up here.
+		 * 
+		 * @param entityManager
+		 */
+		public Builder(final EntityManager entityManager) {
+			this.entities = entityManager;
+		}
+
+		@Override
+		public final EntityManagerBuilder addPlayer(final Player player) {
+			this.entities.setPlayer(player);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addEnemy(final Enemy enemy) {
+			this.entities.addEnemy(enemy);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addItem(final Item item) {
+			this.entities.addItem(item);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addObstacle(final Obstacle obstacle) {
+			this.entities.addObstacle(obstacle);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addPlatform(final Platform platform) {
+			this.entities.addPlatform(platform);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addWeapon(final Weapon weapon) {
+			this.entities.addWeapon(weapon);
+			return this;
+		}
+
+		@Override
+		public final EntityManagerBuilder addBullet(final Bullet bullet) {
+			this.entities.addBullet(bullet);
+			return this;
+		}
+
+		@Override
+		public final EntityManager build() {
+			return this.entities;
+		}
+	}
 }

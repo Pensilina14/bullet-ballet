@@ -20,8 +20,8 @@ public interface Environment {
 	 */
 	Dimension2D getDimension();
 
-	/**
-	 * Returns an {@link EntityManager}
+    /**
+	 * Returns an {@link EntityManager}.
 	 * 
 	 * @return entity manager of the implementing class.
 	 */
@@ -39,8 +39,6 @@ public interface Environment {
 	boolean deleteObjByPosition(ImmutablePosition2D targetPos);
 	
 	/**
-	 * @param dt is the given time instant when the environment must be updated
-	 * 
 	 * This must recall every {@link AbstractDynamicComponent}'s {@link AbstractDynamicComponent#updateState} method,
 	 * in order to update the whole environment. 
 	 */

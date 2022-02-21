@@ -22,8 +22,11 @@ public class Enemy extends GameEntity implements Characters{
 
     private final Random rand = new Random();
     private final static double MAX = 100.0;
-   	public int dumbCounter = 0; 
     private boolean landed;
+
+    private static final double MAX_RANGE = 7.0;
+
+    private final double enemyRange = getRandomRange();
 
     public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
 
@@ -72,7 +75,6 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy1";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("AK-47", dimension, vector, environment, mass, id, effect); //TODO: add weapon, WeaponFactoryImpl
                 break;
             case ENEMY2:
                 minHealth = 60.0;
@@ -80,7 +82,6 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy2";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("M4A1"); //TODO: add weapon
                 break;
             case ENEMY3:
                 minHealth = 40.0;
@@ -88,13 +89,8 @@ public class Enemy extends GameEntity implements Characters{
                 this.name = "Enemy3";
                 this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
                 this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
-                //this.weapon = new WeaponImpl("Bazooka"); //TODO: add weapon
                 break;
         }
-    }
-
-    private void AI(){
-        // TODO: AI of Enemy
     }
 
     @Override
@@ -174,14 +170,6 @@ public class Enemy extends GameEntity implements Characters{
     	}
     }
     
-    private boolean moroccanMoveDown() {
-    	if (this.landed) {
-    		this.moveDown(20);
-    		return true; 
-    	}
-    	return false;
-    }
-    
     /*
      * Following code could be universalized for every game entity.
      */
@@ -195,6 +183,44 @@ public class Enemy extends GameEntity implements Characters{
     
     public void resetLanding() {
     	this.landed = false;
+    }
+
+    private double getRandomRange(){
+        return rand.nextDouble() * Enemy.MAX_RANGE;
+    }
+
+    //TODO: forse passare l'index dell'enemy come parametro non serve.
+    public boolean isPlayerInRange(final int enemyIndex){
+        final double xPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
+        final double yPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
+
+        final double xEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getX();
+        final double yEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getY();
+
+        //final double range = getRandomRange(); //TODO: il range o fisso per tutti gli enemy o così com'è adesso ovvero casuale.
+
+        System.out.println("Player X: " + xPlayer); //TODO: remove
+        System.out.println("Player Y: " + yPlayer); //TODO: remove
+
+        System.out.println("Enemy X: " + xEnemy); //TODO: remove
+        System.out.println("Enemy Y: " + yEnemy); //TODO: remove
+
+        final double distance = Math.sqrt((xPlayer - xEnemy) + (yPlayer - yEnemy)); //TODO: la radice quadrata si può anche togliere, è lenta e non serve.
+
+        //TODO: LERP
+
+        System.out.println("Enemy Range: " + this.enemyRange); //TODO: remove
+        System.out.println("Distanza player ed Enemy: " + distance); //TODO: remove
+
+        return distance <= this.enemyRange;
+    }
+
+    public double getRange(){
+        return this.enemyRange;
+    }
+
+    public double getMaxRange(){
+        return Enemy.MAX_RANGE;
     }
 
 }

@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +13,6 @@ import javafx.scene.layout.Pane;
 
 public class BulletSprite extends Pane {
 	
-
 	private final Image bulletImg;
 	private final ImageView bulletView;
 	private final int offsetX;

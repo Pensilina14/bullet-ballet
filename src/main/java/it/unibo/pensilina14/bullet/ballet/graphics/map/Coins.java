@@ -10,7 +10,7 @@ public enum Coins {
     LIGHT_BLUE_COIN("res/assets/sprites/coins/spr_coin_azu.png"),
     YELLOW_COIN("res/assets/sprites/coins/spr_coin_ama.png"),
     GREY_COIN("res/assets/sprites/coins/spr_coin_gri.png"),
-    RUBY_COIN("res/assets/sprites/coins/spr_coin_roj.png"); //TODO: rename it differently
+    RUBY_COIN("res/assets/sprites/coins/spr_coin_roj.png");
 
     private final String path;
 
@@ -22,7 +22,7 @@ public enum Coins {
         return this.path;
     }
 
-    public Coins getDefaultCoin(){
+    public static Coins getDefaultCoin(){
         return Coins.GOLD_COIN;
     }
 
@@ -35,7 +35,7 @@ public enum Coins {
                 return c;
             }
         }
-        return Coins.GOLD_COIN;
+        return Coins.getDefaultCoin();
     }
 
     public static String getRandomCoinPath(){
@@ -47,6 +47,6 @@ public enum Coins {
                 return c.getPath();
             }
         }
-        return Coins.GOLD_COIN.getPath();
+        return Coins.getDefaultCoin().getPath();
     }
 }

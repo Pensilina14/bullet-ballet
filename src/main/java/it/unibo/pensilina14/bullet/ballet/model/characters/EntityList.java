@@ -7,13 +7,13 @@ public enum EntityList {
         CHARACTER;
 
         public enum Player{
-            PLAYER1, // TODO: mettere i nomi dei players al posto di PLAYER
+            PLAYER1,
             PLAYER2,
             PLAYER3
         }
 
         public enum Enemy{
-            ENEMY1, // TODO: mettere i nomi degli enemies al posto di ENEMY
+            ENEMY1,
             ENEMY2,
             ENEMY3
         }

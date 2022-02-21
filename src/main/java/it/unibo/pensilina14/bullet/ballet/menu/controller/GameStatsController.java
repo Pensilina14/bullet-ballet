@@ -2,11 +2,12 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,7 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 public class GameStatsController implements Initializable{
 
@@ -27,11 +28,12 @@ public class GameStatsController implements Initializable{
     @FXML
     private TableColumn<Statistics, Integer> points;
     @FXML
-    private TableColumn<Statistics, Double> time;
+    private TableColumn<Statistics, String> date;
 
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+    	final SoundsFactory soundsFactory = new SoundsFactoryImpl();
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
@@ -40,11 +42,11 @@ public class GameStatsController implements Initializable{
         this.setCells();
         final ObservableList<Statistics> list = FXCollections.observableArrayList();
 
-        final Map<String, String> statsMap = Save.loadGameStatistics();
+        final LinkedHashMap<String, MutablePair<String, String>> statsMap = Save.loadGameStatistics();
 
         if(!statsMap.isEmpty()){
-            for(var s : statsMap.keySet()){
-                list.add(new Statistics(s, Double.parseDouble(statsMap.get(s)), -1.0)); //TODO: il tempo ho messo -1.0 perchè non l'abbiamo, se non lo facciamo è da togliere.
+            for(final var s : statsMap.keySet()){
+                list.add(new Statistics(s, Double.parseDouble(String.valueOf(statsMap.get(s).getLeft())), statsMap.get(s).getRight()));
             }
         }
 
@@ -54,7 +56,7 @@ public class GameStatsController implements Initializable{
     private void setCells() {
         this.playerName.setCellValueFactory(new PropertyValueFactory<Statistics, String>("playerName"));
         this.points.setCellValueFactory(new PropertyValueFactory<Statistics, Integer>("points"));
-        this.time.setCellValueFactory(new PropertyValueFactory<Statistics, Double>("time"));
+        this.date.setCellValueFactory(new PropertyValueFactory<Statistics, String>("date"));
     }
 
 }

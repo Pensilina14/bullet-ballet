@@ -5,9 +5,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.save.Save;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,10 +31,11 @@ public class PauseMenuController {
 	@FXML
     private Button resumeButton;
 	private final PageLoader loader = new PageLoaderImpl();
+	private final SoundsFactory soundsFactory = new SoundsFactoryImpl();
 	
 	@FXML
 	void exitOnMouseClicked(final MouseEvent event) {
-		new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+		soundsFactory.createSound(Sounds.MENU_SOUND).play();
         final Alert alert = new Alert(AlertType.CONFIRMATION,
                 "Are you sure?",
                 ButtonType.OK, 
@@ -48,20 +51,20 @@ public class PauseMenuController {
 	}
 
 	@FXML void resumeGame(final MouseEvent event) {
-		new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+		soundsFactory.createSound(Sounds.MENU_SOUND).play();
 		final Window window = resumeButton.getScene().getWindow();
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 	
 	@FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
-		new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+		soundsFactory.createSound(Sounds.MENU_SOUND).play();
         loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
     }
 	
 	@FXML
 	void backToHomepage(final MouseEvent event) {
-		new AudioClip(this.getClass().getResource("/menu_sound.mp4").toExternalForm()).play();
+		soundsFactory.createSound(Sounds.MENU_SOUND).play();
 		try {
 			final Window window = resumeButton.getScene().getWindow();			
 			window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_HIDDEN));

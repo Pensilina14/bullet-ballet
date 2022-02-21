@@ -62,10 +62,10 @@ public abstract class AbstractScene extends Scene {
 
     //TODO: questo è un doppione che sta in PageLoaderImpl, ma verrà fixato.
     public final int getScreenWidth(){
-        return (!Save.loadSettings().isEmpty()) ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_WIDTH_STRING)) : Resolutions.getDefaultResolution().getWidth();
+        return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_WIDTH_STRING)) : Resolutions.getDefaultResolution().getWidth();
     }
 
     public final int getScreenHeight(){
-        return (!Save.loadSettings().isEmpty()) ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_HEIGHT_STRING)) : Resolutions.getDefaultResolution().getHeight();
+        return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_HEIGHT_STRING)) : Resolutions.getDefaultResolution().getHeight();
     }
 }

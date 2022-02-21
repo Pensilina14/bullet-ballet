@@ -61,9 +61,6 @@ public class CharactersTest {
         player.decreaseMana(55.0);
         assertFalse(player.manaLeft());
 
-        // WEAPON
-        //TODO: weapon test
-
     }
 
     @Test
@@ -75,12 +72,6 @@ public class CharactersTest {
 
         assertTrue(player1.getHealth() >= 80.0 && player1.getHealth() <= 100.0);
         assertTrue(player1.getMana().get() >= 50.0 && player1.getMana().get() <= 100.0);
-
-        // WEAPON
-        //TODO: weapon test
-
-        //assertEquals("AK-47", player1.getWeapon().getName());
-        //assertEquals(100, player1.getWeapon().getTotalAmmo());
     }
 
 
@@ -114,9 +105,6 @@ public class CharactersTest {
 
         enemy.decreaseMana(65.0);
         assertFalse(enemy.manaLeft());
-
-        // WEAPON
-        //TODO: weapon test
     }
 
     @Test
@@ -128,8 +116,6 @@ public class CharactersTest {
         assertTrue(enemy1.getMana().get() >= 40.0 && enemy1.getMana().get() <= 100.0);
 
         assertSame("Enemy1", enemy1.getName());
-
-        //assertEquals("AK-47",enemy1.getWeapon().getName()); //TODO: weapon test
     }
 
     @Test
@@ -179,6 +165,23 @@ public class CharactersTest {
         }
 
         assertTrue(enemyTypeChecker);
+
+        //DISTANCE BETWEEN PLAYER AND ENEMY
+        this.environment.getEntityManager().addEnemy(enemy);
+        this.environment.getEntityManager().setPlayer(player);
+
+        final int ENEMY_INDEX = 0;
+
+        this.environment.getEntityManager().getPlayer().get().getPosition().get().setPosition(2.0, 0.0);
+        this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getPosition().get().setPosition(12.0, 0.0);
+
+        System.out.println("coords player in test: " + this.environment.getEntityManager().getPlayer().get().getPosition().get().getCoordinates()); //TODO: remove
+        System.out.println("coords enemy in test: " + this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getPosition().get().getCoordinates()); //TODO: remove
+
+        //TODO: uncomment when i'll fix it.
+        //assertFalse(this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).isPlayerInRange(0));
+
+        //assertTrue(this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getRange() <= this.environment.getEntityManager().getEnemies().get().get(0).getMaxRange());
 
     }
 }

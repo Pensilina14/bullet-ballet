@@ -6,7 +6,14 @@ import java.util.Map;
 public enum Languages {
 
     ENGLISH("English", "en_uk"),
-    ITALIANO("Italiano", "it_it");
+    ITALIANO("Italiano", "it_it"),
+    ESPANOL("Espanol", "es_es"),
+    DEUTSCH("Deutsch", "de_de"),
+    POLSKI("Polski", "pl_pl"),
+    RUSSIAN("Russian", "ru_ru"),
+    MSA("MSA", "msa_msa"),
+    FRENCH("French", "fr_fr"),
+    JAPANESE("Japanese", "jpn_jpn");
 
     private final String language;
     private final String countryCode;

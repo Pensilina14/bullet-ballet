@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ public class FormController {
     
     private void newGame(final MouseEvent event) {
     	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
-    	final Game game = new Game();
+    	final Game game = new Game(this.insertionForm.getText());
     	game.getSettings().setDifficulty(Difficulties.EASY);
     	game.getSettings().setResolution(Resolutions.FULLHD);
     	final AbstractScene gameScene = game.getView();

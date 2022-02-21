@@ -5,8 +5,9 @@ import javafx.scene.media.AudioClip;
 public class SoundsFactoryImpl implements SoundsFactory{
 
 	@Override
-	public AudioClip createSound(final Sounds sound) {
-		return new AudioClip(this.getClass().getResource(sound.toString()).toExternalForm());
+	public Sound createSound(final Sounds sound) {
+		final AudioClip audioClip = new AudioClip(this.getClass().getResource(sound.toString()).toExternalForm());
+		return new SoundImpl(audioClip);
 	}
-
+	
 }

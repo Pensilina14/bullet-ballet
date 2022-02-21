@@ -34,7 +34,7 @@ public class GameEntity implements PhysicalObject{
 
 }
 	
-    protected static final double MS_TO_S = 1;
+    private static final double MS_TO_S = 1;
 	private final SpeedVector2D speedVector;
 	private final Environment gameEnvironment;
 	private final double mass;

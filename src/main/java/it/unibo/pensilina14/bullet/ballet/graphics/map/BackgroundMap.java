@@ -1,26 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.map;
 
-import java.util.*;
-
 public class BackgroundMap {
 
     private Maps map;
     private final static int MAP_WIDTH = 1280;
     private final static int MAP_HEIGHT = 720;
-    private static final Random RAND = new Random();
-    private final static Maps DEFAULT_MAP = Maps.HALLOWEEN;
-
     private Platforms platformType;
     private Coins coinType;
     
     public BackgroundMap(){
     	
         this.map = Maps.mapChooser();
-        //this.map = Maps.SPACESHIP; //TODO: questo solo per testare una specifica mappa. (commentare this.map = mapChooser())
-
-        //this.platformType = Platform.Platforms.DESERT_PLATFORM4; //TODO: questo solo per testare una specifica platform (commentare initMap())
-
-        final CoinSprite coinSprite = new CoinSprite();
         this.coinType = Coins.coinChooser();
 
         initMap();
@@ -107,7 +97,7 @@ public class BackgroundMap {
         return this.map;
     }
 
-    public void setMap(final Maps map) { //TODO: renome in mapSetter
+    public void setMap(final Maps map) {
         this.map = map;
 
         initMap();

@@ -5,6 +5,9 @@ import java.net.URL;
 import java.util.*;
 
 import it.unibo.pensilina14.bullet.ballet.save.Save;
+import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
+import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +21,8 @@ import javafx.scene.media.AudioClip;
 
 public class SettingsController implements Initializable {
 
+    private static final int WIDTH_INDEX = 1;
+    private static final int HEIGHT_INDEX = 4;
     @FXML
     private Slider audio;
     @FXML
@@ -26,11 +31,8 @@ public class SettingsController implements Initializable {
     private ComboBox<String> difficulty;
     @FXML
     private ComboBox<String> language;
-    
     private final PageLoader loader = new PageLoaderImpl();
-
-    private static final int WIDTH_INDEX = 1;
-    private static final int HEIGHT_INDEX = 4;
+    private final SoundsFactory soundsFactory = new SoundsFactoryImpl();
 
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) { // Questo serve semplicemente per caricare le impostazioni
@@ -53,27 +55,40 @@ public class SettingsController implements Initializable {
     
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
         loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
 
     @FXML
     void showDifficultiesOnMouseClick(final MouseEvent event) {
-        final ObservableList<String> difficulties = FXCollections.observableArrayList(Difficulties.EASY.toString(),
-        		Difficulties.MEDIUM.toString(), Difficulties.HARD.toString());
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
+        final ObservableList<String> difficulties = FXCollections.observableArrayList();
+        // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
+        for(final var d : Difficulties.values()){
+            difficulties.add(d.toString());
+        }
         this.difficulty.setItems(difficulties);
     }
 
     @FXML
     void showResolutionsOnMouseClicked(final MouseEvent event) {
-        final ObservableList<String> resolutions = FXCollections.observableArrayList(Resolutions.FULLHD.toString(),
-                Resolutions.HD.toString());
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
+        final ObservableList<String> resolutions = FXCollections.observableArrayList();
+        // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
+        for(final var r : Resolutions.values()){
+            resolutions.add(r.toString());
+        }
         this.resolution.setItems(resolutions);
     }
 
     @FXML
     void showLanguagesOnMouseClick(final MouseEvent event) {
-        final ObservableList<String> languages = FXCollections.observableArrayList(Languages.ENGLISH.getLanguage(), Languages.ITALIANO.getLanguage());
+    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
+        final ObservableList<String> languages = FXCollections.observableArrayList();
+        // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
+        for(final var l : Languages.values()){
+            languages.add(l.getLanguage());
+        }
         this.language.setItems(languages);
     }
 
@@ -92,7 +107,7 @@ public class SettingsController implements Initializable {
 
             final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
                     this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
-                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning
+                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase(Locale.getDefault())).getCountryCode()); //Sistemare sto warning
 
             if(hasSaved){
                 generateSaveSettingsAlert(Alert.AlertType.INFORMATION);
@@ -100,7 +115,7 @@ public class SettingsController implements Initializable {
                 generateSaveSettingsAlert(Alert.AlertType.ERROR);
             }
 
-        } else { // Qui probabilmente si può rifattorizzare meglio.
+        } else {
             generateSaveSettingsAlert(AlertType.ERROR);
         }
     }
