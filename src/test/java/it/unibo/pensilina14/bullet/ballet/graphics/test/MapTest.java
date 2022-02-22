@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Coins;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Platforms;
 
@@ -15,7 +16,7 @@ public class MapTest {
     @Test
     public void mapTest(){
         //TODO: map test
-        final BackgroundMap map = new BackgroundMap();
+        final GameMap map = new BackgroundMap();
         map.setMap(Maps.CAVE);
 
         assertEquals(Maps.CAVE.getPath(), map.getMap().getPath());

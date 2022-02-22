@@ -28,13 +28,12 @@ public class Space implements Command {
     							weapon.getPosition().get().getY()), 1.0));
     			env.getGameEnvironment().getEntityManager().addBullet(bullet);
     			try {
-					this.mapScene.generateBullet(bullet.getPosition().get());
+					this.mapScene.generateBullet(bullet);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     			weapon.decreaseAmmo();
-    			
     		}
 		}
 	}

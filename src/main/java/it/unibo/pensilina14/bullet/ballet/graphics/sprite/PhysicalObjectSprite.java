@@ -44,6 +44,20 @@ public class PhysicalObjectSprite extends Pane {
         imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
         this.getChildren().add(imageView);
     }
+    
+    public PhysicalObjectSprite(final Images.Coins img, final MutablePosition2D position,
+            final PhysicalObject physicalObject) throws IOException {
+        final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getPath()))));
+        AppLogger.getAppLogger().info(img.toString());
+        final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
+        final double physicalObjectHeight = physicalObject.getDimension().get().getHeight();
+        this.position = position;
+        this.renderPosition(position.getX(), position.getY());
+        imageView.setFitWidth(physicalObjectWidth);
+        imageView.setFitHeight(physicalObjectHeight);
+        imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
+        this.getChildren().add(imageView);
+    }
 
     public final void renderPosition(final double x, final double y) {
         this.setTranslateX(x);
