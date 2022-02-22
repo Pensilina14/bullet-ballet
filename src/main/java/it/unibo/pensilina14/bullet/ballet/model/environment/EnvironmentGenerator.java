@@ -69,36 +69,35 @@ public class EnvironmentGenerator implements LevelGenerator {
 		if (symbol == LevelEntity.EMPTY.getValue()) {
 			System.out.println("che bisogna mettere qui?");
 		} else if (symbol == LevelEntity.PLATFORM.getValue()) {
-			entityManagerBuilder.addPlatform(new Platform(
-					new SpeedVector2DImpl(
-							new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), 
-							this.env.get(), 
-							0, 
-							new Dimension2Dimpl(TILE_SIZE, TILE_SIZE)
-					));
+			this.generatePlatform(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.COIN.getValue()) {
-			generateCoin(entityManagerBuilder, i, j);
+			this.generateCoin(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.OBSTACLE.getValue()) {
-			generateStandardObstacle(entityManagerBuilder, i, j);
+			this.generateStandardObstacle(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.GUN.getValue()) {
-			generateStandardGun(entityManagerBuilder, i, j);
+			this.generateStandardGun(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.SHOTGUN.getValue()) {
-			generateShotGun(entityManagerBuilder, i, j);
+			this.generateShotGun(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.AUTOGUN.getValue()) {
-			generateAuto(entityManagerBuilder, i, j);
+			this.generateAuto(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.PLAYER.getValue()) {
-			generatePlayer(entityManagerBuilder, i, j);
+			this.generatePlayer(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.HEART.getValue()) {
-			generateHealingItem(entityManagerBuilder, i, j);
+			this.generateHealingItem(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.POISON.getValue()) {
-			generatePoisoningItem(entityManagerBuilder, i, j);
+			this.generatePoisoningItem(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.DAMAGE.getValue()) {
-			generatePoison(entityManagerBuilder, i, j);
+			this.generatePoison(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.ENEMY.getValue()) {
-			generateEnemy(entityManagerBuilder, i, j);
+			this.generateEnemy(entityManagerBuilder, i, j);
 		}
 	}
 
+	private void generatePlatform(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
+		entityManagerBuilder.addPlatform(this.platformFactory.generatePlatform(this.env.get(),
+				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+	}
+	
 	private void generateEnemy(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
 		entityManagerBuilder.addEnemy(this.charactersFactory.createRandomEnemy(
 				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0), this.env.get()));
