@@ -3,6 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.graphics.scenes;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
+import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
@@ -60,7 +61,7 @@ public class MapScene extends AbstractScene implements GameView{
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new StackPane(); 
     private ImageView backgroundView;
-    private final it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap map = new BackgroundMap();
+    private final GameMap map = new BackgroundMap();
     private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
     private Optional<MutablePair<Optional<PhysicalObjectSprite>, MutablePosition2D>> mainWeapon;
 
