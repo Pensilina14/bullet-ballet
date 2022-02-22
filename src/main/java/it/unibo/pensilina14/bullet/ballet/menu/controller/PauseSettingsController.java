@@ -98,8 +98,8 @@ public class PauseSettingsController implements Initializable {
             final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
 
             final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(PauseSettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(PauseSettingsController.HEIGHT_INDEX)),
-                    this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
-                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase(Locale.getDefault())).getCountryCode()); //Sistemare sto warning
+                    Difficulties.getDefaultDifficulty().toString(), this.audio.getValue(),
+                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase()).getCountryCode()); //Sistemare sto warning
 
             if(hasSaved){
                 generateSaveSettingsAlert(Alert.AlertType.INFORMATION);
