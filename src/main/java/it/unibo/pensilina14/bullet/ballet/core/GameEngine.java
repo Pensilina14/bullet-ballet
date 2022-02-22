@@ -229,8 +229,6 @@ public class GameEngine implements Controller, GameEventListener {
 	}
 	
 	private void playerHitsObstacleEventHandler(final GameEvent e) {
-		this.soundsFactory.createSound(Sounds.DAMAGE).play();
-		AppLogger.getAppLogger().collision("player hit an obstacle.");
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
 		player.decreaseHealth((double) (obstacle.getMass() / 50));
