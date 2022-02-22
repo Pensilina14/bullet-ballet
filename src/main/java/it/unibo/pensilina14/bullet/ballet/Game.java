@@ -31,14 +31,14 @@ public class Game {
         MAP_SCENE;
     }
 
-//    public Game() {
-//    	this.model = new ModelControllerImpl(new GameState());
-//        this.view = new ViewControllerImpl(Optional.of(
-//        		new MapScene(this.model.getGameState().get())
-//        		));
-//        this.engine = new GameEngine(this.view, this.model);
-//        //this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
-//    }
+    public Game() {
+    	this.model = new ModelControllerImpl(new GameState());
+        this.view = new ViewControllerImpl(Optional.of(
+        		new MapScene(this.model.getGameState().get())
+        		));
+        this.engine = new GameEngine(this.view, this.model);
+        this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
+    }
     
     public Game(final String playerName) {
     	this.model = new ModelControllerImpl(new GameState(playerName));
@@ -48,21 +48,6 @@ public class Game {
         this.engine = new GameEngine(this.view, this.model);
         this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
     }
-
-//    public Game(final GameState gameState, final GameView gameView, final GameEngine gameEngine) {
-//    	this.state = gameState;
-//    	this.view = (AbstractScene) gameView;
-//    	this.engine = gameEngine;
-//    	this.settings = new SettingsImpl(Resolutions.FULLHD, Difficulties.EASY);
-//    }
-//    
-//    public Game(final GameState state, final AbstractScene view, final GameEngine engine
-//    		, final Settings settings) {
-//		this.state = state;
-//		this.view = view;
-//		this.engine = engine;
-//		this.settings = settings;
-//	}
     
 	public final void start() {
     	AppLogger.getAppLogger().debug("Inside Game start() method.");
@@ -85,6 +70,4 @@ public class Game {
     	return this.settings;
     }
     
-    
-
 }
