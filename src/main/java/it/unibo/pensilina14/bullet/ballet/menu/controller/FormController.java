@@ -40,8 +40,8 @@ public class FormController {
     private void newGame(final MouseEvent event) {
     	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
     	final Game game = new Game(this.insertionForm.getText());
-    	game.getSettings().setDifficulty(Difficulties.EASY);
-    	game.getSettings().setResolution(Resolutions.FULLHD);
+    	game.getSettings().setDifficulty(game.getSettings().getCurrentDifficulty());
+    	game.getSettings().setResolution(game.getSettings().getCurrentResolution());
     	final AbstractScene gameScene = game.getView();
     	final Stage stage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
         stage.setWidth(game.getSettings().getCurrentResolution().getWidth());
@@ -49,15 +49,8 @@ public class FormController {
         gameScene.setHeight(stage.getHeight());
         gameScene.setWidth(stage.getWidth());
         stage.setScene(gameScene);
-
         stage.show();
         game.start();
     }
-
-	//TODO: recuperare il nome del player dal textfield e metterlo nella classe Player, nel name.
-	//TODO: uncomment when it will be fixed.
-	/*public static String getPlayerName(){
-		return insertionForm.getText();
-	}*/
 
 }

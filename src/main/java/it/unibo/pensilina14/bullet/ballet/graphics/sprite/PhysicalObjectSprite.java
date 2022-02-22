@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 
 public class PhysicalObjectSprite extends Pane{
     
-    private  MutablePosition2D position;
+    private MutablePosition2D position;
     
     public PhysicalObjectSprite(final Images img, final MutablePosition2D position
             , final PhysicalObject physicalObject) throws IOException {
