@@ -59,19 +59,7 @@ public class PauseMenuController {
 	@FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
 		soundsFactory.createSound(Sounds.MENU_SOUND).play();
-        loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
+        loader.goToSelectedPageOnInput(Frames.PSETTINGS, event);
     }
 	
-	@FXML
-	void backToHomepage(final MouseEvent event) {
-		soundsFactory.createSound(Sounds.MENU_SOUND).play();
-		try {
-			final Window window = resumeButton.getScene().getWindow();			
-			window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_HIDDEN));
-			window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
-			loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
