@@ -43,6 +43,4 @@ public final class EffectFactoryImpl implements EffectFactory {
 			}.start();
 		};
 	}
-	
-	//TODO: Create PoisonAgent in order to launch a thread well designed
 }

@@ -8,18 +8,31 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactory;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactory;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 
 public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFactory{
 
     private static final double SPEED = 1.5;
+    private final BulletFactory bulletFact = new BulletFactoryImpl();
     private final ObstacleFactory obstacleFact = new ObstacleFactoryImpl();
     private final ItemFactory itemFact = new ItemFactoryImpl();
+    private final WeaponFactory weaponFact = new WeaponFactoryImpl();
     private final GameState gameState;
 
     public PhysicalObjectSpriteFactoryImpl(final GameState gameState) {
         this.gameState = gameState;
+    }
+
+    @Override
+    public PhysicalObjectSprite generateBulletSprite(final MutablePosition2D position) throws IOException {
+        final PhysicalObject bullet = bulletFact
+                .createClassicBullet(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+        return new PhysicalObjectSprite(Images.BULLET, position, bullet);
     }
 
     @Override
@@ -63,4 +76,25 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
                 .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
         return new PhysicalObjectSprite(Images.COIN, position, item);
     }
+
+	@Override
+	public PhysicalObjectSprite generateGunWeaponSprite(MutablePosition2D position) throws IOException {
+		final PhysicalObject gun = weaponFact
+				.createGun(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+		return new PhysicalObjectSprite(Images.GUN, position, gun);
+	}
+
+	@Override
+	public PhysicalObjectSprite generateShotgunWeaponSprite(MutablePosition2D position) throws IOException {
+		final PhysicalObject shotgun = weaponFact
+				.createShotGun(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+		return new PhysicalObjectSprite(Images.SHOTGUN, position, shotgun);
+	}
+
+	@Override
+	public PhysicalObjectSprite generateAutogunWeaponSprite(MutablePosition2D position) throws IOException {
+		final PhysicalObject autogun = weaponFact
+				.createAuto(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
+		return new PhysicalObjectSprite(Images.AUTO, position, autogun);
+	}
 }

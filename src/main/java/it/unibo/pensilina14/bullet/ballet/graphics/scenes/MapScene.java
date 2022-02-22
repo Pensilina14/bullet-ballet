@@ -5,14 +5,12 @@ import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.PlatformSprite;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.BulletSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.WeaponSprite.WeaponsImg;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
@@ -65,7 +63,7 @@ public class MapScene extends AbstractScene implements GameView{
     private ImageView backgroundView;
     private final BackgroundMap map = new BackgroundMap();
     private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
-    private Optional<MutablePair<Optional<WeaponSprite>, MutablePosition2D>> mainWeapon;
+    private Optional<MutablePair<Optional<PhysicalObjectSprite>, MutablePosition2D>> mainWeapon;
 
     private final GameState gameState;
     private Optional<GameEngine> controller;
@@ -73,8 +71,8 @@ public class MapScene extends AbstractScene implements GameView{
     private Map<PlatformSprite, MutablePosition2D> platformSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
-    private Map<WeaponSprite, MutablePosition2D> weaponSprites;
-    private Map<BulletSprite, MutablePosition2D> bulletSprites;
+    private Map<PhysicalObjectSprite, MutablePosition2D> weaponSprites;
+    private Map<PhysicalObjectSprite, MutablePosition2D> bulletSprites;
     private List<Hud> hudList;
     private final SoundsFactory soundsFactory;
 
@@ -145,23 +143,21 @@ public class MapScene extends AbstractScene implements GameView{
     }
 
 	private void initializeWeapons(final Environment world) throws IOException {
+		final PhysicalObjectSpriteFactory factory = new PhysicalObjectSpriteFactoryImpl(this.gameState);
 		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
 			final MutablePosition2D xPos = x.getPosition().get();
 			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.GUN
-						, xPos.getX(), xPos.getY());
+				final PhysicalObjectSprite weaponSprite = factory.generateGunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Gun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.SHOTGUN
-						, xPos.getX(), xPos.getY());
+				final PhysicalObjectSprite weaponSprite = factory.generateShotgunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Shotgun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
-				final WeaponSprite weaponSprite = new WeaponSprite(WeaponsImg.AUTO
-						, xPos.getX(), xPos.getY());
+				final PhysicalObjectSprite weaponSprite = factory.generateAutogunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Automatic weapon rendered");
@@ -420,7 +416,7 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void deleteBulletSpriteImage(final MutablePosition2D position) {
-		final BulletSprite bullet = this.bulletSprites.entrySet()
+		final PhysicalObjectSprite bullet = this.bulletSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
 				.map(x -> x.getKey())
@@ -440,7 +436,7 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void deleteWeaponSpriteImage(final MutablePosition2D position) {
-		final WeaponSprite weapon = this.weaponSprites.entrySet()
+		final PhysicalObjectSprite weapon = this.weaponSprites.entrySet()
 				.stream()
 				.filter(entry -> position.equals(entry.getValue()))
 				.map(x -> x.getKey())
@@ -451,7 +447,8 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public void generateBullet(final MutablePosition2D pos) throws IOException {
-		final BulletSprite bullet = new BulletSprite(pos.getX(), pos.getY());
+		final PhysicalObjectSpriteFactory factory = new PhysicalObjectSpriteFactoryImpl(this.gameState);
+		final PhysicalObjectSprite bullet = factory.generateBulletSprite(pos);
 		this.bulletSprites.put(bullet, pos);
 		this.gamePane.getChildren().add(bullet);
 	}
