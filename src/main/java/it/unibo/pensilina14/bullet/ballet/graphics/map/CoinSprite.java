@@ -10,7 +10,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Random;
 
 public class CoinSprite extends Pane {
 
@@ -22,7 +21,6 @@ public class CoinSprite extends Pane {
     private final int columns = 1;
     private final int offsetX = 0;
     private final int offsetY = 0;
-    private static final Random RAND = new Random();
     private SpriteAnimation animation;
 
     public CoinSprite(){

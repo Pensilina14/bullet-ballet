@@ -52,7 +52,6 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     private void setRandomEnemy() {
-        final Random rand = new Random();
         final int max = EntityList.Characters.Enemy.values().length;
         final int min = 0;
 

@@ -68,7 +68,6 @@ public class Player extends GameEntity implements Characters{
     }
 
     private void setRandomPlayer() {
-        final Random rand = new Random();
         final int max = EntityList.Characters.Player.values().length;
 
         final int randomPlayer = rand.nextInt(max);

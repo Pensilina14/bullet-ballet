@@ -42,7 +42,7 @@ public class GameStatsController implements Initializable{
         this.setCells();
         final ObservableList<Statistics> list = FXCollections.observableArrayList();
 
-        final LinkedHashMap<String, MutablePair<String, String>> statsMap = Save.loadGameStatistics();
+        final Map<String, MutablePair<String, String>> statsMap = Save.loadGameStatistics();
 
         if(!statsMap.isEmpty()){
             for(final var s : statsMap.keySet()){
