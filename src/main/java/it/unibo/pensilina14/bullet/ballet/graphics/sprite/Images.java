@@ -1,5 +1,7 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
+import java.util.Random;
+
 public enum Images {
 	/**
 	 * 
@@ -201,6 +203,30 @@ public enum Images {
 
         public static Coins getDefaultCoin() {
             return Coins.GOLD_COIN;
+        }
+
+        private static final Random RAND = new Random();
+
+        public static Coins coinChooser(){
+            final int max = Coins.values().length;
+            final int randomMap = RAND.nextInt(max); // nextInt : 0 incluso, max escluso.
+            for (final Coins c : Coins.values()) {
+                if (c.ordinal() == randomMap) {
+                    return c;
+                }
+            }
+            return Coins.getDefaultCoin();
+        }
+
+        public static String getRandomCoinPath(){
+            final int max = Coins.values().length;
+            final int randomMap = RAND.nextInt(max); // nextInt : 0 incluso, max escluso.
+            for (final Coins c : Coins.values()) {
+                if (c.ordinal() == randomMap) {
+                    return c.getPath();
+                }
+            }
+            return Coins.getDefaultCoin().getPath();
         }
     }
 }

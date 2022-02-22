@@ -13,7 +13,7 @@ public class BackgroundMap implements GameMap {
 
     public BackgroundMap() {
         this.map = Maps.mapChooser();
-        this.coinType = Images.Coins.getDefaultCoin();
+        this.coinType = Images.Coins.coinChooser();
         initMap();
     }
 
