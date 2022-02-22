@@ -10,7 +10,9 @@ public enum Sounds {
     JUMP("/jump2.mp4"),
     MENU_SOUND("/menu_sound.mp4"),
     SHOT("/shot2.mp4"),
-    SOUNDTRACK("/soundtrack.mp4");
+    SOUNDTRACK("/soundtrack.mp4"),
+    SOUNDTRACK_SALVEENE("/soundtrack_salveene.mp3"),
+    SOUNDTRACK_PAXX("/soundtrack_paxx.mp3");
 	
 	private final String string;
 

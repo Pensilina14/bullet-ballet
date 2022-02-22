@@ -103,7 +103,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 		this.soundsFactory = new SoundsFactoryImpl();
-		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK);
+		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK_SALVEENE);
 	}
 	
 	public final void setup() {
