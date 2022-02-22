@@ -3,6 +3,8 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import it.unibo.pensilina14.bullet.ballet.save.Extensions;
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class LevelLoader {
@@ -38,8 +40,8 @@ public class LevelLoader {
     	return this.levelHeight;
     }
 
-    public String[] getLevel(){
-        return this.level; // Non va bene esporre una stringa così, bisogna fare un wrapper
+    public List<String> getLevel(){
+        return Arrays.asList(this.level); 
     }
 
 }
