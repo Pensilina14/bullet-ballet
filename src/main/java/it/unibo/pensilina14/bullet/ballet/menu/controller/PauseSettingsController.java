@@ -92,7 +92,6 @@ public class PauseSettingsController implements Initializable {
         // Questa parentesi serve così evito di scrivere tre volte il !.
 
         if(!(this.resolution.getSelectionModel().getSelectedItem().isBlank()
-                || this.difficulty.getSelectionModel().getSelectedItem().isBlank()
                 || this.language.getSelectionModel().getSelectedItem().isBlank())){
 
             final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
