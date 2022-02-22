@@ -56,8 +56,8 @@ public class EnvironmentGenerator implements LevelGenerator {
 	@Override
 	public final void generate() {
 		final EntityManagerBuilder entityManagerBuilder = new EntityContainer.Builder(this.env.get().getEntityManager());
-        for (int i = 0; i < this.levelLoader.getLevel().length; i++) {
-            final String line = this.levelLoader.getLevel()[i];
+        for (int i = 0; i < this.levelLoader.getLevel().size(); i++) {
+            final String line = this.levelLoader.getLevel().get(i);
             for (int j = 0; j < line.length(); j++) {
             	populate(entityManagerBuilder, i, line, j); 
             }

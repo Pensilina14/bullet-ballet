@@ -15,13 +15,11 @@ Abbiamo inoltre attribuito importanza alla "pulizia" dei test, per garantire la 
 \subsection*{Alessandro Pioggia}
 
 \begin{itemize}
-	\item StaticObstacleTest
-	\item DynamicObstacleTest
-	\item ObstacleFactoryTest
-	\item SpeedVector2DTest
-	\item Dimension2DTest
-	\item PickupItemTest
-	\item ItemFactoryTest
+	\item GameEntityTest;
+	\item ObstacleTest;
+	\item PickupItemTest;
+	\item SpeedVector2DTest;
+	\item Dimension2DTest;
 \end{itemize}
 
 \subsection*{Leon Baiocchi}
@@ -54,8 +52,8 @@ Per facilitare lo sviluppo abbiamo sfruttato un real-time-mantained UML, ovvero 
 Per quanto riguarda il DVCS abbiamo optato per l'utilizzo di git, in accordo con le nozioni apprese a lezione. La metodologia utilizzata è stata la seguente:
 
 \begin{itemize}
-	\item Sviluppo in feature-branches, ovvero branches in cui venivano realizzate singolarmente le feature dell'applicativo.
-	\item Ognuno di noi aveva a disposizione un numero definito di branches indipendenti dagli altri.
+	\item Sviluppo in feature-branches, ovvero branches in cui venivano realizzate singolarmente le feature dell'applicativo;
+	\item Ognuno di noi aveva a disposizione un numero definito di branches indipendenti dagli altri;
 	\item I feature-branches venivano poi confluiti nel main-branch.
 \end{itemize}
 
@@ -63,11 +61,11 @@ Per quanto riguarda il DVCS abbiamo optato per l'utilizzo di git, in accordo con
 Lavoro svolto : 
 \begin{itemize}
 	\item Realizzazione del menù principale con relativi reindirizzamenti.
-	\item Creazione dello scheletro per l'implementazione delle entità di gioco fisiche, ovvero la creazione dell'interfaccia PhysicalObject e le classi astratte AbstractDynamic/Static Component.
-	\item Implementazione di oggetti di gioco pickable (Item) e di ostacoli(Obstacles), realizzazione di sprites compresa.
-	\item Creazione di commons, quali Dimension2D e SpeedVector2D.
-	 
-	 
+	\item Creazione dello scheletro per l'implementazione delle entità di gioco fisiche, ovvero la creazione dell'interfaccia PhysicalObject la relativa implementazione;
+	\item Implementazione di oggetti di gioco pickable (Item) e di ostacoli(Obstacles), realizzazione di sprites compresa;
+	\item Creazione di commons, quali Dimension2D e SpeedVector2D;
+	\item Creazione dello scheletro PhysicalObjectSprite, per la creazione delle sprite (aspetto di view);
+	\item Gestione dei suoni.
 \end{itemize}
 
 
@@ -98,10 +96,13 @@ Lavoro svolto :
 \subsection*{Alessandro}
 
 \begin{itemize}
-	\item  \textbf{\textit{JavaFx}} : utilizzato per la realizzazione del menù.
-	\item \textbf{\textit{Optionals}} : per evitare di ritornare valori null.
-	\item \textbf{\textit{Apache library}} : libreria che ho importato per l'utilizzo delle classi Pair preimplementate.
-	\item \textbf{\textit{Gradle}} : strumento che ho utilizzato per importare le varie componenti di javafx.
+	\item  \textbf{\textit{JavaFx}} : utilizzato per la realizzazione del menù;
+	\item \textbf{\textit{Optionals}} : per evitare di ritornare valori null;
+	\item \textbf{\textit{Apache library}} : libreria che ho importato per l'utilizzo delle classi Pair preimplementate;
+	\item \textbf{\textit{Gradle}} : strumento che ho utilizzato per importare le varie componenti di javafx;
+	\item \textbf{\textit{Reflection}} : utilizzata per la creazione delle statistiche, perchè richiesta da javafx;
+	\item \textbf{\textit{JUnit}} : utilizzata per il testing;
+	\item \textbf{\textit{Streams e lambda}} : utilizzate dove possibile, per migliorare la leggibilità e l'efficienza.
 \end{itemize}
 
 \subsection*{Leon Baiocchi}

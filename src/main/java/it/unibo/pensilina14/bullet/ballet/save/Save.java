@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -21,9 +22,6 @@ public final class Save {
     public static final String SAVE_PATH = "data/saves/save_file.dat";
     private static final String LEVEL_PATH = "data/levels/";
     public static final String SETTINGS_PATH = "data/settings/settings.dat";
-
-    private static final String OLD_FILE_EXTENSION = ".txt"; //TODO: remove
-    private static final String ENCRYPTED_FILES_EXTENSION = ".dat"; //TODO: remove
 
     public static final String PLAYER_STRING = "Player";
     public static final String SCORE_STRING = "Score";
@@ -50,51 +48,52 @@ public final class Save {
      * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
      */
     public static void saveGameStatistics(final String playerName, final double playerScore, final String date){
-        JSONParser jsonParser = new JSONParser();
+        final JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
-        File file = new File(Save.SAVE_PATH);
+        final File file = new File(Save.SAVE_PATH);
 
         try{
             if(file.length() == 0){ // FILE VUOTO
                 jsonArray = new JSONArray();
-                LinkedHashMap<String, String> map = new LinkedHashMap<>();
+                final LinkedHashMap<String, String> map = new LinkedHashMap<>();
                 map.put(Save.PLAYER_STRING, playerName);
                 map.put(Save.SCORE_STRING, String.valueOf(playerScore));
                 map.put(Save.DATE_STRING, date);
                 jsonArray.add(map);
 
-                byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+                final byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
                 // Usiamo FileOutputStream al posto di FileWriter perchè questo ci permette di scrivere bytes, mentre FileWriter prende stringhe.
-                FileOutputStream stream = new FileOutputStream(file);
+                final FileOutputStream stream = new FileOutputStream(file);
                 stream.write(encryptedMessage);
 
                 stream.close();
 
             } else{
-                byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
-                String decryptedMessageString = new String(decryptedMessage, StandardCharsets.UTF_8);
-                Object obj = jsonParser.parse(decryptedMessageString);
+            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+            	final String decryptedMessageString = new String(decryptedMessage, StandardCharsets.UTF_8);
+            	final Object obj = jsonParser.parse(decryptedMessageString);
 
                 jsonArray = (JSONArray) obj;
 
-                JSONObject jsonObject = new JSONObject();
+                final JSONObject jsonObject = new JSONObject();
                 jsonObject.put(Save.PLAYER_STRING, playerName);
                 jsonObject.put(Save.SCORE_STRING, String.valueOf(playerScore));
                 jsonObject.put(Save.DATE_STRING, date);
 
                 jsonArray.add(jsonObject);
 
-                byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+                final byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                FileOutputStream stream = new FileOutputStream(file);
+                final FileOutputStream stream = new FileOutputStream(file);
                 stream.write(encryptedMessage);
 
                 stream.close();
 
             }
-        }catch(Exception e){
+        }catch(NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
+        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e){
             e.printStackTrace();
         }
     }
@@ -103,36 +102,36 @@ public final class Save {
      *
      * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
      */
-    public static LinkedHashMap<String, MutablePair<String, String>> loadGameStatistics(){
-        LinkedHashMap<String, MutablePair<String, String>> map = new LinkedHashMap<>();
-        JSONParser jsonParser = new JSONParser();
+    public static Map<String, MutablePair<String, String>> loadGameStatistics(){
+    	final LinkedHashMap<String, MutablePair<String, String>> map = new LinkedHashMap<>();
+    	final JSONParser jsonParser = new JSONParser();
 
-        File statsFile = new File(Save.SAVE_PATH);
+    	final File statsFile = new File(Save.SAVE_PATH);
 
         // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
         try {
             if(statsFile.length() != 0){
-                byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
+            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
 
-                String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
+            	final String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
 
                 System.out.println("decryptedMessage: " + Arrays.toString(decryptedMessage)); //TODO: remove
                 System.out.println("clearMessage: " + clearMessage); //TODO: remove
-                JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
+                final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
 
                 //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
 
-                for (Object o : jsonArray) {
+                for (final Object o : jsonArray) {
 
-                    JSONObject player = (JSONObject) o;
+                	final JSONObject player = (JSONObject) o;
 
-                    String name = (String) player.get(Save.PLAYER_STRING);
+                	final String name = (String) player.get(Save.PLAYER_STRING);
                     System.out.println("name: " + name); //TODO: remove
 
-                    String score = (String) player.get(Save.SCORE_STRING);
+                    final String score = (String) player.get(Save.SCORE_STRING);
                     System.out.println("score: " + score); //TODO: remove
 
-                    String date = (String) player.get(Save.DATE_STRING);
+                    final String date = (String) player.get(Save.DATE_STRING);
                     System.out.println("date: " + date); //TODO: remove
 
                     map.put(name, new MutablePair<>(String.valueOf(score), date));
@@ -142,7 +141,8 @@ public final class Save {
                     System.out.println("getRight(): " + map.get(name).getRight()); //TODO: remove
                 }
             }
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
+        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -172,12 +172,12 @@ public final class Save {
                 final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
                 final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
 
-                Object obj = jsonParser.parse(clearGameStatistics);
+                final Object obj = jsonParser.parse(clearGameStatistics);
                 jsonArray = (JSONArray) obj;
 
-                for (Object o : jsonArray) {
+                for (final Object o : jsonArray) {
 
-                    JSONObject player = (JSONObject) o;
+                	final JSONObject player = (JSONObject) o;
 
                     player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
                     player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
@@ -186,14 +186,15 @@ public final class Save {
 
                 System.out.println("jsonArray: " + jsonArray); //TODO: remove
 
-                byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+                final byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                FileOutputStream stream = new FileOutputStream(file);
+                final FileOutputStream stream = new FileOutputStream(file);
                 stream.write(encryptedStatistics);
 
                 stream.close();
             }
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
+        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
             e.printStackTrace();
             return false;
         }
@@ -213,11 +214,13 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
+    	final int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
+    	
+    	final String level = "level";
 
         for(int i = 0; i < numberOfLevels; i++){
-            String levelToEncrypt = Save.LEVEL_PATH + "level" + i + Extensions.TXT.getExtension();
-            String levelEncrypted = Save.LEVEL_PATH + "level" + i + Extensions.DAT.getExtension();
+        	final String levelToEncrypt = Save.LEVEL_PATH + level + i + Extensions.TXT.getExtension();
+        	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
             SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
             //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
@@ -230,22 +233,25 @@ public final class Save {
      * @param levelNumber: the number of the level that we want to load.
      * @return String[]: an array of strings with the data of the level.
      */
-    public static String[] oldLoadLevel(int levelNumber){ //TODO: remove when we finished to test levels.
+    public static String[] loadLevelForTesting(final int levelNumber){ //TODO: remove when we finished to test levels.
 
         String[] level;
-        ArrayList<String> levelList = new ArrayList<>();
+        final ArrayList<String> levelList = new ArrayList<>();
         String line;
 
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
+        	final BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
+        	
+        	line = bufferedReader.readLine();
 
-            while((line = bufferedReader.readLine()) != null && line.length() != 0){
+            while(line != null && line.length() != 0){
+            	line = bufferedReader.readLine();
                 levelList.add(String.valueOf(line));
             }
 
             bufferedReader.close();
 
-        }catch(Exception e){
+        }catch(IOException e){
             e.printStackTrace();
         }
 
@@ -267,10 +273,10 @@ public final class Save {
      * @throws IOException: fail or interrupted I/O operations.
      * @throws InvalidKeyException: invalid key.
      */
-    public static String[] loadLevel(int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-        byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
-        String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
+    public static String[] loadLevel(final int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+    	final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
+    	final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
+    	final String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
         //String[] level = clearLevel.split("\\n+"); //TODO: remove
 
         return clearLevel.split("[\\r\\n]+");
@@ -281,12 +287,12 @@ public final class Save {
      * @param levelNumber: the level that we want to delete.
      * It will delete all the data about the specified level.
      */
-    public static void resetLevelFile(int levelNumber){ //TODO: forse non serve.
+    public static void resetLevelFile(final int levelNumber) { //TODO: forse non serve.
         try {
-            FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
+        	final FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
             fileWriter.close();
 
-        } catch(Exception e){
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
@@ -296,14 +302,14 @@ public final class Save {
      * @param extension : the extension of the level files.
      * @return : an int with the number of the levels present in the levels' directory.
      */
-    public static int getNumberOfLevels(String extension){
-        File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
+	public static int getNumberOfLevels(final String extension){
+    	final File levelsDirectory = new File(Save.LEVEL_PATH);
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
     }
 
-    public static int getNumberOfLevels(Extensions extension){
-        File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension.getExtension()))).length;
+	public static int getNumberOfLevels(final Extensions extension){
+    	final File levelsDirectory = new File(Save.LEVEL_PATH);
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
     }
 
     /**
@@ -316,10 +322,10 @@ public final class Save {
      * @return : a boolean whether the file has been saved successfully or not.
      */
     public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume, final String language){
-        JSONParser jsonParser = new JSONParser();
+    	final JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = new JSONObject();
 
-        File file = new File(Save.SETTINGS_PATH);
+        final File file = new File(Save.SETTINGS_PATH);
 
         // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
         try {
@@ -330,16 +336,16 @@ public final class Save {
                 jsonObject.put(Save.AUDIO_STRING, audioVolume);
                 jsonObject.put(Save.LANGUAGE_STRING, language);
 
-                byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
+                final byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                final FileOutputStream fileOutputStream = new FileOutputStream(file);
                 fileOutputStream.write(encryptedSettings);
 
                 fileOutputStream.close();
             } else {
-                byte[] decryptedSettings = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
-                String decryptedSettingsString = new String(decryptedSettings, StandardCharsets.UTF_8);
-                Object obj = jsonParser.parse(decryptedSettingsString);
+            	final byte[] decryptedSettings = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+            	final String decryptedSettingsString = new String(decryptedSettings, StandardCharsets.UTF_8);
+            	final Object obj = jsonParser.parse(decryptedSettingsString);
 
                 jsonObject = (JSONObject) obj;
 
@@ -349,14 +355,15 @@ public final class Save {
                 jsonObject.replace(Save.AUDIO_STRING, audioVolume);
                 jsonObject.replace(Save.LANGUAGE_STRING, language);
 
-                byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
+                final byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                final FileOutputStream fileOutputStream = new FileOutputStream(file);
                 fileOutputStream.write(encryptedMessage);
 
                 fileOutputStream.close();
             }
-        } catch(Exception e){
+        } catch(NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
+        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e){
             e.printStackTrace();
             return false;
         }
@@ -367,31 +374,31 @@ public final class Save {
      *
      * @return an HashMap<String, String> with the settings' data.
      */
-    public static HashMap<String, String> loadSettings(){
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        JSONParser jsonParser = new JSONParser();
+    public static Map<String, String> loadSettings() {
+    	final LinkedHashMap<String, String> map = new LinkedHashMap<>(); //TODO: HashMap?
+    	final JSONParser jsonParser = new JSONParser();
 
-        File settingsFile = new File(Save.SETTINGS_PATH);
+    	final File settingsFile = new File(Save.SETTINGS_PATH);
 
         try {
             if(settingsFile.length() != 0){
-                byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+            	final byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
 
-                String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
+            	final String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
 
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
+            	final JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
 
                 for (int i = 0; i < jsonObject.size(); i++) {
 
-                    String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
+                	final String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
 
-                    String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
+                	final String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
 
-                    String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
+                	final String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
 
-                    String audio = jsonObject.get(Save.AUDIO_STRING).toString();
+                	final String audio = jsonObject.get(Save.AUDIO_STRING).toString();
 
-                    String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
+                	final String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
 
                     map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
                     map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
@@ -401,7 +408,8 @@ public final class Save {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
+        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -410,14 +418,14 @@ public final class Save {
 
     /**
      *
-     * @param filePath : the path of the file that you want to reset all the data.
+     * @param filePath : the path of the file that you want to reset all the data. 
      */
-    public static void resetFile(final String filePath){
+    public static void resetFile(final String filePath) {
         try {
-            FileWriter fileWriter = new FileWriter(filePath, false); // mettendo false ricrea il file, cancellando quello che c'era prima.
+        	final FileWriter fileWriter = new FileWriter(filePath, false); // mettendo false ricrea il file, cancellando quello che c'era prima.
             fileWriter.close();
-
-        }catch(Exception e){
+            
+        }catch(IOException e){
             e.printStackTrace();
         }
     }

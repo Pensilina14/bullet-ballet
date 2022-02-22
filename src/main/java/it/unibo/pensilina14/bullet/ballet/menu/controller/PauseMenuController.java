@@ -2,7 +2,6 @@ package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
 import java.util.Optional;
-
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
@@ -49,17 +48,7 @@ public class PauseMenuController {
 	@FXML
     void settingsOnMouseClick(final MouseEvent event) throws IOException {
 		soundsFactory.createSound(Sounds.MENU_SOUND).play();
-        loader.goToSelectedPageOnInput(Frames.SETTINGS, event);
+        loader.goToSelectedPageOnInput(Frames.PSETTINGS, event);
     }
 	
-	@FXML
-	void backToHomepage(final MouseEvent event) {
-		soundsFactory.createSound(Sounds.MENU_SOUND).play();
-		try {
-			loader.goToSelectedPageOnInput(Frames.HOMEPAGE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

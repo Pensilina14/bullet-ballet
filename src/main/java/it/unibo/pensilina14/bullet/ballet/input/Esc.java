@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.input;
 
 import java.io.IOException;
-
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;

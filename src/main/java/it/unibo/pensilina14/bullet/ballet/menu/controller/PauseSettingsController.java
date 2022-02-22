@@ -19,7 +19,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 
-public class SettingsController implements Initializable {
+public class PauseSettingsController implements Initializable {
 
     private static final int WIDTH_INDEX = 1;
     private static final int HEIGHT_INDEX = 4;
@@ -42,32 +42,24 @@ public class SettingsController implements Initializable {
         if(!settingsMap.isEmpty()){
             final String res = "[ " + settingsMap.get(Save.RESOLUTION_WIDTH_STRING) + " ], [ " + settingsMap.get(Save.RESOLUTION_HEIGHT_STRING) + " ]";
             this.resolution.getSelectionModel().select(res);
-            this.difficulty.getSelectionModel().select(settingsMap.get(Save.DIFFICULTY_STRING));
             this.audio.setValue(Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)));
+            //this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
+
             this.language.getSelectionModel().select(Languages.getLanguagesMap().get(settingsMap.get(Save.LANGUAGE_STRING)));
         } else {
             this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
-            this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
             this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
+            //this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
+
             // Per l'audio non serve mettere un default perchè sta già a 0.0
         }
+
     }
     
     @FXML
     void goBackOnMouseClick(final MouseEvent event) throws IOException {
     	soundsFactory.createSound(Sounds.MENU_SOUND).play();
-        loader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
-    }
-
-    @FXML
-    void showDifficultiesOnMouseClick(final MouseEvent event) {
-    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
-        final ObservableList<String> difficulties = FXCollections.observableArrayList();
-        // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
-        for(final var d : Difficulties.values()){
-            difficulties.add(d.toString());
-        }
-        this.difficulty.setItems(difficulties);
+        loader.goToSelectedPageOnInput(Frames.PAUSEMENU, event);
     }
 
     @FXML
@@ -100,14 +92,13 @@ public class SettingsController implements Initializable {
         // Questa parentesi serve così evito di scrivere tre volte il !.
 
         if(!(this.resolution.getSelectionModel().getSelectedItem().isBlank()
-                || this.difficulty.getSelectionModel().getSelectedItem().isBlank()
                 || this.language.getSelectionModel().getSelectedItem().isBlank())){
 
             final List<String> resList = Arrays.asList(this.resolution.getSelectionModel().getSelectedItem().split("[ ]"));
 
-            final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(SettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(SettingsController.HEIGHT_INDEX)),
-                    this.difficulty.getSelectionModel().getSelectedItem(), this.audio.getValue(),
-                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase(Locale.getDefault())).getCountryCode());
+            final boolean hasSaved = Save.saveSettings(Integer.parseInt(resList.get(PauseSettingsController.WIDTH_INDEX)), Integer.parseInt(resList.get(PauseSettingsController.HEIGHT_INDEX)),
+                    Difficulties.getDefaultDifficulty().toString(), this.audio.getValue(),
+                    Languages.valueOf(this.language.getSelectionModel().getSelectedItem().toUpperCase(Locale.getDefault())).getCountryCode()); //Sistemare sto warning
 
             if(hasSaved){
                 generateSaveSettingsAlert(Alert.AlertType.INFORMATION);

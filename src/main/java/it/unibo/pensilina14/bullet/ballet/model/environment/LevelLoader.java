@@ -3,6 +3,8 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 import it.unibo.pensilina14.bullet.ballet.save.Extensions;
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class LevelLoader {
@@ -10,23 +12,24 @@ public class LevelLoader {
     private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
+    
+    private static final Random RAND = new Random();
 
     // Se dovete provare i livelli e quindi dovete cambiarli, modificate i .txt
-    // poi qui nel costruttore di LevelLoader, in this.level al posto di chiamare Save.LoadLevel, chiamate Save.oldLoadLevel(getRandomLevel());
-    // Save.oldLoadLevel non ha nemmeno bisogno del try/catch.
+    // poi qui nel costruttore di LevelLoader, in this.level al posto di chiamare Save.LoadLevel, chiamate Save.loadLevelForTesting(getRandomLevel());
+    // Save.loadLevelForTesting non ha nemmeno bisogno del try/catch.
     // e nel metodo getRandomLevel qua sotto, al posto di Save.getNumberOfLevels(".dat") mettete (".txt") oppure Extensions.TXT;
 
     public LevelLoader(){
 
-        this.level = Save.oldLoadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
+        this.level = Save.loadLevelForTesting(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
         this.levelWidth = this.level[0].length();
         this.levelHeight = this.level.length;
     }
 
     private int getRandomLevel(){
-        final Random rand = new Random();
         final int maxLevels = Save.getNumberOfLevels(Extensions.TXT); // mettete qui Extensions.TXT se dovete testare i livelli con i .txt
-        return rand.nextInt(maxLevels);
+        return LevelLoader.RAND.nextInt(maxLevels);
     }
 
     public double getLevelWidth(){
@@ -37,8 +40,8 @@ public class LevelLoader {
     	return this.levelHeight;
     }
 
-    public String[] getLevel(){
-        return this.level; // Non va bene esporre una stringa così, bisogna fare un wrapper
+    public List<String> getLevel(){
+        return Arrays.asList(this.level); 
     }
 
 }
