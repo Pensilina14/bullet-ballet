@@ -9,4 +9,6 @@ public interface SoundsFactory {
 	 * @return a Sound object containing a referement to AudioClip
 	 */
 	Sound createSound(final Sounds sound);
+	
+	Sound createRandomSoundtrack();
 }

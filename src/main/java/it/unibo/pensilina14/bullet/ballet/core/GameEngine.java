@@ -93,7 +93,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.modelController = Optional.empty();
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 		this.soundsFactory = new SoundsFactoryImpl();
-		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK);
+		this.soundtrack = this.soundsFactory.createRandomSoundtrack();
 	}
 	
 	public GameEngine(final ViewController view, final ModelController game) {
@@ -103,7 +103,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.modelController = Optional.of(game);
 		this.timer = Optional.of(new AnimationTimerImpl(this));
 		this.soundsFactory = new SoundsFactoryImpl();
-		this.soundtrack = this.soundsFactory.createSound(Sounds.SOUNDTRACK_PAXX);
+		this.soundtrack = this.soundsFactory.createRandomSoundtrack();
 	}
 	
 	public final void setup() {
