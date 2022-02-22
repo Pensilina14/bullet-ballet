@@ -39,10 +39,10 @@ public class CharactersTest {
 
         // HEALTH
 
-        assertTrue(player.getHealth() == 100.0);
+        assertEquals(100.0, player.getHealth(), 0.0);
 
         player.setHealth(50.0);
-        assertTrue(player.getHealth() == 50.0);
+        assertEquals(50.0, player.getHealth(), 0.0);
         assertTrue(player.isAlive());
 
         player.setHealth(-5.55);
@@ -50,13 +50,13 @@ public class CharactersTest {
 
         // MANA
 
-        assertTrue(player.getMana().get() == 100.0);
+        assertEquals(100.0, player.getMana().get(), 0.0);
 
         player.decreaseMana(50.0);
-        assertTrue(player.getMana().get() == 50.0);
+        assertEquals(50.0, player.getMana().get(), 0.0);
 
         player.increaseMana(5.0);
-        assertTrue(player.getMana().get() == 55.0);
+        assertEquals(55.0, player.getMana().get(), 0.0);
 
         player.decreaseMana(55.0);
         assertFalse(player.manaLeft());
@@ -91,17 +91,17 @@ public class CharactersTest {
 
         // HEALTH
 
-        assertTrue(enemy.getHealth() == health);
+        assertEquals(health, enemy.getHealth(), 0.0);
 
         enemy.setHealth(0.0);
         assertFalse(enemy.isAlive());
 
         // MANA
 
-        assertTrue(enemy.getMana().get().equals(mana.get()));
+        assertEquals(enemy.getMana().get(), mana.get());
 
         enemy.increaseMana(15.0);
-        assertTrue(enemy.getMana().get() == 65.0);
+        assertEquals(65.0, enemy.getMana().get(), 0.0);
 
         enemy.decreaseMana(65.0);
         assertFalse(enemy.manaLeft());
