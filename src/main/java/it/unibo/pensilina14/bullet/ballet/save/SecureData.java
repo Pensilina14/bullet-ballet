@@ -29,6 +29,8 @@ public final class SecureData {
     private final static int TAG_SIZE = 128;
 
     public final static String PASSWORD = "BULLET-BALLET-CODE";
+    
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     /**
      * private constructor because the class doesn't have to be instantiated.
@@ -46,10 +48,9 @@ public final class SecureData {
      * @return : random bytes.
      */
     public static byte[] getRandomBytes(final int bytesNumber){
-        final SecureRandom secureRandom = new SecureRandom();
 
         final byte[] bytes = new byte[bytesNumber];
-        secureRandom.nextBytes(bytes);
+        SecureData.SECURE_RANDOM.nextBytes(bytes);
 
         return bytes;
     }

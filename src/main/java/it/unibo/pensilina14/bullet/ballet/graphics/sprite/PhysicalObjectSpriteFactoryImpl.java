@@ -78,21 +78,21 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     }
 
 	@Override
-	public PhysicalObjectSprite generateGunWeaponSprite(MutablePosition2D position) throws IOException {
+	public PhysicalObjectSprite generateGunWeaponSprite(final MutablePosition2D position) throws IOException {
 		final PhysicalObject gun = weaponFact
 				.createGun(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
 		return new PhysicalObjectSprite(Images.GUN, position, gun);
 	}
 
 	@Override
-	public PhysicalObjectSprite generateShotgunWeaponSprite(MutablePosition2D position) throws IOException {
+	public PhysicalObjectSprite generateShotgunWeaponSprite(final MutablePosition2D position) throws IOException {
 		final PhysicalObject shotgun = weaponFact
 				.createShotGun(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
 		return new PhysicalObjectSprite(Images.SHOTGUN, position, shotgun);
 	}
 
 	@Override
-	public PhysicalObjectSprite generateAutogunWeaponSprite(MutablePosition2D position) throws IOException {
+	public PhysicalObjectSprite generateAutogunWeaponSprite(final MutablePosition2D position) throws IOException {
 		final PhysicalObject autogun = weaponFact
 				.createAuto(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
 		return new PhysicalObjectSprite(Images.AUTO, position, autogun);

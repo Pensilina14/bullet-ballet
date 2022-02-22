@@ -15,18 +15,21 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 
 public class CharactersTest {
 
     private static final int DEFAULT_DIM = 500;
     private static final int DEFAULT_MASS = 10;
 
-    final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
-    final Environment environment = new GameEnvironment();
-    final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
-    final double speed = 5.0;
-    final SpeedVector2D vector = new SpeedVector2DImpl(position, speed);
+    private final Dimension2Dimpl dimension = new Dimension2Dimpl(DEFAULT_DIM, DEFAULT_DIM);
+    private final Environment environment = new GameEnvironment();
+    private final MutablePosition2Dimpl position = new MutablePosition2Dimpl(0, 0);
+    private static final double SPEED = 5.0;
+    private final SpeedVector2D vector = new SpeedVector2DImpl(position, SPEED);
 
     @Test
     public void testPlayer(){
@@ -39,10 +42,10 @@ public class CharactersTest {
 
         // HEALTH
 
-        assertTrue(player.getHealth() == 100.0);
+        assertEquals(100.0, player.getHealth(), 0.0);
 
         player.setHealth(50.0);
-        assertTrue(player.getHealth() == 50.0);
+        assertEquals(50.0, player.getHealth(), 0.0);
         assertTrue(player.isAlive());
 
         player.setHealth(-5.55);
@@ -50,13 +53,13 @@ public class CharactersTest {
 
         // MANA
 
-        assertTrue(player.getMana().get() == 100.0);
+        assertEquals(100.0, player.getMana().get(), 0.0);
 
         player.decreaseMana(50.0);
-        assertTrue(player.getMana().get() == 50.0);
+        assertEquals(50.0, player.getMana().get(), 0.0);
 
         player.increaseMana(5.0);
-        assertTrue(player.getMana().get() == 55.0);
+        assertEquals(55.0, player.getMana().get(), 0.0);
 
         player.decreaseMana(55.0);
         assertFalse(player.manaLeft());
@@ -65,7 +68,7 @@ public class CharactersTest {
 
     @Test
     public void testPlayerTypes(){
-        EntityList.Characters.Player playerType = EntityList.Characters.Player.PLAYER1;
+        final EntityList.Characters.Player playerType = EntityList.Characters.Player.PLAYER1;
         final Player player1 = new Player(playerType, dimension, vector, environment, DEFAULT_MASS);
 
         // HEALTH & MANA
@@ -79,8 +82,8 @@ public class CharactersTest {
     @Test
     public void testEnemy(){
         final String name = "Enemy";
-        double health = 100.0;
-        Optional<Double> mana = Optional.of(50.0);
+        final double health = 100.0;
+        final Optional<Double> mana = Optional.of(50.0);
         final double mass = 35.0;
 
         final Enemy enemy = new Enemy(name, health, Optional.of(mana.orElse(0.0)), dimension, vector, environment, mass);
@@ -91,17 +94,17 @@ public class CharactersTest {
 
         // HEALTH
 
-        assertTrue(enemy.getHealth() == health);
+        assertEquals(health, enemy.getHealth(), 0.0);
 
         enemy.setHealth(0.0);
         assertFalse(enemy.isAlive());
 
         // MANA
 
-        assertTrue(enemy.getMana().get().equals(mana.get()));
+        assertEquals(enemy.getMana().get(), mana.get());
 
         enemy.increaseMana(15.0);
-        assertTrue(enemy.getMana().get() == 65.0);
+        assertEquals(65.0, enemy.getMana().get(), 0.0);
 
         enemy.decreaseMana(65.0);
         assertFalse(enemy.manaLeft());
@@ -121,8 +124,8 @@ public class CharactersTest {
     @Test
     public void factoryCharactersImplTest(){
         final FactoryCharactersImpl factoryCharacters = new FactoryCharactersImpl();
-        Player player = factoryCharacters.createRandomPlayer(vector, environment);
-        Enemy enemy = factoryCharacters.createRandomEnemy(vector, environment);
+        final Player player = factoryCharacters.createRandomPlayer(vector, environment);
+        final Enemy enemy = factoryCharacters.createRandomEnemy(vector, environment);
 
         // Non conosco i valori della vita e resto a priori, perchè sono casuali.
 
@@ -132,8 +135,8 @@ public class CharactersTest {
         player.increaseHealth(20.0);
         enemy.increaseHealth(15.0);
 
-        assertEquals(player.getHealth(), (playerHealth + 20.0), 0.0);
-        assertEquals(enemy.getHealth(), (enemyHealth + 15.0), 0.0);
+        assertEquals(player.getHealth(), playerHealth + 20.0, 0.0);
+        assertEquals(enemy.getHealth(), enemyHealth + 15.0, 0.0);
 
         playerHealth = player.getHealth();
         enemyHealth = enemy.getHealth();
@@ -141,13 +144,13 @@ public class CharactersTest {
         player.decreaseHealth(10.0);
         enemy.decreaseHealth(5.0);
 
-        assertEquals(player.getHealth(), (playerHealth - 10.0), 0.0);
-        assertEquals(enemy.getHealth(), (enemyHealth - 5.0), 0.0);
+        assertEquals(player.getHealth(), playerHealth - 10.0, 0.0);
+        assertEquals(enemy.getHealth(), enemyHealth - 5.0, 0.0);
 
         // Checking whether player/enemy Type is in range.
 
         boolean playerTypeChecker = false;
-        for(EntityList.Characters.Player p : EntityList.Characters.Player.values()){
+        for(final EntityList.Characters.Player p : EntityList.Characters.Player.values()){
             if(p == player.getPlayerType()){
                 assertSame(p, player.getPlayerType());
                 //playerTypeChecker++;
@@ -158,7 +161,7 @@ public class CharactersTest {
         assertTrue(playerTypeChecker);
 
         boolean enemyTypeChecker = false;
-        for(EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
+        for(final EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
             if(e == enemy.getEnemyType()){
                 enemyTypeChecker = true;
             }
@@ -170,13 +173,13 @@ public class CharactersTest {
         this.environment.getEntityManager().addEnemy(enemy);
         this.environment.getEntityManager().setPlayer(player);
 
-        final int ENEMY_INDEX = 0;
+        final int enemyIndex = 0;
 
         this.environment.getEntityManager().getPlayer().get().getPosition().get().setPosition(2.0, 0.0);
-        this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getPosition().get().setPosition(12.0, 0.0);
+        this.environment.getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().setPosition(12.0, 0.0);
 
         System.out.println("coords player in test: " + this.environment.getEntityManager().getPlayer().get().getPosition().get().getCoordinates()); //TODO: remove
-        System.out.println("coords enemy in test: " + this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getPosition().get().getCoordinates()); //TODO: remove
+        System.out.println("coords enemy in test: " + this.environment.getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getCoordinates()); //TODO: remove
 
         //TODO: uncomment when i'll fix it.
         //assertFalse(this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).isPlayerInRange(0));

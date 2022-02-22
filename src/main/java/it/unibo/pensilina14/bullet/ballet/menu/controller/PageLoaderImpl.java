@@ -113,15 +113,4 @@ public class PageLoaderImpl implements PageLoader{
     private String composeLanguageString(final Languages language) {
     	return !Save.loadSettings().isEmpty() ? Save.loadSettings().get(Save.LANGUAGE_STRING) : language.getCountryCode();
     }
-
-    /*
-    La dimensione che salviamo fa riferimento al gioco, quindi questi due metodi andrebbero passati a FormController.java
-    private int getScreenWidth() {
-        return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_WIDTH_STRING)) : Resolutions.getDefaultResolution().getWidth();
-    }
-
-    private int getScreenHeight() {
-        return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_HEIGHT_STRING)) : Resolutions.getDefaultResolution().getHeight();
-    }
-    */
 }

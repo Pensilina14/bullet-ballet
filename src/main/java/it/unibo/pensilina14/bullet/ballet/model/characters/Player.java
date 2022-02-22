@@ -68,7 +68,6 @@ public class Player extends GameEntity implements Characters{
     }
 
     private void setRandomPlayer() {
-        final Random rand = new Random();
         final int max = EntityList.Characters.Player.values().length;
 
         final int randomPlayer = rand.nextInt(max);
@@ -188,15 +187,7 @@ public class Player extends GameEntity implements Characters{
     public boolean hasWeapon() {
     	return this.weapon.isPresent();
     }
-    
-    /*@Override
-    public void updateState() {
-    	if(hasWeapon()) {
-    		this.weapon.get().setPosition(this.getPosition().get());
-    	}
-    	
-    }
-    */
+
     @Override
     public void updateState() {
     	if (!this.blockedX) {
@@ -204,12 +195,6 @@ public class Player extends GameEntity implements Characters{
     	} else {
     		this.moveLeft(1);
     	}
-    	/*
-    	if (!this.isAlive()) {
-    		this.getGameEnvironment().get().deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
-    	}
-    	AppLogger.getAppLogger().info(" " + this.getPosition().get().getCoordinates() + " ");
-    	*/
     }
     /*
      * Following code could be universalized for every game entity.

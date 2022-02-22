@@ -14,7 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class SaveTest {
 
@@ -35,7 +39,7 @@ public class SaveTest {
         Save.saveGameStatistics(playerName, playerScore, date);
         Save.saveGameStatistics(playerName2, playerScore2, date2);
 
-        final LinkedHashMap<String, MutablePair<String, String>> map;
+        final Map<String, MutablePair<String, String>> map;
 
         map = Save.loadGameStatistics();
 
@@ -86,7 +90,7 @@ public class SaveTest {
 
         // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI ANCHE NEL FILE
 
-        final LinkedHashMap<String, MutablePair<String, String>> statisticsMap = Save.loadGameStatistics();
+        final Map<String, MutablePair<String, String>> statisticsMap = Save.loadGameStatistics();
 
         final ArrayList<String> playersNameList = new ArrayList<>(Arrays.asList(playerName, newPlayerName, playerName3));
         final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(newPlayerScore), String.valueOf(playerScore3)));
@@ -127,30 +131,32 @@ public class SaveTest {
 
         final int currentLevel = 0;
 
-        final String[] level = Save.oldLoadLevel(currentLevel);
+        final String[] level = Save.loadLevelForTesting(currentLevel);
 
-        assertTrue(level.length != 0);
+        //assertTrue(level.length != 0); //TODO: remove
+        assertNotSame(level.length, 0);
 
-        final int max_levels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
+        final int maxLevels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
         final int numberOfLevels = Save.getNumberOfLevels(".txt");
 
-        assertEquals(max_levels, numberOfLevels);
+        assertEquals(maxLevels, numberOfLevels);
     }
 
     @Test
     public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        final int NUMBER_OF_LEVELS = 3;
+        final int numberOfLevels = 3;
 
         if(Save.getNumberOfLevels(".txt") > 0){
             //Save.encryptLevels(); //TODO: uncomment when we finished to test the levels.
         }
 
-        String[] s = Save.loadLevel(0);
+        final String[] s = Save.loadLevel(0);
 
-        assertEquals(NUMBER_OF_LEVELS, Save.getNumberOfLevels(".dat"));
+        assertEquals(numberOfLevels, Save.getNumberOfLevels(".dat"));
 
         assertNotNull(s);
-        assertTrue(s.length != 0);
+        //assertTrue(s.length != 0); //assertNotEquals non c'è  //TODO: remove
+        assertNotSame(s.length, 0);
     }
 
     @Test
@@ -177,7 +183,7 @@ public class SaveTest {
         settingsMap.put(Save.AUDIO_STRING, String.valueOf(audioVolume));
         settingsMap.put(Save.LANGUAGE_STRING, language);
 
-        HashMap<String, String> loadedSettings = Save.loadSettings();
+        Map<String, String> loadedSettings = Save.loadSettings();
 
         assertFalse(loadedSettings.isEmpty());
         assertEquals(settingsMap, loadedSettings);
