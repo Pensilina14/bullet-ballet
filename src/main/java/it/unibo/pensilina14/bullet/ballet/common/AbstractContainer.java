@@ -11,7 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 
 public abstract class AbstractContainer<X> implements Container<X> {
 	/**
-	 * 
+	 * Data structure that keeps track of every single element of the game.
 	 */
 	private final Map<GameEntities, Optional<List<X>>> container;
 	
@@ -24,13 +24,13 @@ public abstract class AbstractContainer<X> implements Container<X> {
 	}
 	
 	@Override
-	public boolean isEmpty() {
+	public final boolean isEmpty() {
 		return !(this.container.values().stream()
 			   .anyMatch(l -> !l.isEmpty())); //!!!
 	} 
 	
 	@Override
-	public Map<GameEntities, Optional<List<X>>> getContainer() {
+	public final Map<GameEntities, Optional<List<X>>> getContainer() {
 		return this.container;
 	}
 }
