@@ -14,7 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class SaveTest {
 
@@ -129,7 +133,8 @@ public class SaveTest {
 
         final String[] level = Save.oldLoadLevel(currentLevel);
 
-        assertTrue(level.length != 0);
+        //assertTrue(level.length != 0); //TODO: remove
+        assertNotSame(level.length, 0);
 
         final int maxLevels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
         final int numberOfLevels = Save.getNumberOfLevels(".txt");
@@ -150,7 +155,8 @@ public class SaveTest {
         assertEquals(numberOfLevels, Save.getNumberOfLevels(".dat"));
 
         assertNotNull(s);
-        assertTrue(s.length != 0);
+        //assertTrue(s.length != 0); //assertNotEquals non c'è  //TODO: remove
+        assertNotSame(s.length, 0);
     }
 
     @Test
