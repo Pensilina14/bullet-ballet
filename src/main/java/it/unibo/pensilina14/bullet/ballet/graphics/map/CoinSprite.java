@@ -17,10 +17,10 @@ public class CoinSprite extends Pane {
     private final Coins coinType;
     private final static Coins DEFAULT_COIN = Coins.GOLD_COIN;
 
-    private final int count = 3;
-    private final int columns = 1;
-    private final int offsetX = 0;
-    private final int offsetY = 0;
+    private static final int COUNT = 3;
+    private static final int COLUMNS = 1;
+    private static final int OFFSETX = 0;
+    private static final int OFFSETY = 0;
     private SpriteAnimation animation;
 
     public CoinSprite(){
@@ -58,7 +58,7 @@ public class CoinSprite extends Pane {
                 this.getProperties().put("alive", true);
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
 
-                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
+                animation = new SpriteAnimation(this.coinView, Duration.millis(200), CoinSprite.COUNT, CoinSprite.COLUMNS, CoinSprite.OFFSETX, CoinSprite.OFFSETY, coinWidth, coinHeight);
                 break;
             case RED_COIN:
             case SILVER_COIN:
@@ -74,7 +74,7 @@ public class CoinSprite extends Pane {
                 this.getProperties().put("alive", true);
                 this.coinView.setViewport(new Rectangle2D(minX, minY, coinWidth, coinHeight));
 
-                this.animation = new SpriteAnimation(this.coinView, Duration.millis(200), this.count, this.columns, this.offsetX, this.offsetY, coinWidth, coinHeight);
+                animation = new SpriteAnimation(this.coinView, Duration.millis(200), CoinSprite.COUNT, CoinSprite.COLUMNS, CoinSprite.OFFSETX, CoinSprite.OFFSETY, coinWidth, coinHeight);
                 break;
         }
     }

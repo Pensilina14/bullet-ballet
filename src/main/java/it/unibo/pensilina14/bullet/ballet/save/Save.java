@@ -233,7 +233,7 @@ public final class Save {
      * @param levelNumber: the number of the level that we want to load.
      * @return String[]: an array of strings with the data of the level.
      */
-    public static String[] oldLoadLevel(int levelNumber){ //TODO: remove when we finished to test levels.
+    public static String[] loadLevelForTesting(final int levelNumber){ //TODO: remove when we finished to test levels.
 
         String[] level;
         final ArrayList<String> levelList = new ArrayList<>();
@@ -241,8 +241,11 @@ public final class Save {
 
         try{
         	final BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
+        	
+        	line = bufferedReader.readLine();
 
-            while((line = bufferedReader.readLine()) != null && line.length() != 0){
+            while(line != null && line.length() != 0){
+            	line = bufferedReader.readLine();
                 levelList.add(String.valueOf(line));
             }
 
@@ -299,14 +302,14 @@ public final class Save {
      * @param extension : the extension of the level files.
      * @return : an int with the number of the levels present in the levels' directory.
      */
-    public static int getNumberOfLevels(final String extension){
+	public static int getNumberOfLevels(final String extension){
     	final File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension))).length;
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
     }
 
-    public static int getNumberOfLevels(final Extensions extension){
+	public static int getNumberOfLevels(final Extensions extension){
     	final File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase().endsWith(extension.getExtension()))).length;
+        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
     }
 
     /**

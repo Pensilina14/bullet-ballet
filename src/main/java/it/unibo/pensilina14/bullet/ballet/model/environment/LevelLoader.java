@@ -10,23 +10,24 @@ public class LevelLoader {
     private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
+    
+    private static final Random RAND = new Random();
 
     // Se dovete provare i livelli e quindi dovete cambiarli, modificate i .txt
-    // poi qui nel costruttore di LevelLoader, in this.level al posto di chiamare Save.LoadLevel, chiamate Save.oldLoadLevel(getRandomLevel());
-    // Save.oldLoadLevel non ha nemmeno bisogno del try/catch.
+    // poi qui nel costruttore di LevelLoader, in this.level al posto di chiamare Save.LoadLevel, chiamate Save.loadLevelForTesting(getRandomLevel());
+    // Save.loadLevelForTesting non ha nemmeno bisogno del try/catch.
     // e nel metodo getRandomLevel qua sotto, al posto di Save.getNumberOfLevels(".dat") mettete (".txt") oppure Extensions.TXT;
 
     public LevelLoader(){
 
-        this.level = Save.oldLoadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
+        this.level = Save.loadLevelForTesting(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
         this.levelWidth = this.level[0].length();
         this.levelHeight = this.level.length;
     }
 
     private int getRandomLevel(){
-        final Random rand = new Random();
         final int maxLevels = Save.getNumberOfLevels(Extensions.TXT); // mettete qui Extensions.TXT se dovete testare i livelli con i .txt
-        return rand.nextInt(maxLevels);
+        return LevelLoader.RAND.nextInt(maxLevels);
     }
 
     public double getLevelWidth(){

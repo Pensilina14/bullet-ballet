@@ -131,7 +131,7 @@ public class SaveTest {
 
         final int currentLevel = 0;
 
-        final String[] level = Save.oldLoadLevel(currentLevel);
+        final String[] level = Save.loadLevelForTesting(currentLevel);
 
         //assertTrue(level.length != 0); //TODO: remove
         assertNotSame(level.length, 0);
