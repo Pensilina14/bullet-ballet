@@ -28,7 +28,7 @@ public class Enemy extends GameEntity implements Characters{
 
     private final double enemyRange = getRandomRange();
 
-    public Enemy(String name, double health, Optional<Double> mana, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Enemy(final String name, final double health, final Optional<Double> mana, final Dimension2D dimension, final SpeedVector2D vector, final Environment environment, final double mass){
 
         super(vector, environment, mass, dimension);
 
@@ -38,13 +38,13 @@ public class Enemy extends GameEntity implements Characters{
 
     }
 
-    public Enemy(EntityList.Characters.Enemy enemyType, Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Enemy(final EntityList.Characters.Enemy enemyType, final Dimension2D dimension, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
         this.enemyType = enemyType;
         setEnemyType();
     }
 
-    public Enemy(Dimension2D dimension, SpeedVector2D vector, Environment environment, double mass){
+    public Enemy(final Dimension2D dimension, final SpeedVector2D vector, final Environment environment, final double mass){
         super(vector, environment, mass, dimension);
 
         setRandomEnemy();
@@ -52,12 +52,12 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     private void setRandomEnemy() {
-        Random rand = new Random();
+        final Random rand = new Random();
         final int max = EntityList.Characters.Enemy.values().length;
         final int min = 0;
 
-        final int randomEnemy = rand.nextInt(((max - min)) + min);
-        for (EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
+        final int randomEnemy = rand.nextInt((max - min) + min);
+        for (final EntityList.Characters.Enemy e : EntityList.Characters.Enemy.values()){
             if (e.ordinal() == randomEnemy) {
                 this.enemyType = e;
             }
@@ -73,23 +73,25 @@ public class Enemy extends GameEntity implements Characters{
                 minHealth = 80.0; // 70.0
                 minMana = 40.0;
                 this.name = "Enemy1";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 break;
             case ENEMY2:
                 minHealth = 60.0;
                 minMana = 55.0;
                 this.name = "Enemy2";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * MAX - minHealth + minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 break;
             case ENEMY3:
                 minHealth = 40.0;
                 minMana = 70.0;
                 this.name = "Enemy3";
-                this.health = (this.rand.nextDouble() * (MAX - minHealth)) + minHealth;
-                this.mana = Optional.of((this.rand.nextDouble() * (MAX - minMana)) + minMana);
+                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
                 break;
+            default:
+            	break;
         }
     }
 
@@ -109,7 +111,7 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     @Override
-    public void setHealth(double setHealth) {
+    public void setHealth(final double setHealth) {
         this.health = setHealth;
     }
 
@@ -119,7 +121,7 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     @Override
-    public void setWeapon(Weapon weapon) {
+    public void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
     }
 
@@ -134,26 +136,26 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     @Override
-    public void decreaseMana(double decreaseValue) {
+    public void decreaseMana(final double decreaseValue) {
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() - decreaseValue);
         }
     }
 
     @Override
-    public void increaseMana(double increaseValue) {
+    public void increaseMana(final double increaseValue) {
         if(this.mana.isPresent()){
             this.mana = Optional.of( this.mana.get() + increaseValue);
         }
     }
 
     @Override
-    public void increaseHealth(double increaseHealth) {
+    public void increaseHealth(final double increaseHealth) {
         this.health += increaseHealth;
     }
 
     @Override
-    public void decreaseHealth(double decreaseHealth) {
+    public void decreaseHealth(final double decreaseHealth) {
         this.health -= decreaseHealth;
     }
 
@@ -197,20 +199,9 @@ public class Enemy extends GameEntity implements Characters{
         final double xEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getX();
         final double yEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getY();
 
-        //final double range = getRandomRange(); //TODO: il range o fisso per tutti gli enemy o così com'è adesso ovvero casuale.
-
-        System.out.println("Player X: " + xPlayer); //TODO: remove
-        System.out.println("Player Y: " + yPlayer); //TODO: remove
-
-        System.out.println("Enemy X: " + xEnemy); //TODO: remove
-        System.out.println("Enemy Y: " + yEnemy); //TODO: remove
-
         final double distance = Math.sqrt((xPlayer - xEnemy) + (yPlayer - yEnemy)); //TODO: la radice quadrata si può anche togliere, è lenta e non serve.
 
         //TODO: LERP
-
-        System.out.println("Enemy Range: " + this.enemyRange); //TODO: remove
-        System.out.println("Distanza player ed Enemy: " + distance); //TODO: remove
 
         return distance <= this.enemyRange;
     }

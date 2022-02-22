@@ -13,7 +13,7 @@ public interface FactoryCharacters {
      * @return : a Player.
      */
 
-    Player createPlayer(EntityList.Characters.Player playerType, SpeedVector2D vector, Environment environment);
+    Player createPlayer(final EntityList.Characters.Player playerType, final SpeedVector2D vector, final Environment environment);
 
     /**
      *
@@ -22,7 +22,7 @@ public interface FactoryCharacters {
      * @param environment : gameEnvironment.
      */
 
-    Player createRandomPlayer(SpeedVector2D vector, Environment environment);
+    Player createRandomPlayer(final SpeedVector2D vector, final Environment environment);
 
     /**
      *
@@ -32,7 +32,7 @@ public interface FactoryCharacters {
      * @return : an Enemy.
      */
 
-    Enemy createEnemy(EntityList.Characters.Enemy enemyType, SpeedVector2D vector, Environment environment);
+    Enemy createEnemy(final EntityList.Characters.Enemy enemyType, final SpeedVector2D vector, final Environment environment);
 
     /**
      *
@@ -41,5 +41,5 @@ public interface FactoryCharacters {
      * @param environment : gameEnvironment.
      */
 
-    Enemy createRandomEnemy(SpeedVector2D vector, Environment environment);
+    Enemy createRandomEnemy(final SpeedVector2D vector, final Environment environment);
 }

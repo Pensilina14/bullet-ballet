@@ -31,7 +31,7 @@ public interface Characters {
      *
      * @param setHealth: set new health of the character
      */
-    void setHealth(double setHealth);
+    void setHealth(final double setHealth);
 
     /**
      * @return the Weapon that the character is using.
@@ -44,7 +44,7 @@ public interface Characters {
      *
      */
 
-    void setWeapon(Weapon weapon);
+    void setWeapon(final Weapon weapon);
 
     /**
      *
@@ -65,27 +65,27 @@ public interface Characters {
      * @param decreaseValue: decreases mana.
      */
 
-    void decreaseMana(double decreaseValue);
+    void decreaseMana(final double decreaseValue);
 
     /**
      *
      * @param increaseValue: increases mana.
      */
 
-    void increaseMana(double increaseValue);
+    void increaseMana(final double increaseValue);
 
     /**
      *
      * @param increaseHealth: increases health by increaseHealth amount.
      */
 
-    void increaseHealth(double increaseHealth);
+    void increaseHealth(final double increaseHealth);
 
     /**
      *
      * @param decreaseHealth: decreases health by decreaseHealth amount.
      */
 
-    void decreaseHealth(double decreaseHealth);
+    void decreaseHealth(final double decreaseHealth);
 
 }
