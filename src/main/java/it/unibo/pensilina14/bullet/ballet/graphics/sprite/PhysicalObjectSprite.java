@@ -13,12 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-public class PhysicalObjectSprite extends Pane{
-    
+public class PhysicalObjectSprite extends Pane {
+
     private  MutablePosition2D position;
-    
-    public PhysicalObjectSprite(final Images img, final MutablePosition2D position
-            , final PhysicalObject physicalObject) throws IOException {
+
+    public PhysicalObjectSprite(final Images img, final MutablePosition2D position,
+        final PhysicalObject physicalObject) throws IOException {
         final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getFileName()))));
         AppLogger.getAppLogger().info(img.toString());
         final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
@@ -31,16 +31,29 @@ public class PhysicalObjectSprite extends Pane{
         this.getChildren().add(imageView);
     }
 
-    public void renderPosition(final double x, final double y) {
-    	this.setTranslateX(x);
-    	this.setTranslateY(y);
-    	this.position = new MutablePosition2Dimpl(x, y);
+    public PhysicalObjectSprite(final Images.Platforms img, final MutablePosition2D position,
+            final PhysicalObject physicalObject) throws IOException {
+        final ImageView imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getPath()))));
+        AppLogger.getAppLogger().info(img.toString());
+        final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
+        final double physicalObjectHeight = physicalObject.getDimension().get().getHeight();
+        this.position = position;
+        this.renderPosition(position.getX(), position.getY());
+        imageView.setFitWidth(physicalObjectWidth);
+        imageView.setFitHeight(physicalObjectHeight);
+        imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
+        this.getChildren().add(imageView);
     }
-    
-    public void renderMovingPosition() {
-    	final double nextX = this.position.getX() - 1;
-    	this.position.setPosition(nextX, this.position.getY());
-    	this.setTranslateX(this.position.getX());
+
+    public final void renderPosition(final double x, final double y) {
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+        this.position = new MutablePosition2Dimpl(x, y);
     }
-    
+
+    public final void renderMovingPosition() {
+        final double nextX = this.position.getX() - 1;
+        this.position.setPosition(nextX, this.position.getY());
+        this.setTranslateX(this.position.getX());
+    }
 }

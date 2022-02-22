@@ -19,10 +19,11 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 
 public class EnvironmentGenerator implements LevelGenerator {
 	
-    private static final int TILE_SIZE = 60;
+	private static final int TILE_SIZE = 60;
     private final LevelLoader levelLoader;
 
     private Optional<Environment> env;
+    private final PlatformFactory platformFactory;
     private final FactoryCharacters charactersFactory;
 	private final ObstacleFactory obstacleFactory;
 	private final ItemFactory itemFactory;
@@ -31,6 +32,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 	public EnvironmentGenerator() {
 		this.levelLoader = new LevelLoader();
 		this.env = Optional.empty();
+		this.platformFactory = new PlatformFactoryImpl(this);
 		this.charactersFactory = new FactoryCharactersImpl();
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();
@@ -40,6 +42,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 	public EnvironmentGenerator(final Environment environment) {
         this.levelLoader = new LevelLoader();
 		this.env = Optional.of(environment);
+		this.platformFactory = new PlatformFactoryImpl(this);
 		this.charactersFactory = new FactoryCharactersImpl();
 		this.obstacleFactory = new ObstacleFactoryImpl();
 		this.itemFactory = new ItemFactoryImpl();

@@ -15,26 +15,27 @@ public class ItemFactoryImpl implements ItemFactory{
     private static final int HEALING_ITEM_DIM = 45;
     private static final int DAMAGING_ITEM_DIM = 45;
     private final EffectFactory effectFact = new EffectFactoryImpl();
-	@Override
-	public Item createPoisoningItem(final Environment environment, final SpeedVector2D speedVector) {
+
+    @Override
+	public final Item createPoisoningItem(final Environment environment, final SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(POISONING_ITEM_DIM, POISONING_ITEM_DIM)
 				, Items.POISON, effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue()
 				, SpecialEffects.POISON.getMsStep().getValue(), SpecialEffects.POISON.getMsDuration().getValue()));
 
 	}
 	@Override
-	public Item createHealingItem(final Environment environment, final SpeedVector2D speedVector) {
+	public final Item createHealingItem(final Environment environment, final SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(HEALING_ITEM_DIM, HEALING_ITEM_DIM)
 				, Items.HEART, effectFact.createHealEffect(Effects.HEALTHY.getDelta().getValue()));
 	}
 	@Override
-	public Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
+	public final Item createDamagingItem(final Environment environment, final SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
 				, Items.DAMAGE, effectFact.createDamageEffect(Effects.DAMAGE.getDelta().getValue()));
 	}
 	
 	@Override
-	public Item createCoinItem(final Environment environment, final SpeedVector2D speedVector) {
+	public final Item createCoinItem(final Environment environment, final SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
 				, Items.COIN, effectFact.createHealEffect(0));
 	}
