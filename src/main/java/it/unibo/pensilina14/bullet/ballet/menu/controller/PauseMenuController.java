@@ -1,28 +1,17 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
-import it.unibo.pensilina14.bullet.ballet.save.Save;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 

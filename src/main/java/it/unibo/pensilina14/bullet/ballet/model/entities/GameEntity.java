@@ -37,16 +37,17 @@ public class GameEntity implements PhysicalObject{
     private static final double MS_TO_S = 1;
 	private final SpeedVector2D speedVector;
 	private final Environment gameEnvironment;
-	private final double mass;
 	private final Dimension2D dimension;
+	private final double mass;
 	private boolean landed;
 	
-	public GameEntity(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass, final Dimension2D dimension) {
+	public GameEntity(final SpeedVector2D speedVector, final Environment gameEnvironment, final double mass
+			, final Dimension2D dimension) {
 		super();
 		this.speedVector = speedVector;
 		this.gameEnvironment = gameEnvironment;
-		this.mass = mass;
 		this.dimension = dimension;
+		this.mass = mass;
 		this.landed = false;
 	}
 	
@@ -58,11 +59,6 @@ public class GameEntity implements PhysicalObject{
 	@Override
 	public Optional<SpeedVector2D> getSpeedVector() {
 		return Optional.ofNullable(this.speedVector);
-	}
-
-	@Override
-	public double getMass() {
-		return this.mass;
 	}
 
 	@Override
@@ -99,7 +95,7 @@ public class GameEntity implements PhysicalObject{
     public boolean moveLeft(final double x) {
 		return move(Bounds.LEFT_CHECK, -x, 0);
     }
-    
+	
 	private boolean move(final Predicate<ImmutablePair<GameEntity, MutablePosition2D>> predicate, final double x, final double y) {
 		if(predicate.test(new ImmutablePair<GameEntity, MutablePosition2D>(this, new MutablePosition2Dimpl(x, y)))) {
 			this.speedVector.vectorSum(x, y);
@@ -108,14 +104,22 @@ public class GameEntity implements PhysicalObject{
 		return false;
 	}
 	
+	@Override
+	public double getMass() {
+		return this.mass;
+	}
+	
+	 @Override
 	 public boolean hasLanded() {
-    	return this.landed;
+		return this.landed;
 	 }
-	    
+	   
+	 @Override
 	 public void land() {
 		this.landed = true;
 	 }
 	    
+	 @Override
 	 public void resetLanding() {
 		 this.landed = false;
 	 }
