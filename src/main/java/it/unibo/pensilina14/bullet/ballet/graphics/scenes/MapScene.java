@@ -67,7 +67,7 @@ public class MapScene extends AbstractScene implements GameView{
 
     private final GameState gameState;
     private Optional<GameEngine> controller;
-    private Map<MainEnemy, MutablePosition2D> enemySprites;
+    private Map<PhysicalObjectSprite, MutablePosition2D> enemySprites;
     private Map<PlatformSprite, MutablePosition2D> platformSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> itemSprites;
     private Map<PhysicalObjectSprite, MutablePosition2D> obstacleSprites;
@@ -136,28 +136,27 @@ public class MapScene extends AbstractScene implements GameView{
 	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl(gameState);
     	initializePlayer(world);
     	initializePlatforms(world);
-    	initializeEnemies(world);
+    	initializeEnemies(world, spriteFactory);
     	initializeItems(world, spriteFactory);
 		initializeObstacles(world, spriteFactory);
-		initializeWeapons(world);
+		initializeWeapons(world, spriteFactory);
     }
 
-	private void initializeWeapons(final Environment world) throws IOException {
-		final PhysicalObjectSpriteFactory factory = new PhysicalObjectSpriteFactoryImpl(this.gameState);
+	private void initializeWeapons(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
 		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
 			final MutablePosition2D xPos = x.getPosition().get();
 			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
-				final PhysicalObjectSprite weaponSprite = factory.generateGunWeaponSprite(xPos);
+				final PhysicalObjectSprite weaponSprite = spriteFactory.generateGunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Gun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
-				final PhysicalObjectSprite weaponSprite = factory.generateShotgunWeaponSprite(xPos);
+				final PhysicalObjectSprite weaponSprite = spriteFactory.generateShotgunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Shotgun rendered");
 			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
-				final PhysicalObjectSprite weaponSprite = factory.generateAutogunWeaponSprite(xPos);
+				final PhysicalObjectSprite weaponSprite = spriteFactory.generateAutogunWeaponSprite(xPos);
 				this.weaponSprites.put(weaponSprite, xPos);
 				this.gamePane.getChildren().add(weaponSprite);
 				AppLogger.getAppLogger().info("Automatic weapon rendered");
@@ -209,11 +208,10 @@ public class MapScene extends AbstractScene implements GameView{
     	AppLogger.getAppLogger().debug("Items rendered.");
 	}
 
-	private void initializeEnemies(final Environment world) throws IOException {
+	private void initializeEnemies(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
 		for (final Enemy x : world.getEntityManager().getEnemies().get()) {
     		final MutablePosition2D xPos = x.getPosition().get();
-    		final MainEnemy enemySprite = new MainEnemy(xPos.getX() 
-    				, xPos.getY());
+    		final PhysicalObjectSprite enemySprite = spriteFactory.generateEnemySprite(xPos);
     		this.enemySprites.put(enemySprite, xPos);
     		this.gamePane.getChildren().add(enemySprite);
     	}
@@ -406,7 +404,7 @@ public class MapScene extends AbstractScene implements GameView{
 
 	@Override
 	public final void deleteEnemySpriteImage(final MutablePosition2D position) {
-		final MainEnemy enemy = enemySprites.entrySet()
+		final PhysicalObjectSprite enemy = enemySprites.entrySet()
                 .stream()
                 .filter(entry -> position.equals(entry.getValue()))
                 .map(Map.Entry::getKey)

@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList.Characters.Enemy;
+import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
+import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
@@ -22,6 +25,7 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     private final ObstacleFactory obstacleFact = new ObstacleFactoryImpl();
     private final ItemFactory itemFact = new ItemFactoryImpl();
     private final WeaponFactory weaponFact = new WeaponFactoryImpl();
+    private final FactoryCharacters charactersFact = new FactoryCharactersImpl();
     private final GameState gameState;
 
     public PhysicalObjectSpriteFactoryImpl(final GameState gameState) {
@@ -29,11 +33,24 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     }
 
     @Override
+	public PhysicalObjectSprite generatePlatformSprite(MutablePosition2D position) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    @Override
     public PhysicalObjectSprite generateBulletSprite(final MutablePosition2D position) throws IOException {
-        final PhysicalObject bullet = bulletFact
+        final PhysicalObject bullet = this.bulletFact
                 .createClassicBullet(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
         return new PhysicalObjectSprite(Images.BULLET, position, bullet);
     }
+
+    @Override
+	public PhysicalObjectSprite generateEnemySprite(MutablePosition2D position) throws IOException {
+		final PhysicalObject enemy = this.charactersFact
+				.createEnemy(Enemy.ENEMY1, new SpeedVector2DImpl(position, SPEED), this.gameState.getGameEnvironment());
+		return new PhysicalObjectSprite(Images.ENEMY, position, enemy);
+	}
 
     @Override
     public PhysicalObjectSprite generateDynamicObstacleSprite(final MutablePosition2D position) throws IOException {
@@ -69,7 +86,7 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
                 .createPoisoningItem(this.gameState.getGameEnvironment(), new SpeedVector2DImpl(position, SPEED));
         return new PhysicalObjectSprite(Images.POISONING_ITEM, position, item);
     }
-    
+
     @Override
     public PhysicalObjectSprite generateCoinItemSprite(final MutablePosition2D position) throws IOException{
         final PhysicalObject item = itemFact

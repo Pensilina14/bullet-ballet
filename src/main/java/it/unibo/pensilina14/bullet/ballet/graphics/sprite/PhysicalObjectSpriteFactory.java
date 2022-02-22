@@ -5,7 +5,9 @@ import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 
 public interface PhysicalObjectSpriteFactory {
 
+    PhysicalObjectSprite generatePlatformSprite(MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generateBulletSprite(MutablePosition2D position) throws IOException;
+    PhysicalObjectSprite generateEnemySprite(MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generateDynamicObstacleSprite(MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generateBunnySprite(MutablePosition2D position) throws IOException;
     PhysicalObjectSprite generateHealingItemSprite(MutablePosition2D position) throws IOException;
