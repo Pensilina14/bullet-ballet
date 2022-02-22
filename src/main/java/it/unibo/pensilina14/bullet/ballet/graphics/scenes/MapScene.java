@@ -292,11 +292,6 @@ public class MapScene extends AbstractScene implements GameView{
         	window.setOnCloseRequest(e -> {
         		this.controller.get().start();
         	});
-        	window.setOnHidden(e -> {
-        		this.controller.get().stop();
-        		stopPlayerAnimation();
-        		this.autoKill();
-        	});
         }
 
         if (this.keysReleased.contains(KeyCode.UP)) {
