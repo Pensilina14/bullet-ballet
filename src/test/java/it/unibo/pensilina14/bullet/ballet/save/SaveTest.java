@@ -127,7 +127,7 @@ public class SaveTest {
     }
 
     @Test
-    public void oldLoadLevelTest(){
+    public void loadLevelForTestingTest(){
 
         final int currentLevel = 0;
 

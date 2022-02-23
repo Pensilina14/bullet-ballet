@@ -29,7 +29,8 @@ public enum Maps {
     SPACE("res/assets/maps/Backgrounds/space_background6.png"),
     CITY("res/assets/maps/Backgrounds/city_background2.png"),
     CITY2("res/assets/maps/Backgrounds/city_background4.jpg");
-
+	
+	private static final Random RAND = new Random();
     String path;
 
     Maps(final String path){
@@ -46,9 +47,8 @@ public enum Maps {
 
     public static Maps mapChooser(){
         final int max = Maps.values().length;
-        final Random rand = new Random();
         for(final Maps m : Maps.values()){
-            if(m.ordinal() == rand.nextInt(max)){
+            if(m.ordinal() == Maps.RAND.nextInt(max)){
                 return m;
             }
         }
@@ -57,9 +57,8 @@ public enum Maps {
 
     public static String getRandomMapPath(){
         final int max = Maps.values().length;
-        final Random rand = new Random();
         for(final var m : Maps.values()){
-            if(m.ordinal() == rand.nextInt(max)){
+            if(m.ordinal() == Maps.RAND.nextInt(max)){
                 return m.getPath();
             }
         }
