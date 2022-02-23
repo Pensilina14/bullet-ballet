@@ -14,7 +14,7 @@ public enum Images {
     /**
      * 
      */
-    POISONING_ITEM("poison", "res/assets/sprites/items/poison.png"),
+    POISONING_ITEM("poison", "res/assets/sprites/items/poison_potion_resized0.png"),
     /**
      * 
      */
@@ -50,6 +50,7 @@ public enum Images {
 
     private final String fileName;
     private final String objectName;
+    private static final Random RAND = new Random();
 
     Images(final String objectName, final String fileName) {
         this.objectName = objectName;
@@ -208,8 +209,6 @@ public enum Images {
         public static Coins getDefaultCoin() {
             return Coins.GOLD_COIN;
         }
-
-        private static final Random RAND = new Random();
 
         public static Coins coinChooser(){
             final int max = Coins.values().length;
