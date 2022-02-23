@@ -271,7 +271,6 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
-        	this.soundsFactory.createSound(Sounds.SHOT).play();
         	this.controller.get().notifyCommand(new Space(this));
         }
 

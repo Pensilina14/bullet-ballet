@@ -17,7 +17,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
 
 public class PauseSettingsController implements Initializable {
 
@@ -36,7 +35,6 @@ public class PauseSettingsController implements Initializable {
 
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) { // Questo serve semplicemente per caricare le impostazioni
-
         final Map<String,String> settingsMap = Save.loadSettings();
         this.audio.setShowTickLabels(true);
     	this.audio.setMax(1.0);
@@ -72,7 +70,7 @@ public class PauseSettingsController implements Initializable {
 
     @FXML
     void showLanguagesOnMouseClick(final MouseEvent event) {
-    	soundsFactory.createSound(Sounds.MENU_SOUND).play();
+    	this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
         final ObservableList<String> languages = FXCollections.observableArrayList();
         // Teoricamente non servirebbero neanche sti metodi, basterebbe settare 1 volta in Initalizable
         for(final var l : Languages.values()){
@@ -83,7 +81,7 @@ public class PauseSettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+    	this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
 
         // L'audio non è vuoto, è di default come 0.0 quindi non penso servi controllarlo.
         // Questa parentesi serve così evito di scrivere tre volte il !.

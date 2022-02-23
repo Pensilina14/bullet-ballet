@@ -1,7 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import it.unibo.pensilina14.bullet.ballet.Game;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
@@ -14,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class FormController {
@@ -24,6 +22,8 @@ public class FormController {
 	
 	@FXML
     void goBackOnMouseClicked(final MouseEvent event) throws IOException {
+		final SoundsFactory soundsFactory = new SoundsFactoryImpl();
+		soundsFactory.createSound(Sounds.MENU_SOUND).play();
 		final PageLoader pageLoader = new PageLoaderImpl();
 		pageLoader.goToSelectedPageOnInput(Frames.HOMEPAGE, event);
     }
@@ -42,7 +42,6 @@ public class FormController {
     private void newGame(final MouseEvent event) {
     	final SoundsFactory soundsFactory = new SoundsFactoryImpl();
     	soundsFactory.createSound(Sounds.MENU_SOUND).play();
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
     	final Game game = new Game(this.insertionForm.getText());
     	game.getSettings().setDifficulty(game.getSettings().getCurrentDifficulty());
     	game.getSettings().setResolution(game.getSettings().getCurrentResolution());

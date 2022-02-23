@@ -309,7 +309,6 @@ public class GameEngine implements Controller, GameEventListener {
 				enemy.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
 		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.KILL_ENEMY.getBonus());
-		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
 	private void bulletHitsObstacleEventHandler(final Environment env, final GameEvent e) {
@@ -336,7 +335,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().stopPlayerAnimation();
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
-		this.soundsFactory.createSound(Sounds.FALL).play();
+		this.soundsFactory.createSound(Sounds.DIE).play();
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 	    final Date date = new Date();
 		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(), player.getCurrentScore().showScore(), formatter.format(date));
