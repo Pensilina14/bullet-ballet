@@ -27,5 +27,6 @@ public interface ItemFactory {
      */
     Item createDamagingItem(Environment environment, SpeedVector2D speedVector);
     Item createCoinItem(Environment environment, SpeedVector2D speedVector);
+	Item createChargerItem(Environment environment, SpeedVector2D speedVector);
     
 }

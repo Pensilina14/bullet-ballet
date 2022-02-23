@@ -202,6 +202,10 @@ public class MapScene extends AbstractScene implements GameView{
         	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
+    		} else if (x.getItemId().equals(Items.CHARGER)) {
+    			final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
+    			this.itemSprites.put(itemSprite, position);
+    			this.gamePane.getChildren().add(itemSprite);
     		}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");

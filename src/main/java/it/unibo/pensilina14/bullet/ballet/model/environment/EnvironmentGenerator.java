@@ -88,7 +88,9 @@ public class EnvironmentGenerator implements LevelGenerator {
 			this.generatePoisoningItem(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.DAMAGE.getValue()) {
 			this.generatePoison(entityManagerBuilder, i, j);
-		} else if (symbol == LevelEntity.ENEMY.getValue()) {
+		} else if (symbol == LevelEntity.AMMO.getValue()) {
+			this.generateAmmoItem(entityManagerBuilder, i, j);
+		}else if (symbol == LevelEntity.ENEMY.getValue()) {
 			this.generateEnemy(entityManagerBuilder, i, j);
 		}
 	}
@@ -115,6 +117,11 @@ public class EnvironmentGenerator implements LevelGenerator {
 
 	private void generateHealingItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
 		entityManagerBuilder.addItem(this.itemFactory.createHealingItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+	}
+	
+	private void generateAmmoItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
+		entityManagerBuilder.addItem(this.itemFactory.createChargerItem(
 				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 

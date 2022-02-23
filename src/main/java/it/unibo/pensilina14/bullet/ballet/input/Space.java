@@ -24,7 +24,7 @@ public class Space implements Command {
 	@Override
 	public void execute(final GameState env) {
 		if (env.getGameEnvironment().getEntityManager().getPlayer().get().hasWeapon()) {
-			final Weapon weapon = env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon();
+			final Weapon weapon = env.getGameEnvironment().getEntityManager().getPlayer().get().getWeapon().get();
     		if (weapon.hasAmmo()) {
     			final SoundsFactory soundsFactory = new SoundsFactoryImpl();
             	soundsFactory.createSound(Sounds.SHOT).play();

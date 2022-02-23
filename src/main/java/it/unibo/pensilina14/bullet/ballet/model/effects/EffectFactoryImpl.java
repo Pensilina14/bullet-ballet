@@ -43,4 +43,13 @@ public final class EffectFactoryImpl implements EffectFactory {
 			}.start();
 		};
 	}
+	
+	@Override
+	public Effect createRechargeEffect() {
+		return e -> {
+			if (e.getWeapon().isPresent()) {
+				e.getWeapon().get().recharge();
+			}
+		};
+	}
 }
