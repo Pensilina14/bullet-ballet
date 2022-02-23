@@ -115,8 +115,6 @@ public final class Save {
 
             	final String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
 
-                System.out.println("decryptedMessage: " + Arrays.toString(decryptedMessage)); //TODO: remove
-                System.out.println("clearMessage: " + clearMessage); //TODO: remove
                 final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
 
                 //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
@@ -126,19 +124,12 @@ public final class Save {
                 	final JSONObject player = (JSONObject) o;
 
                 	final String name = (String) player.get(Save.PLAYER_STRING);
-                    System.out.println("name: " + name); //TODO: remove
 
                     final String score = (String) player.get(Save.SCORE_STRING);
-                    System.out.println("score: " + score); //TODO: remove
 
                     final String date = (String) player.get(Save.DATE_STRING);
-                    System.out.println("date: " + date); //TODO: remove
 
                     map.put(name, new MutablePair<>(String.valueOf(score), date));
-                    System.out.println("loaded stats map: " + map); //TODO: remove
-
-                    System.out.println("getLeft(): " + map.get(name).getLeft()); //TODO: remove
-                    System.out.println("getRight(): " + map.get(name).getRight()); //TODO: remove
                 }
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
@@ -183,8 +174,6 @@ public final class Save {
                     player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
                     player.replace(Save.DATE_STRING, oldDate, newDate);
                 }
-
-                System.out.println("jsonArray: " + jsonArray); //TODO: remove
 
                 final byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
@@ -233,7 +222,7 @@ public final class Save {
      * @param levelNumber: the number of the level that we want to load.
      * @return String[]: an array of strings with the data of the level.
      */
-    public static String[] loadLevelForTesting(final int levelNumber){ //TODO: remove when we finished to test levels.
+    public static String[] loadLevelForTesting(final int levelNumber){
 
         String[] level;
         final ArrayList<String> levelList = new ArrayList<>();
@@ -277,7 +266,6 @@ public final class Save {
     	final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
     	final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
     	final String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
-        //String[] level = clearLevel.split("\\n+"); //TODO: remove
 
         return clearLevel.split("[\\r\\n]+");
     }
@@ -375,7 +363,7 @@ public final class Save {
      * @return an HashMap<String, String> with the settings' data.
      */
     public static Map<String, String> loadSettings() {
-    	final LinkedHashMap<String, String> map = new LinkedHashMap<>(); //TODO: HashMap?
+    	final HashMap<String, String> map = new HashMap<>();
     	final JSONParser jsonParser = new JSONParser();
 
     	final File settingsFile = new File(Save.SETTINGS_PATH);
