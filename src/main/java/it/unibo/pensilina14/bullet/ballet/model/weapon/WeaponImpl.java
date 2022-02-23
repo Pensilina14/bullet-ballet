@@ -22,6 +22,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
 	private final int limitBullets;
 	private final int limitChargers;
 	private final String name;
+	private final BulletFactory bulletFactory;
 	private boolean mode;
 	
 	///it keeps the index of ammo left in the current charger
@@ -44,6 +45,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
 		this.weaponType = weaponType;
 		this.mode = false;
 		this.indexCharger = 0;
+		this.bulletFactory = new BulletFactoryImpl();
 		this.initializeWeapon();
 	}	
 	
@@ -65,7 +67,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
 		final List<Bullet> charger = new ArrayList<>();
 		//((ArrayList<Bullet>) this.spareCharger).ensureCapacity(this.limitBullets);
 		for(int i = 0; i < this.limitBullets; i++) {
-			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
+			charger.add(bulletFactory.createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
 		}
 		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		//this.spareCharger.stream().map(i -> new BulletImpl(EntityList.BulletType.CLASSICAL));
@@ -166,7 +168,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
 	public void recharge() {
 		final List<Bullet> charger = new ArrayList<>(this.limitBullets);
 		for (int i = 0; i < this.limitBullets; i++) {
-			charger.add(new BulletFactoryImpl().createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
+			charger.add(bulletFactory.createClassicBullet(this.getGameEnvironment().get(), this.getSpeedVector().get()));
 		}
 		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		this.switchCharger().addAll(charger);

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -70,28 +71,28 @@ public class WeaponTest {
 					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
 		assertEquals(shothun.getAmmoLeft(), 5);
-		shothun.decreaseAmmo();										// 4
-		shothun.decreaseAmmo();										// 3
-		shothun.decreaseAmmo();										// 2
-		shothun.decreaseAmmo();										// 1
-		shothun.recharge(charger_1);									// 6?
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.recharge(charger_1);									
 		assertEquals(shothun.getAmmoLeft(), 6);
-		shothun.decreaseAmmo();										// 5
-		shothun.decreaseAmmo();										// 4
-		shothun.decreaseAmmo();										// 3		
-		shothun.decreaseAmmo();										// 2
-		shothun.decreaseAmmo();										// 1	
-		shothun.recharge(charger_2);									// 6?	
-		shothun.decreaseAmmo();										// 5
-		shothun.decreaseAmmo();										// 4
-		shothun.decreaseAmmo();										// 3
-		shothun.decreaseAmmo();										// 2
-		shothun.decreaseAmmo();										// 1
-		shothun.decreaseAmmo();										// 0
-		assertEquals(shothun.getTypeOfBulletInUse(), null);			// 
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();												
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();											
+		shothun.recharge(charger_2);										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		assertEquals(shothun.getTypeOfBulletInUse(), Optional.empty());			
 		shothun.recharge(charger_1);
 		assertEquals(shothun.getAmmoLeft(), 5);
-		assertEquals(shothun.getTypeOfBulletInUse(), EntityList.BulletType.CLASSICAL);
+		assertEquals(shothun.getTypeOfBulletInUse(), Optional.of(EntityList.BulletType.CLASSICAL));
 		
 	} 
 	
