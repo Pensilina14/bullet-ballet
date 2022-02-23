@@ -131,7 +131,7 @@ public class GameEnvironmentTest {
 	gameEnv.deleteObjByPosition(pos3);
 	final Optional<List<PickupItem>> itemsAfter = gameEnv.getEntityManager().getItems();
 	// #subtest4 -- weapons
-	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 100);
+	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 0);
 	final boolean addWeaponOutput = gameEnv.getEntityManager().addWeapon(weapon);
 	final Optional<List<Weapon>> weaponsBefore = gameEnv.getEntityManager().getWeapons();
 	AppLogger.getAppLogger().debug("Weapons: " + gameEnv.getEntityManager().getWeapons());
