@@ -90,7 +90,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 			this.generatePoison(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.AMMO.getValue()) {
 			this.generateAmmoItem(entityManagerBuilder, i, j);
-		}else if (symbol == LevelEntity.ENEMY.getValue()) {
+		} else if (symbol == LevelEntity.ENEMY.getValue()) {
 			this.generateEnemy(entityManagerBuilder, i, j);
 		}
 	}
