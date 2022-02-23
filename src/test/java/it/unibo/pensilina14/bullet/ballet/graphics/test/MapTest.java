@@ -14,7 +14,6 @@ public class MapTest {
 
     @Test
     public void mapTest(){
-        //TODO: map test
         final GameMap map = new BackgroundMap();
         map.setMap(Maps.CAVE);
 

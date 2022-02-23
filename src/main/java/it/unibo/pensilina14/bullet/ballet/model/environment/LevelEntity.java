@@ -55,7 +55,13 @@ public enum LevelEntity {
     /**
      * Represents an {@link Enemy}.
      */
-    ENEMY('!');
+    ENEMY('!'),
+    /**
+     * Figures a charger {@link Item}. For futher refernce look into {@link Items#CHARGER}.
+     */
+    AMMO('ç'),
+
+    FLAG('F');
 
     private final char value;
 

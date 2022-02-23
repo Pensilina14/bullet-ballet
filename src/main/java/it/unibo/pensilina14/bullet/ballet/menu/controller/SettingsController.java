@@ -17,7 +17,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
 
 public class SettingsController implements Initializable {
 
@@ -93,7 +92,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void submitSaveSettings(final MouseEvent event) {
-    	new AudioClip(Objects.requireNonNull(this.getClass().getResource("/menu_sound.mp4")).toExternalForm()).play();
+    	this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
 
         // L'audio non è vuoto, è di default come 0.0 quindi non penso servi controllarlo.
         // Questa parentesi serve così evito di scrivere tre volte il !.

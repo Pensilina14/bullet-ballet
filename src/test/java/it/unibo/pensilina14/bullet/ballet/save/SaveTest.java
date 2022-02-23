@@ -127,13 +127,12 @@ public class SaveTest {
     }
 
     @Test
-    public void oldLoadLevelTest(){
+    public void loadLevelForTestingTest(){
 
         final int currentLevel = 0;
 
         final String[] level = Save.loadLevelForTesting(currentLevel);
 
-        //assertTrue(level.length != 0); //TODO: remove
         assertNotSame(level.length, 0);
 
         final int maxLevels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
@@ -155,7 +154,6 @@ public class SaveTest {
         assertEquals(numberOfLevels, Save.getNumberOfLevels(".dat"));
 
         assertNotNull(s);
-        //assertTrue(s.length != 0); //assertNotEquals non c'è  //TODO: remove
         assertNotSame(s.length, 0);
     }
 

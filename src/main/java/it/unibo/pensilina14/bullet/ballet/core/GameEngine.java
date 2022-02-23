@@ -254,6 +254,8 @@ public class GameEngine implements Controller, GameEventListener {
 		} else if (item.getItemId().equals(Items.COIN)) {
 			this.soundsFactory.createSound(Sounds.COIN).play();
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
+		} else if (item.getItemId().equals(Items.CHARGER)) {
+			// TODO: add sound for ammo. 
 		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
@@ -273,14 +275,14 @@ public class GameEngine implements Controller, GameEventListener {
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
 		if (!weapon.isOn()) {
 			if (player.hasWeapon()) {
-				final Weapon actualWeapon = player.getWeapon();
-				if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
-					player.getWeapon().recharge();
+				final Weapon actualWeapon = player.getWeapon().get();
+				if (player.getWeapon().get().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
+					player.getWeapon().get().recharge();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX(),
 							weapon.getPosition().get().getY()));	
 					this.viewController.get().getGameView().deleteWeaponSpriteImage(weapon.getPosition().get());
 				} else {
-					player.getWeapon().setOff();
+					player.getWeapon().get().setOff();
 					player.removeWeapon();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX(),
 							actualWeapon.getPosition().get().getY()));
@@ -309,7 +311,6 @@ public class GameEngine implements Controller, GameEventListener {
 				enemy.getPosition().get().getY()));
 		this.viewController.get().getGameView().deleteEnemySpriteImage(enemy.getPosition().get());
 		this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.KILL_ENEMY.getBonus());
-		AppLogger.getAppLogger().collision("Bullet hits enemy");
 	}
 	
 	private void bulletHitsObstacleEventHandler(final Environment env, final GameEvent e) {
@@ -336,7 +337,7 @@ public class GameEngine implements Controller, GameEventListener {
 		this.viewController.get().stopPlayerAnimation();
 		this.viewController.get().getGameView().autoKill();
 		this.viewController.get().changeScene(Frames.HOMEPAGE);
-		this.soundsFactory.createSound(Sounds.FALL).play();
+		this.soundsFactory.createSound(Sounds.DIE).play();
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 	    final Date date = new Date();
 		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(), player.getCurrentScore().showScore(), formatter.format(date));

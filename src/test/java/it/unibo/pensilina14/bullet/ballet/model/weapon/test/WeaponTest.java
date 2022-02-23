@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -15,8 +16,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameEnvironment;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactory;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponImpl;
 
 public class WeaponTest {
 
@@ -25,91 +27,89 @@ public class WeaponTest {
 	private static final int BULLET_SPEED = 4;
 	private final Environment gameEnv = new GameEnvironment();
 	private final SpeedVector2D speedVector = new SpeedVector2DImpl(new MutablePosition2Dimpl(POSITION, POSITION), SPEED);
+	final WeaponFactory factory = new WeaponFactoryImpl();
 	
 	@Test
 	public void ammoLeftTest() {
-		final WeaponImpl weapon_second = new WeaponFactoryImpl().createGun(this.gameEnv, this.speedVector);
-		weapon_second.setOn();
-		assertEquals(weapon_second.getAmmoLeft(), 10);
-		for (int i=2; i < weapon_second.getLimitBullets(); i++) {
-			weapon_second.decreaseAmmo();
-			//System.out.println(weapon_second.getAmmoLeft());
+		final Weapon Gun = factory.createGun(this.gameEnv, this.speedVector);
+		Gun.setOn();
+		assertEquals(Gun.getAmmoLeft(), 10);
+		for (int i=2; i < Gun.getLimitBullets(); i++) {
+			Gun.decreaseAmmo();
+			//System.out.println(Gun.getAmmoLeft());
 		}
-		assertTrue(weapon_second.hasAmmo());
+		assertTrue(Gun.hasAmmo());
 	}
 	
 	@Test
 	public void rechargeWeaponTest() {
-		final WeaponImpl weapon_third = new WeaponFactoryImpl().createGun(this.gameEnv, this.speedVector);
-		weapon_third.setOn();
+		final Weapon simplyGun = factory.createGun(this.gameEnv, this.speedVector);
+		simplyGun.setOn();
 		final ArrayList<Bullet> charger = new ArrayList<>();
-		for(int i = 0; i < weapon_third.getLimitBullets(); i++) {
+		for(int i = 0; i < simplyGun.getLimitBullets(); i++) {
 			charger.add(new BulletFactoryImpl().createClassicBullet(this.gameEnv, new SpeedVector2DImpl
 					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
-		weapon_third.recharge(charger);
-		weapon_third.recharge(charger);
+		simplyGun.recharge(charger);
+		simplyGun.recharge(charger);
 
-		assertEquals(weapon_third.getAmmoLeft(), 30);
+		assertEquals(simplyGun.getAmmoLeft(), 30);
 	}
 	       
 	@Test
 	public void simulateGameAction() {
-		final WeaponImpl weapon_fourth = new  WeaponFactoryImpl().createShotGun(this.gameEnv, this.speedVector);
-		weapon_fourth.setOn();
+		final Weapon shothun = factory.createShotGun(this.gameEnv, this.speedVector);
+		shothun.setOn();
 		final ArrayList<Bullet> charger_1 = new ArrayList<>();
-		for(int i = 0; i < weapon_fourth.getLimitBullets(); i++) {
+		for(int i = 0; i < shothun.getLimitBullets(); i++) {
 			charger_1.add(new BulletFactoryImpl().createClassicBullet(this.gameEnv, new SpeedVector2DImpl
 					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
 		final ArrayList<Bullet> charger_2 = new ArrayList<>();
-		for(int i = 0; i < weapon_fourth.getLimitBullets(); i++) {
+		for(int i = 0; i < shothun.getLimitBullets(); i++) {
 			charger_2.add(new BulletFactoryImpl().createPoisonBullet(this.gameEnv, new SpeedVector2DImpl
 					(new MutablePosition2Dimpl(POSITION, POSITION), BULLET_SPEED)));
 		}
-		assertEquals(weapon_fourth.getAmmoLeft(), 5);
-		weapon_fourth.decreaseAmmo();										// 4
-		weapon_fourth.decreaseAmmo();										// 3
-		weapon_fourth.decreaseAmmo();										// 2
-		weapon_fourth.decreaseAmmo();										// 1
-		weapon_fourth.recharge(charger_1);									// 6?
-		assertEquals(weapon_fourth.getAmmoLeft(), 6);
-		weapon_fourth.decreaseAmmo();										// 5
-		weapon_fourth.decreaseAmmo();										// 4
-		weapon_fourth.decreaseAmmo();										// 3		
-		weapon_fourth.decreaseAmmo();										// 2
-		weapon_fourth.decreaseAmmo();										// 1	
-		weapon_fourth.recharge(charger_2);									// 6?	
-		weapon_fourth.decreaseAmmo();										// 5
-		weapon_fourth.decreaseAmmo();										// 4
-		weapon_fourth.decreaseAmmo();										// 3
-		weapon_fourth.decreaseAmmo();										// 2
-		weapon_fourth.decreaseAmmo();										// 1
-		weapon_fourth.decreaseAmmo();										// 0
-		assertEquals(weapon_fourth.getTypeOfBulletInUse(), null);			// 
-		weapon_fourth.recharge(charger_1);
-		assertEquals(weapon_fourth.getAmmoLeft(), 5);
-		assertEquals(weapon_fourth.getTypeOfBulletInUse(), EntityList.BulletType.CLASSICAL);
+		assertEquals(shothun.getAmmoLeft(), 5);
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.recharge(charger_1);									
+		assertEquals(shothun.getAmmoLeft(), 6);
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();												
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();											
+		shothun.recharge(charger_2);										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		shothun.decreaseAmmo();										
+		assertEquals(shothun.getTypeOfBulletInUse(), Optional.empty());			
+		shothun.recharge(charger_1);
+		assertEquals(shothun.getAmmoLeft(), 5);
+		assertEquals(shothun.getTypeOfBulletInUse(), Optional.of(EntityList.BulletType.CLASSICAL));
 		
 	} 
 	
 	@Test
 	public void rechargeTest() {
-		final WeaponImpl weapon_fourth = new  WeaponFactoryImpl().createShotGun(this.gameEnv, this.speedVector);
-		weapon_fourth.setOn();
-		for (int i = 1; i < weapon_fourth.getLimitBullets(); i++) {
-			weapon_fourth.decreaseAmmo();
+		final Weapon weapon = factory.createShotGun(gameEnv, speedVector);
+		weapon.setOn();
+		for (int i = 1; i < weapon.getLimitBullets(); i++) {
+			weapon.decreaseAmmo();
 		}
-		assertEquals(weapon_fourth.getAmmoLeft(), 1);
-		weapon_fourth.recharge();
-		weapon_fourth.decreaseAmmo();
-		weapon_fourth.decreaseAmmo();
-
-		//weapon_fourth.recharge();
-
-		assertEquals(weapon_fourth.getAmmoLeft(), 4);
-		assertEquals(weapon_fourth.getIndexCharger(), 1);
-
+		assertEquals(weapon.getAmmoLeft(), 1);
+		weapon.recharge();
+		assertEquals(weapon.getAmmoLeft(), 6);
+		assertEquals(weapon.getIndexCharger(), 0);
+		weapon.decreaseAmmo();
+		weapon.decreaseAmmo();
+		assertEquals(weapon.getAmmoLeft(), 4);
+		assertEquals(weapon.getIndexCharger(), 1);
 	}
-	
 }

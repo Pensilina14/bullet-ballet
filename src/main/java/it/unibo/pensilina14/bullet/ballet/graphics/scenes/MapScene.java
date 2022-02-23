@@ -202,6 +202,10 @@ public class MapScene extends AbstractScene implements GameView{
         	    itemSprite.renderPosition(position.getX(), position.getY());
         	    this.itemSprites.put(itemSprite, position);
         	    this.gamePane.getChildren().add(itemSprite);
+    		} else if (x.getItemId().equals(Items.CHARGER)) {
+    			final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
+    			this.itemSprites.put(itemSprite, position);
+    			this.gamePane.getChildren().add(itemSprite);
     		}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");
@@ -271,7 +275,6 @@ public class MapScene extends AbstractScene implements GameView{
 
         if (this.keysReleased.contains(KeyCode.SPACE)) {
         	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
-        	this.soundsFactory.createSound(Sounds.SHOT).play();
         	this.controller.get().notifyCommand(new Space(this));
         }
 

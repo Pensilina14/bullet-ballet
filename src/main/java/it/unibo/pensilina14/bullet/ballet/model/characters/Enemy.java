@@ -16,7 +16,7 @@ public class Enemy extends GameEntity implements Characters{
     private Optional<Double> mana;
     private String name;
 
-    private Weapon weapon;
+    private Optional<Weapon> weapon;
 
     private EntityList.Characters.Enemy enemyType;
 
@@ -115,13 +115,13 @@ public class Enemy extends GameEntity implements Characters{
     }
 
     @Override
-    public Weapon getWeapon() {
+    public Optional<Weapon> getWeapon() {
         return this.weapon;
     }
 
     @Override
     public void setWeapon(final Weapon weapon) {
-        this.weapon = weapon;
+        this.weapon = Optional.of(weapon);
     }
 
     @Override
