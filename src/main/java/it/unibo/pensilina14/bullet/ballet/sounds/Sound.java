@@ -17,10 +17,5 @@ public interface Sound {
 	 * @return AudioClip
 	 */
 	AudioClip getAudioClip();
-	/**
-	 * 
-	 * @return current audioClip volume
-	 */
-	double getCurrentVolume();
 	
 }

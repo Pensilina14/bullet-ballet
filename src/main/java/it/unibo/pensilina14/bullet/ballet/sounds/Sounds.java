@@ -10,9 +10,15 @@ public enum Sounds {
     JUMP("/jump2.mp4"),
     MENU_SOUND("/menu_sound.mp4"),
     SHOT("/shot2.mp4"),
-    SOUNDTRACK("/soundtrack.mp4"),
-    SOUNDTRACK_SALVEENE("/soundtrack_salveene.mp3"),
-    SOUNDTRACK_PAXX("/soundtrack_paxx.mp3");
+    SOUNDTRACK_PAXX("/soundtrack_paxx.mp3"),
+    SOUNDTRACK_ENNIO("/soundtrackennio.mp3"),
+    SOUNDTRACK_GAMEBOY("/soundtrackgameboy.mp3"),
+    SOUNDTRACK_GANGSTA("/soundtrackgangsta.mp3"),
+    SOUNDTRACK_MORTY("/soundtrackmorty.mp3"),
+    SOUNDTRACK_RIDER("/soundtrackrider.mp3"),
+    SOUNDTRACK_SPACE("/soundtrackspace.mp3"),
+    SOUNDTRACK_TOM("/takeonmesoundtrack.mp3"),
+    SOUNDTRACK_NINJA("/ninjasoundtrack.mp3");
 	
 	private final String string;
 
