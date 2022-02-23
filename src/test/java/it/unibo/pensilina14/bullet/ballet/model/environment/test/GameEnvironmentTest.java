@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
@@ -10,6 +11,7 @@ import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
@@ -44,10 +46,10 @@ public class GameEnvironmentTest {
   private static final double DELTA = 0.01;
   private static final double DEFAULT_MASS = 10.0;
   private static final double DEFAULT_SPEED = 15.0;
-  
+
   private final FactoryCharacters characterFactory = new FactoryCharactersImpl();
   private final ObstacleFactory obstacleFactory = new ObstacleFactoryImpl();
-  private final ItemFactory itemFactory = new ItemFactoryImpl();  
+  private final ItemFactory itemFactory = new ItemFactoryImpl();
   private final WeaponFactory weaponFactory = new WeaponFactoryImpl();
   private final BulletFactory bulletFactory = new BulletFactoryImpl();
 
@@ -132,14 +134,16 @@ public class GameEnvironmentTest {
 	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 100);
 	final boolean addWeaponOutput = gameEnv.getEntityManager().addWeapon(weapon);
 	final Optional<List<Weapon>> weaponsBefore = gameEnv.getEntityManager().getWeapons();
+	AppLogger.getAppLogger().debug("Weapons: " + gameEnv.getEntityManager().getWeapons());
 	gameEnv.deleteObjByPosition(pos4);
 	final Optional<List<Weapon>> weaponsAfter = gameEnv.getEntityManager().getWeapons();
+	AppLogger.getAppLogger().debug("Weapons: " + gameEnv.getEntityManager().getWeapons());
 	// #subtest5 -- bullets
-		final ImmutablePosition2D pos5 = new ImmutablePosition2Dimpl(101, 100);
-		final boolean addBulletOutput = gameEnv.getEntityManager().addBullet(bullet);
-		final Optional<List<Bullet>> bulletsBefore = gameEnv.getEntityManager().getBullets();
-		gameEnv.deleteObjByPosition(pos5);
-		final Optional<List<Bullet>> bulletsAfter = gameEnv.getEntityManager().getBullets();
+	final ImmutablePosition2D pos5 = new ImmutablePosition2Dimpl(101, 100);
+	final boolean addBulletOutput = gameEnv.getEntityManager().addBullet(bullet);
+	final Optional<List<Bullet>> bulletsBefore = gameEnv.getEntityManager().getBullets();
+	gameEnv.deleteObjByPosition(pos5);
+	final Optional<List<Bullet>> bulletsAfter = gameEnv.getEntityManager().getBullets();
 	/*
 	 * ASSERTIONS
 	 * #subtestassert1 -- player
@@ -148,18 +152,18 @@ public class GameEnvironmentTest {
 	// #subtestassert2 -- obstacles
 	assertTrue(addObstacleOutput);
 	assertEquals(obstaclesBefore, Optional.of(List.of(obstacle)));
-	assertTrue(obstaclesAfter.isPresent());
+	assertFalse(obstaclesAfter.isPresent());
 	// #subtestassert3 -- items
 	assertTrue(addItemOutput);
 	assertEquals(itemsBefore, Optional.of(List.of(item)));
-	assertTrue(itemsAfter.isPresent());
+	assertFalse(itemsAfter.isPresent());
 	// #subtestassert4 -- weapons
 	assertTrue(addWeaponOutput);
 	assertEquals(weaponsBefore, Optional.of(List.of(weapon)));
-	assertTrue(weaponsAfter.isPresent());
+	assertFalse(weaponsAfter.isPresent());
 	// #subtestassert5 -- bullets
 	assertTrue(addBulletOutput);
 	assertEquals(bulletsBefore, Optional.of(List.of(bullet)));
-	assertTrue(bulletsAfter.isPresent());
+	assertFalse(bulletsAfter.isPresent());
   }
 }

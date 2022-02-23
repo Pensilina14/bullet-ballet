@@ -100,9 +100,8 @@ public class GameEnvironment implements Environment {
 		final Optional<Player> player = this.entities.getPlayer();
 		player.get().updateState();
 		player.get().getCurrentScore().increase();
-		
+
 		this.entities.getItems().get().forEach(i -> i.updateState());
-		
 		this.entities.getWeapons().ifPresent(w -> this.entities.getWeapons().get().forEach(i -> {
 			if (!i.isOn()) {
 				i.updateState();
@@ -117,7 +116,7 @@ public class GameEnvironment implements Environment {
 		} 
 
 		this.entities.getPlatforms().get().stream().forEach(i -> i.updateState());
-		
+
 		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}

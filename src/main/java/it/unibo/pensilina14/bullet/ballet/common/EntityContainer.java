@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
@@ -229,6 +230,7 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 				while (iter.hasNext()) {
 					final GameEntity entity = iter.next();
 					if (entity.getPosition().get().equals(new MutablePosition2Dimpl(pos))) {
+						AppLogger.getAppLogger().debug("Entity current: " + entity);
 						iter.remove();
 						return true;
 					}
