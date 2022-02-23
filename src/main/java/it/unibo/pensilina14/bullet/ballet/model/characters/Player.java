@@ -133,8 +133,8 @@ public class Player extends GameEntity implements Characters{
     }
 
     @Override
-    public Weapon getWeapon() {
-        return this.weapon.get();
+    public Optional<Weapon> getWeapon() {
+        return this.weapon;
     }
 
     @Override

@@ -37,7 +37,7 @@ public interface Characters {
      * @return the Weapon that the character is using.
      */
 
-    Weapon getWeapon(); // returns a Weapon
+    Optional<Weapon> getWeapon(); // returns a Weapon
 
     /**
      * @param weapon: set the new character weapon.

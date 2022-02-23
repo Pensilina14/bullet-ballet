@@ -254,6 +254,8 @@ public class GameEngine implements Controller, GameEventListener {
 		} else if (item.getItemId().equals(Items.COIN)) {
 			this.soundsFactory.createSound(Sounds.COIN).play();
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
+		} else if (item.getItemId().equals(Items.CHARGER)) {
+			// TODO: add sound for ammo. 
 		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
@@ -273,14 +275,14 @@ public class GameEngine implements Controller, GameEventListener {
 		final Weapon weapon = ((PlayerHitsWeaponEvent) e).getWeapon();
 		if (!weapon.isOn()) {
 			if (player.hasWeapon()) {
-				final Weapon actualWeapon = player.getWeapon();
-				if (player.getWeapon().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
-					player.getWeapon().recharge();
+				final Weapon actualWeapon = player.getWeapon().get();
+				if (player.getWeapon().get().getTypeOfWeapon().equals(weapon.getTypeOfWeapon())) {
+					player.getWeapon().get().recharge();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(weapon.getPosition().get().getX(),
 							weapon.getPosition().get().getY()));	
 					this.viewController.get().getGameView().deleteWeaponSpriteImage(weapon.getPosition().get());
 				} else {
-					player.getWeapon().setOff();
+					player.getWeapon().get().setOff();
 					player.removeWeapon();
 					env.deleteObjByPosition(new ImmutablePosition2Dimpl(actualWeapon.getPosition().get().getX(),
 							actualWeapon.getPosition().get().getY()));
