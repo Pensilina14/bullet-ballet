@@ -55,7 +55,9 @@ public enum LevelEntity {
     /**
      * Represents an {@link Enemy}.
      */
-    ENEMY('!');
+    ENEMY('!'),
+
+    FLAG('F');
 
     private final char value;
 
