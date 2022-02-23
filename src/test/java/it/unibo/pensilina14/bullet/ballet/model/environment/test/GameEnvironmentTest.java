@@ -110,7 +110,7 @@ public class GameEnvironmentTest {
 			new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 0), DEFAULT_SPEED));
 	final Item item = this.itemFactory.createDamagingItem(gameEnv, 
 			new SpeedVector2DImpl(new MutablePosition2Dimpl(0, 100), DEFAULT_SPEED));
-	final Weapon weapon = this.weaponFactory.createAuto(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 0), DEFAULT_SPEED));
+	final Weapon weapon = this.weaponFactory.createAuto(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(100, 101), DEFAULT_SPEED));
 	final Bullet bullet = new BulletFactoryImpl().createClassicBullet(gameEnv, new SpeedVector2DImpl(new MutablePosition2Dimpl(101, 100), DEFAULT_SPEED));
 	/*
 	 * ELABORATION
@@ -131,7 +131,7 @@ public class GameEnvironmentTest {
 	gameEnv.deleteObjByPosition(pos3);
 	final Optional<List<PickupItem>> itemsAfter = gameEnv.getEntityManager().getItems();
 	// #subtest4 -- weapons
-	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 0);
+	final ImmutablePosition2D pos4 = new ImmutablePosition2Dimpl(100, 101);
 	final boolean addWeaponOutput = gameEnv.getEntityManager().addWeapon(weapon);
 	final Optional<List<Weapon>> weaponsBefore = gameEnv.getEntityManager().getWeapons();
 	AppLogger.getAppLogger().debug("Weapons: " + gameEnv.getEntityManager().getWeapons());
