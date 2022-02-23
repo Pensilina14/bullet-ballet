@@ -1,9 +1,11 @@
 package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
+import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList.BulletType;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
 public interface Weapon extends PhysicalObject {
@@ -51,7 +53,7 @@ public interface Weapon extends PhysicalObject {
 	/*
 	 * @return type of bullet in use
 	 */
-	EntityList.BulletType getTypeOfBulletInUse();
+	Optional<BulletType> getTypeOfBulletInUse();
 
 	/*
 	 * @return type of weapon.
@@ -67,6 +69,8 @@ public interface Weapon extends PhysicalObject {
 	void setPosition(MutablePosition2D newPos);
 
 	void recharge();
+
+	int getIndexCharger();
 	
 
 	

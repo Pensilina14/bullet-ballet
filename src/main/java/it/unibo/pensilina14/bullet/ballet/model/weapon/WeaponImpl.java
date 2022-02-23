@@ -2,12 +2,12 @@ package it.unibo.pensilina14.bullet.ballet.model.weapon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
-import it.unibo.pensilina14.bullet.ballet.model.effects.Effect;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
@@ -92,19 +92,20 @@ public class WeaponImpl extends GameEntity implements Weapon {
 		return this.limitBullets*this.limitChargers;
 	}
 	
-	public EntityList.BulletType getTypeOfBulletInUse(){
+	@Override
+	public Optional<EntityList.BulletType> getTypeOfBulletInUse(){
 		if(!this.hasAmmo()) {
 			this.switchCharger();
 			if(!this.hasAmmo()) {
 				System.out.println("ERROR: finished bullets");
-				return null;
+				return Optional.empty();
 			}
 		}
 		/// Index of current ammo in the list charger(start from 0 to limitBullets)
 		int indexAmmo = this.currentAmmo;
 		indexAmmo--;
 		
-		return this.bandolier.get(this.indexCharger).get(indexAmmo).getBulletType();
+		return Optional.of(this.bandolier.get(this.indexCharger).get(indexAmmo).getBulletType());
 	}
 	@Override
 	public int getLimitBullets() {
@@ -126,7 +127,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
 				//System.out.println(this.bandolier);
 				this.currentAmmo--;
 			}
-			this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
+			//this.bandolier.get(this.indexCharger).get(this.currentAmmo).fire();
 			this.bandolier.get(this.indexCharger).remove(this.currentAmmo);
 		}
 	}
@@ -169,12 +170,11 @@ public class WeaponImpl extends GameEntity implements Weapon {
 		}
 		charger.stream().forEach(x -> x.setDamage(this.damageFactor));
 		this.switchCharger().addAll(charger);
-		final boolean b = !this.hasAmmo(this.bandolier.get(indexCharger--));
-		if (b) {
-			this.indexCharger--;
+		if(this.indexCharger == 0) {
+			this.indexCharger=this.limitChargers;
 		}
-		this.currentAmmo = this.bandolier.get(this.indexCharger).size()-1;
-		
+		this.indexCharger--;
+		this.currentAmmo = this.bandolier.get(this.indexCharger).size();
 	}
 
     
@@ -215,6 +215,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
     	this.getPosition().get().setPosition(newPos.getX(), newPos.getY());
     }
     
+    @Override
     public int getIndexCharger() {
     	return this.indexCharger;
     }
