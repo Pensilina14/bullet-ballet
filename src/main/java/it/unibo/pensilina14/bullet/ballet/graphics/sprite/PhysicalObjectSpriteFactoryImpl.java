@@ -79,4 +79,9 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
 	public final PhysicalObjectSprite generateAutogunWeaponSprite(final PhysicalObject autogun) throws IOException {
 		return new PhysicalObjectSprite(Images.AUTO, autogun.getPosition().get(), autogun);
 	}
+	
+	@Override
+	public final PhysicalObjectSprite generateAmmoSprite(final PhysicalObject ammo) throws IOException {
+		return new PhysicalObjectSprite(Images.AMMO, ammo.getPosition().get(), ammo);
+	}
 }

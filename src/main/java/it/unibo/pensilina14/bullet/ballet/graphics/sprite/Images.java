@@ -42,7 +42,11 @@ public enum Images {
 	/**
 	 * 
 	 */
-	AUTO("Autogun", "res/assets/sprites/weapons/auto.png");
+	AUTO("Autogun", "res/assets/sprites/weapons/auto.png"),
+	/**
+	 * 
+	 */
+	AMMO("Ammo", "res/assets/sprites/items/ammoBox.png");
 
     private final String fileName;
     private final String objectName;
