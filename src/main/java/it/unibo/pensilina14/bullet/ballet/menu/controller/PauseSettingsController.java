@@ -38,20 +38,17 @@ public class PauseSettingsController implements Initializable {
     public void initialize(final URL url, final ResourceBundle resourceBundle) { // Questo serve semplicemente per caricare le impostazioni
 
         final Map<String,String> settingsMap = Save.loadSettings();
-
+        this.audio.setShowTickLabels(true);
+    	this.audio.setMax(1.0);
+        
         if(!settingsMap.isEmpty()){
             final String res = "[ " + settingsMap.get(Save.RESOLUTION_WIDTH_STRING) + " ], [ " + settingsMap.get(Save.RESOLUTION_HEIGHT_STRING) + " ]";
             this.resolution.getSelectionModel().select(res);
             this.audio.setValue(Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)));
-            //this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
-
             this.language.getSelectionModel().select(Languages.getLanguagesMap().get(settingsMap.get(Save.LANGUAGE_STRING)));
         } else {
             this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
             this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
-            //this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
-
-            // Per l'audio non serve mettere un default perchè sta già a 0.0
         }
 
     }

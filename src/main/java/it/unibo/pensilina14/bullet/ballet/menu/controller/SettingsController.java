@@ -36,9 +36,9 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) { // Questo serve semplicemente per caricare le impostazioni
-
+    	this.audio.setShowTickLabels(true);
+    	this.audio.setMax(1.0);
         final Map<String,String> settingsMap = Save.loadSettings();
-
         if(!settingsMap.isEmpty()){
             final String res = "[ " + settingsMap.get(Save.RESOLUTION_WIDTH_STRING) + " ], [ " + settingsMap.get(Save.RESOLUTION_HEIGHT_STRING) + " ]";
             this.resolution.getSelectionModel().select(res);
@@ -49,7 +49,6 @@ public class SettingsController implements Initializable {
             this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
             this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
             this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
-            // Per l'audio non serve mettere un default perchè sta già a 0.0
         }
     }
     
