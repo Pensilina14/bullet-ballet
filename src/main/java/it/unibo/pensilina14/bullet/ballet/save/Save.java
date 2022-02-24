@@ -117,8 +117,6 @@ public final class Save {
 
                 final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
 
-                //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
-
                 for (final Object o : jsonArray) {
 
                 	final JSONObject player = (JSONObject) o;
@@ -212,8 +210,8 @@ public final class Save {
         	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
             SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
-            //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
-            //levelFile.delete(); //TODO: uncomment quando avremo finito di testare i livelli.
+            File levelFile = new File(levelToEncrypt);
+            levelFile.delete();
         }
     }
 
@@ -233,7 +231,7 @@ public final class Save {
         	
         	line = bufferedReader.readLine();
 
-            while(!Objects.isNull(line) && !line.isEmpty()){
+            while(Objects.nonNull(line) && !line.isEmpty()){
                 levelList.add(line);
 				line = bufferedReader.readLine();
             }

@@ -211,4 +211,26 @@ public class SaveTest {
         assertEquals(settingsMap, loadedSettings);
     }
 
+    @Test
+    public void encryptLevelsTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
+            NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+
+        final int maxLevels = 4;
+
+        final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
+        final int datLevels = Save.getNumberOfLevels(Extensions.DAT);
+
+        // Se non ci sono livelli in formato .txt allora facciamo un controllo, altrimenti li encriptiamo in files .dat e rimuoviamo i .txt.
+        // Se non ci sono .txt non c'è bisogno che encripti i livelli.
+        if(txtLevels == 0){
+            assertEquals(0, txtLevels);
+            assertEquals(maxLevels, datLevels);
+        } else {
+            Save.encryptLevels();
+            final int txtAfterEncryption = Save.getNumberOfLevels(Extensions.TXT);
+            assertEquals(0, txtAfterEncryption);
+            assertEquals(maxLevels, datLevels);
+        }
+    }
+
 }
