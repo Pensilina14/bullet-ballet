@@ -92,6 +92,8 @@ public class EnvironmentGenerator implements LevelGenerator {
 			this.generateAmmoItem(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.ENEMY.getValue()) {
 			this.generateEnemy(entityManagerBuilder, i, j);
+		} else if (symbol == LevelEntity.FLAG.getValue()) {
+			this.generateFlagItem(entityManagerBuilder, i, j);
 		}
 	}
 
@@ -122,6 +124,11 @@ public class EnvironmentGenerator implements LevelGenerator {
 	
 	private void generateAmmoItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
 		entityManagerBuilder.addItem(this.itemFactory.createChargerItem(
+				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
+	}
+
+	private void generateFlagItem(final EntityManagerBuilder entityManagerBuilder, final int i, final int j){
+		entityManagerBuilder.addItem(this.itemFactory.createFlagItem(
 				this.env.get(), new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 
