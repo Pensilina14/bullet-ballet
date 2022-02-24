@@ -37,7 +37,7 @@ public class LevelLoader {
     }
 
     private int getRandomLevel(){
-        final int maxLevels = Save.getNumberOfLevels(Extensions.TXT); // mettete qui Extensions.TXT se dovete testare i livelli con i .txt
+        final int maxLevels = Save.getNumberOfLevels(Extensions.DAT); // mettete qui Extensions.TXT se dovete testare i livelli con i .txt
         return LevelLoader.RAND.nextInt(maxLevels);
     }
 
