@@ -10,6 +10,7 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PlayerSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
@@ -61,7 +62,7 @@ public class MapScene extends AbstractScene implements GameView {
     private final Pane uiPane = new StackPane(); 
     private ImageView backgroundView;
     private final GameMap map = new BackgroundMap();
-    private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
+    private MutablePair<Optional<PlayerSprite>, MutablePosition2D> mainPlayer;
     private Optional<MutablePair<Optional<PhysicalObjectSprite>, MutablePosition2D>> mainWeapon;
 
     private final GameState gameState;
@@ -207,7 +208,7 @@ public class MapScene extends AbstractScene implements GameView {
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
     			this.itemSprites.put(itemSprite, position);
     			this.gamePane.getChildren().add(itemSprite);
-    		} else if(x.getItemId().equals(Items.FLAG)) {
+    		} else if (x.getItemId().equals(Items.FLAG)) {
 				final PhysicalObjectSprite itemSprite = spriteFactory.generateFlagSprite(x);
 				this.itemSprites.put(itemSprite, position);
 				this.gamePane.getChildren().add(itemSprite);
@@ -239,8 +240,8 @@ public class MapScene extends AbstractScene implements GameView {
 	private void initializePlayer(final Environment world) throws IOException {
 		if (world.getEntityManager().getPlayer().isPresent()) {
     		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
-    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
-    				playerPos.getY())));
+    		this.mainPlayer.setLeft(Optional.of(new PlayerSprite(Images.PLAYER, 
+    				playerPos, world.getEntityManager().getPlayer().get())));
     		this.mainPlayer.setRight(playerPos);
         	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
        		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));

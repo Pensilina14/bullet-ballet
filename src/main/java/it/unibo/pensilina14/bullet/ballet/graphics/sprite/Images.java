@@ -6,6 +6,10 @@ public enum Images {
 	/**
 	 * 
 	 */
+	PLAYER("player", "res/assets/sprites/characters/player/player_sprite.png"),
+	/**
+	 * 
+	 */
     BULLET("normal-bullet", "res/assets/sprites/bullets/Bullet.png"),
     /**
      * 
