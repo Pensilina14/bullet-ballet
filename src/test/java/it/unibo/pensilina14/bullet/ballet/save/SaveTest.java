@@ -142,22 +142,6 @@ public class SaveTest {
     }
 
     @Test
-    public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        final int numberOfLevels = 3;
-
-        if(Save.getNumberOfLevels(".txt") > 0){
-            //Save.encryptLevels(); //TODO: uncomment when we finished to test the levels.
-        }
-
-        final String[] s = Save.loadLevel(0);
-
-        assertEquals(numberOfLevels, Save.getNumberOfLevels(".dat"));
-
-        assertNotNull(s);
-        assertNotSame(s.length, 0);
-    }
-
-    @Test
     public void saveAndLoadSettingsTest(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
@@ -212,10 +196,10 @@ public class SaveTest {
     }
 
     @Test
-    public void encryptLevelsTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
+    public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
             NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
 
-        final int maxLevels = 4;
+        final int numberOfLevels = 4;
 
         final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
         final int datLevels = Save.getNumberOfLevels(Extensions.DAT);
@@ -224,12 +208,12 @@ public class SaveTest {
         // Se non ci sono .txt non c'è bisogno che encripti i livelli.
         if(txtLevels == 0){
             assertEquals(0, txtLevels);
-            assertEquals(maxLevels, datLevels);
+            assertEquals(numberOfLevels, datLevels);
         } else {
             Save.encryptLevels();
             final int txtAfterEncryption = Save.getNumberOfLevels(Extensions.TXT);
             assertEquals(0, txtAfterEncryption);
-            assertEquals(maxLevels, datLevels);
+            assertEquals(numberOfLevels, datLevels);
         }
     }
 

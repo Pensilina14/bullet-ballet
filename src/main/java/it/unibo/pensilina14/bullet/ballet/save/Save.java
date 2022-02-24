@@ -260,12 +260,21 @@ public final class Save {
      * @throws IOException: fail or interrupted I/O operations.
      * @throws InvalidKeyException: invalid key.
      */
-    public static String[] loadLevel(final int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-    	final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-    	final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
-    	final String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
+    public static String[] loadLevel(final int levelNumber) {
+        String clearLevel;
+        try {
+            final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
+            final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
+            clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
 
-        return clearLevel.split("[\\r\\n]+");
+            return clearLevel.split("[\\r\\n]+");
+
+        }catch(InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
+                InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+        return new String[0];
     }
 
     /**
