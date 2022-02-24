@@ -10,6 +10,7 @@ public enum Sounds {
     JUMP("/sonicjump.mp3"),
     RELOAD("/reload.mp3"),
     MENU_SOUND("/menu_sound.mp3"),
+    WIN("/win.mp3"),
     SHOT("/gunshot.mp3"),
     SOUNDTRACK_PAXX("/soundtrack_paxx.mp3"),
     SOUNDTRACK_ENNIO("/soundtrackennio.mp3"),

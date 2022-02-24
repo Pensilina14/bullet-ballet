@@ -1,24 +1,9 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
 import java.io.IOException;
-import java.util.Optional;
-
-import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharacters;
-import it.unibo.pensilina14.bullet.ballet.model.characters.FactoryCharactersImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
-import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
-import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactory;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactory;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.ItemFactoryImpl;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactory;
-import it.unibo.pensilina14.bullet.ballet.model.weapon.WeaponFactoryImpl;
 
 public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFactory {
-
-    private static final double SPEED = 1.5;
 
     @Override
     public final PhysicalObjectSprite generatePlatformSprite(final Images.Platforms platformTheme, final PhysicalObject platform) throws IOException {
@@ -84,4 +69,9 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
 	public final PhysicalObjectSprite generateAmmoSprite(final PhysicalObject ammo) throws IOException {
 		return new PhysicalObjectSprite(Images.AMMO, ammo.getPosition().get(), ammo);
 	}
+
+    @Override
+    public PhysicalObjectSprite generateFlagSprite(final PhysicalObject flag) throws IOException {
+        return new PhysicalObjectSprite(Images.FLAG, flag.getPosition().get(), flag);
+    }
 }

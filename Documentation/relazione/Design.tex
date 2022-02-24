@@ -387,7 +387,7 @@ L'ultima componente del progetto che ho gestito riguarda i suoni, per fare ciò 
 \textsf{\small \emph{MainEnemy} è una semplice ImageView statica mentre \emph{MainPlayer} è una ImageView dinamica, ovvero con un'animazione.}
 \textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc..) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
 
-\textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{Map} che tiene traccia di questi elementi della View.}\\
+\textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{BackgroundMap} che tiene traccia di questi elementi della View.}\\
 
 \begin{figure}[H]
 	\centering{} 
@@ -414,18 +414,50 @@ L'ultima componente del progetto che ho gestito riguarda i suoni, per fare ciò 
 
 \subsubsection*{Salvataggio}
 
-\textsf{\small Per quanto riguarda l'operazione di salvataggio delle statistiche di gioco, mi sono avvalso della classe \emph{Save} che crea un file di salvataggio in cui vengono contenuti il nome dei giocatori e i loro relativi punteggi.}\\
+\textsf{\small Per quanto riguarda l'operazione di salvataggio delle statistiche di gioco, mi sono avvalso della classe \emph{Save} che crea un file di salvataggio in cui vengono contenuti il nome dei giocatori e i loro relativi punteggi e data in cui la partita è stata effettuata.} \\
 
-\textsf{\small Per fare questo, usufruisco di un \emph{BufferedWriter} per creare il file qualora questo non esista già. Altrimenti, mi limito ad aggiungere i dati in coda al file per evitare di eliminare ciò che era stato precedentemente memorizzato.}\\
+\textsf{\small Nel \emph{GameOverEvent} quando il player muore e quindi il gioco finisce, viene chiamato il metodo \emph{saveGameStatistics()} e gli si passa il nome, il punteggio e la data attraverso un \emph{SimpleDateFormat}.}
 
-%TODO: spostare questo nello Sviluppo.
-\textsf{\small Poi mi avvalgo di un \emph{BufferedReader} per leggere dal file e memorizzare i dati e restituire un \emph{HashMap<String, Integer>} con il nome del player e il suo relativo punteggio.}\\
+\textsf{\small Per fare questo, usufruisco di un \emph{jsonArray} e se nel file erano già presenti dei dati, li decripto e li appendo e li riencripto altrimenti aggiungo i dati e li encripto.} \\
+
+\textsf{\small Per poter caricare questi dati dal file, lo decripto, faccio il parsing della stringa in chiaro attraverso un \emph{jsonParser} e ottenendo gli \emph{jsonArray} e da questo formo e restituisco una \emph{Mappa<String, MutablePair<String,String>>}.}
 
 \textsf{\small Inoltre, ho un metodo per modificare i dati che erano stati precedentemente salvati per evitare di dover sovrascrivere il file ogni volta.}\\
 
-\textsf{\small E un metodo per caricare i livelli che erano stati precedentemente immagazzinati in dei files .txt così da poter generare la mappa di gioco.}\\
+\textsf{\small Per quanto riguarda il salvataggio e il caricamento delle impostazioni di gioco ho usato il medesimo meccanismo, ma usando dei \emph{jsonObject} perchè ogni dato può essere considerato in maniera separata.}
 
-\textsf{\small Infine, ho un metodo per resettare il file (con le statistiche) e cancellare tutti i dati che erano stati immagazzinati.}\\
+\textsf{\small Inoltre, le impostazioni vengono poi automaticamente recuperate e caricate nel menu delle Impostazioni all'avvio del gioco attraverso la classe \emph{SettingsController} e in cui, una volta premuto Salva vengono salvate su file e mostra a schermata un \emph{Alert} con successo se l'operazione è andata a buon fine altrimenti un \emph{Alert} di errore.} \\
+
+\textsf{\small Per quanto riguarda i livelli non vengono memorizzati come .json, perché non ho voluto salvarli tutti nello stesso file, ma in file separati e quindi ho optato per lasciarli in .txt ed come sempre criptarli. }
+
+\textsf{\small Ogni file di ogni livello è composto da righe (matrici) di caratteri, ciascun carattere rappresenta un'entità di gioco, queste sono segnate nell'enum \emph{LevelEntity}.} \\
+
+\textsf{\small Ci son due tipi metodi per caricare i files, uno per caricare il livello in .txt, questo può essere utile per testare i livelli e poterli modificare, cosa non possibile con i files criptati ed uno che decripta e carica i files .dat.} 
+
+\begin{itemize}
+	\item \textsf{\small Per quanto riguarda i .txt usufruisco di un \emph{BufferReader} per leggere riga per riga del file e restituirle.} 
+	\item \textsf{\small Mentre per i files .dat decripto il livello, ottengo una stringa in chiaro e attraverso un'espressione \emph{regex} separo riga per riga e dopodichè le restituisco.}  \\
+\end{itemize}
+
+\textsf{\small Ho poi un metodo per encriptare i files se sono presenti dei files in .txt} \\
+
+\textsf{\small Infine, ho un metodo per resettare il file in base alla path passata come parametro e cancellare tutti i dati che erano stati immagazzinati.}\\
+
+\subsection{Criptare e Decriptare i dati del salvataggio}
+
+\textsf{\small La classe \emph{SecureData} si occupa di criptare e decriptare dati e files.} \\
+
+\textsf{\small Qui, usufruisco di un \emph{SecureRandom} per generare un numero pseudo-casuale per creare un IV, (initialization vector) che serve per aggiungere casualità al processo di criptazione, e la salatura che serve per aggiungere dei bytes aggiuntivi alla password prima che passi per l'algoritmo di hashing. } \\
+
+\textsf{\small Poi genero la password attraverso una \emph{SecretKey} fornendo l'algoritmo, la password, la salatura, il contatore delle iterazioni e lo spazio della chiave e lo standard di criptazione, in questo caso AES (\emph{Advanced Encryption System}).} \\
+
+\textsf{\small Per la criptazione di dati, passiamo al metodo il messaggio e la password che vogliamo usare, poi otteniamo l'iv e la salatura e la chiave dopodichè settiamo la modalità del cifrario su \textbf{ENCRYPT} e gli passiamo la chiave e un \emph{GCMParameterSpec} che specifica un insieme di parametri necessari al cifrario usando la modalità \textbf{Galois/Counter Mode} e dopodiché criptiamo il nostro messaggio e lo restituiamo.} \\
+
+\textsf{\small Per la decriptazione, recuperiamo dal messaggio criptato, la salatura e l'iv e ciò che rimane del messaggio, otteniamo la chiave attraverso la password che deve essere la stessa usata per la criptazione, dopodichè col cifrario in modalità \textbf{DECRYPT} decriptiamo il messaggio e lo restituiamo.} \\
+
+\textsf{\small Per criptare direttamente il file leggiamo tutti i bytes di esso e li criptiamo utilizzando il metodo \emph{encrypt} dopodichè li scriviamo sul file.} 
+
+\textsf{\small Per decriptare direttamente il file leggiamo tutti i bytes e chiamiamo il metodo \emph{decrypt} e restituiamo il messaggio.} \\
 
 \begin{figure}[H]
 	\centering{}
@@ -433,3 +465,9 @@ L'ultima componente del progetto che ho gestito riguarda i suoni, per fare ciò 
 	\caption{Schema UML del \emph{Model} relativo al \emph{Salvataggio} del gioco.}
 	\label{img:save_uml}
 \end{figure}
+
+\subsection{Lingue del gioco}
+
+\textsf{\small Per quanto concerne la traduzione del gioco ho adoperato \textbf{JavaFX Internazionalization} che permette di lavorare sulle stringhe dei files fxml e di cambiarle in base alla lingua selezionata nel menu di impostazioni.} \\
+
+\textsf{\small Le traduzioni delle varie lingue si trovano in dei files bundles \textbf{.properties}. In \emph{SettingsController} possiamo caricare e settare la lingua dal file con l'enum \emph{Languages}, poi quando viene caricata una nuova pagina del menù viene recuperato dal file delle impostazioni la lingua e così utilizza il file \textbf{.properties} corrispondente.} \\

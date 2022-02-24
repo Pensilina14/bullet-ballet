@@ -233,8 +233,8 @@ public final class Save {
         	
         	line = bufferedReader.readLine();
 
-            while(line != null && line.length() != 0){
-                levelList.add(String.valueOf(line));
+            while(!Objects.isNull(line) && !line.isEmpty()){
+                levelList.add(line);
 				line = bufferedReader.readLine();
             }
 

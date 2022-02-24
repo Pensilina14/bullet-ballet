@@ -45,5 +45,11 @@ public class ItemFactoryImpl implements ItemFactory{
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
 				, Items.CHARGER, effectFact.createRechargeEffect());
 	}
-	
+
+	@Override
+	public Item createFlagItem(final Environment environment, final SpeedVector2D speedVector) {
+		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM),
+				Items.FLAG, effectFact.createDamageEffect(9999.0));
+	}
+
 }
