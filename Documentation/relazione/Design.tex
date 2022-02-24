@@ -451,9 +451,9 @@ L'ultima componente del progetto che ho gestito riguarda i suoni, per fare ciò 
 
 \textsf{\small Poi genero la password attraverso una \emph{SecretKey} fornendo l'algoritmo, la password, la salatura, il contatore delle iterazioni e lo spazio della chiave e lo standard di criptazione, in questo caso AES (\emph{Advanced Encryption System}).} \\
 
-\textsf{\small Per la criptazione di dati, passiamo al metodo il messaggio e la password che vogliamo usare, poi otteniamo l'iv e la salatura e la chiave dopodichè attraverso un cifrario criptiamo il nostro messaggio e lo restituiamo.} \\
+\textsf{\small Per la criptazione di dati, passiamo al metodo il messaggio e la password che vogliamo usare, poi otteniamo l'iv e la salatura e la chiave dopodichè settiamo la modalità del cifrario su \textbf{ENCRYPT} e gli passiamo la chiave e un \emph{GCMParameterSpec} che specifica un insieme di parametri necessari al cifrario usando la modalità \textbf{Galois/Counter Mode} e dopodiché criptiamo il nostro messaggio e lo restituiamo.} \\
 
-\textsf{\small Per la decriptazione, recuperiamo dal messaggio criptato, la salatura e l'iv e ciò che rimane del messaggio, otteniamo la chiave attraverso la password che deve essere la stessa usata per la criptazione, dopodichè col cifrario in modalità \emph{DECRYPT} decriptiamo il messaggio e lo restituiamo.} \\
+\textsf{\small Per la decriptazione, recuperiamo dal messaggio criptato, la salatura e l'iv e ciò che rimane del messaggio, otteniamo la chiave attraverso la password che deve essere la stessa usata per la criptazione, dopodichè col cifrario in modalità \textbf{DECRYPT} decriptiamo il messaggio e lo restituiamo.} \\
 
 \textsf{\small Per criptare direttamente il file leggiamo tutti i bytes di esso e li criptiamo utilizzando il metodo \emph{encrypt} dopodichè li scriviamo sul file.} 
 
