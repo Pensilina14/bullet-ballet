@@ -6,7 +6,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
