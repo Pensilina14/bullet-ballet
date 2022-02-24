@@ -370,9 +370,8 @@ public class MapScene extends AbstractScene implements GameView {
 			} else if (this.checkChildrenById(i, HudLabels.SCORE)) {
 				label.setText("Score: " + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
 			} else if(this.checkChildrenById(i, HudLabels.AMMO)){
-				if(env.getEntityManager().getPlayer().get().getWeapon().isPresent()){
-					label.setText("Ammo: " + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft() + "/"
-							+ env.getEntityManager().getPlayer().get().getWeapon().get().getTotalAmmo());
+				if(env.getEntityManager().getPlayer().get().hasWeapon()){
+					label.setText("Ammo: " + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft());
 				}
 			}
 		});

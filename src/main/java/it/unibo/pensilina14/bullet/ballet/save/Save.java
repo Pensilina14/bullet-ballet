@@ -229,7 +229,7 @@ public final class Save {
         String line;
 
         try{
-        	final BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension())); //TODO: cambiare .txt in .dat
+        	final BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension()));
         	
         	line = bufferedReader.readLine();
 
@@ -275,7 +275,7 @@ public final class Save {
      * @param levelNumber: the level that we want to delete.
      * It will delete all the data about the specified level.
      */
-    public static void resetLevelFile(final int levelNumber) { //TODO: forse non serve.
+    public static void resetLevelFile(final int levelNumber) {
         try {
         	final FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
             fileWriter.close();
