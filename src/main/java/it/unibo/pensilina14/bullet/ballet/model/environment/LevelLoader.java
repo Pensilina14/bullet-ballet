@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class LevelLoader {
 
-    private String[] level;
+    private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
     
@@ -31,12 +31,7 @@ public class LevelLoader {
 
     public LevelLoader() {
         // Ho fatto il try/catch soltanto perché se no boh ci portavamo dietro la throw in diverse classi, ma se non è un problema uso la throw.
-        try {
-            this.level = Save.loadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
-        }catch(InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
-                InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e){
-            e.printStackTrace();
-        }
+        this.level = Save.loadLevel(getRandomLevel()); // decommentate questa se dovete testare i livelli con i .txt
         this.levelWidth = this.level[0].length();
         this.levelHeight = this.level.length;
     }
