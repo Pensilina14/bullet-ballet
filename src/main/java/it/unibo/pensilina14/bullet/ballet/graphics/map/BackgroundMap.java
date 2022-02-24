@@ -26,87 +26,68 @@ public class BackgroundMap implements GameMap {
         switch (this.map) {
             case CAVE:
                 this.platformType = Images.Platforms.CAVE_PLATFORM;
-                this.coinType = Images.Coins.GREY_COIN;
                 break;
             case CAVE2:
                 this.platformType = Images.Platforms.CAVE_PLATFORM2;
-                this.coinType = Images.Coins.GREY_COIN;
                 break;
             case CAVE3:
                 this.platformType = Images.Platforms.CAVE_PLATFORM3;
-                this.coinType = Images.Coins.GREY_COIN;
                 break;
             case HALLOWEEN:
                 this.platformType = Images.Platforms.HALLOWEEN_PLATFORM;
-                this.coinType = Images.Coins.YELLOW_COIN;
                 break;
             case LAVA:
                 this.platformType = Images.Platforms.LAVA_PLATFORM;
-                this.coinType = Images.Coins.RED_COIN;
                 break;
             case JUNGLE:
             case JUNGLE2:
                 this.platformType = Images.Platforms.JUNGLE_PLATFORM;
-                this.coinType = Images.Coins.EMERALD_COIN;
                 break;
             case FOREST:
             case FOREST2:
             case COUNTRYSIDE:
                 this.platformType = Images.Platforms.FOREST_PLATFORM;
-                this.coinType = Images.Coins.SILVER_COIN;
                 break;
             case FUTURISTIC:
                 this.platformType = Images.Platforms.FUTURISTIC_PLATFORM;
-                this.coinType = Images.Coins.LIGHT_BLUE_COIN;
                 break;
             case SCIFI:
                 this.platformType = Images.Platforms.SCIFI_PLATFORM;
-                this.coinType = Images.Coins.LIGHT_BLUE_COIN;
                 break;
             case PLANET:
             case PLANET2:
                 this.platformType = Images.Platforms.SCIFI_PLATFORM3;
-                this.coinType = Images.Coins.GOLD_COIN;
                 break;
             case SPACE:
                 this.platformType = Images.Platforms.SPACE_PLATFORM;
-                this.coinType = Images.Coins.SILVER_COIN;
                 break;
             case SPACESHIP:
                 this.platformType = Images.Platforms.SCIFI_PLATFORM2;
-                this.coinType = Images.Coins.SILVER_COIN;
                 break;
             case ICE:
             case ICE2:
                 this.platformType = Images.Platforms.ICE_PLATFORM;
-                this.coinType = Images.Coins.GOLD_COIN;
                 break;
             case SWAMP:
             case SWAMP2:
                 this.platformType = Images.Platforms.SWAMP_PLATFORM;
-                this.coinType = Images.Coins.EMERALD_COIN;
                 break;
             case DESERT2:
                 this.platformType = Images.Platforms.DESERT_PLATFORM2;
-                this.coinType = Images.Coins.RUBY_COIN;
                 break;
             case DESERT3:
                 this.platformType = Images.Platforms.DESERT_PLATFORM3;
-                this.coinType = Images.Coins.RUBY_COIN;
                 break;
             case DESERT4:
                 this.platformType = Images.Platforms.DESERT_PLATFORM4;
-                this.coinType = Images.Coins.RUBY_COIN;
                 break;
             case CITY:
             case CITY2:
                 this.platformType = Images.Platforms.CRATE_PLATFORM;
-                this.coinType = Images.Coins.LIGHT_BLUE_COIN;
                 break;
             case DESERT:
             default:
                 this.platformType = Images.Platforms.DESERT_PLATFORM;
-                this.coinType = Images.Coins.YELLOW_COIN;
                 break;
         }
     }

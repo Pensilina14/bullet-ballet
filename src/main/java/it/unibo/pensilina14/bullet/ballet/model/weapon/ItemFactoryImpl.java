@@ -49,7 +49,7 @@ public class ItemFactoryImpl implements ItemFactory{
 	@Override
 	public Item createFlagItem(Environment environment, SpeedVector2D speedVector) {
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM),
-				Items.FLAG, effectFact.createDamageEffect(100.0));
+				Items.FLAG, effectFact.createDamageEffect(9999.0));
 	}
 
 }
