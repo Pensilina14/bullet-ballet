@@ -126,8 +126,12 @@ public class MapScene extends AbstractScene implements GameView{
         final Hud healthInfo = new Hud(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER,
         		this.uiPane, new Insets(20, 0, 0, 20));
 		final Hud scoreInfo = new Hud(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT,
-				this.uiPane, new Insets(20, 0, 0, 50));	
-		this.hudList = List.of(healthInfo, scoreInfo);
+				this.uiPane, new Insets(20, 0, 0, 50));
+		final Hud coinInfo = new Hud(HudLabels.COINS, Pos.TOP_RIGHT, ContentDisplay.RIGHT,
+				this.uiPane, new Insets(20, 150, 0, 0));
+		final Hud ammoInfo = new Hud(HudLabels.AMMO, Pos.TOP_CENTER, ContentDisplay.LEFT,
+				this.uiPane, new Insets(20, 0, 0, 650));
+		this.hudList = List.of(healthInfo, scoreInfo, coinInfo, ammoInfo);
     }
 
     private void initialize() throws IOException {
@@ -367,6 +371,14 @@ public class MapScene extends AbstractScene implements GameView{
 				label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
 			} else if (this.checkChildrenById(i, HudLabels.SCORE)) {
 				label.setText("Score: " + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
+			} else if(this.checkChildrenById(i, HudLabels.COINS)){
+				//label.setText("Coins: "); //+ env.getEntityManager().getItems().get());
+				//TODO: coins
+			} else if(this.checkChildrenById(i, HudLabels.AMMO)){
+				if(env.getEntityManager().getPlayer().get().getWeapon().isPresent()){
+					label.setText("Ammo: " + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft() + "/"
+							+ env.getEntityManager().getPlayer().get().getWeapon().get().getTotalAmmo());
+				}
 			}
 		});
     }
