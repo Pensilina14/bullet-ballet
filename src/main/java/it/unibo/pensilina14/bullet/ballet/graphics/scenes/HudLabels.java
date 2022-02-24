@@ -4,6 +4,7 @@ public enum HudLabels {
 
 	HEALTH("Health"),
     SCORE("Score"),
+    COINS("Coins"),
     AMMO("Ammo"),
     GAME_OVER("Game Over");
 
