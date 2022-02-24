@@ -6,7 +6,6 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
@@ -55,7 +54,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
-public class MapScene extends AbstractScene implements GameView{
+public class MapScene extends AbstractScene implements GameView {
 
     private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
