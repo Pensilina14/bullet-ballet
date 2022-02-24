@@ -2,7 +2,6 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
 
 import java.util.Optional;
 
-import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.EntityContainer;
 import it.unibo.pensilina14.bullet.ballet.common.EntityManagerBuilder;
 

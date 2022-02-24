@@ -179,7 +179,12 @@ public class GameEngine implements Controller, GameEventListener {
 		AppLogger.getAppLogger().debug(this.eventQueue.toString());
 		this.eventQueue.stream().forEach(e -> {
 			if (e instanceof PlayerHitsItemEvent) {
-				playerHitsPickUpObjEventHandler(env, e);
+				try {
+					playerHitsPickUpObjEventHandler(env, e);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else if (e instanceof PlayerHitsEnemyEvent) {
 				playerHitsEnemyEventHandler(e);
 			} else if (e instanceof PlayerHitsObstacleEvent) {
@@ -245,7 +250,7 @@ public class GameEngine implements Controller, GameEventListener {
 		}
 	}
 
-	private void playerHitsPickUpObjEventHandler(final Environment env, final GameEvent e) {
+	private void playerHitsPickUpObjEventHandler(final Environment env, final GameEvent e) throws IOException {
 		AppLogger.getAppLogger().collision("player picked up an obj.");
 		final Player player = ((PlayerHitsItemEvent) e).getPlayer();
 		final Item item = ((PlayerHitsItemEvent) e).getItem();
@@ -255,8 +260,19 @@ public class GameEngine implements Controller, GameEventListener {
 			this.soundsFactory.createSound(Sounds.COIN).play();
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
 		} else if (item.getItemId().equals(Items.CHARGER)) {
-			// TODO: add sound for ammo. 
-		} else {
+			this.soundsFactory.createSound(Sounds.RELOAD);
+		} else if(item.getItemId().equals(Items.FLAG)) {
+			this.viewController.get().stopPlayerAnimation();
+			this.viewController.get().getGameView().autoKill();
+			this.viewController.get().changeScene(Frames.HOMEPAGE);
+			this.soundsFactory.createSound(Sounds.WIN).play();
+			final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+		    final Date date = new Date();
+			Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName()
+					, player.getCurrentScore().showScore(), formatter.format(date));
+			this.stop();
+		}
+		else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
 		// Apply item effect on character
@@ -340,7 +356,8 @@ public class GameEngine implements Controller, GameEventListener {
 		this.soundsFactory.createSound(Sounds.DIE).play();
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 	    final Date date = new Date();
-		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(), player.getCurrentScore().showScore(), formatter.format(date));
+		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName()
+				, player.getCurrentScore().showScore(), formatter.format(date));
 		this.stop();
 	}
 	
