@@ -4,6 +4,7 @@ public enum HudLabels {
 
 	HEALTH("Health"),
     SCORE("Score"),
+    AMMO("Ammo"),
     GAME_OVER("Game Over");
 
     private final String label;
