@@ -172,9 +172,12 @@ public class GameEnvironment implements Environment {
 				"playerenemy", new CollisionEventChecker(this.entities.getEnemies().get(), List.of(this.entities.getPlayer().get())), 
 				"playerobstacle", new CollisionEventChecker(this.entities.getObstacles().get(), List.of(this.entities.getPlayer().get())), 
 				"playerplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), List.of(this.entities.getPlayer().get())), 
-				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get()),
-				"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
+				"enemyplatform", new CollisionEventChecker(this.entities.getPlatforms().get(), this.entities.getEnemies().get())
+				//"playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get()))
 				));
+		if (this.entities.getWeapons().isPresent()) {
+			eventCheckers.put("playerweapon", new CollisionEventChecker(this.entities.getWeapons().get(), List.of(this.entities.getPlayer().get())));
+		}
 		if (this.entities.getBullets().isPresent()) {
 			eventCheckers.put("bulletEnemy", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getEnemies().get()));
 			eventCheckers.put("bulletPlatform", new CollisionEventChecker(this.entities.getBullets().get(), this.entities.getPlatforms().get()));
