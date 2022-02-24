@@ -60,7 +60,9 @@ public enum LevelEntity {
      * Figures a charger {@link Item}. For futher refernce look into {@link Items#CHARGER}.
      */
     AMMO('ç'),
-
+    /**
+     * Figures a flag {@link Item}. For further reference look into {@link Items#FLAG}.
+     */
     FLAG('F');
 
     private final char value;

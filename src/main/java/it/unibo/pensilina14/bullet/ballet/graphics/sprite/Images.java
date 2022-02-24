@@ -6,6 +6,10 @@ public enum Images {
 	/**
 	 * 
 	 */
+	PLAYER("player", "res/assets/sprites/characters/player/player_sprite.png"),
+	/**
+	 * 
+	 */
     BULLET("normal-bullet", "res/assets/sprites/bullets/Bullet.png"),
     /**
      * 
@@ -46,7 +50,11 @@ public enum Images {
 	/**
 	 * 
 	 */
-	AMMO("Ammo", "res/assets/sprites/items/ammoBox.png");
+	AMMO("Ammo", "res/assets/sprites/items/ammoBox.png"),
+    /**
+     *
+     */
+    FLAG("Flag", "res/assets/sprites/items/flag_resized2.png");
 
     private final String fileName;
     private final String objectName;

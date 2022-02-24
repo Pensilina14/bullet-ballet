@@ -1,6 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
-public enum Extensions { //TODO: forse non necessario questo enum?
+public enum Extensions {
 
     TXT(".txt"),
     DAT(".dat"),

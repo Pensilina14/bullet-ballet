@@ -6,11 +6,10 @@ import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainEnemy;
-import it.unibo.pensilina14.bullet.ballet.graphics.sprite.MainPlayer;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PlayerSprite;
 import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
@@ -55,14 +54,14 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
-public class MapScene extends AbstractScene implements GameView{
+public class MapScene extends AbstractScene implements GameView {
 
     private final Pane appPane = new StackPane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new StackPane(); 
     private ImageView backgroundView;
     private final GameMap map = new BackgroundMap();
-    private MutablePair<Optional<MainPlayer>, MutablePosition2D> mainPlayer;
+    private MutablePair<Optional<PlayerSprite>, MutablePosition2D> mainPlayer;
     private Optional<MutablePair<Optional<PhysicalObjectSprite>, MutablePosition2D>> mainWeapon;
 
     private final GameState gameState;
@@ -126,8 +125,10 @@ public class MapScene extends AbstractScene implements GameView{
         final Hud healthInfo = new Hud(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER,
         		this.uiPane, new Insets(20, 0, 0, 20));
 		final Hud scoreInfo = new Hud(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT,
-				this.uiPane, new Insets(20, 0, 0, 50));	
-		this.hudList = List.of(healthInfo, scoreInfo);
+				this.uiPane, new Insets(20, 0, 0, 50));
+		final Hud ammoInfo = new Hud(HudLabels.AMMO, Pos.TOP_RIGHT, ContentDisplay.LEFT,
+				this.uiPane, new Insets(20, 150, 0, 0));
+		this.hudList = List.of(healthInfo, scoreInfo, ammoInfo);
     }
 
     private void initialize() throws IOException {
@@ -206,7 +207,11 @@ public class MapScene extends AbstractScene implements GameView{
     			final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
     			this.itemSprites.put(itemSprite, position);
     			this.gamePane.getChildren().add(itemSprite);
-    		}
+    		} else if (x.getItemId().equals(Items.FLAG)) {
+				final PhysicalObjectSprite itemSprite = spriteFactory.generateFlagSprite(x);
+				this.itemSprites.put(itemSprite, position);
+				this.gamePane.getChildren().add(itemSprite);
+			}
     	}
     	AppLogger.getAppLogger().debug("Items rendered.");
 	}
@@ -234,8 +239,8 @@ public class MapScene extends AbstractScene implements GameView{
 	private void initializePlayer(final Environment world) throws IOException {
 		if (world.getEntityManager().getPlayer().isPresent()) {
     		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
-    		this.mainPlayer.setLeft(Optional.of(new MainPlayer(playerPos.getX(), 
-    				playerPos.getY())));
+    		this.mainPlayer.setLeft(Optional.of(new PlayerSprite(Images.PLAYER, 
+    				playerPos, world.getEntityManager().getPlayer().get())));
     		this.mainPlayer.setRight(playerPos);
         	this.gamePane.getChildren().add(this.mainPlayer.getLeft().get());
        		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
@@ -363,6 +368,10 @@ public class MapScene extends AbstractScene implements GameView{
 				label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
 			} else if (this.checkChildrenById(i, HudLabels.SCORE)) {
 				label.setText("Score: " + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
+			} else if(this.checkChildrenById(i, HudLabels.AMMO)){
+				if(env.getEntityManager().getPlayer().get().hasWeapon()){
+					label.setText("Ammo: " + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft());
+				}
 			}
 		});
     }

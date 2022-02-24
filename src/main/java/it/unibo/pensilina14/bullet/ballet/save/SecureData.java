@@ -100,8 +100,6 @@ public final class SecureData {
 
         final byte[] encryptMessage = cipher.doFinal(message);
 
-        //TODO: Base64.getEncoder().encodeToString(encryptMessage);
-
         //TODO: ivSpec.getIv().length
         return ByteBuffer.allocate(iv.length + salt.length + encryptMessage.length).put(iv).put(salt).put(encryptMessage).array();
     }
@@ -160,8 +158,6 @@ public final class SecureData {
 
         final byte[] message = Files.readAllBytes(Paths.get(inputFilePath));
 
-        //System.out.println("message[]: " + Arrays.toString(message)); //TODO: remove
-
         final byte[] encryptedMessage = SecureData.encrypt(message, password);
 
         final Path filePath = Paths.get(outputFilePath);
@@ -186,8 +182,6 @@ public final class SecureData {
     public static byte[] decryptFile(final String encryptedFilePath, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
 
         final byte[] encryptedMessage = Files.readAllBytes(Paths.get(encryptedFilePath));
-
-        //System.out.println("encryptedMessage[]: " + Arrays.toString(encryptedMessage)); //TODO: remove
 
         return SecureData.decrypt(encryptedMessage, password);
     }

@@ -190,7 +190,7 @@ public class Enemy extends GameEntity implements Characters{
         return rand.nextDouble() * Enemy.MAX_RANGE;
     }
 
-    //TODO: forse passare l'index dell'enemy come parametro non serve.
+    // forse passare l'index dell'enemy come parametro non serve.
     public boolean isPlayerInRange(final int enemyIndex){
         final double xPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
         final double yPlayer = this.getGameEnvironment().get().getEntityManager().getPlayer().get().getPosition().get().getX();
@@ -198,9 +198,7 @@ public class Enemy extends GameEntity implements Characters{
         final double xEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getX();
         final double yEnemy = this.getGameEnvironment().get().getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getY();
 
-        final double distance = Math.sqrt((xPlayer - xEnemy) + (yPlayer - yEnemy)); //TODO: la radice quadrata si può anche togliere, è lenta e non serve.
-
-        //TODO: LERP
+        final double distance = Math.sqrt((xPlayer - xEnemy) + (yPlayer - yEnemy));
 
         return distance <= this.enemyRange;
     }
