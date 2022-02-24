@@ -18,4 +18,5 @@ public interface PhysicalObjectSpriteFactory {
     PhysicalObjectSprite generateShotgunWeaponSprite(PhysicalObject shotgun) throws IOException;
     PhysicalObjectSprite generateAutogunWeaponSprite(PhysicalObject autogun) throws IOException;
 	PhysicalObjectSprite generateAmmoSprite(PhysicalObject ammo) throws IOException;
+    PhysicalObjectSprite generateFlagSprite(PhysicalObject flag) throws  IOException;
 }

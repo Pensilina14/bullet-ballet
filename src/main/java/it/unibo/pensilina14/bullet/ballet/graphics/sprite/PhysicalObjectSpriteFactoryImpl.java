@@ -84,4 +84,9 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
 	public final PhysicalObjectSprite generateAmmoSprite(final PhysicalObject ammo) throws IOException {
 		return new PhysicalObjectSprite(Images.AMMO, ammo.getPosition().get(), ammo);
 	}
+
+    @Override
+    public PhysicalObjectSprite generateFlagSprite(PhysicalObject flag) throws IOException {
+        return new PhysicalObjectSprite(Images.FLAG, flag.getPosition().get(), flag);
+    }
 }
