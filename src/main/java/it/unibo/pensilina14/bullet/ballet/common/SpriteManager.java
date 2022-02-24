@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PlayerSprite;
 
 public interface SpriteManager {
     Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> getPlayerSprite();

@@ -27,7 +27,7 @@ import java.util.Optional;
 public class GameEnvironment implements Environment {
 
     /**
-     * GameEnvironment height and width value for testing.
+     * GameEnvironment height and width default value.
      */
     public static final double DEFAULT_DIM = 20.0;
 
