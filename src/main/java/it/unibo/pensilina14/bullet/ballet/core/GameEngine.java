@@ -269,7 +269,7 @@ public class GameEngine implements Controller, GameEventListener {
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 		    final Date date = new Date();
 			Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName()
-					, player.getCurrentScore().showScore(), formatter.format(date));
+					, player.getCurrentScore().showScore() + player.getCurrentScore().showScore() * 0.15, formatter.format(date));
 			this.stop();
 		}
 		else {
