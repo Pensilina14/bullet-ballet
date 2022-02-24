@@ -45,5 +45,12 @@ public class ItemFactoryImpl implements ItemFactory{
 		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM)
 				, Items.CHARGER, effectFact.createRechargeEffect());
 	}
-	
+
+	@Override
+	public Item createFlagItem(Environment environment, SpeedVector2D speedVector) {
+		return new PickupItem(speedVector, environment, MASS, new Dimension2Dimpl(DAMAGING_ITEM_DIM, DAMAGING_ITEM_DIM),
+				Items.FLAG, effectFact.createHealEffect(0));
+		//TODO: forse potrei crea un effetto per chiamare il gameOver oppure quello lo metto nelle collisioni.
+	}
+
 }
