@@ -261,7 +261,7 @@ public final class Save {
      * @throws InvalidKeyException: invalid key.
      */
     public static String[] loadLevel(final int levelNumber) {
-        String clearLevel;
+        final String clearLevel;
         try {
             final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
             final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
