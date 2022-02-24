@@ -255,7 +255,7 @@ public class GameEngine implements Controller, GameEventListener {
 			this.soundsFactory.createSound(Sounds.COIN).play();
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
 		} else if (item.getItemId().equals(Items.CHARGER)) {
-			// TODO: add sound for ammo. 
+			this.soundsFactory.createSound(Sounds.RELOAD);
 		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
