@@ -60,7 +60,6 @@ public abstract class AbstractScene extends Scene {
 		this.root.setMaxWidth(width);
 	}
 
-    //TODO: questo è un doppione che sta in PageLoaderImpl, ma verrà fixato.
     public final int getScreenWidth(){
         return !Save.loadSettings().isEmpty() ? Integer.parseInt(Save.loadSettings().get(Save.RESOLUTION_WIDTH_STRING)) : Resolutions.getDefaultResolution().getWidth();
     }

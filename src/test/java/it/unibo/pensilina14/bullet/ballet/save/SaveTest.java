@@ -25,7 +25,7 @@ public class SaveTest {
     @Test
     public void saveAndLoadStatisticsTest(){
 
-        // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
+        // Before the test I delete all the previously stored data in the save file.
         Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Paolo";
@@ -82,13 +82,13 @@ public class SaveTest {
         final double newPlayerScore = 18.0;
         final String newPlayerDate = "16/02/2022 17:00";
 
-        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI
+        // CHECK THAT DATA HAS BEEN UPDATED
 
         final boolean hasUpdated = Save.updateGameStatistics(playerName2, playerScore2, newPlayerName, newPlayerScore, date2, newPlayerDate);
 
         assertTrue(hasUpdated);
 
-        // CONTROLLO CHE I DATI SIANO STATI AGGIORNATI ANCHE NEL FILE
+        // CHECK THAT DATA HAS BEEN UPDATED IN THE FILE AS WELL
 
         final Map<String, MutablePair<String, String>> statisticsMap = Save.loadGameStatistics();
 
@@ -96,7 +96,7 @@ public class SaveTest {
         final ArrayList<String> playersScoreList = new ArrayList<>(Arrays.asList(String.valueOf(playerScore), String.valueOf(newPlayerScore), String.valueOf(playerScore3)));
         final ArrayList<String> playerDateList = new ArrayList<>(Arrays.asList(date, date2, date3, newPlayerDate));
 
-        // CONTROLLO CHE CI SIANO TUTTI I DATI AGGIORNATI
+        // CHECK THAT ALL THE UPDATED DATA IS PRESENT
 
         assertTrue(statisticsMap.keySet().containsAll(playersNameList));
 
@@ -105,7 +105,7 @@ public class SaveTest {
             assertTrue(playerDateList.contains(v.getRight()));
         }
 
-        // CONTROLLO CHE I DATI CHE SON STATI RIMPIAZZATI NON SIANO PRESENTI
+        // CHECK THAT THE DATA THAT HAS BEEN REPLACED ARE NOT PRESENT
 
         assertFalse(statisticsMap.containsKey(playerName2));
         assertFalse(statisticsMap.containsValue(new MutablePair<>(String.valueOf(playerScore2), date2)));
@@ -135,7 +135,7 @@ public class SaveTest {
 
         assertNotSame(level.length, 0);
 
-        final int maxLevels = 4; // Se aggiungete dei livelli, dovete aggiornare questa variabile
+        final int maxLevels = 4;
         final int numberOfLevels = Save.getNumberOfLevels(".txt");
 
         assertEquals(maxLevels, numberOfLevels);
@@ -144,7 +144,7 @@ public class SaveTest {
     @Test
     public void saveAndLoadSettingsTest(){
 
-        // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
+        // Before the test I delete all the previously stored data in the save file.
         Save.resetFile(Save.SETTINGS_PATH);
 
         final int resWidth = 1920;
@@ -170,7 +170,7 @@ public class SaveTest {
         assertFalse(loadedSettings.isEmpty());
         assertEquals(settingsMap, loadedSettings);
 
-        // AGGIORNAMENTO DEI DATI
+        // UPDATE THE DATA
         final int resWidth2 = 1280;
         final int resHeight2 = 720;
         final String difficulty2 = "easy";
@@ -204,8 +204,9 @@ public class SaveTest {
         final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
         final int datLevels = Save.getNumberOfLevels(Extensions.DAT);
 
-        // Se non ci sono livelli in formato .txt allora facciamo un controllo, altrimenti li encriptiamo in files .dat e rimuoviamo i .txt.
-        // Se non ci sono .txt non c'è bisogno che encripti i livelli.
+        // If there are no levels in the .txt extension then we check it, otherwise we encrypt the files in the .dat extension and we remove the .txt
+        // If there are no .txt then there is no need to encrypt the levels.
+        // We need all 4 .txt to execute the encryptLevels() method.
         if(txtLevels == 0){
             assertEquals(0, txtLevels);
             assertEquals(numberOfLevels, datLevels);

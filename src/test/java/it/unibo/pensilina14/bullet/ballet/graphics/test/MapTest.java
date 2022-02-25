@@ -63,9 +63,4 @@ public class MapTest {
 
         assertTrue(coinTypeChecker);
     }
-
-    @Test
-    public void mapSceneTest(){
-        //TODO: mapScene test
-    }
 }

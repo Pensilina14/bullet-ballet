@@ -54,7 +54,7 @@ public final class Save {
         final File file = new File(Save.SAVE_PATH);
 
         try{
-            if(file.length() == 0){ // FILE VUOTO
+            if(file.length() == 0){
                 jsonArray = new JSONArray();
                 final LinkedHashMap<String, String> map = new LinkedHashMap<>();
                 map.put(Save.PLAYER_STRING, playerName);
@@ -64,7 +64,7 @@ public final class Save {
 
                 final byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                // Usiamo FileOutputStream al posto di FileWriter perchè questo ci permette di scrivere bytes, mentre FileWriter prende stringhe.
+                // We use FileOutputStream instead of FileWriter because this allows us to write in bytes, while FileWriter takes strings.
                 final FileOutputStream stream = new FileOutputStream(file);
                 stream.write(encryptedMessage);
 
@@ -108,10 +108,10 @@ public final class Save {
 
     	final File statsFile = new File(Save.SAVE_PATH);
 
-        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
+        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
         try {
             if(statsFile.length() != 0){
-            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD); // mettere save_path se voglio direttamente salvare i dati criptati
+            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
 
             	final String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
 
@@ -155,7 +155,7 @@ public final class Save {
 
         final File file = new File(Save.SAVE_PATH);
 
-        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
+        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
         try {
             if(file.length() != 0){
                 final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
@@ -322,7 +322,7 @@ public final class Save {
 
         final File file = new File(Save.SETTINGS_PATH);
 
-        // Metto l'if nel try per tenere in considerazione la possibilità che il file non esista, anche se non dovrebbe essere un problema
+        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
         try {
             if(file.length() == 0){
                 jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
