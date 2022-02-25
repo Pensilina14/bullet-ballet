@@ -59,6 +59,8 @@ At the end of the match, the player's name and score will be saved and will be s
  - Ammo
  - End Game Flag
 
+<hr/>
+
 ## In-Game Settings
 
 Through the In-Game Menu you will be able to modify certain settings like:
