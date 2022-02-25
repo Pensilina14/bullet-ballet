@@ -463,7 +463,7 @@ public class MapScene extends AbstractScene implements GameView {
 
 	@Override
 	public final void deleteObstacleSpriteImage(final MutablePosition2D position) {
-		this.getGamePane().getChildren().remove(this.sprites.deleteSprite(position).get());
+		this.deleteFromScene(position);
 	}
 	
 }
