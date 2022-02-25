@@ -19,8 +19,9 @@ The player is allowed to pickup items that will help him/her to go through the l
 At the end of the match, the player's name and score will be saved and will be showed in the in-game stats panel.
 
 <!-- TODO: add an image of the game -->
-<!-- TODO: uncomment when we have the image: ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true) -->
+![alt](https://github.com/Pensilina14/bullet-ballet/Documentation/screens/bullet_ballet_screen0.png?raw=true)
 
+![Screenshot](bullet_ballet_screen1.png)
 <hr/>
 
 ## Installation
@@ -66,3 +67,6 @@ Through the In-Game Menu you will be able to modify certain settings like:
 
 <hr/>
 
+![Screenshot](Documentation/screens/bullet_ballet_screen2.png)
+
+![Screenshot](Documentation/screens/bullet_ballet_screen3.png)
