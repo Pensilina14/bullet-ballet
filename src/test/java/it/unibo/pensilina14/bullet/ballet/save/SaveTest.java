@@ -127,21 +127,6 @@ public class SaveTest {
     }
 
     @Test
-    public void loadLevelForTestingTest(){
-
-        final int currentLevel = 0;
-
-        final String[] level = Save.loadLevelForTesting(currentLevel);
-
-        assertNotSame(level.length, 0);
-
-        final int maxLevels = 4;
-        final int numberOfLevels = Save.getNumberOfLevels(".txt");
-
-        assertEquals(maxLevels, numberOfLevels);
-    }
-
-    @Test
     public void saveAndLoadSettingsTest(){
 
         // Before the test I delete all the previously stored data in the save file.
