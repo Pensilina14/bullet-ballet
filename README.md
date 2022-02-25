@@ -19,19 +19,9 @@ The player is allowed to pickup items that will help him/her to go through the l
 At the end of the match, the player's name and score will be saved and will be showed in the in-game stats panel.
 
 <!-- TODO: add an image of the game -->
-![alt](https://github.com/Pensilina14/bullet-ballet/Documentation/screens/bullet_ballet_screen0.png?raw=true)
+![Screenshot](Documentation/screens/bullet_ballet_screen0.png)
 
-![Screenshot](bullet_ballet_screen1.png)
-<hr/>
-
-## Installation
-
-<!-- TODO: uncomment: execute binaries if we will have them. -->
-
-<hr/>
-
-## Configuration Options
-
+![Screenshot](Documentation/screens/bullet_ballet_screen1.png)
 <hr/>
 
 ## Requirements
@@ -44,6 +34,30 @@ At the end of the match, the player's name and score will be saved and will be s
 ## Usage
 
 - In the terminal type `./gradlew run` to run the game.
+
+<hr/>
+
+## In-Game Commands
+
+- arrows : jump, right and left
+- space : shoot
+
+<hr/>
+
+## In-Game Entities
+- Player
+- Enemies
+- Coins
+- Weapons:
+  - Autogun
+  - Shotgun
+  - Gun
+- Jumping Obstacle
+- Items:
+  - Poisonous Potions 
+  - Hearts
+  - Ammo
+  - End Game Flag
 
 <hr/>
 
