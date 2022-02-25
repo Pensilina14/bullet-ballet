@@ -325,7 +325,9 @@ public class MapScene extends AbstractScene implements GameView {
     			});
     		} else {
     			final MutablePosition2D pos = this.sprites.getPlayerSprite().get().get(0).getRight();
-    			this.mainWeapon.get().getLeft().renderPosition(pos.getX(), pos.getY());
+    			if (this.mainWeapon.isPresent()) {
+    				this.mainWeapon.get().getLeft().renderPosition(pos.getX(), pos.getY());
+    			}
     		}
     	}
 
@@ -418,7 +420,7 @@ public class MapScene extends AbstractScene implements GameView {
 	@Override
 	public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
 		this.deleteFromScene(position);
-		this.mainWeapon = Optional.empty();
+		this.mainWeapon = Optional.empty();   
 	}
 	
 	private void deleteFromScene(final MutablePosition2D position) {
