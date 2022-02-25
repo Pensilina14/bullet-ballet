@@ -48,6 +48,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 		this.weaponFactory = new WeaponFactoryImpl();
 	}
 	
+	@Override
 	public final void setEnvironment(final Environment environment) {
 		this.env = Optional.of(environment);
 	}

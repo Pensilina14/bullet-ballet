@@ -28,12 +28,13 @@ public interface ViewController {
 	GameView getGameView();
 	
 	/**
-	 * Un po' di documentazione che se no pare spoglio 
+	 * Stops the player animation. 
 	 */
 	void stopPlayerAnimation();
 	
 	/**
-	 * Un po' di documentazione che se no pare spoglio 
+	 * Changes scene from current to another frame.
+	 * @param frame where you wanna go. 
 	 */
 	void changeScene(Frames frame) throws IOException;
 	

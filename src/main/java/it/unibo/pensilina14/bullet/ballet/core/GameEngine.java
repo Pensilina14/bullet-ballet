@@ -60,7 +60,7 @@ import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
  * This class could be considered the core of the game itself.
  *
  */
-public class GameEngine implements InputController, GameEventListener {
+public class GameEngine implements InputController, GameEventListener, Engine {
     /**
      * Constant used to define command queue capacity.
      */
@@ -104,6 +104,7 @@ public class GameEngine implements InputController, GameEventListener {
 		this.soundtrack = this.soundsFactory.createRandomSoundtrack();
 	}
 	
+	@Override
 	public final void setup() {
 		if (this.viewController.isEmpty()) {
 			this.viewController = Optional.of(new ViewControllerImpl(
@@ -127,6 +128,7 @@ public class GameEngine implements InputController, GameEventListener {
 		}
 	}
 	
+	@Override
 	public final void mainLoop() {
 		while (!this.modelController.get().isGameOver()) {
 			this.processInput();
@@ -139,6 +141,7 @@ public class GameEngine implements InputController, GameEventListener {
 		// GAME OVER
 	}
 	
+	@Override
 	public final void processInput() {
 		final Command cmd = this.cmdQueue.poll();
 		if (cmd != null) {
@@ -146,6 +149,7 @@ public class GameEngine implements InputController, GameEventListener {
 		}
 	}
 	
+	@Override
 	public final void updateGame() {
 		if (this.modelController.get().getGameState().get().isGameOver()) {
 			this.timer.get().stop();
@@ -158,6 +162,7 @@ public class GameEngine implements InputController, GameEventListener {
 	}
 	
 
+	@Override
 	public final void render() {
 		this.viewController.get().render();
 	}
@@ -172,7 +177,7 @@ public class GameEngine implements InputController, GameEventListener {
 		this.eventQueue.add(e);
 	}
 	
-	private void checkEvents(){
+	private void checkEvents() {
 		final Environment env = this.modelController.get().getGameEnvironment();
 		AppLogger.getAppLogger().debug(this.eventQueue.toString());
 		this.eventQueue.stream().forEach(e -> {
@@ -201,7 +206,6 @@ public class GameEngine implements InputController, GameEventListener {
 				try {
 					gameOverEventHandler(e);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e instanceof BulletHitsObstacleEvent) {
@@ -359,11 +363,13 @@ public class GameEngine implements InputController, GameEventListener {
 		this.stop();
 	}
 	
+	@Override
 	public final void start() {
 		this.soundtrack.play();
 		this.timer.get().start();
 	}
 	
+	@Override
 	public final void stop() {
 		this.soundtrack.stop();
 		this.timer.get().stop();

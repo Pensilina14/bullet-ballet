@@ -2,6 +2,7 @@ package it.unibo.pensilina14.bullet.ballet;
 
 import java.util.Optional;
 
+import it.unibo.pensilina14.bullet.ballet.core.Engine;
 import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ModelControllerImpl;
@@ -17,7 +18,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 public class Game {
     private final ModelController model;
     private final ViewController view;
-    private final GameEngine engine;
+    private final Engine engine;
     private final GameInfo settings; 
     
     public enum Scenes {

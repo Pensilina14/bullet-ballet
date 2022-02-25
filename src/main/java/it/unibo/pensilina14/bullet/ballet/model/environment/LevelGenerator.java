@@ -6,9 +6,9 @@ package it.unibo.pensilina14.bullet.ballet.model.environment;
  * An example could be the {@link EnvironmentGenerator}.
  */
 public interface LevelGenerator {
-	/**
-	 * This method is implied in generating things.
-	 */
+    /**
+     * This method is implied in generating entities for the environment.
+     */
 	void generate();
 	/**
 	 * This method sets the {@link Environment} in which

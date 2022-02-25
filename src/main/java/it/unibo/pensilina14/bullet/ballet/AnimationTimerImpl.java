@@ -1,13 +1,13 @@
 package it.unibo.pensilina14.bullet.ballet;
 
-import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
+import it.unibo.pensilina14.bullet.ballet.core.Engine;
 import javafx.animation.AnimationTimer;
 
 public class AnimationTimerImpl extends AnimationTimer {
 	
-    private final GameEngine engine;
+    private final Engine engine;
 
-	public AnimationTimerImpl(final GameEngine gameEngine) {
+	public AnimationTimerImpl(final Engine gameEngine) {
 		this.engine = gameEngine;
 		this.engine.setup();
 	}

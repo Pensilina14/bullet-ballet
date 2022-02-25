@@ -120,7 +120,7 @@ public class GameEnvironment implements Environment {
 		if (!player.get().isAlive()) {
 			this.eventListener.get().notifyEvent(new GameOverEvent(player.get()));
 		}
-		
+
 		this.checkGravity();
 		this.checkCollisions();
 	}
