@@ -1,6 +1,7 @@
-package it.unibo.pensilina14.bullet.ballet.common;
+package it.unibo.pensilina14.bullet.ballet.common.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Test;
 
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
+import it.unibo.pensilina14.bullet.ballet.common.SpriteContainer;
+import it.unibo.pensilina14.bullet.ballet.common.SpriteManager;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
@@ -184,39 +189,39 @@ public class SpriteContainerTest {
 		 */
 		// -- PLAYER --
 		this.sprites.addPlayerSprite(playerSprite, player.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> playerBeforeDelete = this.sprites.getPlayerSprite();
+		this.sprites.getPlayerSprite();
 		final Optional<PhysicalObjectSprite> playerDeletionOutput = this.sprites.deleteSprite(player.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> playerAfterDelete = this.sprites.getPlayerSprite();
+		this.sprites.getPlayerSprite();
 		// -- ENEMY --
 		this.sprites.addEnemySprite(enemySprite, enemy.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> enemiesBeforeDelete = this.sprites.getEnemiesSprites();
+		this.sprites.getEnemiesSprites();
 		final Optional<PhysicalObjectSprite> enemyDeletionOutput = this.sprites.deleteSprite(enemy.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> enemiesAfterDelete = this.sprites.getEnemiesSprites();
+		this.sprites.getEnemiesSprites();
 		// -- ITEM --
 		this.sprites.addItemSprite(itemSprite, item.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> itemsBeforeDelete = this.sprites.getItemsSprites();
+		this.sprites.getItemsSprites();
 		final Optional<PhysicalObjectSprite> itemDeletionOutput = this.sprites.deleteSprite(item.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> itemsAfterDelete = this.sprites.getItemsSprites();
+		this.sprites.getItemsSprites();
 		// -- OBSTACLE --
 		this.sprites.addObstacleSprite(obstacleSprite, obstacle.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> obstaclesBeforeDelete = this.sprites.getObstaclesSprites();
+		this.sprites.getObstaclesSprites();
 		final Optional<PhysicalObjectSprite> obstacleDeletionOutput = this.sprites.deleteSprite(obstacle.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> obstaclesAfterDelete = this.sprites.getObstaclesSprites();
+		this.sprites.getObstaclesSprites();
 		// -- WEAPON --
 		this.sprites.addWeaponSprite(weaponSprite, weapon.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> weaponsBeforeDelete = this.sprites.getWeaponsSprites();
+		this.sprites.getWeaponsSprites();
 		final Optional<PhysicalObjectSprite> weaponDeletionOutput = this.sprites.deleteSprite(weapon.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> weaponsAfterDelete = this.sprites.getWeaponsSprites();
+		this.sprites.getWeaponsSprites();
 		// -- BULLET --
 		this.sprites.addBulletSprite(bulletSprite, bullet.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> bulletsBeforeDelete = this.sprites.getBulletsSprites();
+		this.sprites.getBulletsSprites();
 		final Optional<PhysicalObjectSprite> bulletDeletionOutput = this.sprites.deleteSprite(bullet.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> bulletsAfterDelete = this.sprites.getBulletsSprites();
+		this.sprites.getBulletsSprites();
 		// -- PLATFORM --
 	    this.sprites.addPlatformSprite(platformSprite, platform.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> platformsBeforeDelete = this.sprites.getPlatformsSprites();
+		this.sprites.getPlatformsSprites();
 		final Optional<PhysicalObjectSprite> platformDeletionOutput = this.sprites.deleteSprite(platform.getPosition().get());
-		final Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> platformsAfterDelete = this.sprites.getPlatformsSprites();
+		this.sprites.getPlatformsSprites();
 		/*
 		 * ASSERTIONS
 		 */
