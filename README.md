@@ -19,19 +19,9 @@ The player is allowed to pickup items that will help him/her to go through the l
 At the end of the match, the player's name and score will be saved and will be showed in the in-game stats panel.
 
 <!-- TODO: add an image of the game -->
-![](Documentation/screens/bullet_ballet_screen0.png)
+![Screenshot](Documentation/screens/bullet_ballet_screen0.png)
 
-![](Documentation/screens/bullet_ballet_screen1.png)
-<hr/>
-
-## Installation
-
-<!-- TODO: uncomment: execute binaries if we will have them. -->
-
-<hr/>
-
-## Configuration Options
-
+![Screenshot](Documentation/screens/bullet_ballet_screen1.png)
 <hr/>
 
 ## Requirements
@@ -46,6 +36,11 @@ At the end of the match, the player's name and score will be saved and will be s
 - In the terminal type `./gradlew run` to run the game.
 
 <hr/>
+
+## In-Game Commands
+
+- arrows : jump, right and left
+- space : shoot
 
 ## In-Game Settings
 
