@@ -336,6 +336,11 @@ L'ultima componente del progetto che ho gestito riguarda i suoni, per fare ciò 
 \subsection*{Leon Baiocchi}
 
 \subsubsection{Game environment}
+Inizialmente è stato essenziale trovare una modalità secondo la quale organizzare tutte le varie
+entità di gioco presenti così da poterle gestire agevolmente all'interno dell'ambiente di gioco.
+Questa ricerca mi ha portato a sviluppare il concetto di \textbf{Environment}, ossia una sorta di wrapper di tutti i componenti lato model, quindi entità, meccaniche(eventi) e fisica di gioco(gravità, collisioni).
+Questi componenti vengono gestiti corrispettivamente da: \textbf{EntityManager}, che si occupa della gestione delle varie entità all'interno di una struttura dati definita in \textit{AbstractContainer}; campo di tipo \textit{GameEventListener}, viene utilizzato per far sì che il GameEnvironment possa notificare ad un listener i propri eventi.
+Le collisioni vengono considerate come degli eventi insieme all'evento di game over.
 
 \subsubsection{Game engine}
 
