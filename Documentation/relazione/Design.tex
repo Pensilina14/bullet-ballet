@@ -393,41 +393,78 @@ Effects è inoltre interfaccia funzionale, ciò presenta maggiori opportunità e
 	\caption{Schema UML dei vari effetti\\}
 \end{figure}
 
+
 % ----------------- FEDERICO BRUNELLI -----------------------------------------
 
 \newpage
 
 \subsection*{Federico Brunelli}
 
-\subsubsection{Weapon e Bullet}
+\textsf{\small Il compito che ho avuto in carica è stato quello di gestire le weapon, la parte logica e la renderizzazione grafica, il cui scopo è stato quello di interagire con il player; i bullet, ugualmente ho sviluppato parte e logica e sua prospettiva visiva.}\\
+
+\textsf{\small Entrambi questi due oggetti estendevano GameEntity, la classe madre degli entità di gioco.
+Il secondo obiettivo del mio compito comprendeva la gestione delle collisioni, lato model, la quale veniva ulteririormente integrata con gli eventi della logica di gioco, gestiti dal collega Leon.
+Infine ho sviluppato il menù di pausa richiamato durante il gioco premendo un comando da tastiera.}
+
+\subsubsection*{Weapons and Bullet}
+
+Le \textbf {weapon} sono entità dinamiche all'interno del gioco, rendono possibile un'interazione diretta con il player a livello di gameplay.
+Ogni \textbf{weapon} ha diverse funzionalità comuni a tutti i tipi ed inoltre si interfaccia con \textbf{Bullet}, con il quale permette la funzionalità primaria di un'arma ovvero sparare.\\
+
+Il \textbf{Bullet} è l'unica entità che non viene istanziata all'avvio del gioco ed infatti la sua creazione avviene attraverso un input da tastiera.
+
+Per entrambe le entità ho adottato il pattern Factory per creare diversi tipi con caratterristiche differenti ma stesse funzionalità.
 
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=\textwidth]{img/Weapon}
+	\includegraphics[width=\textwidth]{./img/Weapon.png}
 	\label{img:Weapon.png}
-	\caption{Schema UML raffigurante la struttura di Weapon}
+	\caption{Schema UML rappresentante \textbf{Weapon}}
 \end{figure}
 
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=\textwidth]{img/Bullet}
-	\label{img:Bullet.png}
-	\caption{Schema UML raffigurante la struttura di Bullet}
+	\includegraphics[width=\textwidth]{./img/Bullet.png}
+	\label{img:Weapon.png}
+	\caption{Schema UML rappresentante \textbf{Bullet}}
 \end{figure}
 
-\subsubsection{Menu di pausa}
+\subsubsection*{Collision}
 
-\subsubsection{Collisioni}
+Per gestire le interazioni tra le varie entità nel mondo di gioco mi sono avvalso di una classe statica in grado di poter verificare l'avvenuta collisione.
+Ho preso spunto dall'esempio del professore Ricci \url{https://bitbucket.org/aricci303/2021-game-prog-basics/src/master/Game-As-A-Lab-Step-03-collisions/}\\
+
+Utilizzando le le informazioni prelevate dalle entità si può rilevare una \textbf{Collision}, la quale scaturirà degli eventi in base alle tipologie di oggetti che collidono.  
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{./img/Collision.png}
+	\label{img:Collision.png}
+	\caption{Schema UML rappresentante la classe \textbf{Collision}}
+\end{figure}
+
+\subsubsection*{Menù di pausa}
+Sfruttando l'architettura proposta per i menù dal mio collega Alessandro ho sviluppato il menù di pausa, al quale si può accedere durante il gioco attraverso il comando di Escape.
+Esso permette all'utente di poter modificare le impostazioni, tornare al gioco oppure uscire dall'applicazione.
+Attraverso l'evento di resume, il comando del gioco torna al controller principale e il gioco prosegue da dove lo si era lasciato.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{./img/PauseMenu}
+	\label{img:PauseMenu.png}
+	\caption{Schema UML rappresentante il menù di pausa}
+\end{figure}
+
 
 % ----------------- LUCA RENGO -----------------------------------------
 
 \newpage
 
 \subsection*{Luca Rengo}
-
+a
 \textsf{\small La mia parte riguardava l'implementazione dei personaggi di gioco e dei diversi aspetti riguardanti la generazione della mappa e dei suoi componenti a livello di \emph{View}.}\\
 
-\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore, delle impostazioni di gioco ed il loro caricamento.}\\ 
+\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore.}\\ 
 %della generazione della mappa a livello di \emph{View}.}\\
 
 \subsubsection*{Characters}
@@ -452,13 +489,13 @@ Effects è inoltre interfaccia funzionale, ciò presenta maggiori opportunità e
 
 \textsf{\small Per quanto riguarda la \emph{Mappa} mi sono occupato degli aspetti della \emph{View}.}\\
 
-\textsf{\small È presente l'interfaccia \emph{GameView} che viene implementata dalla classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo. Poi abbiamo la classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena edl gioco, come la mappa di gioco.} \\
+\textsf{\small E' presente l'interfaccia \emph{GameView} che viene implementata dalla classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena del gioco, come la mappa o i crediti del gioco. Questa è ereditata dalla Classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo.}\\
 
 \textsf{\small In \emph{MapScene} vengono generate le sprites dalle classi \emph{Platform}, \emph{Coin}, \emph{MainEnemy}, \emph{MainPlayer} con la sua animazione implementata in \emph{SpriteAnimation}.}\\
 
 \textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trovano in dei files .txt che vengono caricati dalla classe \emph{LevelLoader}.} %TODO: sistemare, scrivere meglio.
 
-\textsf{\small Ad ogni entità del gioco è associato un carattere (un numero o un simbolo) presenti nell'enum \emph{LevelEntity} che si trovano nei files .dat nella directory \emph{levels/}.}\\
+\textsf{\small Ad ogni entità del gioco è associato un carattere (un numero o un simbolo) che si trovano files .txt nella directory \emph{levels/}.}\\ %TODO: anche qui.
 
 \textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
 
