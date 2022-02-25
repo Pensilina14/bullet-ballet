@@ -327,16 +327,26 @@ public class MapScene extends AbstractScene implements GameView {
     		}
     	}
 
-    	this.sprites.getPlatformsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
+    	if (this.sprites.getPlatformsSprites().isPresent()) {
+    		this.sprites.getPlatformsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
+    	}
+    	
+    	if (this.sprites.getEnemiesSprites().isPresent()) {
+    		this.sprites.getEnemiesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
+    	}
+    	
+    	if (this.sprites.getItemsSprites().isPresent()) {
+    		this.sprites.getItemsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
+    	}
+    	
+    	if (this.sprites.getObstaclesSprites().isPresent()) {
+    	  	this.sprites.getObstaclesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
+    	}
+  
+    	if (this.sprites.getWeaponsSprites().isPresent()) {
+        	this.sprites.getWeaponsSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
+    	}
 
-    	this.sprites.getEnemiesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-
-    	this.sprites.getItemsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
-
-
-    	this.sprites.getObstaclesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-
-    	this.sprites.getWeaponsSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
 
     	if (this.sprites.getBulletsSprites().isPresent()) {
     		this.sprites.getBulletsSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
@@ -406,7 +416,7 @@ public class MapScene extends AbstractScene implements GameView {
 	@Override
 	public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
 		this.gamePane.getChildren().remove(this.sprites.deleteSprite(position).get());
-		this.mainWeapon = Optional.empty();
+		//this.mainWeapon = Optional.empty();
 	}
 
 	@Override
