@@ -142,22 +142,6 @@ public class SaveTest {
     }
 
     @Test
-    public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-        final int numberOfLevels = 3;
-
-        if(Save.getNumberOfLevels(".txt") > 0){
-            //Save.encryptLevels(); //TODO: uncomment when we finished to test the levels.
-        }
-
-        final String[] s = Save.loadLevel(0);
-
-        assertEquals(numberOfLevels, Save.getNumberOfLevels(".dat"));
-
-        assertNotNull(s);
-        assertNotSame(s.length, 0);
-    }
-
-    @Test
     public void saveAndLoadSettingsTest(){
 
         // Prima di eseguire il test cancello tutti i dati precedentemente salvati nel file.
@@ -209,6 +193,28 @@ public class SaveTest {
 
         assertFalse(loadedSettings.isEmpty());
         assertEquals(settingsMap, loadedSettings);
+    }
+
+    @Test
+    public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
+            NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+
+        final int numberOfLevels = 4;
+
+        final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
+        final int datLevels = Save.getNumberOfLevels(Extensions.DAT);
+
+        // Se non ci sono livelli in formato .txt allora facciamo un controllo, altrimenti li encriptiamo in files .dat e rimuoviamo i .txt.
+        // Se non ci sono .txt non c'è bisogno che encripti i livelli.
+        if(txtLevels == 0){
+            assertEquals(0, txtLevels);
+            assertEquals(numberOfLevels, datLevels);
+        } else {
+            Save.encryptLevels();
+            final int txtAfterEncryption = Save.getNumberOfLevels(Extensions.TXT);
+            assertEquals(0, txtAfterEncryption);
+            assertEquals(numberOfLevels, datLevels);
+        }
     }
 
 }
