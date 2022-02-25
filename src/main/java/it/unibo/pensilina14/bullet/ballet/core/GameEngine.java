@@ -20,7 +20,7 @@ import it.unibo.pensilina14.bullet.ballet.core.controller.ViewController;
 import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
-import it.unibo.pensilina14.bullet.ballet.input.Controller;
+import it.unibo.pensilina14.bullet.ballet.input.InputController;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
@@ -60,14 +60,12 @@ import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
  * This class could be considered the core of the game itself.
  *
  */
-public class GameEngine implements Controller, GameEventListener {
+public class GameEngine implements InputController, GameEventListener {
     /**
      * Constant used to define command queue capacity.
      */
 	private static final int QUEUE_CAPACITY = 100;
-	
-	//private final long period = 1000; // 20 ms = 50 FPS 
-	
+
 	private Optional<ViewController> viewController;
 	private Optional<ModelController> modelController;
 	private final SoundsFactory soundsFactory;
@@ -261,15 +259,15 @@ public class GameEngine implements Controller, GameEventListener {
 			this.modelController.get().getGameEnvironment().getEntityManager().getPlayer().get().getCurrentScore().increase(ScoreSystem.ScoreBonus.COLLECT_COIN.getBonus());
 		} else if (item.getItemId().equals(Items.CHARGER)) {
 			this.soundsFactory.createSound(Sounds.RELOAD);
-		} else if(item.getItemId().equals(Items.FLAG)) {
+		} else if (item.getItemId().equals(Items.FLAG)) {
 			this.viewController.get().stopPlayerAnimation();
 			this.viewController.get().getGameView().autoKill();
 			this.viewController.get().changeScene(Frames.HOMEPAGE);
 			this.soundsFactory.createSound(Sounds.WIN).play();
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 		    final Date date = new Date();
-			Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName()
-					, player.getCurrentScore().showScore() + player.getCurrentScore().showScore() * 0.15, formatter.format(date));
+			Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(),
+					player.getCurrentScore().showScore() + player.getCurrentScore().showScore() * 0.15, formatter.format(date));
 			this.stop();
 		}
 		else {
@@ -356,8 +354,8 @@ public class GameEngine implements Controller, GameEventListener {
 		this.soundsFactory.createSound(Sounds.DIE).play();
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 	    final Date date = new Date();
-		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName()
-				, player.getCurrentScore().showScore(), formatter.format(date));
+		Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(),
+				player.getCurrentScore().showScore(), formatter.format(date));
 		this.stop();
 	}
 	

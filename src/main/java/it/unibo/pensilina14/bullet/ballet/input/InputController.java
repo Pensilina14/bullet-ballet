@@ -1,6 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.input;
 
-public interface Controller {
+public interface InputController {
 	
 	void notifyCommand(Command cmd);
 	
