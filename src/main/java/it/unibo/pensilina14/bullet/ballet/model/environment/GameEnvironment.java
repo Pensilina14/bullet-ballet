@@ -107,7 +107,7 @@ public class GameEnvironment implements Environment {
 				i.updateState();
 			} else {
 				final MutablePosition2D pos = player.get().getPosition().get();
-				i.setPosition(new MutablePosition2Dimpl(pos.getX() + 15, pos.getY() + 7));
+				i.setPosition(new MutablePosition2Dimpl(pos.getX(), pos.getY()));
 			}
 		}));
 
