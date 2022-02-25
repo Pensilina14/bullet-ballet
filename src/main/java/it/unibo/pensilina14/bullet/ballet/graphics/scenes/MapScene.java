@@ -416,7 +416,7 @@ public class MapScene extends AbstractScene implements GameView {
 	@Override
 	public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
 		this.gamePane.getChildren().remove(this.sprites.deleteSprite(position).get());
-		//this.mainWeapon = Optional.empty();
+		this.mainWeapon = Optional.empty();
 	}
 
 	@Override
