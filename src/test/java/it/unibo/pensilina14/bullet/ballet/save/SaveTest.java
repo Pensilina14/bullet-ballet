@@ -212,8 +212,9 @@ public class SaveTest {
         } else {
             Save.encryptLevels();
             final int txtAfterEncryption = Save.getNumberOfLevels(Extensions.TXT);
+            final int datAfterEncryption = Save.getNumberOfLevels(Extensions.DAT);
             assertEquals(0, txtAfterEncryption);
-            assertEquals(numberOfLevels, datLevels);
+            assertEquals(numberOfLevels, datAfterEncryption);
         }
     }
 
