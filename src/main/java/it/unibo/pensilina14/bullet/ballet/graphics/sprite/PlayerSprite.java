@@ -34,6 +34,9 @@ public class PlayerSprite extends PhysicalObjectSprite {
 	
 	@Override
 	public void renderMovingPosition() {
-		return;
+		extracted();
+	}
+
+	private void extracted() {
 	}
 }
