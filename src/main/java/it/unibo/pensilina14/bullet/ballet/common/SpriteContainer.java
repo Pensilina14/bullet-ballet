@@ -1,7 +1,10 @@
 package it.unibo.pensilina14.bullet.ballet.common;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -53,72 +56,66 @@ public class SpriteContainer extends AbstractContainer<ImmutablePair<PhysicalObj
     }
 	
 	@Override
-	public final void addPlayerSprite(final PhysicalObjectSprite playerSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addPlayerSprite(final PhysicalObjectSprite playerSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.PLAYER, playerSprite, position);
 	}
 
 	@Override
-	public final void addPlatformSprite(final PhysicalObjectSprite platformSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addPlatformSprite(final PhysicalObjectSprite platformSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.PLATFORM, platformSprite, position);
 	}
 
 	@Override
-	public final void addEnemySprite(final PhysicalObjectSprite enemySprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addEnemySprite(final PhysicalObjectSprite enemySprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.ENEMY, enemySprite, position);
 	}
 
 	@Override
-	public final void addItemSprite(final PhysicalObjectSprite itemSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addItemSprite(final PhysicalObjectSprite itemSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.PICKUP_ITEM, itemSprite, position);
 	}
 
 	@Override
-	public final void addObstacleSprite(final PhysicalObjectSprite obstacleSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addObstacleSprite(final PhysicalObjectSprite obstacleSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.OBSTACLE, obstacleSprite, position);
 	}
 
 	@Override
-	public final void addWeaponSprite(final PhysicalObjectSprite weaponSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addWeaponSprite(final PhysicalObjectSprite weaponSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.WEAPON, weaponSprite, position);
 	}
 
 	@Override
-	public final void addBulletSprite(final PhysicalObjectSprite bulletSprite, final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean addBulletSprite(final PhysicalObjectSprite bulletSprite, final MutablePosition2D position) {
+		return this.addSpriteToContainer(GameEntities.BULLET, bulletSprite, position);
+	}
+	
+	private boolean addSpriteToContainer(final GameEntities entityType, final PhysicalObjectSprite sprite, final MutablePosition2D spritePosition) {
+		final ImmutablePair<PhysicalObjectSprite, MutablePosition2D> spriteAndItsPosition = new ImmutablePair<>(sprite, spritePosition);
+		if (this.getContainer().get(entityType).get().contains(spriteAndItsPosition)) {
+			return false;
+		} else {
+			this.getContainer().get(entityType).get().add(spriteAndItsPosition);
+			return true;
+		}
 	}
 
 	@Override
-	public final void deletePlayerSprite() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deletePlatformSprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deleteEnemySprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deleteItemSprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deleteObstacleSprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deleteWeaponSprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public final void deleteBulletSprite(final MutablePosition2D position) {
-		// TODO Auto-generated method stub
+	public final boolean deleteSprite(final MutablePosition2D targetPosition) {
+		for (final Entry<GameEntities, Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>>> entry : this.getContainer().entrySet()) {
+			if (entry.getValue().isPresent()) {
+				final Iterator<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>> iter = entry.getValue().get().iterator();
+				while (iter.hasNext()) {
+					final ImmutablePair<PhysicalObjectSprite, MutablePosition2D> spriteAndItsPosition = iter.next();
+					if (spriteAndItsPosition.getRight().equals(targetPosition)) {
+						iter.remove();
+						return true;
+					}
+				}
+			} else {
+				throw new NoSuchElementException();
+			}
+		}
+		return false;
 	}
 }

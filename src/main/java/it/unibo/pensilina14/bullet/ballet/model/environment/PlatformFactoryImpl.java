@@ -13,7 +13,7 @@ public class PlatformFactoryImpl implements PlatformFactory {
     }
     
     @Override
-	public final Platform generatePlatform(final Environment env, final SpeedVector2D speedVector) {
+	public final Platform createPlatform(final Environment env, final SpeedVector2D speedVector) {
         return new Platform(speedVector, env, MASS, new Dimension2Dimpl(this.size, this.size));
 	}
 }

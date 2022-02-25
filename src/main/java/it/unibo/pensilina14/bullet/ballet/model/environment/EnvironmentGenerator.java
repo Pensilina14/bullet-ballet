@@ -97,7 +97,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 	}
 
 	private void generatePlatform(final EntityManagerBuilder entityManagerBuilder, final int i, final int j) {
-		entityManagerBuilder.addPlatform(this.platformFactory.generatePlatform(this.env.get(),
+		entityManagerBuilder.addPlatform(this.platformFactory.createPlatform(this.env.get(),
 				new SpeedVector2DImpl(new MutablePosition2Dimpl(j * TILE_SIZE, i * TILE_SIZE), 1.0)));
 	}
 	

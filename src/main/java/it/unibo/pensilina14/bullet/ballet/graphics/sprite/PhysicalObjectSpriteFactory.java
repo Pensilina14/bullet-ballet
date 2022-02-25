@@ -5,7 +5,9 @@ import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 
 public interface PhysicalObjectSpriteFactory {
 
+	PhysicalObjectSprite generatePlayerSprite(PhysicalObject player) throws IOException;
     PhysicalObjectSprite generatePlatformSprite(Images.Platforms platformTheme, PhysicalObject platform) throws IOException;
+    PhysicalObjectSprite generateDefaultPlatformSprite(PhysicalObject platform) throws IOException;
     PhysicalObjectSprite generateBulletSprite(PhysicalObject bullet) throws IOException;
     PhysicalObjectSprite generateEnemySprite(PhysicalObject enemy) throws IOException;
     PhysicalObjectSprite generateDynamicObstacleSprite(PhysicalObject dynamicObstacle) throws IOException;
