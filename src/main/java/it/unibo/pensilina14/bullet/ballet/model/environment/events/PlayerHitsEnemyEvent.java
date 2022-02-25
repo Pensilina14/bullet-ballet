@@ -3,7 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 
-public class PlayerHitsEnemyEvent implements GameEvent {
+public final class PlayerHitsEnemyEvent implements GameEvent {
 	
 	private final Player player;
 	private final Enemy enemy;

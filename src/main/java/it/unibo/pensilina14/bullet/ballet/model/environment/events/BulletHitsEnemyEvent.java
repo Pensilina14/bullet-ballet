@@ -4,7 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 
-public class BulletHitsEnemyEvent implements GameEvent {
+public final class BulletHitsEnemyEvent implements GameEvent {
 	
 	private final Bullet bullet;
 	private final Enemy enemy;

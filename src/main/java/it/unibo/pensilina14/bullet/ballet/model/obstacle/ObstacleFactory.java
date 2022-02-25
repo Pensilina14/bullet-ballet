@@ -6,5 +6,5 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 public interface ObstacleFactory {
 
     Obstacle createStandardObstacle(Environment environment, SpeedVector2D vector);
-    
+
 }

@@ -47,12 +47,12 @@ public class ViewControllerImpl implements ViewController {
 	}
 
 	@Override
-	public void stopPlayerAnimation() {
+	public final void stopPlayerAnimation() {
 		this.gameView.get().stopPlayerAnimation();
 	}
 
 	@Override
-	public void changeScene(final Frames frame) throws IOException {
+	public final void changeScene(final Frames frame) throws IOException {
 		final PageLoader pageLoader = new PageLoaderImpl();
 		pageLoader.goToSelectedPageOnInput(Frames.HOMEPAGE);
 	}

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public final class AppLogger implements SimpleLogger {
-	
 	private static final AppLogger SINGLETON = new AppLogger();
 	private static final String UNIFIER = " = ";
 	

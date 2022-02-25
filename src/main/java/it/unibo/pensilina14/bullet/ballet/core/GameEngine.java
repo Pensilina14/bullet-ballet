@@ -238,14 +238,14 @@ public class GameEngine implements InputController, GameEventListener, Engine {
 	private void playerHitsObstacleEventHandler(final GameEvent e) {
 		final Player player = ((PlayerHitsObstacleEvent) e).getPlayer();
 		final ObstacleImpl obstacle = ((PlayerHitsObstacleEvent) e).getObstacle();
-		player.decreaseHealth((double) (obstacle.getMass() / 50));
+		player.decreaseHealth((double) (obstacle.getMass() / 2));
 	}
 
 	private void playerHitsEnemyEventHandler(final GameEvent e) {
 		AppLogger.getAppLogger().collision("player hit an enemy.");
 		final Player player = ((PlayerHitsEnemyEvent) e).getPlayer();
 		final Enemy enemy = ((PlayerHitsEnemyEvent) e).getEnemy();
-		player.setHealth(player.getHealth() - 0.01);
+		player.setHealth(player.getHealth() - 1);
 		if (!enemy.isAlive()) {
 			this.viewController.get().getGameView().deleteEnemySpriteImage(new MutablePosition2Dimpl(enemy.getPosition().get().getX(),
 					enemy.getPosition().get().getY()));	
@@ -269,12 +269,12 @@ public class GameEngine implements InputController, GameEventListener, Engine {
 			this.viewController.get().changeScene(Frames.HOMEPAGE);
 			this.soundsFactory.createSound(Sounds.WIN).play();
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+			final double multiplier = 0.15;
 		    final Date date = new Date();
 			Save.saveGameStatistics(this.modelController.flatMap(ModelController::getGameState).get().getPlayerName(),
-					player.getCurrentScore().showScore() + player.getCurrentScore().showScore() * 0.15, formatter.format(date));
+					player.getCurrentScore().showScore() + player.getCurrentScore().showScore() * multiplier, formatter.format(date)); 
 			this.stop();
-		}
-		else {
+		} else {
 			this.soundsFactory.createSound(Sounds.DAMAGE).play();
 		}
 		// Apply item effect on character

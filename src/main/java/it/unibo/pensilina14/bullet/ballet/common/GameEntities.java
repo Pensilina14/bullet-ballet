@@ -30,7 +30,7 @@ public enum GameEntities {
 	 */
 	BULLET,
 	/**
-	 * Squared objects that float onto the background
+	 * Squared objects that float onto the background.
 	 */
 	PLATFORM;
 	
@@ -44,7 +44,7 @@ public enum GameEntities {
 	 * 
 	 * @return the number of entity types.
 	 */
-	public static final int count() {
+	public static int count() {
 		return GameEntities.ENTITY_TYPES;
 	}
 	

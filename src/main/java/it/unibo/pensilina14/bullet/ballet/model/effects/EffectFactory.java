@@ -37,7 +37,7 @@ public interface EffectFactory {
 	Effect createPoisonEffect(double healthDecreaseFactor, long msStep, long msDuration);
 	/**
 	 * Creates an effect capable of reloading the player's weapon.
-	 * @return
+	 * @return {@link Effect}
 	 */
 	Effect createRechargeEffect();
 }

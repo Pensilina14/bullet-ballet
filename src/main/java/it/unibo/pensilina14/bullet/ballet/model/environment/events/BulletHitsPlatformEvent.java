@@ -3,7 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 
-public class BulletHitsPlatformEvent implements GameEvent{
+public final class BulletHitsPlatformEvent implements GameEvent {
 
 	private final Bullet bullet;
 	private final Platform platform;

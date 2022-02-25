@@ -1,5 +1,8 @@
 package it.unibo.pensilina14.bullet.ballet.logging;
 
+/**
+ * Simple logger interface for cruising around the code.
+ */
 public interface SimpleLogger {
     enum Headers {
         FATAL("[!][!][!]"),
@@ -28,6 +31,6 @@ public interface SimpleLogger {
     void info(String msg);
 
     void debug(String msg);
-    
+
     void collision(String msg);
 }

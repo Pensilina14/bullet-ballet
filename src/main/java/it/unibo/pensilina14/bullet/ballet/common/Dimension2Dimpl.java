@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-public class Dimension2Dimpl implements Dimension2D {
-    
+public final class Dimension2Dimpl implements Dimension2D {
+
     private final double height;
     private final double width;
-      
+
     public Dimension2Dimpl(final double height, final double width) {
       this.height = height;
       this.width = width;
@@ -56,5 +56,4 @@ public class Dimension2Dimpl implements Dimension2D {
         return !(Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height)
         		|| Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width));
     }
-   
 }

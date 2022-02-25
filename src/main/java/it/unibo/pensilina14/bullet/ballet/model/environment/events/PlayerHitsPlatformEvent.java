@@ -4,7 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 
-public class PlayerHitsPlatformEvent implements GameEvent {
+public final class PlayerHitsPlatformEvent implements GameEvent {
     private final Player player;
 	private final Platform platform;
 	private final CollisionSides platformSideOfCollision;

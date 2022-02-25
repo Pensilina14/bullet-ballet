@@ -3,7 +3,7 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleImpl;
 
-public class PlayerHitsObstacleEvent implements GameEvent {
+public final class PlayerHitsObstacleEvent implements GameEvent {
 	
 	private final Player player;
 	private final ObstacleImpl obstacle;
