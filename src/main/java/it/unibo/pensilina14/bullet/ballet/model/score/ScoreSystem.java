@@ -5,7 +5,7 @@ public interface ScoreSystem {
 	enum ScoreBonus {
 		KILL_ENEMY(100),
 		DESTROY_OBSTACLE(150),
-		COLLECT_COIN(50);
+		COLLECT_COIN(1500);
 
 		private final int bonus;
 
