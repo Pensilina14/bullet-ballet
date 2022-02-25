@@ -42,6 +42,23 @@ At the end of the match, the player's name and score will be saved and will be s
 - arrows : jump, right and left
 - space : shoot
 
+<hr/>
+
+## In-Game Entities
+- Player
+- Enemies
+- Coins
+- Weapons:
+ - Autogun
+ - Shotgun
+ - Gun
+- Jumping Obstacle
+- Items:
+ - Poisonous Potions 
+ - Hearts
+ - Ammo
+ - End Game Flag
+
 ## In-Game Settings
 
 Through the In-Game Menu you will be able to modify certain settings like:
