@@ -230,7 +230,6 @@ public class EntityContainer extends AbstractContainer<GameEntity> implements En
 				while (iter.hasNext()) {
 					final GameEntity entity = iter.next();
 					if (entity.getPosition().get().equals(new MutablePosition2Dimpl(pos))) {
-						AppLogger.getAppLogger().debug("Entity current: " + entity);
 						iter.remove();
 						return true;
 					}

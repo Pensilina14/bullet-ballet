@@ -117,8 +117,6 @@ public final class Save {
 
                 final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
 
-                //JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(Save.SAVE_PATH));
-
                 for (final Object o : jsonArray) {
 
                 	final JSONObject player = (JSONObject) o;
@@ -212,8 +210,8 @@ public final class Save {
         	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
             SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
-            //File levelFile = new File(levelToEncrypt); //TODO: uncomment quando avremo finito di testare i livelli.
-            //levelFile.delete(); //TODO: uncomment quando avremo finito di testare i livelli.
+            File levelFile = new File(levelToEncrypt);
+            levelFile.delete();
         }
     }
 
@@ -233,7 +231,7 @@ public final class Save {
         	
         	line = bufferedReader.readLine();
 
-            while(!Objects.isNull(line) && !line.isEmpty()){
+            while(Objects.nonNull(line) && !line.isEmpty()){
                 levelList.add(line);
 				line = bufferedReader.readLine();
             }
@@ -262,12 +260,21 @@ public final class Save {
      * @throws IOException: fail or interrupted I/O operations.
      * @throws InvalidKeyException: invalid key.
      */
-    public static String[] loadLevel(final int levelNumber) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-    	final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-    	final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
-    	final String clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
+    public static String[] loadLevel(final int levelNumber) {
+        final String clearLevel;
+        try {
+            final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
+            final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
+            clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
 
-        return clearLevel.split("[\\r\\n]+");
+            return clearLevel.split("[\\r\\n]+");
+
+        }catch(InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
+                InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+        return new String[0];
     }
 
     /**

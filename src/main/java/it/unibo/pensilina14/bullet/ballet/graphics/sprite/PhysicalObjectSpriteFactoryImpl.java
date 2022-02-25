@@ -11,6 +11,11 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
     }
 
     @Override
+    public final PhysicalObjectSprite generateDefaultPlatformSprite(final PhysicalObject platform) throws IOException {
+        return new PhysicalObjectSprite(Images.Platforms.CAVE_PLATFORM, platform.getPosition().get(), platform);
+    }
+
+    @Override
     public final PhysicalObjectSprite generateBulletSprite(final PhysicalObject bullet) throws IOException {
         return new PhysicalObjectSprite(Images.BULLET, bullet.getPosition().get(), bullet);
     }
@@ -71,7 +76,12 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
 	}
 
     @Override
-    public PhysicalObjectSprite generateFlagSprite(final PhysicalObject flag) throws IOException {
+    public final PhysicalObjectSprite generateFlagSprite(final PhysicalObject flag) throws IOException {
         return new PhysicalObjectSprite(Images.FLAG, flag.getPosition().get(), flag);
     }
+
+	@Override
+	public final PhysicalObjectSprite generatePlayerSprite(final PhysicalObject player) throws IOException {
+		return new PlayerSprite(Images.PLAYER, player.getPosition().get(), player);
+	}
 }

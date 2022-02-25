@@ -89,8 +89,6 @@ public final class SecureData {
         final byte[] salt = SecureData.getRandomBytes(SecureData.SALT_SIZE);
 
         final byte[] iv = SecureData.getRandomBytes(SecureData.IV_SIZE);
-        //TODO: byte[] iv = params.getParameterSpec(IvParameterSpec.class).getIV(); , meglio quella sotto.
-        //TODO: IVParameterSpec ivSpec = new IvParameterSpec(iv);
 
         final SecretKey secretKey = SecureData.getKeyFromPassword(password, salt);
 
@@ -100,7 +98,6 @@ public final class SecureData {
 
         final byte[] encryptMessage = cipher.doFinal(message);
 
-        //TODO: ivSpec.getIv().length
         return ByteBuffer.allocate(iv.length + salt.length + encryptMessage.length).put(iv).put(salt).put(encryptMessage).array();
     }
 
@@ -125,8 +122,6 @@ public final class SecureData {
 
         final byte[] salt = new byte[SecureData.SALT_SIZE];
         byteBuffer.get(salt);
-
-        //TODO: byte[] bytes = message.digest(password.getBytes(StandardCharsets.UTF_8));
 
         final byte[] encryptedMessage = new byte[byteBuffer.remaining()];
         byteBuffer.get(encryptedMessage);

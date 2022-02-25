@@ -33,6 +33,7 @@ public interface GameView {
 	void deleteWeaponSpriteImage(MutablePosition2D position);
 	void deleteObstacleSpriteImage(MutablePosition2D position);
 	void deleteItemSprite(MutablePosition2D position);
+	void startPlayerAnimation();
 	void stopPlayerAnimation();
 	void autoKill();
 }

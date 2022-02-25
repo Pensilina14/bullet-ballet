@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PlayerSprite;
 
 public interface SpriteManager {
     Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> getPlayerSprite();
@@ -16,19 +17,13 @@ public interface SpriteManager {
     Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> getWeaponsSprites();
     Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>> getBulletsSprites();
 
-    void addPlayerSprite(PhysicalObjectSprite playerSprite, MutablePosition2D position);
-    void addPlatformSprite(PhysicalObjectSprite platformSprite, MutablePosition2D position);
-    void addEnemySprite(PhysicalObjectSprite enemySprite, MutablePosition2D position);
-    void addItemSprite(PhysicalObjectSprite itemSprite, MutablePosition2D position);
-    void addObstacleSprite(PhysicalObjectSprite obstacleSprite, MutablePosition2D position);
-    void addWeaponSprite(PhysicalObjectSprite weaponSprite, MutablePosition2D position);
-    void addBulletSprite(PhysicalObjectSprite bulletSprite, MutablePosition2D position);
+    boolean addPlayerSprite(PhysicalObjectSprite playerSprite, MutablePosition2D position);
+    boolean addPlatformSprite(PhysicalObjectSprite platformSprite, MutablePosition2D position);
+    boolean addEnemySprite(PhysicalObjectSprite enemySprite, MutablePosition2D position);
+    boolean addItemSprite(PhysicalObjectSprite itemSprite, MutablePosition2D position);
+    boolean addObstacleSprite(PhysicalObjectSprite obstacleSprite, MutablePosition2D position);
+    boolean addWeaponSprite(PhysicalObjectSprite weaponSprite, MutablePosition2D position);
+    boolean addBulletSprite(PhysicalObjectSprite bulletSprite, MutablePosition2D position);
 
-    void deletePlayerSprite();
-    void deletePlatformSprite(MutablePosition2D position);
-    void deleteEnemySprite(MutablePosition2D position);
-    void deleteItemSprite(MutablePosition2D position);
-    void deleteObstacleSprite(MutablePosition2D position);
-    void deleteWeaponSprite(MutablePosition2D position);
-    void deleteBulletSprite(MutablePosition2D position);
+    Optional<PhysicalObjectSprite> deleteSprite(MutablePosition2D targetPosition);
 }

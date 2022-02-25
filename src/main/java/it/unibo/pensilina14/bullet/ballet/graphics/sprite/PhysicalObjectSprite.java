@@ -71,7 +71,11 @@ public class PhysicalObjectSprite extends Pane {
         this.position = new MutablePosition2Dimpl(x, y);
     }
 
-    public final void renderMovingPosition() {
+    /**
+     * Could be overwritten in subclasses that don't need to do this kind of movement 
+     * on the screen such as the player -> {@link PlayerSprite}.
+     */
+    public void renderMovingPosition() {
         final double nextX = this.position.getX() - 1;
         this.position.setPosition(nextX, this.position.getY());
         this.setTranslateX(this.position.getX());

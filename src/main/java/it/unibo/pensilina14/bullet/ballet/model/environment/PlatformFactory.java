@@ -13,5 +13,5 @@ public interface PlatformFactory {
 	 * @param speedVector is a vector representation that has speed {@link SpeedVector2D}.
 	 * @return a {@link Platform} instance.
 	 */
-    Platform generatePlatform(Environment env, SpeedVector2D speedVector);
+    Platform createPlatform(Environment env, SpeedVector2D speedVector);
 }
