@@ -342,9 +342,57 @@ Questa ricerca mi ha portato a sviluppare il concetto di \textbf{Environment}, o
 Questi componenti vengono gestiti corrispettivamente da: \textbf{EntityManager}, che si occupa della gestione delle varie entità all'interno di una struttura dati definita in \textit{AbstractContainer}; campo di tipo \textit{GameEventListener}, viene utilizzato per far sì che il GameEnvironment possa notificare ad un listener i propri eventi.
 Le collisioni vengono considerate come degli eventi insieme all'evento di game over.
 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/game_environment_uml.png}
+	\label{img:game_environment_uml.png}
+	\caption{Schema UML di GameEnvironment\\}
+\end{figure}
+
+Degno di nota è il metodo \textit{updateState()} di Environment il quale si occupa di aggiornare l'ambiente di gioco ad ogni frame.
+Quest'ultimo ha inoltre delle dimensioni che indicano altezza e larghezza dell'ambientazione.
+E' presente infine un sistema di rilevazione delle collisioni con relativo meccanismo di notifica verso un GameEventListener, progettato e sviluppato per garantire il corretto funzionamento dell'algoritmo di collision detection sviluppato dal collega Federico.
+Ho utilizzato il pattern \textbf{Strategy} per stabilire correttamente e distintamente i vari compiti di ogni classe come ad esempio è possibile notare con l'interfaccia Environment, che sarebbe la strategy.
+Oltre ad esso, all'interno di EntityManager vi è un \textbf{Builder} che permette di costruire un EntityManager da zero o a partire da uno esistente.
+
 \subsubsection{Game engine}
+Successivamente insieme agli altri membri del team ci siamo resi conto di dover collegare le varie parti dell'applicazione come ad esempio model e view, ed in particolare dare vita al gioco.
+In prima battuta mi sono ritrovato a creare una classe che potesse collegare semplicemente parte logica e parte grafica in modo da dare vita alla struttura MVC, ma dopo poco ho ritenuto opportuno ampliare la suddetta classe donandogli 3 principali interfacce, ognuna adibita ad un determinato aspetto da gestire.
+Questa classe viene definita all'interno del nostro progetto come il cuore pulsante dell'applicazione in quanto permette di temporizzare l'esecuzione del gioco attraverso \textbf{timer} e \textbf{main loop}.
+Quest'ultimo al suo interno esegue 3 differenti funzioni: \textit{processare} comandi di input, \textit{aggiornare} il model, \textit{renderizzare} la view; Esse si ripetono ciclicamente fino al game over.
+Anche qui viene utilizzato il pattern \textbf{Strategy} per garantire una strategia alle singole classi, mentre una novità, in termini di pattern usati, rispetto a GameEnvironment sta nel pattern \textbf{Command} utilizzato per ricevere comandi di input, esso viene adoperato dall'interfaccia Command.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/game_engine_controllers_uml.png}
+	\label{img:game_engine_controllers_uml.png}
+	\caption{Schema UML di Game Engine\\}
+\end{figure}
 
 \subsubsection{Generazione mappa}
+La generazione della mappa è stato fulcro di innumerevoli discussioni all'interno del team, culminate con la scelta di rappresentare le varie mappe, con entità al loro interno, testualmente, tramite una serie di caratteri, ognuno dei quali rappresentante una determinata entità.
+Questo aspetto nello specifico è stato curato dal collega Luca, il quale ha generato le varie mappe testuali e trovato il modo di caricarle(riferirsi a LevelLoader), dopodichè il mio compito è stato quello di prendere la mappa e trasformarla in una mappa di entità di gioco.
+Ed è per questo che ho scelto di dare una strategy(interfaccia) come LevelGenerator a EnvironmentGenerator al quale sono poi stati aggiunti un Environment, espressione della mappa testuale, e le relative factories per la creazione di entità di gioco.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/environment_generator_uml.png}
+	\label{img:environment_generator_uml.png}
+	\caption{Schema UML di Environment Generator\\}
+\end{figure}
+
+\subsubsection{Effetti}
+Gli effetti in un gioco dinamico e ad eventi possono essere molto utili, sia dal punto di vista del giocatore sia dal punto di vista del programmatore.
+Per questo ho scelto di introdurli, in modo da garantire un maggiore incapsulamento oltre ad offire una maggiore estensibilità d'uso. 
+Effects è inoltre interfaccia funzionale, ciò presenta maggiori opportunità espressive come ho poi potuto osservare durante la fase di utilizzo degli effetti insieme al team, infatti essa può essere utilizzata per creare ed applicare effetti personalizzabili. In questa circostanza mi sono avvalso di una \textbf{factory} per la creazione di effetti prestabiliti.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/effects_uml.png}
+	\label{img:effects_uml.png}
+	\caption{Schema UML dei vari effetti\\}
+\end{figure}
+
 % ----------------- FEDERICO BRUNELLI -----------------------------------------
 
 \newpage
