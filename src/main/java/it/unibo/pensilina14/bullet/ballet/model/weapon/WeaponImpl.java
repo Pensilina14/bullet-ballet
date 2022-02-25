@@ -16,6 +16,10 @@ public class WeaponImpl extends GameEntity implements Weapon {
 	private static final double DEAFAULT_DAMAGE_FACTOR = 1.0;
 	private static final double DAMAGE_FACTOR_SHOTGUN = 1.5;
 	private static final double DAMAGE_FACTOR_AUTO = 1.5;
+	
+	// These values are used to set the correct position of weapon
+	private static final int DISTANCE_X = 15;
+	private static final int DISTANCE_Y = 6;
 
 	
 	//set for each weapon the total number of available bullets
@@ -214,7 +218,7 @@ public class WeaponImpl extends GameEntity implements Weapon {
     
     @Override
     public void setPosition(final MutablePosition2D newPos) {
-    	this.getPosition().get().setPosition(newPos.getX(), newPos.getY());
+    	this.getPosition().get().setPosition(newPos.getX() + DISTANCE_X, newPos.getY() + DISTANCE_Y);
     }
     
     @Override
