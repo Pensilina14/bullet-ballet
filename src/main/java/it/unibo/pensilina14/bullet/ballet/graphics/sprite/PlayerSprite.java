@@ -31,4 +31,9 @@ public class PlayerSprite extends PhysicalObjectSprite {
 	public final SpriteAnimation getSpriteAnimation() {
         return this.animation;
     }
+	
+	@Override
+	public void renderMovingPosition() {
+		return;
+	}
 }

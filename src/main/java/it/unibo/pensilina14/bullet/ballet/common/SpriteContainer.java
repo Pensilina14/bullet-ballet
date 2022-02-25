@@ -101,7 +101,7 @@ public class SpriteContainer extends AbstractContainer<ImmutablePair<PhysicalObj
 	}
 
 	@Override
-	public final boolean deleteSprite(final MutablePosition2D targetPosition) {
+	public final Optional<PhysicalObjectSprite> deleteSprite(final MutablePosition2D targetPosition) {
 		for (final Entry<GameEntities, Optional<List<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>>>> entry : this.getContainer().entrySet()) {
 			if (entry.getValue().isPresent()) {
 				final Iterator<ImmutablePair<PhysicalObjectSprite, MutablePosition2D>> iter = entry.getValue().get().iterator();
@@ -109,13 +109,13 @@ public class SpriteContainer extends AbstractContainer<ImmutablePair<PhysicalObj
 					final ImmutablePair<PhysicalObjectSprite, MutablePosition2D> spriteAndItsPosition = iter.next();
 					if (spriteAndItsPosition.getRight().equals(targetPosition)) {
 						iter.remove();
-						return true;
+						return Optional.ofNullable(spriteAndItsPosition.getLeft());
 					}
 				}
 			} else {
 				throw new NoSuchElementException();
 			}
 		}
-		return false;
+		return Optional.empty();
 	}
 }

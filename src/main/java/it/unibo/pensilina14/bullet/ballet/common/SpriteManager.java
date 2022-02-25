@@ -25,5 +25,5 @@ public interface SpriteManager {
     boolean addWeaponSprite(PhysicalObjectSprite weaponSprite, MutablePosition2D position);
     boolean addBulletSprite(PhysicalObjectSprite bulletSprite, MutablePosition2D position);
 
-    boolean deleteSprite(MutablePosition2D targetPosition);
+    Optional<PhysicalObjectSprite> deleteSprite(MutablePosition2D targetPosition);
 }
