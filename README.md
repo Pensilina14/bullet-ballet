@@ -44,6 +44,12 @@ At the end of the match, the player's name and score will be saved and will be s
 
 <hr/>
 
+![Screenshot](Documentation/screens/bullet_ballet_screen4.PNG)
+
+![Screenshot](Documentation/screens/bullet_ballet_screen5.PNG)
+
+![Screenshot](Documentation/screens/bullet_ballet_screen6.PNG)
+
 ## In-Game Entities
 - Player
 - Enemies
