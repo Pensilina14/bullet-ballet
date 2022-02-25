@@ -127,8 +127,6 @@ public class CharactersTest {
         final Player player = factoryCharacters.createRandomPlayer(vector, environment);
         final Enemy enemy = factoryCharacters.createRandomEnemy(vector, environment);
 
-        // Non conosco i valori della vita e resto a priori, perchè sono casuali.
-
         // HEALTH
         double playerHealth = player.getHealth();
         double enemyHealth = enemy.getHealth();
@@ -153,11 +151,9 @@ public class CharactersTest {
         for(final EntityList.Characters.Player p : EntityList.Characters.Player.values()){
             if(p == player.getPlayerType()){
                 assertSame(p, player.getPlayerType());
-                //playerTypeChecker++;
                 playerTypeChecker = true;
             }
         }
-        //assertTrue(playerTypeChecker > 0);
         assertTrue(playerTypeChecker);
 
         boolean enemyTypeChecker = false;
@@ -177,14 +173,6 @@ public class CharactersTest {
 
         this.environment.getEntityManager().getPlayer().get().getPosition().get().setPosition(2.0, 0.0);
         this.environment.getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().setPosition(12.0, 0.0);
-
-        System.out.println("coords player in test: " + this.environment.getEntityManager().getPlayer().get().getPosition().get().getCoordinates()); //TODO: remove
-        System.out.println("coords enemy in test: " + this.environment.getEntityManager().getEnemies().get().get(enemyIndex).getPosition().get().getCoordinates()); //TODO: remove
-
-        //TODO: uncomment when i'll fix it.
-        //assertFalse(this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).isPlayerInRange(0));
-
-        //assertTrue(this.environment.getEntityManager().getEnemies().get().get(ENEMY_INDEX).getRange() <= this.environment.getEntityManager().getEnemies().get().get(0).getMaxRange());
 
     }
 }
