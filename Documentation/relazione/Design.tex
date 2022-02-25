@@ -427,7 +427,7 @@ Effects è inoltre interfaccia funzionale, ciò presenta maggiori opportunità e
 
 \textsf{\small La mia parte riguardava l'implementazione dei personaggi di gioco e dei diversi aspetti riguardanti la generazione della mappa e dei suoi componenti a livello di \emph{View}.}\\
 
-\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore.}\\ 
+\textsf{\small Mi competeva, inoltre, l'inizializzazione delle varie scene di gioco, dell'implementazione delle sprites, del salvataggio dei punteggi e delle statistiche completati dal giocatore, delle impostazioni di gioco ed il loro caricamento.}\\ 
 %della generazione della mappa a livello di \emph{View}.}\\
 
 \subsubsection*{Characters}
@@ -452,13 +452,13 @@ Effects è inoltre interfaccia funzionale, ciò presenta maggiori opportunità e
 
 \textsf{\small Per quanto riguarda la \emph{Mappa} mi sono occupato degli aspetti della \emph{View}.}\\
 
-\textsf{\small E' presente l'interfaccia \emph{GameView} che viene implementata dalla classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena del gioco, come la mappa o i crediti del gioco. Questa è ereditata dalla Classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo.}\\
+\textsf{\small È presente l'interfaccia \emph{GameView} che viene implementata dalla classe \emph{MapScene} che implementa una specifica scena del gioco, ovvero quella della mappa, inizializzando tutte le sprites delle varie entità di gioco e generandole sullo schermo. Poi abbiamo la classe astratta \emph{AbstractScene} che ha il compito di rappresentare una generica scena edl gioco, come la mappa di gioco.} \\
 
 \textsf{\small In \emph{MapScene} vengono generate le sprites dalle classi \emph{Platform}, \emph{Coin}, \emph{MainEnemy}, \emph{MainPlayer} con la sua animazione implementata in \emph{SpriteAnimation}.}\\
 
 \textsf{\small Queste entità vengono posizionate in una precisa posizione in base alla locazione di un carattere in un array di stringhe che si trovano in dei files .txt che vengono caricati dalla classe \emph{LevelLoader}.} %TODO: sistemare, scrivere meglio.
 
-\textsf{\small Ad ogni entità del gioco è associato un carattere (un numero o un simbolo) che si trovano files .txt nella directory \emph{levels/}.}\\ %TODO: anche qui.
+\textsf{\small Ad ogni entità del gioco è associato un carattere (un numero o un simbolo) presenti nell'enum \emph{LevelEntity} che si trovano nei files .dat nella directory \emph{levels/}.}\\
 
 \textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
 
