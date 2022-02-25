@@ -49,15 +49,15 @@ At the end of the match, the player's name and score will be saved and will be s
 - Enemies
 - Coins
 - Weapons:
- - Autogun
- - Shotgun
- - Gun
+  - Autogun
+  - Shotgun
+  - Gun
 - Jumping Obstacle
 - Items:
- - Poisonous Potions 
- - Hearts
- - Ammo
- - End Game Flag
+  - Poisonous Potions 
+  - Hearts
+  - Ammo
+  - End Game Flag
 
 <hr/>
 
