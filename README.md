@@ -33,6 +33,8 @@ At the end of the match, the player's name and score will be saved and will be s
 
 ## Usage
 
+If the given version contains the jar:
+
 - In the terminal run the command : java -jar bullet-ballet-all.jar
 
 In alternative:
