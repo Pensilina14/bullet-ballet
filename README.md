@@ -33,7 +33,9 @@ At the end of the match, the player's name and score will be saved and will be s
 
 ## Usage
 
-- In the terminal type `./gradlew run` to run the game.
+- In the terminal run the command : java -jar bullet-ballet-all.jar
+In alternative:
+- In the terminal run the command : ./gradlew run -> it requires gradle
 
 <hr/>
 
