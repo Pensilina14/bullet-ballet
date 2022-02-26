@@ -35,7 +35,7 @@ At the end of the match, the player's name and score will be saved and will be s
 
 If the given version contains the jar:
 
-- In the terminal run the command : java -jar bullet-ballet-all.jar
+- In the terminal run the command : java -jar bullet-ballet-all.jar (!IMPORTANT! In order to work you should run the jar in the ~/bullet-ballet directory)
 
 In alternative:
 
