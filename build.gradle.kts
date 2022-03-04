@@ -48,7 +48,7 @@ dependencies {
     /* for cross-platform jar: */
     runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:win")
     runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:linux")
-    //runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:mac")
+    runtimeOnly("org.openjfx:javafx-graphics:$javafx.version:mac")
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
