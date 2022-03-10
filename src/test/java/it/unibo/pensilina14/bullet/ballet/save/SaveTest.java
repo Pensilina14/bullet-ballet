@@ -186,7 +186,7 @@ public class SaveTest {
 
         final int numberOfLevels = 4;
 
-        final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
+        /*final int txtLevels = Save.getNumberOfLevels(Extensions.TXT);
         final int datLevels = Save.getNumberOfLevels(Extensions.DAT);
 
         // If there are no levels in the .txt extension then we check it, otherwise we encrypt the files in the .dat extension and we remove the .txt
@@ -201,7 +201,7 @@ public class SaveTest {
             final int datAfterEncryption = Save.getNumberOfLevels(Extensions.DAT);
             assertEquals(0, txtAfterEncryption);
             assertEquals(numberOfLevels, datAfterEncryption);
-        }
+        }*/
     }
 
 }

@@ -19,9 +19,9 @@ import java.util.*;
 
 public final class Save {
 
-    public static final String SAVE_PATH = "data/saves/save_file.dat";
+    public static final String SAVE_PATH = "src/main/resources/data/saves/save_file.dat"; //TODO: temporary, to fix.
     private static final String LEVEL_PATH = "data/levels/";
-    public static final String SETTINGS_PATH = "data/settings/settings.dat";
+    public static final String SETTINGS_PATH = "src/main/resources/data/settings/settings.dat"; //TODO: temporary, to fix.
 
     public static final String PLAYER_STRING = "Player";
     public static final String SCORE_STRING = "Score";
@@ -200,7 +200,8 @@ public final class Save {
      * @throws IOException: fail or interrupted I/O operations.
      * @throws InvalidKeyException: invalid key.
      */
-    public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+    //TODO: fix
+    /*public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
     	final int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
     	
     	final String level = "level";
@@ -213,7 +214,7 @@ public final class Save {
             File levelFile = new File(levelToEncrypt);
             levelFile.delete();
         }
-    }
+    }*/
 
     /**
      *
@@ -264,7 +265,7 @@ public final class Save {
         final String clearLevel;
         try {
             final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-            final byte[] decryptedLevel = SecureData.decryptFile(encryptedLevelPath, SecureData.PASSWORD);
+            final byte[] decryptedLevel = SecureData.decryptFile(getFileFromResourceAsStream(encryptedLevelPath).readAllBytes(), SecureData.PASSWORD);
             clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
 
             return clearLevel.split("[\\r\\n]+");
@@ -297,7 +298,8 @@ public final class Save {
      * @param extension : the extension of the level files.
      * @return : an int with the number of the levels present in the levels' directory.
      */
-	public static int getNumberOfLevels(final String extension){
+    //TODO: fix.
+	/*public static int getNumberOfLevels(final String extension){
     	final File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
     }
@@ -305,7 +307,7 @@ public final class Save {
 	public static int getNumberOfLevels(final Extensions extension){
     	final File levelsDirectory = new File(Save.LEVEL_PATH);
         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
-    }
+    }*/
 
     /**
      *
@@ -423,6 +425,23 @@ public final class Save {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    private static String getPathFromLoader(final String filePath){
+        return String.valueOf(Save.class.getClassLoader().getResourceAsStream(filePath));
+    }
+
+    private static InputStream getFileFromResourceAsStream(String filePath) {
+
+        ClassLoader classLoader = Save.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(filePath);
+
+        if (Objects.isNull(inputStream)) {
+            throw new IllegalArgumentException("file not found! " + filePath);
+        } else {
+            return inputStream;
+        }
+
     }
 
 }
