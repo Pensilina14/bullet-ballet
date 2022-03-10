@@ -48,6 +48,7 @@ public class SettingsController implements Initializable {
             this.resolution.getSelectionModel().select(Resolutions.getDefaultResolution().toString());
             this.difficulty.getSelectionModel().select(Difficulties.getDefaultDifficulty().toString());
             this.language.getSelectionModel().select(Languages.getDefaultLanguage().getLanguage());
+            this.audio.setValue(0.5);
         }
     }
     
