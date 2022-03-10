@@ -1,6 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.environment;
 
-import it.unibo.pensilina14.bullet.ballet.save.Extensions;
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 
 import java.util.Arrays;
@@ -12,6 +11,8 @@ public class LevelLoader {
     private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
+
+    private static final int MAX_LEVELS = 4;
     
     private static final Random RAND = new Random();
 
@@ -22,8 +23,7 @@ public class LevelLoader {
     }
 
     private int getRandomLevel(){
-        final int maxLevels = Save.getNumberOfLevels(Extensions.DAT);
-        return LevelLoader.RAND.nextInt(maxLevels);
+        return LevelLoader.RAND.nextInt(LevelLoader.MAX_LEVELS);
     }
 
     public double getLevelWidth(){

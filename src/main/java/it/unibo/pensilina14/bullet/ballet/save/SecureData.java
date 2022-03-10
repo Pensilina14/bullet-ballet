@@ -5,7 +5,9 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -179,5 +181,10 @@ public final class SecureData {
         final byte[] encryptedMessage = Files.readAllBytes(Paths.get(encryptedFilePath));
 
         return SecureData.decrypt(encryptedMessage, password);
+    }
+
+    public static byte[] decryptFile(final byte[] encryptedFilePath, final String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
+
+        return SecureData.decrypt(encryptedFilePath, password);
     }
 }
