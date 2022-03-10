@@ -86,11 +86,3 @@ tasks.withType<Jar> {
       configurations["runtimeClasspath"].map { if(it.isDirectory) it else zipTree(it) }
     })
 }
-
-sourceSets {
-    main {
-        resources {
-            srcDirs("res/", "data/")
-        }
-    }
-}

@@ -29,11 +29,3 @@ svg/
 # Ignore IDE folders
 .idea/
 .settings/org.eclipse.jdt.core.prefs
-
-# Ignore game savings files
-!data/levels/*
-!data/levels/*.dat
-!data/saves/
-!data/settings/
-data/saves/save_file.json
-data/
