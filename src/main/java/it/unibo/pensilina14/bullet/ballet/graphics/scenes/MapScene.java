@@ -92,15 +92,10 @@ public class MapScene extends AbstractScene implements GameView {
         setInputController(controller);
         this.initScene();
         this.root.getChildren().add(this.appPane);
-        AppLogger.getAppLogger().debug("Inside MapScene setup() method."); 
-        try {
-            this.backgroundView = new ImageView(new Image(Files.newInputStream(Paths.get(this.map.getMap().getPath()))));
-            AppLogger.getAppLogger().debug("Load background image");
-        } catch (final IOException e) {
-            e.printStackTrace();
-            AppLogger.getAppLogger().error("Failed to load background image.");
-        }
-        this.mainWeapon = Optional.empty();
+        AppLogger.getAppLogger().debug("Inside MapScene setup() method.");
+		this.backgroundView = new ImageView(String.valueOf(getClass().getClassLoader().getResource(this.map.getMap().getPath())));
+		AppLogger.getAppLogger().debug("Load background image");
+		this.mainWeapon = Optional.empty();
         this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
         this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
         this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());

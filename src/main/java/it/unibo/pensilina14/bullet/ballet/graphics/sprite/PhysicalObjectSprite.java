@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.graphics.sprite;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import javax.imageio.ImageIO;
+
 public class PhysicalObjectSprite extends Pane {
 
     private final ImageView imageView;
@@ -21,8 +24,8 @@ public class PhysicalObjectSprite extends Pane {
     private final Dimension2D physicalObjectDimension;
 
     public PhysicalObjectSprite(final Images img, final MutablePosition2D position,
-        final PhysicalObject physicalObject) throws IOException {
-        this.imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getFileName()))));
+        final PhysicalObject physicalObject) {
+        this.imageView = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource(img.getFileName()))));
         AppLogger.getAppLogger().info(img.toString());
         this.physicalObjectDimension = physicalObject.getDimension().get();
         final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
@@ -36,8 +39,8 @@ public class PhysicalObjectSprite extends Pane {
     }
 
     public PhysicalObjectSprite(final Images.Platforms img, final MutablePosition2D position,
-            final PhysicalObject physicalObject) throws IOException {
-        this.imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getPath()))));
+            final PhysicalObject physicalObject) {
+        this.imageView = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource(img.getPath()))));
         AppLogger.getAppLogger().info(img.toString());
         this.physicalObjectDimension = physicalObject.getDimension().get();
         final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
@@ -51,8 +54,8 @@ public class PhysicalObjectSprite extends Pane {
     }
 
     public PhysicalObjectSprite(final Images.Coins img, final MutablePosition2D position,
-            final PhysicalObject physicalObject) throws IOException {
-        this.imageView = new ImageView(new Image(Files.newInputStream(Paths.get(img.getPath()))));
+            final PhysicalObject physicalObject) {
+        this.imageView = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource(img.getPath()))));
         AppLogger.getAppLogger().info(img.toString());
         this.physicalObjectDimension = physicalObject.getDimension().get();
         final double physicalObjectWidth = physicalObject.getDimension().get().getWidth();
