@@ -11,8 +11,6 @@ public class LevelLoader {
     private final String[] level;
     private final double levelHeight;
     private final double levelWidth;
-
-    private static final int MAX_LEVELS = 4;
     
     private static final Random RAND = new Random();
 
@@ -23,7 +21,7 @@ public class LevelLoader {
     }
 
     private int getRandomLevel(){
-        return LevelLoader.RAND.nextInt(LevelLoader.MAX_LEVELS);
+        return LevelLoader.RAND.nextInt(Save.MAX_LEVELS);
     }
 
     public double getLevelWidth(){

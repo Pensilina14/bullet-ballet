@@ -19,9 +19,9 @@ import java.util.*;
 
 public final class Save {
 
-    public static final String SAVE_PATH = "src/main/resources/data/saves/save_file.dat"; //TODO: temporary, to fix.
+    public static final String SAVE_PATH = "src/main/resources/data/saves/save_file.dat"; //TODO: to fix.
     private static final String LEVEL_PATH = "data/levels/";
-    public static final String SETTINGS_PATH = "src/main/resources/data/settings/settings.dat"; //TODO: temporary, to fix.
+    public static final String SETTINGS_PATH = "src/main/resources/data/settings/settings.dat"; //TODO: to fix.
 
     public static final String PLAYER_STRING = "Player";
     public static final String SCORE_STRING = "Score";
@@ -32,6 +32,8 @@ public final class Save {
     public static final String DIFFICULTY_STRING = "Difficulty";
     public static final String AUDIO_STRING = "Audio";
     public static final String LANGUAGE_STRING = "Language";
+
+    public static final int MAX_LEVELS = 4;
 
     /**
      * private constructor because I don't want the class to be instantiated.
