@@ -8,7 +8,7 @@ import javafx.scene.media.AudioClip;
 
 public class SoundImpl implements Sound{
 
-	private static final double NO_VOLUME = 0.0;
+	public static final double DEFAULT_VOLUME = 0.5;
 	private final Optional<AudioClip> audioClip;
 	
 	public SoundImpl(final AudioClip audioClip) {
@@ -18,7 +18,7 @@ public class SoundImpl implements Sound{
 	@Override
 	public void play() {
 		final Map<String, String> settingsMap = Save.loadSettings();
-		final double volume = !settingsMap.isEmpty() ? Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)) : SoundImpl.NO_VOLUME;
+		final double volume = !settingsMap.isEmpty() ? Double.parseDouble(settingsMap.get(Save.AUDIO_STRING)) : SoundImpl.DEFAULT_VOLUME;
 		this.audioClip.get().play(volume);
 	}
 
