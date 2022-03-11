@@ -35,11 +35,14 @@ At the end of the match, the player's name and score will be saved and will be s
 
 If the given version contains the jar:
 
-- In the terminal run the command : java -jar bullet-ballet-all.jar (!IMPORTANT! In order to work you should run the jar in the ~/bullet-ballet directory)
+- In the terminal run the command : java -jar bullet-ballet-all.jar or double click on the jar.
 
 In alternative:
 
-- In the terminal run the command : ./gradlew run -> it requires gradle
+- In the terminal run the command : ./gradlew run -> it requires gradle.
+
+When executed:
+- A root directory named "_.bullet-ballet_" will be created in the _user home directory_ to save and load in-game settings and statistics.
 
 <hr/>
 
