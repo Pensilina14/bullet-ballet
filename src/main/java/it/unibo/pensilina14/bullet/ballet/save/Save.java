@@ -1,5 +1,6 @@
 package it.unibo.pensilina14.bullet.ballet.save;
 
+import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,9 +20,13 @@ import java.util.*;
 
 public final class Save {
 
-    public static final String SAVE_PATH = "src/main/resources/data/saves/save_file.dat"; //TODO: to fix.
+    private static final String PROJECT_DIRECTORY = "/.bullet-ballet/";
+    private static final String USER_HOME_PROPERTY = "user.home";
+    private static final String USER_HOME_DIRECTORY = System.getProperty(Save.USER_HOME_PROPERTY);
+
+    public static final String SAVE_PATH = Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/save_file.dat";
     private static final String LEVEL_PATH = "data/levels/";
-    public static final String SETTINGS_PATH = "src/main/resources/data/settings/settings.dat"; //TODO: to fix.
+    public static final String SETTINGS_PATH = Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/settings.dat";
 
     public static final String PLAYER_STRING = "Player";
     public static final String SCORE_STRING = "Score";
@@ -444,6 +449,48 @@ public final class Save {
             return inputStream;
         }
 
+    }
+
+    private static boolean hasCreatedProjectDirectory(){
+
+        final File projectDirectory = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY);
+
+        return !projectDirectory.exists() && projectDirectory.mkdirs(); // return !projectDirectory.exists() ? projectDirectory.mkdirs() : false;
+    }
+
+    private static boolean doesDataExist(){
+        final File data = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/");
+        if(!data.exists()){
+            data.mkdirs();
+        }
+
+        final File saves = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/");
+        if(!saves.exists() && data.exists()){
+            saves.mkdirs();
+        }
+
+        final File settings = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/");
+        if(!settings.exists() && data.exists()){
+            settings.mkdirs();
+        }
+
+        return data.exists() && saves.exists() && settings.exists();
+    }
+
+    public static void createGameDirectories(){
+        final boolean hasCreatedProjectDirectory = hasCreatedProjectDirectory();
+        if(hasCreatedProjectDirectory){
+            AppLogger.getAppLogger().info("Project Directory created successfully!");
+        } else {
+            AppLogger.getAppLogger().info("Project Directory already exists or has not been created!");
+        }
+
+        final boolean hasCreatedData = doesDataExist();
+        if(hasCreatedData){
+            AppLogger.getAppLogger().info("Data and subfolders created successfully or already exist!");
+        } else {
+            AppLogger.getAppLogger().info("Data and subfolders have not been created!");
+        }
     }
 
 }
