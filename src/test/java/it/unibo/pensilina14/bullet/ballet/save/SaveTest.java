@@ -25,6 +25,8 @@ public class SaveTest {
     @Test
     public void saveAndLoadStatisticsTest(){
 
+        Save.createGameDirectories();
+
         // Before the test I delete all the previously stored data in the save file.
         Save.resetFile(Save.SAVE_PATH);
 
@@ -60,6 +62,8 @@ public class SaveTest {
 
     @Test
     public void updateStatisticsTest(){
+        Save.createGameDirectories();
+
         Save.resetFile(Save.SAVE_PATH);
 
         final String playerName = "Alessio";
@@ -113,6 +117,8 @@ public class SaveTest {
 
     @Test
     public void resetTest(){
+        Save.createGameDirectories();
+
         final File statisticsFile = new File(Save.SAVE_PATH);
 
         Save.resetFile(statisticsFile.getPath());
@@ -128,6 +134,8 @@ public class SaveTest {
 
     @Test
     public void saveAndLoadSettingsTest(){
+
+        Save.createGameDirectories();
 
         // Before the test I delete all the previously stored data in the save file.
         Save.resetFile(Save.SETTINGS_PATH);
@@ -183,6 +191,8 @@ public class SaveTest {
     @Test
     public void loadLevelTest() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
             NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+
+        Save.createGameDirectories();
 
         final int numberOfLevels = 4;
 
