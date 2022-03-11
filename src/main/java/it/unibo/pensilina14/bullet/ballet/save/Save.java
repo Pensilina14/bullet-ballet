@@ -434,10 +434,11 @@ public final class Save {
         }
     }
 
-    private static String getPathFromLoader(final String filePath){
-        return String.valueOf(Save.class.getClassLoader().getResourceAsStream(filePath));
-    }
-
+    /**
+     *
+     * @param filePath : the path of the file.
+     * @return an InputStream of the file.
+     */
     private static InputStream getFileFromResourceAsStream(String filePath) {
 
         ClassLoader classLoader = Save.class.getClassLoader();
@@ -451,6 +452,10 @@ public final class Save {
 
     }
 
+    /**
+     *
+     * @return a boolean whether the project root directory has been created or if already exists.
+     */
     private static boolean hasCreatedProjectDirectory(){
 
         final File projectDirectory = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY);
@@ -458,6 +463,10 @@ public final class Save {
         return !projectDirectory.exists() && projectDirectory.mkdirs(); // return !projectDirectory.exists() ? projectDirectory.mkdirs() : false;
     }
 
+    /**
+     *
+     * @return : a boolean whether data and its subfolders have been created or not.
+     */
     private static boolean doesDataExist(){
         final File data = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/");
         if(!data.exists()){
@@ -477,6 +486,9 @@ public final class Save {
         return data.exists() && saves.exists() && settings.exists();
     }
 
+    /**
+     * Check and create if not exist the project root directory as well as for the data and its subfolders.
+     */
     public static void createGameDirectories(){
         final boolean hasCreatedProjectDirectory = hasCreatedProjectDirectory();
         if(hasCreatedProjectDirectory){
