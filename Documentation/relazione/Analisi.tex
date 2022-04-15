@@ -6,11 +6,11 @@
 \textsf{\small L'obiettivo del gioco è quello di realizzare più punti possibili per superare i propri record, in base alla distanza percorsa dal giocatore.}\\
 
 \textsf{\small Ma non sarà tutto in discesa, il giocatore dovrà affrontare nemici con i più variegati equipaggiamenti, ostacoli di ogni sorta, varchi nella mappa e molto altro ancora..}\\
-\textsf{\small Il giocatore potrà scegliere fra ben 8 mappe uniche e relative piattaforme in tema.}\\
+\textsf{\small Il giocatore potrà scegliere fra ben 4 mappe uniche e relative piattaforme in tema.}\\
 
 \textsf{\small Inoltre, il giocatore potrà avvalersi a sua volta di effetti (bonus) sia positivi che negativi per poter sconfiggere le avversità che si presenteranno sul suo cammino.}\\
 
-\textsf{\small Potrà, poi salvare tutti i suoi punteggi di gioco.}\\
+\textsf{\small Potrà, poi salvare tutte le sue statistiche di gioco.}\\
 
 \begin{comment}
 In questo capitolo andrà fatta l'analisi dei requisiti e quella del problema, ossia verranno elencate le cose che l'applicazione dovrà fare (requisiti) e verrà descritto il dominio applicativo (analisi del problema).
@@ -22,7 +22,7 @@ La fase di analisi, infatti, \textit{precede} qualunque azione di design o di im
 
 \section{Requisiti}
 
-\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Load Game}, \emph{Settings},\emph{Quit}.}\\
+\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Settings}, \emph{Game Stats}, \emph{Quit}.}\\
 
 \begin{comment}
 Nell'analisi dei \emph{requisiti} dell'applicazione si dovrà spiegare cosa l'applicazione dovrà fare.
@@ -65,11 +65,11 @@ Per intelligenza artificiale si intende un software in grado di assumere decisio
 	\item \textsf{\small \emph{Menù di pausa}: Il giocatore potrà mettere il gioco in pausa attraverso un dato pulsante della tastiera, scelto nelle impostazioni.}
 	\item \textsf{\small \emph{Personaggio}: Il giocatore potrà scegliere un personaggio e muoverlo in partita.}
 	\item \textsf{\small \emph{Nemici}: Verranno generati diversi nemici che il giocatore dovrà affrontare.}
-	\item \textsf{\small \emph{Ostacoli e oggetti raccoglibili}: Verranno creati nella mappa degli ostacoli che bloccheranno la strada e degli oggetti che il giocatore potrà raccogliere per ricevere un (power up) bonus od un malus.}
+	\item \textsf{\small \emph{Ostacoli e oggetti raccoglibili}: Verranno creati nella mappa degli ostacoli che bloccheranno la strada e degli oggetti che il giocatore potrà raccogliere per ricevere un (power up) bonus o un malus.}
 	\item \textsf{\small \emph{Salvataggio del punteggio e classifica}: Terminata la partita, il punteggio di gioco potrà essere salvato e verrà generata una classifica finale.}
-	\item \textsf{\small \emph{Suoni ed effetti sonori}: La durata della partita verrà accompagnata da una colonna sonora e agli effetti sonori prodotti dall'environment di gioco.}
-	\item \textsf{\small \emph{Fisica di gioco}: Tutti le entità di gioco saranno dotati di una fisica ed una gravità propria.}
-	%\item \textsf{\small }
+	\item \textsf{\small \emph{Suoni ed effetti sonori}: La durata della partita verrà accompagnata da una colonna sonora e dagli effetti sonori prodotti dall'environment di gioco.}
+	\item \textsf{\small \emph{Fisica di gioco}: Tutti le entità di gioco saranno dotate di una fisica ed una gravità propria.}
+	\item \textsf{\small \emph{Criptazione dei files di gioco}: Tutti i files di gioco: livelli, statistiche e impostazioni verranno criptate per evitare che il giocatore possa modificarle.}
 	%\item \textsf{\small }
 	%\item \textsf{\small }
 	%\item \textsf{\small }
@@ -92,7 +92,7 @@ conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di tes
 \end{comment}
 
 %\subsubsection{Requisiti non funzionali}
-\subsection{Requisiti opzionali}
+\subsection{Requisiti non funzionali e opzionali}
 
 \textsf{\small Questi requisiti non concorrono a far parte delle funzionalità minime del gioco e per questioni di tempistica e/o di budget non verranno necessariamente implementate.}\\
 
@@ -117,17 +117,17 @@ conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di tes
 Ognuna di queste entità interagirà in maniere differenti col player: }\\
 
 \begin{itemize}
-	\item \textsf{\small \emph{Enemy}, ostacolerà il player a colpi di mitra.} %TODO: da modificare.
-	\item \textsf{\small \emph{Item}, una volta raccolta dal player, gli fornirà o un \textbf{bonus}, come una vita extra oppure un \textbf{malus} come un effetto di volevo per tot tempo.}
-	\item \textsf{\small \emph{monete}, faranno aumentare il punteggio e il numero di monete del gioco da usare nel mercato per poter comprare nuove skins, in game-items, ecc..}
+	\item \textsf{\small \emph{Enemy}, ostacolerà il player a colpi di mitra.}
+	\item \textsf{\small \emph{Item}, una volta raccolta dal player, gli fornirà o un \textbf{bonus}, come una vita extra oppure un \textbf{malus} come un effetto di veleno per tot tempo.}
+	\item \textsf{\small \emph{monete}, faranno aumentare il punteggio e il numero di monete del gioco da usare nel mercato per poter comprare nuove skins, in game-items, ecc...}
 	\item \textsf{\small \emph{Armi}, dopo essere state raccolte verranno equipaggiate al giocatore.}
-	\item \textsf{\small \emph{Ostacoli}, se il player ci colliderà, subirà del danno.}
+	\item \textsf{\small \emph{Ostacoli}, se il player ci si scontrerà, subirà del danno.}
 \end{itemize}
 
 \textsf{\small Il gioco si conclude quando e se il player riesce a raggiungere la fine della mappa senza morire.}
 \textsf{\small Se il player viene ucciso prima di raggiungere la fine, allora viene eliminato e la partita è persa.}\\
 
-\textsf{\small Ogni round è a sè stante, finita la partita, al player verrà assegnato un punteggio e potrà scegliere se rigiocare od uscire.}\\
+\textsf{\small Ogni round è a sé stante, finita la partita, al player verrà assegnato un punteggio e potrà scegliere se rigiocare o se uscire dal gioco.}\\
 
 %TODO: aggiungere UML.
 
