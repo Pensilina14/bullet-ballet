@@ -475,7 +475,7 @@ a
 
 \textsf{\small Ho utilizzato poi un enum, \emph{EntityList}, per poter rappresentare diversi tipi di personaggi con diverse caratteristiche che ho settato nel metodo \emph{setPlayerType()} e \emph{setEnemyType()} delle rispettive classi. }\\
 
-\textsf{\small Mi sono avvalso, inoltre, del pattern architetturale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
+\textsf{\small Mi sono avvalso, inoltre, del pattern progettuale \textbf{Factory} per raccogliere le varie tipologie di \emph{Player} ed \emph{Enemy} attraverso l'interfaccia \emph{FactoryCharacters} e la sua implementazione \emph{FactoryCharactersImpl} per riorganizzare meglio i vari personaggi del gioco e rendere la loro creazione più chiara e semplice, evitando così di dover passare, ogni volta, un eccessivo numero di parametri da inizializzare.}
 
 %\enlargethispage{1\linewidth}
 \begin{figure}[H]
@@ -500,7 +500,7 @@ a
 \textsf{\small Le classi \emph{Platform} e \emph{Coin} sono simili ed entrambe hanno un proprio enum per le proprie varie tipologie e utilizzano una ImageView per settare l'immagine, le proprietà e le posizioni sullo schermo.}\\
 
 \textsf{\small \emph{MainEnemy} è una semplice ImageView statica mentre \emph{MainPlayer} è una ImageView dinamica, ovvero con un'animazione.}
-\textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc..) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
+\textsf{\small \emph{SpriteAnimation} è la classe che carica da \emph{MainPlayer} l'immagine e le sue caratteristiche (come width dell'immagine, height, ecc...) ed interpola le varie immagini della spritesheet del giocatore per creare la sua animazione che dura tot millisecondi.}\\
 
 \textsf{\small  Quale sfondo della mappa da mostrare e la relativa piattaforma in tema e quale moneta vengono settate nella classe \emph{BackgroundMap} che tiene traccia di questi elementi della View.}\\
 
