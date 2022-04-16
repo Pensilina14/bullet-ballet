@@ -5,7 +5,7 @@
 \textsf{\small \textbf{Bullet Ballet} è un videogioco platform a scorrimento orizzontale, del genere \emph{Shoot 'em up} in 2D.}\\
 \textsf{\small L'obiettivo del gioco è quello di realizzare più punti possibili per superare i propri record, in base alla distanza percorsa dal giocatore.}\\
 
-\textsf{\small Ma non sarà tutto in discesa, il giocatore dovrà affrontare nemici con i più variegati equipaggiamenti, ostacoli di ogni sorta, varchi nella mappa e molto altro ancora..}\\
+\textsf{\small Ma non sarà tutto in discesa, il giocatore dovrà affrontare nemici con i più variegati equipaggiamenti, ostacoli di ogni sorta, varchi nella mappa e molto altro ancora...}\\
 \textsf{\small Il giocatore potrà scegliere fra ben 8 mappe uniche e relative piattaforme in tema.}\\
 
 \textsf{\small Inoltre, il giocatore potrà avvalersi a sua volta di effetti (bonus) sia positivi che negativi per poter sconfiggere le avversità che si presenteranno sul suo cammino.}\\
@@ -22,40 +22,7 @@ La fase di analisi, infatti, \textit{precede} qualunque azione di design o di im
 
 \section{Requisiti}
 
-\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Load Game}, \emph{Settings},\emph{Quit}.}\\
-
-\begin{comment}
-Nell'analisi dei \emph{requisiti} dell'applicazione si dovrà spiegare cosa l'applicazione dovrà fare.
-%
-Non ci si deve concentrare sui particolari problemi, ma esclusivamente su cosa si desidera che l'applicazione faccia.
-%
-È consigliato descrivere separatamente i requisiti funzionali (quelli che descrivono l'effettivo
-comportamento dell'applicazione) da quelli non funzionali (requisiti che non riguardano direttamente
-aspetti comportamentali, come sicurezza, performance, eccetera).
-\end{comment}
-
-\begin{comment}
-\subsection*{Elementi positivi}
-\begin{itemize}
-	\item Si fornisce una descrizione in linguaggio naturale di ciò che il software dovrà fare.
-	\item Gli obiettivi sono spiegati con chiarezza, per punti.
-	\item Se il software è stato commissionato o è destinato ad un utente o compagnia specifici, il committente viene nominato.
-	\item Se vi sono termini il cui significato non è immediatamente intuibile, essi vengono spiegati.
-	\item Vengono descritti separatamente requisiti funzionali e non funzionali.
-	\item Considerato a un paio di pagine un limite ragionevole alla lunghezza della parte sui requisiti, in quello spazio si deve cercare di chiarire \textit{tutti} gli aspetti dell'applicazione, non lasciando decisioni che impattano la parte ``esterna'' alla discussione del design (che dovrebbe solo occuparsi della parte ``interna'').
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
-	\item Si forniscono indicazioni circa le soluzioni che si vogliono adottare
-	\item Si forniscono dettagli di tipo tecnico o implementativo (parlando di classi, linguaggi di programmazione, librerie, eccetera)
-\end{itemize}
-
-\subsection*{Esempio}
-Il software, commissionato dal gestore del centro di ricerca ``Aperture Laboratories Inc.''\footnote{\url{http://aperturescience.com/}}, mira alla costruzione di una intelligenza artificiale di nome GLaDOS (Genetic Lifeform and Disk Operating System).
-%
-Per intelligenza artificiale si intende un software in grado di assumere decisioni complesse in maniera semi autonoma sugli argomenti di sua competenza, a partire dai vincoli e dagli obiettivi datigli dall'utente.
-\end{comment}
+\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Load Game}, \emph{Settings}, \emph{Game Stats} \emph{Quit}.}\\
 
 \subsubsection{Requisiti funzionali}
 
@@ -65,33 +32,12 @@ Per intelligenza artificiale si intende un software in grado di assumere decisio
 	\item \textsf{\small \emph{Menù di pausa}: Il giocatore potrà mettere il gioco in pausa attraverso un dato pulsante della tastiera, scelto nelle impostazioni.}
 	\item \textsf{\small \emph{Personaggio}: Il giocatore potrà scegliere un personaggio e muoverlo in partita.}
 	\item \textsf{\small \emph{Nemici}: Verranno generati diversi nemici che il giocatore dovrà affrontare.}
-	\item \textsf{\small \emph{Ostacoli e oggetti raccoglibili}: Verranno creati nella mappa degli ostacoli che bloccheranno la strada e degli oggetti che il giocatore potrà raccogliere per ricevere un (power up) bonus od un malus.}
+	\item \textsf{\small \emph{Ostacoli e oggetti raccoglibili}: Verranno creati nella mappa degli ostacoli che bloccheranno la strada e degli oggetti che il giocatore potrà raccogliere per ricevere un (power up) bonus o un malus.}
 	\item \textsf{\small \emph{Salvataggio del punteggio e classifica}: Terminata la partita, il punteggio di gioco potrà essere salvato e verrà generata una classifica finale.}
 	\item \textsf{\small \emph{Suoni ed effetti sonori}: La durata della partita verrà accompagnata da una colonna sonora e agli effetti sonori prodotti dall'environment di gioco.}
 	\item \textsf{\small \emph{Fisica di gioco}: Tutti le entità di gioco saranno dotati di una fisica ed una gravità propria.}
-	%\item \textsf{\small }
-	%\item \textsf{\small }
-	%\item \textsf{\small }
-	%\item \textsf{\small }
 \end{itemize}
 
-\begin{comment}
-\begin{itemize}
-\item La suddetta intelligenza artificiale dovrà occuparsi di coordinare le attività all'interno
-delle camere di test di Aperture, guidando l'utente attraverso un certo numero di sfide di
-difficoltà crescente. Una camera di test è un ambiente realizzato da Aperture Laboratories Inc. al
-fine di mettere alla prova le proprie tecnologie di manipolazione dell'ambiente. All'interno della
-camera di test, un soggetto qualificato è incaricato di sfruttare gli strumenti messi a
-disposizione da Aperture per risolvere alcuni rompicapi. I rompicapi sono di tipo fisico (ad
-esempio, manipolazione di oggetti, pressione di pulsanti, azionamento di leve), e si ritengono
-conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di test.
-\item Il piano preciso ed il numero delle sfide sarà variabile, e GLaDOS dovrà essere in grado di adattarsi dinamicamente e di fornire indicazioni di guida.
-\item La personalità di GLaDOS dovrà essere modificabile.
-\item GLaDOS dovrà essere in grado di comunicare col reparto cucina di Aperture, per ordinare torte da donare agli utenti che completassero l'ultima camera di test con successo.
-\end{itemize}
-\end{comment}
-
-%\subsubsection{Requisiti non funzionali}
 \subsection{Requisiti opzionali}
 
 \textsf{\small Questi requisiti non concorrono a far parte delle funzionalità minime del gioco e per questioni di tempistica e/o di budget non verranno necessariamente implementate.}\\
@@ -102,14 +48,7 @@ conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di tes
 	\item \textsf{\small \emph{Modalità storia}: una modalità con una storia di gioco e diversi livelli che il giocatore dovrà sbloccare per poter continuare ad avanzare nel gioco.}
 	\item \textsf{\small \emph{Statistiche di gioco}: Varie statistiche di gioco, mostrate in diversi diagrammi.}
 	\item \textsf{\small \emph{Difficoltà di gioco}: Possibilità di scegliere diverse difficoltà che potrebbero aggiungere numero di nemici/ostacoli/oggetti di varia natura e/o incrementare la loro vita.}
-	%\item \textsf{\small }
 \end{itemize}
-
-\begin{comment}
-\begin{itemize}
-\item GLaDOS dovrà essere estremamente efficiente nell'uso delle risorse. Le specifiche tecniche parlano della possibilità di funzionare su dispositivi alimentati da una batteria a patata.
-\end{itemize}
-\end{comment}
 
 \section{Analisi e modello del dominio}
 
@@ -127,7 +66,7 @@ Ognuna di queste entità interagirà in maniere differenti col player: }\\
 \textsf{\small Il gioco si conclude quando e se il player riesce a raggiungere la fine della mappa senza morire.}
 \textsf{\small Se il player viene ucciso prima di raggiungere la fine, allora viene eliminato e la partita è persa.}\\
 
-\textsf{\small Ogni round è a sè stante, finita la partita, al player verrà assegnato un punteggio e potrà scegliere se rigiocare od uscire.}\\
+\textsf{\small Ogni round è a sé stante, finita la partita, al player verrà assegnato un punteggio e potrà scegliere se rigiocare od uscire.}\\
 
 %TODO: aggiungere UML.
 
