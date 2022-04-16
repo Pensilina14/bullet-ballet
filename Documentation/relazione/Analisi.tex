@@ -6,15 +6,15 @@
 \textsf{\small L'obiettivo del gioco è quello di realizzare più punti possibili per superare i propri record, in base alla distanza percorsa dal giocatore.}\\
 
 \textsf{\small Ma non sarà tutto in discesa, il giocatore dovrà affrontare nemici con i più variegati equipaggiamenti, ostacoli di ogni sorta, varchi nella mappa e molto altro ancora...}\\
-\textsf{\small Il giocatore potrà scegliere fra ben 8 mappe uniche e relative piattaforme in tema.}\\
+\textsf{\small Il giocatore potrà scegliere fra ben 4 mappe uniche e relative piattaforme in tema.}\\
 
 \textsf{\small Inoltre, il giocatore potrà avvalersi a sua volta di effetti (bonus) sia positivi che negativi per poter sconfiggere le avversità che si presenteranno sul suo cammino.}\\
 
-\textsf{\small Potrà, poi salvare tutti i suoi punteggi di gioco.}\\
+\textsf{\small Potrà, poi salvare tutte le sue statistiche di gioco.}\\
 
 \section{Requisiti}
 
-\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Load Game}, \emph{Settings}, \emph{Game Stats} \emph{Quit}.}\\
+\textsf{\small L'applicazione mostra, all'avvio, un menù di gioco con le seguenti voci: \emph{New Game}, \emph{Settings}, \emph{Game Stats}, \emph{Quit}.}\\
 
 \subsubsection{Requisiti funzionali}
 
@@ -27,10 +27,11 @@
 	\item \textsf{\small \emph{Ostacoli e oggetti raccoglibili}: Verranno creati nella mappa degli ostacoli che bloccheranno la strada e degli oggetti che il giocatore potrà raccogliere per ricevere un (power up) bonus o un malus.}
 	\item \textsf{\small \emph{Salvataggio del punteggio e classifica}: Terminata la partita, il punteggio di gioco potrà essere salvato e verrà generata una classifica finale.}
 	\item \textsf{\small \emph{Suoni ed effetti sonori}: La durata della partita verrà accompagnata da una colonna sonora e agli effetti sonori prodotti dall'environment di gioco.}
-	\item \textsf{\small \emph{Fisica di gioco}: Tutti le entità di gioco saranno dotati di una fisica ed una gravità propria.}
+	\item \textsf{\small \emph{Fisica di gioco}: Tutti le entità di gioco saranno dotate di una fisica ed una gravità propria.}
+	\item \textsf{\small \emph{Criptazione dei files di gioco}: Tutti i files di gioco: livelli, statistiche e impostazioni verranno criptate per evitare che il giocatore possa modificarle.}
 \end{itemize}
 
-\subsection{Requisiti opzionali}
+\subsection{Requisiti non funzionali e opzionali}
 
 \textsf{\small Questi requisiti non concorrono a far parte delle funzionalità minime del gioco e per questioni di tempistica e/o di budget non verranno necessariamente implementate.}\\
 
@@ -49,10 +50,10 @@ Ognuna di queste entità interagirà in maniere differenti col player: }\\
 
 \begin{itemize}
 	\item \textsf{\small \emph{Enemy}, ostacolerà il player a colpi di mitra.} %TODO: da modificare.
-	\item \textsf{\small \emph{Item}, una volta raccolta dal player, gli fornirà o un \textbf{bonus}, come una vita extra oppure un \textbf{malus} come un effetto di volevo per tot tempo.}
-	\item \textsf{\small \emph{monete}, faranno aumentare il punteggio e il numero di monete del gioco da usare nel mercato per poter comprare nuove skins, in game-items, ecc..}
+	\item \textsf{\small \emph{Item}, una volta raccolta dal player, gli fornirà o un \textbf{bonus}, come una vita extra oppure un \textbf{malus} come un effetto di veleno per tot tempo.}
+	\item \textsf{\small \emph{monete}, faranno aumentare il punteggio e il numero di monete del gioco da usare nel mercato per poter comprare nuove skins, in game-items, ecc...}
 	\item \textsf{\small \emph{Armi}, dopo essere state raccolte verranno equipaggiate al giocatore.}
-	\item \textsf{\small \emph{Ostacoli}, se il player ci colliderà, subirà del danno.}
+	\item \textsf{\small \emph{Ostacoli}, se il player ci si scontrerà, subirà del danno.}
 \end{itemize}
 
 \textsf{\small Il gioco si conclude quando e se il player riesce a raggiungere la fine della mappa senza morire.}
