@@ -74,7 +74,7 @@ java {
 }
 
 tasks.withType<Jar> {
-    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.WARN
+    duplicatesStrategy = DuplicatesStrategy.WARN
 
   manifest {
     attributes["Main-Class"] = "it.unibo.pensilina14.bullet.ballet.Main"
