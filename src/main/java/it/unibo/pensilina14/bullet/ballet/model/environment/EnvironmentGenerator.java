@@ -66,9 +66,7 @@ public class EnvironmentGenerator implements LevelGenerator {
 
 	private void populate(final EntityManagerBuilder entityManagerBuilder, final int i, final String line, final int j) {
 		final char symbol = line.charAt(j);
-		if (symbol == LevelEntity.EMPTY.getValue()) {
-			System.out.println("che bisogna mettere qui?");
-		} else if (symbol == LevelEntity.PLATFORM.getValue()) {
+		if (symbol == LevelEntity.PLATFORM.getValue()) {
 			this.generatePlatform(entityManagerBuilder, i, j);
 		} else if (symbol == LevelEntity.COIN.getValue()) {
 			this.generateCoin(entityManagerBuilder, i, j);

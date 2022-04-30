@@ -71,7 +71,7 @@ public class MapScene extends AbstractScene implements GameView {
     public MapScene(final GameState gameState) {
         this.gameState = gameState;
         this.controller = Optional.empty();
-        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH);
         this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
         this.soundsFactory = new SoundsFactoryImpl();
         this.sprites = new SpriteContainer();
