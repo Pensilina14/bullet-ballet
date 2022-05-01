@@ -5,72 +5,79 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-
 <?import java.net.URL?>
-<AnchorPane prefHeight="597.0" prefWidth="785.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
-   <children>
-      <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="%lblPause.text" AnchorPane.bottomAnchor="533.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font name="Comic Sans MS Bold" size="48.0" />
-         </font>
-         <effect>
-            <InnerShadow choke="0.02">
-               <color>
-                  <Color red="1.0" green="0.125490203499794" blue="0.125490203499794" />
-               </color>
-            </InnerShadow>
-         </effect>
-      </Label>
-      <VBox alignment="CENTER" prefHeight="597.0" prefWidth="791.0" spacing="50.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="resumeButton" mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0" prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
-               <effect>
-                  <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
-                     <color>
-                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <font>
-                  <Font name="Comic Sans MS" size="20.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0" prefWidth="320.0" text="%btnPauseSettings.text" textFill="#d32c2c">
-               <effect>
-                  <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
-                     <color>
-                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <font>
-                  <Font name="Comic Sans MS" size="20.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="%btnPauseExit.text" textFill="#d32c2c">
-               <effect>
-                  <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
-                     <color>
-                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <font>
-                  <Font name="Comic Sans MS" size="20.0" />
-               </font>
-            </Button>
-            
-               </children>
-         <padding>
-            <Insets left="10.0" top="10.0" />
-         </padding>
-      </VBox>
-   </children>
-   <stylesheets>
-      <URL value="@css/style.css" />
-   </stylesheets>
+<AnchorPane prefHeight="597.0" prefWidth="785.0"
+            style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.PauseMenuController">
+    <children>
+        <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0"
+               text="%lblPause.text" AnchorPane.bottomAnchor="533.0" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Comic Sans MS Bold" size="48.0"/>
+            </font>
+            <effect>
+                <InnerShadow choke="0.02">
+                    <color>
+                        <Color red="1.0" green="0.125490203499794" blue="0.125490203499794"/>
+                    </color>
+                </InnerShadow>
+            </effect>
+        </Label>
+        <VBox alignment="CENTER" prefHeight="597.0" prefWidth="791.0" spacing="50.0" AnchorPane.bottomAnchor="6.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="resumeButton" mnemonicParsing="false" onMouseClicked="#resumeGame" prefHeight="50.0"
+                        prefWidth="320.0" text="%btnResume.text" textFill="#d32c2c">
+                    <effect>
+                        <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                            <color>
+                                <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952"/>
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Comic Sans MS" size="20.0"/>
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#settingsOnMouseClick" prefHeight="50.0"
+                        prefWidth="320.0" text="%btnPauseSettings.text" textFill="#d32c2c">
+                    <effect>
+                        <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                            <color>
+                                <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952"/>
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Comic Sans MS" size="20.0"/>
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#exitOnMouseClicked" prefHeight="50.0" prefWidth="320.0"
+                        text="%btnPauseExit.text" textFill="#d32c2c">
+                    <effect>
+                        <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                            <color>
+                                <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952"/>
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Comic Sans MS" size="20.0"/>
+                    </font>
+                </Button>
+
+            </children>
+            <padding>
+                <Insets left="10.0" top="10.0"/>
+            </padding>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@css/style.css"/>
+    </stylesheets>
 </AnchorPane>

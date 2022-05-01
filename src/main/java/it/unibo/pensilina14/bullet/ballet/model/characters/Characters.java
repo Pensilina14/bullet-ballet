@@ -1,91 +1,68 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
-import java.util.Optional;
-
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+
+import java.util.Optional;
 
 public interface Characters {
 
-    /**
-     *
-     * @return health of the character.
-     */
+  /**
+   * @return health of the character.
+   */
+  double getHealth();
 
-    double getHealth();
+  /**
+   * @return optional mana of the character.
+   */
+  Optional<Double> getMana();
 
-    /**
-     *
-     * @return optional mana of the character.
-     */
+  /**
+   * @return whether character is alive or not.
+   */
+  boolean isAlive();
 
-    Optional<Double> getMana();
+  /**
+   * @param setHealth: set new health of the character
+   */
+  void setHealth(final double setHealth);
 
-    /**
-     *
-     * @return whether character is alive or not.
-     */
+  /**
+   * @return the Weapon that the character is using.
+   */
+  Optional<Weapon> getWeapon(); // returns a Weapon
 
-    boolean isAlive();
+  /**
+   * @param weapon: set the new character weapon.
+   */
+  void setWeapon(final Weapon weapon);
 
-    /**
-     *
-     * @param setHealth: set new health of the character
-     */
-    void setHealth(final double setHealth);
+  /**
+   * @return name of the character
+   */
+  String getName();
 
-    /**
-     * @return the Weapon that the character is using.
-     */
+  /**
+   * @return whether the character has any mana left.
+   */
+  boolean manaLeft();
 
-    Optional<Weapon> getWeapon(); // returns a Weapon
+  /**
+   * @param decreaseValue: decreases mana.
+   */
+  void decreaseMana(final double decreaseValue);
 
-    /**
-     * @param weapon: set the new character weapon.
-     *
-     */
+  /**
+   * @param increaseValue: increases mana.
+   */
+  void increaseMana(final double increaseValue);
 
-    void setWeapon(final Weapon weapon);
+  /**
+   * @param increaseHealth: increases health by increaseHealth amount.
+   */
+  void increaseHealth(final double increaseHealth);
 
-    /**
-     *
-     * @return name of the character
-     */
-
-    String getName();
-
-    /**
-     *
-     * @return whether the character has any mana left.
-     */
-
-    boolean manaLeft();
-
-    /**
-     *
-     * @param decreaseValue: decreases mana.
-     */
-
-    void decreaseMana(final double decreaseValue);
-
-    /**
-     *
-     * @param increaseValue: increases mana.
-     */
-
-    void increaseMana(final double increaseValue);
-
-    /**
-     *
-     * @param increaseHealth: increases health by increaseHealth amount.
-     */
-
-    void increaseHealth(final double increaseHealth);
-
-    /**
-     *
-     * @param decreaseHealth: decreases health by decreaseHealth amount.
-     */
-
-    void decreaseHealth(final double decreaseHealth);
-
+  /**
+   * @param decreaseHealth: decreases health by decreaseHealth amount.
+   */
+  void decreaseHealth(final double decreaseHealth);
 }

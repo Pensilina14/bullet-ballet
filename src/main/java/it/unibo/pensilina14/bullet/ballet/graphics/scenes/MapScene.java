@@ -36,431 +36,476 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-
 public class MapScene extends AbstractScene implements GameView {
 
-    private final Pane appPane = new StackPane();
-    private final Pane gamePane = new Pane();
-    private final Pane uiPane = new StackPane(); 
-    private ImageView backgroundView;
-    private final GameMap map = new BackgroundMap();
-    private final SpriteManager sprites;
-    private Optional<MutablePair<PhysicalObjectSprite, MutablePosition2D>> mainWeapon;
-    private final GameState gameState;
-    private Optional<GameEngine> controller;
-    private List<Hud> hudList;
-    private final SoundsFactory soundsFactory;
+  private final Pane appPane = new StackPane();
+  private final Pane gamePane = new Pane();
+  private final Pane uiPane = new StackPane();
+  private ImageView backgroundView;
+  private final GameMap map = new BackgroundMap();
+  private final SpriteManager sprites;
+  private Optional<MutablePair<PhysicalObjectSprite, MutablePosition2D>> mainWeapon;
+  private final GameState gameState;
+  private Optional<GameEngine> controller;
+  private List<Hud> hudList;
+  private final SoundsFactory soundsFactory;
 
-    public MapScene(final GameState gameState) {
-        this.gameState = gameState;
-        this.controller = Optional.empty();
-        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH);
-        this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
-        this.soundsFactory = new SoundsFactoryImpl();
-        this.sprites = new SpriteContainer();
-        this.mainWeapon = Optional.empty();
+  public MapScene(final GameState gameState) {
+    this.gameState = gameState;
+    this.controller = Optional.empty();
+    this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH);
+    this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+    this.soundsFactory = new SoundsFactoryImpl();
+    this.sprites = new SpriteContainer();
+    this.mainWeapon = Optional.empty();
+  }
+
+  public MapScene(final GameState gameState, final GameEngine ctrlr) {
+    this.gameState = gameState;
+    this.controller = Optional.of(ctrlr);
+    this.appPane.setMinWidth(
+        AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
+    this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
+    this.soundsFactory = new SoundsFactoryImpl();
+    this.sprites = new SpriteContainer();
+    this.mainWeapon = Optional.empty();
+  }
+
+  public final void setup(final GameEngine controller) {
+    setInputController(controller);
+    this.initScene();
+    this.root.getChildren().add(this.appPane);
+    AppLogger.getAppLogger().debug("Inside MapScene setup() method.");
+    this.backgroundView =
+        new ImageView(
+            String.valueOf(getClass().getClassLoader().getResource(this.map.getMap().getPath())));
+    AppLogger.getAppLogger().debug("Load background image");
+    this.mainWeapon = Optional.empty();
+    this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
+    this.backgroundView
+        .fitWidthProperty()
+        .bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
+    this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
+    AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
+    try {
+      this.initialize();
+    } catch (final IOException exc) {
+      exc.printStackTrace();
+      AppLogger.getAppLogger()
+          .error("IOException, probably caused by a problem with components sprite imgs.");
+    }
+    final Hud healthInfo =
+        new Hud(
+            HudLabels.HEALTH,
+            Pos.TOP_LEFT,
+            ContentDisplay.CENTER,
+            this.uiPane,
+            new Insets(20, 0, 0, 20));
+    final Hud scoreInfo =
+        new Hud(
+            HudLabels.SCORE,
+            Pos.TOP_CENTER,
+            ContentDisplay.RIGHT,
+            this.uiPane,
+            new Insets(20, 0, 0, 50));
+    final Hud ammoInfo =
+        new Hud(
+            HudLabels.AMMO,
+            Pos.TOP_RIGHT,
+            ContentDisplay.LEFT,
+            this.uiPane,
+            new Insets(20, 150, 0, 0));
+    this.hudList = List.of(healthInfo, scoreInfo, ammoInfo);
+  }
+
+  private void initialize() throws IOException {
+    final Environment world = this.gameState.getGameEnvironment();
+    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl();
+    initializePlayer(world, spriteFactory);
+    initializePlatforms(world, spriteFactory);
+    initializeEnemies(world, spriteFactory);
+    initializeItems(world, spriteFactory);
+    initializeObstacles(world, spriteFactory);
+    initializeWeapons(world, spriteFactory);
+  }
+
+  private void initializeWeapons(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    for (final Weapon x : world.getEntityManager().getWeapons().get()) {
+      final MutablePosition2D xPosition = x.getPosition().get();
+      if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
+        final PhysicalObjectSprite weaponSprite = spriteFactory.generateGunWeaponSprite(x);
+        this.sprites.addWeaponSprite(weaponSprite, xPosition);
+        this.gamePane.getChildren().add(weaponSprite);
+        AppLogger.getAppLogger().info("Gun rendered");
+      } else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
+        final PhysicalObjectSprite weaponSprite = spriteFactory.generateShotgunWeaponSprite(x);
+        this.sprites.addWeaponSprite(weaponSprite, xPosition);
+        this.gamePane.getChildren().add(weaponSprite);
+        AppLogger.getAppLogger().info("Shotgun rendered");
+      } else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
+        final PhysicalObjectSprite weaponSprite = spriteFactory.generateAutogunWeaponSprite(x);
+        this.sprites.addWeaponSprite(weaponSprite, xPosition);
+        this.gamePane.getChildren().add(weaponSprite);
+        AppLogger.getAppLogger().info("Automatic weapon rendered");
+      }
+    }
+    AppLogger.getAppLogger().debug("Weapons rendered");
+  }
+
+  private void initializeObstacles(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
+      final MutablePosition2D xPosition = x.getPosition().get();
+      if (x instanceof Obstacle) {
+        final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(x);
+        obstacleSprite.renderPosition(xPosition.getX(), xPosition.getY());
+        this.sprites.addObstacleSprite(obstacleSprite, xPosition);
+        this.gamePane.getChildren().add(obstacleSprite);
+        AppLogger.getAppLogger().debug("Static Obstacle rendered");
+      }
+    }
+  }
+
+  private void initializeItems(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    for (final Item x : world.getEntityManager().getItems().get()) {
+      final MutablePosition2D position = x.getPosition().get();
+      if (x.getItemId().equals(Items.DAMAGE)) {
+        final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(x);
+        itemSprite.renderPosition(position.getX(), position.getY());
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      } else if (x.getItemId().equals(Items.HEART)) {
+        final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(x);
+        itemSprite.renderPosition(position.getX(), position.getY());
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      } else if (x.getItemId().equals(Items.POISON)) {
+        final PhysicalObjectSprite itemSprite = spriteFactory.generatePoisoningItemSprite(x);
+        itemSprite.renderPosition(position.getX(), position.getY());
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      } else if (x.getItemId().equals(Items.COIN)) {
+        final PhysicalObjectSprite itemSprite =
+            spriteFactory.generateCoinItemSprite(this.map.getCoinType(), x);
+        itemSprite.renderPosition(position.getX(), position.getY());
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      } else if (x.getItemId().equals(Items.CHARGER)) {
+        final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      } else if (x.getItemId().equals(Items.FLAG)) {
+        final PhysicalObjectSprite itemSprite = spriteFactory.generateFlagSprite(x);
+        this.sprites.addItemSprite(itemSprite, position);
+        this.gamePane.getChildren().add(itemSprite);
+      }
+    }
+    AppLogger.getAppLogger().debug("Items rendered.");
+  }
+
+  private void initializeEnemies(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    for (final Enemy x : world.getEntityManager().getEnemies().get()) {
+      final MutablePosition2D xPosition = x.getPosition().get();
+      final PhysicalObjectSprite enemySprite = spriteFactory.generateEnemySprite(x);
+      this.sprites.addEnemySprite(enemySprite, xPosition);
+      this.gamePane.getChildren().add(enemySprite);
+    }
+    AppLogger.getAppLogger().debug("Enemies rendered.");
+  }
+
+  private void initializePlatforms(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    for (final Platform x : world.getEntityManager().getPlatforms().get()) {
+      final MutablePosition2D xPosition = x.getPosition().get();
+      final PhysicalObjectSprite platformSprite =
+          spriteFactory.generatePlatformSprite(this.map.getPlatformType(), x);
+      this.sprites.addPlatformSprite(platformSprite, xPosition);
+      this.gamePane.getChildren().add(platformSprite);
+    }
+    AppLogger.getAppLogger().debug("Platforms rendered.");
+  }
+
+  private void initializePlayer(
+      final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
+    if (world.getEntityManager().getPlayer().isPresent()) {
+      final MutablePosition2D playerPos =
+          world.getEntityManager().getPlayer().get().getPosition().get();
+      final PhysicalObjectSprite playerSprite =
+          spriteFactory.generatePlayerSprite(world.getEntityManager().getPlayer().get());
+      this.sprites.addPlayerSprite(playerSprite, playerPos);
+      this.gamePane.getChildren().add(playerSprite);
+      AppLogger.getAppLogger()
+          .debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
+    }
+  }
+
+  @Override
+  public final void draw() throws IOException {
+    this.update();
+    try {
+      this.render();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void update() throws IOException {
+    this.startPlayerAnimation();
+
+    if (this.keysPressed.contains(KeyCode.UP)) {
+      this.stopPlayerAnimation();
+      this.controller.get().notifyCommand(new Up());
     }
 
-    public MapScene(final GameState gameState, final GameEngine ctrlr) {
-        this.gameState = gameState;
-        this.controller = Optional.of(ctrlr);
-        this.appPane.setMinWidth(AbstractScene.SCENE_WIDTH); // caso mai la mappa fosse più grande o anche più piccola.
-        this.appPane.setMinHeight(AbstractScene.SCENE_HEIGHT);
-        this.soundsFactory = new SoundsFactoryImpl();
-        this.sprites = new SpriteContainer();
-        this.mainWeapon = Optional.empty();
+    if (this.keysPressed.contains(KeyCode.RIGHT)) {
+      this.startPlayerAnimation();
+      this.controller.get().notifyCommand(new Right());
     }
 
-    public final void setup(final GameEngine controller) {
-        setInputController(controller);
-        this.initScene();
-        this.root.getChildren().add(this.appPane);
-        AppLogger.getAppLogger().debug("Inside MapScene setup() method.");
-		this.backgroundView = new ImageView(String.valueOf(getClass().getClassLoader().getResource(this.map.getMap().getPath())));
-		AppLogger.getAppLogger().debug("Load background image");
-		this.mainWeapon = Optional.empty();
-        this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
-        this.backgroundView.fitWidthProperty().bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
-        this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
-        AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
-        try {
-            this.initialize();
-        } catch (final IOException exc) {
-            exc.printStackTrace();
-            AppLogger.getAppLogger().error("IOException, probably caused by a problem with components sprite imgs.");
+    if (this.keysPressed.contains(KeyCode.LEFT)) {
+      this.controller.get().notifyCommand(new Left());
+    }
+
+    if (this.keysReleased.contains(KeyCode.SPACE)) {
+      AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
+      this.controller.get().notifyCommand(new Space(this));
+    }
+
+    if (this.keysReleased.contains(KeyCode.ESCAPE)) {
+      AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
+      this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT);
+      this.controller.get().stop();
+      final PageLoader pageLoaderImpl = new PageLoaderImpl();
+      final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
+      window.setOnCloseRequest(
+          e -> {
+            this.controller.get().start();
+          });
+    }
+
+    if (this.keysReleased.contains(KeyCode.UP)) {
+      this.startPlayerAnimation();
+      this.keysReleased.remove(KeyCode.UP);
+    }
+
+    if (this.keysReleased.contains(KeyCode.RIGHT)) {
+      this.stopPlayerAnimation();
+      this.keysReleased.remove(KeyCode.RIGHT);
+    }
+
+      this.keysReleased.remove(KeyCode.LEFT);
+
+      this.keysReleased.remove(KeyCode.SPACE);
+
+      this.keysReleased.remove(KeyCode.ESCAPE);
+  }
+
+  private void render() throws IOException {
+    final Environment env = this.gameState.getGameEnvironment();
+
+    if (this.sprites.getPlayerSprite().isPresent()) {
+      this.sprites
+          .getPlayerSprite()
+          .get()
+          .get(0)
+          .getRight()
+          .setPosition(
+              env.getEntityManager().getPlayer().get().getPosition().get().getX(),
+              env.getEntityManager().getPlayer().get().getPosition().get().getY());
+      this.sprites
+          .getPlayerSprite()
+          .get()
+          .get(0)
+          .getLeft()
+          .renderPosition(
+              this.sprites.getPlayerSprite().get().get(0).getRight().getX(),
+              this.sprites.getPlayerSprite().get().get(0).getRight().getY());
+    }
+
+    if (env.getEntityManager().getPlayer().get().hasWeapon()) {
+      if (this.mainWeapon.isEmpty() && this.sprites.getWeaponsSprites().isPresent()) {
+        this.sprites.getWeaponsSprites().get().stream()
+            .forEach(
+                p -> {
+                  if (p.getRight().equals(this.sprites.getPlayerSprite().get().get(0).getRight())) {
+                    this.mainWeapon = Optional.of(new MutablePair<>(p.getLeft(), p.getRight()));
+                    AppLogger.getAppLogger().debug("Add main weapon");
+                    this.sprites.deleteSprite(p.getRight());
+                  }
+                });
+      } else {
+        final MutablePosition2D pos = this.sprites.getPlayerSprite().get().get(0).getRight();
+        if (this.mainWeapon.isPresent()) {
+          this.mainWeapon.get().getLeft().renderPosition(pos.getX(), pos.getY());
         }
-        final Hud healthInfo = new Hud(HudLabels.HEALTH, Pos.TOP_LEFT, ContentDisplay.CENTER,
-                this.uiPane, new Insets(20, 0, 0, 20));
-        final Hud scoreInfo = new Hud(HudLabels.SCORE, Pos.TOP_CENTER, ContentDisplay.RIGHT,
-                this.uiPane, new Insets(20, 0, 0, 50));
-        final Hud ammoInfo = new Hud(HudLabels.AMMO, Pos.TOP_RIGHT, ContentDisplay.LEFT,
-                this.uiPane, new Insets(20, 150, 0, 0));
-        this.hudList = List.of(healthInfo, scoreInfo, ammoInfo);
+      }
     }
 
-    private void initialize() throws IOException {
-    	final Environment world = this.gameState.getGameEnvironment();
-	    final PhysicalObjectSpriteFactory spriteFactory = new PhysicalObjectSpriteFactoryImpl();
-    	initializePlayer(world, spriteFactory);
-    	initializePlatforms(world, spriteFactory);
-    	initializeEnemies(world, spriteFactory);
-    	initializeItems(world, spriteFactory);
-		initializeObstacles(world, spriteFactory);
-		initializeWeapons(world, spriteFactory);
+    if (this.sprites.getPlatformsSprites().isPresent()) {
+      this.sprites.getPlatformsSprites().get().stream()
+          .forEach(p -> p.getLeft().renderMovingPosition());
     }
 
-	private void initializeWeapons(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
-		for (final Weapon x : world.getEntityManager().getWeapons().get()) {
-			final MutablePosition2D xPosition = x.getPosition().get();
-			if (x.getTypeOfWeapon().equals(EntityList.Weapons.GUN)) {
-				final PhysicalObjectSprite weaponSprite = spriteFactory.generateGunWeaponSprite(x);
-				this.sprites.addWeaponSprite(weaponSprite, xPosition);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Gun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.SHOTGUN)) {
-				final PhysicalObjectSprite weaponSprite = spriteFactory.generateShotgunWeaponSprite(x);
-				this.sprites.addWeaponSprite(weaponSprite, xPosition);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Shotgun rendered");
-			} else if (x.getTypeOfWeapon().equals(EntityList.Weapons.AUTO)) {
-				final PhysicalObjectSprite weaponSprite = spriteFactory.generateAutogunWeaponSprite(x);
-				this.sprites.addWeaponSprite(weaponSprite, xPosition);
-				this.gamePane.getChildren().add(weaponSprite);
-				AppLogger.getAppLogger().info("Automatic weapon rendered");
-			}	
-		}
-		AppLogger.getAppLogger().debug("Weapons rendered");
-	}
-
-	private void initializeObstacles(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
-			throws IOException {
-		for (final PhysicalObject x : world.getEntityManager().getObstacles().get()) {
-    		final MutablePosition2D xPosition = x.getPosition().get();
-    		if (x instanceof Obstacle) {
-    			final PhysicalObjectSprite obstacleSprite = spriteFactory.generateBunnySprite(x);
-    			obstacleSprite.renderPosition(xPosition.getX(), xPosition.getY());
-    			this.sprites.addObstacleSprite(obstacleSprite, xPosition);
-    			this.gamePane.getChildren().add(obstacleSprite);
-    			AppLogger.getAppLogger().debug("Static Obstacle rendered");
-    		} 
-    	}
-	}
-
-	private void initializeItems(final Environment world, final PhysicalObjectSpriteFactory spriteFactory)
-			throws IOException {
-		for (final Item x : world.getEntityManager().getItems().get()) {
-    	    final MutablePosition2D position = x.getPosition().get();
-    		if (x.getItemId().equals(Items.DAMAGE)) {
-    			final PhysicalObjectSprite itemSprite = spriteFactory.generateDamagingItemSprite(x);
-        	    itemSprite.renderPosition(position.getX(), position.getY());
-        	    this.sprites.addItemSprite(itemSprite, position);
-        	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().equals(Items.HEART)) {
-        	    final PhysicalObjectSprite itemSprite = spriteFactory.generateHealingItemSprite(x);
-        	    itemSprite.renderPosition(position.getX(), position.getY());
-        	    this.sprites.addItemSprite(itemSprite, position);
-        	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().equals(Items.POISON)) {
-    			final PhysicalObjectSprite itemSprite = spriteFactory.generatePoisoningItemSprite(x);
-        	    itemSprite.renderPosition(position.getX(), position.getY());
-        	    this.sprites.addItemSprite(itemSprite, position);
-        	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().equals(Items.COIN)) {
-    			final PhysicalObjectSprite itemSprite = spriteFactory.generateCoinItemSprite(this.map.getCoinType(), x);
-        	    itemSprite.renderPosition(position.getX(), position.getY());
-        	    this.sprites.addItemSprite(itemSprite, position);
-        	    this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().equals(Items.CHARGER)) {
-    			final PhysicalObjectSprite itemSprite = spriteFactory.generateAmmoSprite(x);
-    			this.sprites.addItemSprite(itemSprite, position);
-    			this.gamePane.getChildren().add(itemSprite);
-    		} else if (x.getItemId().equals(Items.FLAG)) {
-				final PhysicalObjectSprite itemSprite = spriteFactory.generateFlagSprite(x);
-				this.sprites.addItemSprite(itemSprite, position);
-				this.gamePane.getChildren().add(itemSprite);
-			}
-    	}
-    	AppLogger.getAppLogger().debug("Items rendered.");
-	}
-
-	private void initializeEnemies(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
-		for (final Enemy x : world.getEntityManager().getEnemies().get()) {
-    		final MutablePosition2D xPosition = x.getPosition().get();
-    		final PhysicalObjectSprite enemySprite = spriteFactory.generateEnemySprite(x);
-    		this.sprites.addEnemySprite(enemySprite, xPosition);
-    		this.gamePane.getChildren().add(enemySprite);
-    	}
-    	AppLogger.getAppLogger().debug("Enemies rendered.");
-	}
-
-	private void initializePlatforms(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
-		for (final Platform x : world.getEntityManager().getPlatforms().get()) {
-    		final MutablePosition2D xPosition = x.getPosition().get();
-    		final PhysicalObjectSprite platformSprite = spriteFactory.generatePlatformSprite(this.map.getPlatformType(), x);
-    		this.sprites.addPlatformSprite(platformSprite, xPosition);
-    		this.gamePane.getChildren().add(platformSprite);
-    	}
-    	AppLogger.getAppLogger().debug("Platforms rendered.");
-	}
-
-	private void initializePlayer(final Environment world, final PhysicalObjectSpriteFactory spriteFactory) throws IOException {
-		if (world.getEntityManager().getPlayer().isPresent()) {
-    		final MutablePosition2D playerPos = world.getEntityManager().getPlayer().get().getPosition().get();
-    		final PhysicalObjectSprite playerSprite = spriteFactory.generatePlayerSprite(world.getEntityManager().getPlayer().get());
-    		this.sprites.addPlayerSprite(playerSprite, playerPos);
-        	this.gamePane.getChildren().add(playerSprite);
-       		AppLogger.getAppLogger().debug(String.format("Player %s rendered.", world.getEntityManager().getPlayer().get()));
-    	}
-	}
-
-    @Override
-    public final void draw() throws IOException {
-	    this.update();
-	    try {
-			this.render();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    if (this.sprites.getEnemiesSprites().isPresent()) {
+      this.sprites.getEnemiesSprites().get().stream()
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
-    private void update() throws IOException {
-    	this.startPlayerAnimation();
-
-        if (this.keysPressed.contains(KeyCode.UP)) { 
-        	this.stopPlayerAnimation();
-            this.controller.get().notifyCommand(new Up());
-        }
-
-        if (this.keysPressed.contains(KeyCode.RIGHT)) {
-        	this.startPlayerAnimation();
-            this.controller.get().notifyCommand(new Right());
-        }
-
-        if (this.keysPressed.contains(KeyCode.LEFT)) {
-            this.controller.get().notifyCommand(new Left());
-        }
-
-        if (this.keysReleased.contains(KeyCode.SPACE)) {
-        	AppLogger.getAppLogger().info("Key 'SPACE' pressed.");
-        	this.controller.get().notifyCommand(new Space(this));
-        }
-
-        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
-        	AppLogger.getAppLogger().info("Key 'ESCAPE' pressed");
-        	this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT);
-        	this.controller.get().stop();
-        	final PageLoader pageLoaderImpl = new PageLoaderImpl();
-        	final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
-        	window.setOnCloseRequest(e -> {
-        		this.controller.get().start();
-        	});
-        }
-
-        if (this.keysReleased.contains(KeyCode.UP)) {
-        	this.startPlayerAnimation();
-        	this.keysReleased.remove(KeyCode.UP);
-        }
-
-        if (this.keysReleased.contains(KeyCode.RIGHT)) {
-        	this.stopPlayerAnimation();
-        	this.keysReleased.remove(KeyCode.RIGHT);
-        }
-
-        if (this.keysReleased.contains(KeyCode.LEFT)) {
-        	this.keysReleased.remove(KeyCode.LEFT); 
-        }
-
-        if (this.keysReleased.contains(KeyCode.SPACE)) {
-        	this.keysReleased.remove(KeyCode.SPACE);
-        }
-
-        if (this.keysReleased.contains(KeyCode.ESCAPE)) {
-        	this.keysReleased.remove(KeyCode.ESCAPE);
-        }
-
+    if (this.sprites.getItemsSprites().isPresent()) {
+      this.sprites.getItemsSprites().get().stream()
+          .forEach(p -> p.getLeft().renderMovingPosition());
     }
 
-    private void render() throws IOException {
-    	final Environment env = this.gameState.getGameEnvironment();
-
-    	if (this.sprites.getPlayerSprite().isPresent()) {
-            this.sprites.getPlayerSprite().get().get(0).getRight().setPosition(
-            		env.getEntityManager().getPlayer().get().getPosition().get().getX(),
-            		env.getEntityManager().getPlayer().get().getPosition().get().getY());
-            this.sprites.getPlayerSprite().get().get(0).getLeft().renderPosition(
-            		this.sprites.getPlayerSprite().get().get(0).getRight().getX(),
-            		this.sprites.getPlayerSprite().get().get(0).getRight().getY());
-    	}
-
-    	if (env.getEntityManager().getPlayer().get().hasWeapon()) {
-    		if (this.mainWeapon.isEmpty() && this.sprites.getWeaponsSprites().isPresent()) {
-    			this.sprites.getWeaponsSprites().get().stream().forEach(p -> {
-    				if (p.getRight().equals(this.sprites.getPlayerSprite().get().get(0).getRight())) {
-    					this.mainWeapon = Optional.of(new MutablePair<>(p.getLeft(), p.getRight()));
-    					AppLogger.getAppLogger().debug("Add main weapon");
-    					this.sprites.deleteSprite(p.getRight());
-    				}
-    			});
-    		} else {
-    			final MutablePosition2D pos = this.sprites.getPlayerSprite().get().get(0).getRight();
-    			if (this.mainWeapon.isPresent()) {
-    				this.mainWeapon.get().getLeft().renderPosition(pos.getX(), pos.getY());
-    			}
-    		}
-    	}
-
-    	if (this.sprites.getPlatformsSprites().isPresent()) {
-    		this.sprites.getPlatformsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
-    	}
-
-    	if (this.sprites.getEnemiesSprites().isPresent()) {
-    		this.sprites.getEnemiesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-    	}
-
-    	if (this.sprites.getItemsSprites().isPresent()) {
-    		this.sprites.getItemsSprites().get().stream().forEach(p -> p.getLeft().renderMovingPosition());
-    	}
-
-    	if (this.sprites.getObstaclesSprites().isPresent()) {
-    	  	this.sprites.getObstaclesSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-    	}
-
-    	if (this.sprites.getWeaponsSprites().isPresent()) {
-        	this.sprites.getWeaponsSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-    	}
-
-
-    	if (this.sprites.getBulletsSprites().isPresent()) {
-    		this.sprites.getBulletsSprites().get().stream().forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
-    	}
-
-		IntStream.range(0, this.hudList.size()).forEach(i -> {
-			final Label label = (Label) this.uiPane.getChildren().get(i);
-			if (this.checkChildrenById(i, HudLabels.HEALTH)) {
-				label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
-			} else if (this.checkChildrenById(i, HudLabels.SCORE)) {
-				label.setText("Score: " + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
-			} else if (this.checkChildrenById(i, HudLabels.AMMO) && env.getEntityManager().getPlayer().get().hasWeapon()) {
-				label.setText("Ammo: " + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft());
-			}
-		});
+    if (this.sprites.getObstaclesSprites().isPresent()) {
+      this.sprites.getObstaclesSprites().get().stream()
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
-    private boolean checkChildrenById(final int i, final HudLabels label) {
-    	return this.uiPane.getChildren().get(i).getId().equals(label.toString());
+    if (this.sprites.getWeaponsSprites().isPresent()) {
+      this.sprites.getWeaponsSprites().get().stream()
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
-    public final void setMap(final Maps map) {
-        this.map.setMap(map);
+    if (this.sprites.getBulletsSprites().isPresent()) {
+      this.sprites.getBulletsSprites().get().stream()
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
-    public final Pane getAppPane() {
-    	return this.appPane;
+    IntStream.range(0, this.hudList.size())
+        .forEach(
+            i -> {
+              final Label label = (Label) this.uiPane.getChildren().get(i);
+              if (this.checkChildrenById(i, HudLabels.HEALTH)) {
+                label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
+              } else if (this.checkChildrenById(i, HudLabels.SCORE)) {
+                label.setText(
+                    "Score: "
+                        + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
+              } else if (this.checkChildrenById(i, HudLabels.AMMO)
+                  && env.getEntityManager().getPlayer().get().hasWeapon()) {
+                label.setText(
+                    "Ammo: "
+                        + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft());
+              }
+            });
+  }
+
+  private boolean checkChildrenById(final int i, final HudLabels label) {
+    return this.uiPane.getChildren().get(i).getId().equals(label.toString());
+  }
+
+  public final void setMap(final Maps map) {
+    this.map.setMap(map);
+  }
+
+  public final Pane getAppPane() {
+    return this.appPane;
+  }
+
+  public final Pane getGamePane() {
+    return this.gamePane;
+  }
+
+  public final Pane getUiPane() {
+    return this.uiPane;
+  }
+
+  @Override
+  public final void setInputController(final GameEngine controller) {
+    this.controller = Optional.of(controller);
+  }
+
+  @Override
+  public final void setHeight(final double heigth) {
+    this.appPane.setPrefHeight(heigth);
+  }
+
+  @Override
+  public final void setWidth(final double width) {
+    this.appPane.setPrefWidth(width);
+  }
+
+  @Override
+  public final void deleteEnemySpriteImage(final MutablePosition2D position) {
+    this.deleteFromScene(position);
+  }
+
+  @Override
+  public final void deleteBulletSpriteImage(final MutablePosition2D position) {
+    this.deleteFromScene(position);
+  }
+
+  @Override
+  public final void deleteItemSprite(final MutablePosition2D position) {
+    this.deleteFromScene(position);
+  }
+
+  @Override
+  public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
+    this.deleteFromScene(position);
+    this.mainWeapon = Optional.empty();
+  }
+
+  private void deleteFromScene(final MutablePosition2D position) {
+    final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
+    if (deleted.isPresent()) {
+      this.gamePane.getChildren().remove(deleted.get());
     }
+  }
 
-    public final Pane getGamePane() {
-    	return this.gamePane;
+  @Override
+  public final void generateBullet(final PhysicalObject bullet) throws IOException {
+    final PhysicalObjectSpriteFactory factory = new PhysicalObjectSpriteFactoryImpl();
+    final PhysicalObjectSprite bulletSprite = factory.generateBulletSprite(bullet);
+    this.sprites.addBulletSprite(bulletSprite, bullet.getPosition().get());
+    this.gamePane.getChildren().add(bulletSprite);
+  }
+
+  public final void startPlayerAnimation() {
+    try {
+      final PlayerSprite playerSprite =
+          (PlayerSprite) this.sprites.getPlayerSprite().get().get(0).getLeft();
+      playerSprite.getSpriteAnimation().play();
+    } catch (final ClassCastException e) {
+      e.printStackTrace();
     }
+  }
 
-    public final Pane getUiPane() {
-    	return this.uiPane;
+  @Override
+  public final void stopPlayerAnimation() {
+    try {
+      final PlayerSprite playerSprite =
+          (PlayerSprite) this.sprites.getPlayerSprite().get().get(0).getLeft();
+      playerSprite.getSpriteAnimation().stop();
+    } catch (final ClassCastException e) {
+      e.printStackTrace();
     }
+  }
 
-	@Override
-	public final void setInputController(final GameEngine controller) {
-		this.controller = Optional.of(controller);
-	}
-	@Override
-	public final void setHeight(final double heigth) {
-		this.appPane.setPrefHeight(heigth);
-	}
+  @Override
+  public final void autoKill() {
+    final Window window = this.getWindow();
+    window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+  }
 
-	@Override
-	public final void setWidth(final double width) {
-		this.appPane.setPrefWidth(width);
-	}
-
-	@Override
-	public final void deleteEnemySpriteImage(final MutablePosition2D position) {
-		this.deleteFromScene(position);
-	}
-
-	@Override
-	public final void deleteBulletSpriteImage(final MutablePosition2D position) {
-		this.deleteFromScene(position);
-	}
-	
-	@Override
-	public final void deleteItemSprite(final MutablePosition2D position) {
-		this.deleteFromScene(position);
-	}
-
-	@Override
-	public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
-		this.deleteFromScene(position);
-		this.mainWeapon = Optional.empty();   
-	}
-	
-	private void deleteFromScene(final MutablePosition2D position) {
-		final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
-		if (deleted.isPresent()) {
-			this.gamePane.getChildren().remove(deleted.get());
-		}
-	}
-
-	@Override
-	public final void generateBullet(final PhysicalObject bullet) throws IOException {
-		final PhysicalObjectSpriteFactory factory = new PhysicalObjectSpriteFactoryImpl();
-		final PhysicalObjectSprite bulletSprite = factory.generateBulletSprite(bullet);
-		this.sprites.addBulletSprite(bulletSprite, bullet.getPosition().get());
-		this.gamePane.getChildren().add(bulletSprite);
-	}
-	
-	public final void startPlayerAnimation() {
-		try {
-    		final PlayerSprite playerSprite = (PlayerSprite) this.sprites.getPlayerSprite().get().get(0).getLeft();
-    		playerSprite.getSpriteAnimation().play();
-    	} catch (final ClassCastException e) {
-    		e.printStackTrace();
-    	}
-	}
-	
-	@Override
-	public final void stopPlayerAnimation() {
-		try {
-			final PlayerSprite playerSprite = (PlayerSprite) this.sprites.getPlayerSprite().get().get(0).getLeft();
-			playerSprite.getSpriteAnimation().stop();
-		} catch (final ClassCastException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public final void autoKill() {
-		final Window window = this.getWindow();
-		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
-	}
-
-	@Override
-	public final void deleteObstacleSpriteImage(final MutablePosition2D position) {
-		this.deleteFromScene(position);
-	}
-	
+  @Override
+  public final void deleteObstacleSpriteImage(final MutablePosition2D position) {
+    this.deleteFromScene(position);
+  }
 }

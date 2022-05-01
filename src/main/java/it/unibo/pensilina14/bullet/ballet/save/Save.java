@@ -20,489 +20,555 @@ import java.util.*;
 
 public final class Save {
 
-    private static final String PROJECT_DIRECTORY = "/.bullet-ballet/";
-    private static final String USER_HOME_PROPERTY = "user.home";
-    private static final String USER_HOME_DIRECTORY = System.getProperty(Save.USER_HOME_PROPERTY);
+  private static final String PROJECT_DIRECTORY = "/.bullet-ballet/";
+  private static final String USER_HOME_PROPERTY = "user.home";
+  private static final String USER_HOME_DIRECTORY = System.getProperty(Save.USER_HOME_PROPERTY);
 
-    public static final String SAVE_PATH = Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/save_file.dat";
-    private static final String LEVEL_PATH = "data/levels/";
-    public static final String SETTINGS_PATH = Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/settings.dat";
+  public static final String SAVE_PATH =
+      Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/save_file.dat";
+  private static final String LEVEL_PATH = "data/levels/";
+  public static final String SETTINGS_PATH =
+      Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/settings.dat";
 
-    public static final String PLAYER_STRING = "Player";
-    public static final String SCORE_STRING = "Score";
-    public static final String DATE_STRING = "Date";
+  public static final String PLAYER_STRING = "Player";
+  public static final String SCORE_STRING = "Score";
+  public static final String DATE_STRING = "Date";
 
-    public static final String RESOLUTION_WIDTH_STRING = "Width";
-    public static final String RESOLUTION_HEIGHT_STRING = "Height";
-    public static final String DIFFICULTY_STRING = "Difficulty";
-    public static final String AUDIO_STRING = "Audio";
-    public static final String LANGUAGE_STRING = "Language";
+  public static final String RESOLUTION_WIDTH_STRING = "Width";
+  public static final String RESOLUTION_HEIGHT_STRING = "Height";
+  public static final String DIFFICULTY_STRING = "Difficulty";
+  public static final String AUDIO_STRING = "Audio";
+  public static final String LANGUAGE_STRING = "Language";
 
-    public static final int MAX_LEVELS = 4;
+  public static final int MAX_LEVELS = 4;
 
-    /**
-     * private constructor because I don't want the class to be instantiated.
-     */
-    private Save(){}
+  /** private constructor because I don't want the class to be instantiated. */
+  private Save() {}
 
-    /**
-     *
-     * @param playerName:  the name of the player that you want to save.
-     * @param playerScore: the score of the player that you want to save.
-     * @param date: the date of when the game has been played.
-     * The data is encrypted and saved in .dat file.
-     * If the files didn't exist it will be created.
-     * If the file already had data in it, the new data will be encrypted and appended so nothing will be lost.
-     */
-    public static void saveGameStatistics(final String playerName, final double playerScore, final String date){
-        final JSONParser jsonParser = new JSONParser();
-        JSONArray jsonArray;
+  /**
+   * @param playerName: the name of the player that you want to save.
+   * @param playerScore: the score of the player that you want to save.
+   * @param date: the date of when the game has been played. The data is encrypted and saved in .dat
+   *     file. If the files didn't exist it will be created. If the file already had data in it, the
+   *     new data will be encrypted and appended so nothing will be lost.
+   */
+  public static void saveGameStatistics(
+      final String playerName, final double playerScore, final String date) {
+    final JSONParser jsonParser = new JSONParser();
+    JSONArray jsonArray;
 
-        final File file = new File(Save.SAVE_PATH);
+    final File file = new File(Save.SAVE_PATH);
 
-        try{
-            if(file.length() == 0){
-                jsonArray = new JSONArray();
-                final LinkedHashMap<String, String> map = new LinkedHashMap<>();
-                map.put(Save.PLAYER_STRING, playerName);
-                map.put(Save.SCORE_STRING, String.valueOf(playerScore));
-                map.put(Save.DATE_STRING, date);
-                jsonArray.add(map);
+    try {
+      if (file.length() == 0) {
+        jsonArray = new JSONArray();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put(Save.PLAYER_STRING, playerName);
+        map.put(Save.SCORE_STRING, String.valueOf(playerScore));
+        map.put(Save.DATE_STRING, date);
+        jsonArray.add(map);
 
-                final byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+        final byte[] encryptedMessage =
+            SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                // We use FileOutputStream instead of FileWriter because this allows us to write in bytes, while FileWriter takes strings.
-                final FileOutputStream stream = new FileOutputStream(file);
-                stream.write(encryptedMessage);
+        // We use FileOutputStream instead of FileWriter because this allows us to write in bytes,
+        // while FileWriter takes strings.
+        final FileOutputStream stream = new FileOutputStream(file);
+        stream.write(encryptedMessage);
 
-                stream.close();
+        stream.close();
 
-            } else{
-            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
-            	final String decryptedMessageString = new String(decryptedMessage, StandardCharsets.UTF_8);
-            	final Object obj = jsonParser.parse(decryptedMessageString);
+      } else {
+        final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+        final String decryptedMessageString = new String(decryptedMessage, StandardCharsets.UTF_8);
+        final Object obj = jsonParser.parse(decryptedMessageString);
 
-                jsonArray = (JSONArray) obj;
+        jsonArray = (JSONArray) obj;
 
-                final JSONObject jsonObject = new JSONObject();
-                jsonObject.put(Save.PLAYER_STRING, playerName);
-                jsonObject.put(Save.SCORE_STRING, String.valueOf(playerScore));
-                jsonObject.put(Save.DATE_STRING, date);
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Save.PLAYER_STRING, playerName);
+        jsonObject.put(Save.SCORE_STRING, String.valueOf(playerScore));
+        jsonObject.put(Save.DATE_STRING, date);
 
-                jsonArray.add(jsonObject);
+        jsonArray.add(jsonObject);
 
-                final byte[] encryptedMessage = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+        final byte[] encryptedMessage =
+            SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
 
-                final FileOutputStream stream = new FileOutputStream(file);
-                stream.write(encryptedMessage);
+        final FileOutputStream stream = new FileOutputStream(file);
+        stream.write(encryptedMessage);
 
-                stream.close();
+        stream.close();
+      }
+    } catch (NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | NoSuchPaddingException
+        | InvalidAlgorithmParameterException
+        | InvalidKeyException
+        | IllegalBlockSizeException
+        | BadPaddingException
+        | IOException
+        | ParseException e) {
+      e.printStackTrace();
+    }
+  }
 
-            }
-        }catch(NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
-        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e){
-            e.printStackTrace();
+  /**
+   * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file
+   *     and their relative score.
+   */
+  public static Map<String, MutablePair<String, String>> loadGameStatistics() {
+    final LinkedHashMap<String, MutablePair<String, String>> map = new LinkedHashMap<>();
+    final JSONParser jsonParser = new JSONParser();
+
+    final File statsFile = new File(Save.SAVE_PATH);
+
+    // I put the if in the try to keep in consideration the possibility that the file doesn't exist,
+    // even though it shouldn't be a problem.
+    try {
+      if (statsFile.length() != 0) {
+        final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+
+        final String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
+
+        final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
+
+        for (final Object o : jsonArray) {
+
+          final JSONObject player = (JSONObject) o;
+
+          final String name = (String) player.get(Save.PLAYER_STRING);
+
+          final String score = (String) player.get(Save.SCORE_STRING);
+
+          final String date = (String) player.get(Save.DATE_STRING);
+
+          map.put(name, new MutablePair<>(String.valueOf(score), date));
         }
+      }
+    } catch (NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | NoSuchPaddingException
+        | InvalidAlgorithmParameterException
+        | InvalidKeyException
+        | IllegalBlockSizeException
+        | BadPaddingException
+        | IOException
+        | ParseException e) {
+      e.printStackTrace();
     }
 
-    /**
-     *
-     * @return HashMap<String, Integer>: an HashMap containing all the players saved in the save file and their relative score.
-     */
-    public static Map<String, MutablePair<String, String>> loadGameStatistics(){
-    	final LinkedHashMap<String, MutablePair<String, String>> map = new LinkedHashMap<>();
-    	final JSONParser jsonParser = new JSONParser();
+    return map;
+  }
 
-    	final File statsFile = new File(Save.SAVE_PATH);
+  /**
+   * @param oldPlayer : the name of the player that you want to update
+   * @param oldScore : the score of the player that you want to update
+   * @param newPlayer : the new name of the player
+   * @param newScore : the new score of the player
+   * @param oldDate : the date when the game has been played.
+   * @param newDate : the new date when the game has been played.
+   * @return : a boolean whether the operation has been executed successfully
+   */
+  public static boolean updateGameStatistics(
+      final String oldPlayer,
+      final double oldScore,
+      final String newPlayer,
+      final double newScore,
+      final String oldDate,
+      final String newDate) {
+    final JSONParser jsonParser = new JSONParser();
+    JSONArray jsonArray;
 
-        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
-        try {
-            if(statsFile.length() != 0){
-            	final byte[] decryptedMessage = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+    final File file = new File(Save.SAVE_PATH);
 
-            	final String clearMessage = new String(decryptedMessage, StandardCharsets.UTF_8);
+    // I put the if in the try to keep in consideration the possibility that the file doesn't exist,
+    // even though it shouldn't be a problem.
+    try {
+      if (file.length() != 0) {
+        final byte[] decryptGameStatistics =
+            SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
+        final String clearGameStatistics =
+            new String(decryptGameStatistics, StandardCharsets.UTF_8);
 
-                final JSONArray jsonArray = (JSONArray) jsonParser.parse(clearMessage);
+        final Object obj = jsonParser.parse(clearGameStatistics);
+        jsonArray = (JSONArray) obj;
 
-                for (final Object o : jsonArray) {
+        for (final Object o : jsonArray) {
 
-                	final JSONObject player = (JSONObject) o;
+          final JSONObject player = (JSONObject) o;
 
-                	final String name = (String) player.get(Save.PLAYER_STRING);
-
-                    final String score = (String) player.get(Save.SCORE_STRING);
-
-                    final String date = (String) player.get(Save.DATE_STRING);
-
-                    map.put(name, new MutablePair<>(String.valueOf(score), date));
-                }
-            }
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
-        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
-            e.printStackTrace();
+          player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
+          player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
+          player.replace(Save.DATE_STRING, oldDate, newDate);
         }
 
-        return map;
+        final byte[] encryptedStatistics =
+            SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+
+        final FileOutputStream stream = new FileOutputStream(file);
+        stream.write(encryptedStatistics);
+
+        stream.close();
+      }
+    } catch (NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | NoSuchPaddingException
+        | InvalidAlgorithmParameterException
+        | InvalidKeyException
+        | IllegalBlockSizeException
+        | BadPaddingException
+        | IOException
+        | ParseException e) {
+      e.printStackTrace();
+      return false;
     }
 
-    /**
-     *
-     * @param oldPlayer : the name of the player that you want to update
-     * @param oldScore : the score of the player that you want to update
-     * @param newPlayer : the new name of the player
-     * @param newScore : the new score of the player
-     * @param oldDate : the date when the game has been played.
-     * @param newDate : the new date when the game has been played.
-     * @return : a boolean whether the operation has been executed successfully
-     */
-    public static boolean updateGameStatistics(final String oldPlayer, final double oldScore, final String newPlayer, final double newScore,
-                                               final String oldDate, final String newDate) {
-        final JSONParser jsonParser = new JSONParser();
-        JSONArray jsonArray;
+    return true;
+  }
 
-        final File file = new File(Save.SAVE_PATH);
+  /**
+   * It encrypts the .txt level files into .dat files and remove the old .txt
+   *
+   * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+   * @throws NoSuchPaddingException: padding not available.
+   * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+   * @throws NoSuchAlgorithmException: algorithm doesn't exist.
+   * @throws InvalidKeySpecException: invalid key specifications.
+   * @throws BadPaddingException: input data not properly padded.
+   * @throws IOException: fail or interrupted I/O operations.
+   * @throws InvalidKeyException: invalid key.
+   */
+  // TODO: fix
+  /*public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
+  	final int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
 
-        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
-        try {
-            if(file.length() != 0){
-                final byte[] decryptGameStatistics = SecureData.decryptFile(Save.SAVE_PATH, SecureData.PASSWORD);
-                final String clearGameStatistics = new String(decryptGameStatistics, StandardCharsets.UTF_8);
+  	final String level = "level";
 
-                final Object obj = jsonParser.parse(clearGameStatistics);
-                jsonArray = (JSONArray) obj;
+      for(int i = 0; i < numberOfLevels; i++){
+      	final String levelToEncrypt = Save.LEVEL_PATH + level + i + Extensions.TXT.getExtension();
+      	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
+          SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
 
-                for (final Object o : jsonArray) {
+          File levelFile = new File(levelToEncrypt);
+          levelFile.delete();
+      }
+  }*/
 
-                	final JSONObject player = (JSONObject) o;
+  /**
+   * @param levelNumber: the number of the level that we want to load.
+   * @return String[]: an array of strings with the data of the level.
+   */
+  public static String[] loadLevelForTesting(final int levelNumber) {
 
-                    player.replace(Save.PLAYER_STRING, oldPlayer, newPlayer);
-                    player.replace(Save.SCORE_STRING, String.valueOf(oldScore), String.valueOf(newScore));
-                    player.replace(Save.DATE_STRING, oldDate, newDate);
-                }
+    String[] level;
+    final ArrayList<String> levelList = new ArrayList<>();
+    String line;
 
-                final byte[] encryptedStatistics = SecureData.encrypt(jsonArray.toJSONString().getBytes(), SecureData.PASSWORD);
+    try {
+      final BufferedReader bufferedReader =
+          new BufferedReader(
+              new FileReader(
+                  Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension()));
 
-                final FileOutputStream stream = new FileOutputStream(file);
-                stream.write(encryptedStatistics);
+      line = bufferedReader.readLine();
 
-                stream.close();
-            }
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
-        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
+      while (Objects.nonNull(line) && !line.isEmpty()) {
+        levelList.add(line);
+        line = bufferedReader.readLine();
+      }
 
-        return true;
+      bufferedReader.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    /**
-     * It encrypts the .txt level files into .dat files and remove the old .txt
-     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
-     * @throws NoSuchPaddingException: padding not available.
-     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
-     * @throws NoSuchAlgorithmException: algorithm doesn't exist.
-     * @throws InvalidKeySpecException: invalid key specifications.
-     * @throws BadPaddingException: input data not properly padded.
-     * @throws IOException: fail or interrupted I/O operations.
-     * @throws InvalidKeyException: invalid key.
-     */
-    //TODO: fix
-    /*public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-    	final int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
-    	
-    	final String level = "level";
+    level = levelList.toArray(String[]::new);
 
-        for(int i = 0; i < numberOfLevels; i++){
-        	final String levelToEncrypt = Save.LEVEL_PATH + level + i + Extensions.TXT.getExtension();
-        	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
-            SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
+    return level;
+  }
 
-            File levelFile = new File(levelToEncrypt);
-            levelFile.delete();
-        }
-    }*/
+  /**
+   * @param levelNumber : the number of the level that you want to load
+   * @return a String[] of the level
+   * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
+   * @throws NoSuchPaddingException: padding not available.
+   * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
+   * @throws NoSuchAlgorithmException: algorithm doesn't exist.
+   * @throws InvalidKeySpecException: invalid key specifications.
+   * @throws BadPaddingException: input data not properly padded.
+   * @throws IOException: fail or interrupted I/O operations.
+   * @throws InvalidKeyException: invalid key.
+   */
+  public static String[] loadLevel(final int levelNumber) {
+    final String clearLevel;
+    try {
+      final String encryptedLevelPath =
+          Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
+      final byte[] decryptedLevel =
+          SecureData.decryptFile(
+              getFileFromResourceAsStream(encryptedLevelPath).readAllBytes(), SecureData.PASSWORD);
+      clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
 
-    /**
-     *
-     * @param levelNumber: the number of the level that we want to load.
-     * @return String[]: an array of strings with the data of the level.
-     */
-    public static String[] loadLevelForTesting(final int levelNumber){
+      return clearLevel.split("[\\r\\n]+");
 
-        String[] level;
-        final ArrayList<String> levelList = new ArrayList<>();
-        String line;
-
-        try{
-        	final BufferedReader bufferedReader = new BufferedReader(new FileReader(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension()));
-        	
-        	line = bufferedReader.readLine();
-
-            while(Objects.nonNull(line) && !line.isEmpty()){
-                levelList.add(line);
-				line = bufferedReader.readLine();
-            }
-
-            bufferedReader.close();
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-        level = levelList.toArray(String[]::new);
-
-        return level;
+    } catch (InvalidAlgorithmParameterException
+        | NoSuchPaddingException
+        | IllegalBlockSizeException
+        | NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | BadPaddingException
+        | IOException
+        | InvalidKeyException e) {
+      e.printStackTrace();
     }
 
-    /**
-     *
-     * @param levelNumber : the number of the level that you want to load
-     * @return a String[] of the level
-     * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
-     * @throws NoSuchPaddingException: padding not available.
-     * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
-     * @throws NoSuchAlgorithmException: algorithm doesn't exist.
-     * @throws InvalidKeySpecException: invalid key specifications.
-     * @throws BadPaddingException: input data not properly padded.
-     * @throws IOException: fail or interrupted I/O operations.
-     * @throws InvalidKeyException: invalid key.
-     */
-    public static String[] loadLevel(final int levelNumber) {
-        final String clearLevel;
-        try {
-            final String encryptedLevelPath = Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-            final byte[] decryptedLevel = SecureData.decryptFile(getFileFromResourceAsStream(encryptedLevelPath).readAllBytes(), SecureData.PASSWORD);
-            clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
+    return new String[0];
+  }
 
-            return clearLevel.split("[\\r\\n]+");
+  /**
+   * @param levelNumber: the level that we want to delete. It will delete all the data about the
+   *     specified level.
+   */
+  public static void resetLevelFile(final int levelNumber) {
+    try {
+      final FileWriter fileWriter =
+          new FileWriter(
+              Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
+      fileWriter.close();
 
-        }catch(InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
-                InvalidKeySpecException | BadPaddingException | IOException | InvalidKeyException e) {
-            e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * @param extension : the extension of the level files.
+   * @return : an int with the number of the levels present in the levels' directory.
+   */
+  // TODO: fix.
+  /*public static int getNumberOfLevels(final String extension){
+     	final File levelsDirectory = new File(Save.LEVEL_PATH);
+         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
+     }
+
+  public static int getNumberOfLevels(final Extensions extension){
+     	final File levelsDirectory = new File(Save.LEVEL_PATH);
+         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
+     }*/
+
+  /**
+   * @param resWidth : the resolution's width of the game.
+   * @param resHeight : the resolution's height of the game.
+   * @param difficulty : the difficulty of the game.
+   * @param audioVolume : the in-game audio volume.
+   * @param language : the language
+   * @return : a boolean whether the file has been saved successfully or not.
+   */
+  public static boolean saveSettings(
+      final int resWidth,
+      final int resHeight,
+      final String difficulty,
+      final double audioVolume,
+      final String language) {
+    final JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = new JSONObject();
+
+    final File file = new File(Save.SETTINGS_PATH);
+
+    // I put the if in the try to keep in consideration the possibility that the file doesn't exist,
+    // even though it shouldn't be a problem.
+    try {
+      if (file.length() == 0) {
+        jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+        jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+        jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
+        jsonObject.put(Save.AUDIO_STRING, audioVolume);
+        jsonObject.put(Save.LANGUAGE_STRING, language);
+
+        final byte[] encryptedSettings =
+            SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
+
+        final FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(encryptedSettings);
+
+        fileOutputStream.close();
+      } else {
+        final byte[] decryptedSettings =
+            SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+        final String decryptedSettingsString =
+            new String(decryptedSettings, StandardCharsets.UTF_8);
+        final Object obj = jsonParser.parse(decryptedSettingsString);
+
+        jsonObject = (JSONObject) obj;
+
+        jsonObject.replace(Save.RESOLUTION_WIDTH_STRING, resWidth);
+        jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+        jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
+        jsonObject.replace(Save.AUDIO_STRING, audioVolume);
+        jsonObject.replace(Save.LANGUAGE_STRING, language);
+
+        final byte[] encryptedMessage =
+            SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
+
+        final FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(encryptedMessage);
+
+        fileOutputStream.close();
+      }
+    } catch (NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | NoSuchPaddingException
+        | InvalidAlgorithmParameterException
+        | InvalidKeyException
+        | IllegalBlockSizeException
+        | BadPaddingException
+        | IOException
+        | ParseException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @return an HashMap<String, String> with the settings' data.
+   */
+  public static Map<String, String> loadSettings() {
+    final HashMap<String, String> map = new HashMap<>();
+    final JSONParser jsonParser = new JSONParser();
+
+    final File settingsFile = new File(Save.SETTINGS_PATH);
+
+    try {
+      if (settingsFile.length() != 0) {
+        final byte[] decryptMessage =
+            SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
+
+        final String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
+
+        final JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
+
+        for (int i = 0; i < jsonObject.size(); i++) {
+
+          final String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
+
+          final String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
+
+          final String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
+
+          final String audio = jsonObject.get(Save.AUDIO_STRING).toString();
+
+          final String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
+
+          map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
+          map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
+          map.put(Save.DIFFICULTY_STRING, difficulty);
+          map.put(Save.AUDIO_STRING, audio);
+          map.put(Save.LANGUAGE_STRING, language);
         }
+      }
 
-        return new String[0];
+    } catch (NoSuchAlgorithmException
+        | InvalidKeySpecException
+        | NoSuchPaddingException
+        | InvalidAlgorithmParameterException
+        | InvalidKeyException
+        | IllegalBlockSizeException
+        | BadPaddingException
+        | IOException
+        | ParseException e) {
+      e.printStackTrace();
     }
 
-    /**
-     *
-     * @param levelNumber: the level that we want to delete.
-     * It will delete all the data about the specified level.
-     */
-    public static void resetLevelFile(final int levelNumber) {
-        try {
-        	final FileWriter fileWriter = new FileWriter(Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension(), false);
-            fileWriter.close();
+    return map;
+  }
 
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+  /**
+   * @param filePath : the path of the file that you want to reset all the data.
+   */
+  public static void resetFile(final String filePath) {
+    try {
+      final FileWriter fileWriter =
+          new FileWriter(
+              filePath,
+              false); // mettendo false ricrea il file, cancellando quello che c'era prima.
+      fileWriter.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * @param filePath : the path of the file.
+   * @return an InputStream of the file.
+   */
+  private static InputStream getFileFromResourceAsStream(String filePath) {
+
+    ClassLoader classLoader = Save.class.getClassLoader();
+    InputStream inputStream = classLoader.getResourceAsStream(filePath);
+
+    if (Objects.isNull(inputStream)) {
+      throw new IllegalArgumentException("file not found! " + filePath);
+    } else {
+      return inputStream;
+    }
+  }
+
+  /**
+   * @return a boolean whether the project root directory has been created or if already exists.
+   */
+  private static boolean hasCreatedProjectDirectory() {
+
+    final File projectDirectory = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY);
+
+    return !projectDirectory.exists()
+        && projectDirectory
+            .mkdirs(); // return !projectDirectory.exists() ? projectDirectory.mkdirs() : false;
+  }
+
+  /**
+   * @return : a boolean whether data and its subfolders have been created or not.
+   */
+  private static boolean doesDataExist() {
+    final File data = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/");
+    if (!data.exists()) {
+      data.mkdirs();
     }
 
-    /**
-     *
-     * @param extension : the extension of the level files.
-     * @return : an int with the number of the levels present in the levels' directory.
-     */
-    //TODO: fix.
-	/*public static int getNumberOfLevels(final String extension){
-    	final File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
+    final File saves = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/");
+    if (!saves.exists() && data.exists()) {
+      saves.mkdirs();
     }
 
-	public static int getNumberOfLevels(final Extensions extension){
-    	final File levelsDirectory = new File(Save.LEVEL_PATH);
-        return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
-    }*/
-
-    /**
-     *
-     * @param resWidth : the resolution's width of the game.
-     * @param resHeight : the resolution's height of the game.
-     * @param difficulty : the difficulty of the game.
-     * @param audioVolume : the in-game audio volume.
-     * @param language  : the language
-     * @return : a boolean whether the file has been saved successfully or not.
-     */
-    public static boolean saveSettings(final int resWidth, final int resHeight, final String difficulty, final double audioVolume, final String language){
-    	final JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = new JSONObject();
-
-        final File file = new File(Save.SETTINGS_PATH);
-
-        // I put the if in the try to keep in consideration the possibility that the file doesn't exist, even though it shouldn't be a problem.
-        try {
-            if(file.length() == 0){
-                jsonObject.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
-                jsonObject.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
-                jsonObject.put(Save.DIFFICULTY_STRING, difficulty);
-                jsonObject.put(Save.AUDIO_STRING, audioVolume);
-                jsonObject.put(Save.LANGUAGE_STRING, language);
-
-                final byte[] encryptedSettings = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
-
-                final FileOutputStream fileOutputStream = new FileOutputStream(file);
-                fileOutputStream.write(encryptedSettings);
-
-                fileOutputStream.close();
-            } else {
-            	final byte[] decryptedSettings = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
-            	final String decryptedSettingsString = new String(decryptedSettings, StandardCharsets.UTF_8);
-            	final Object obj = jsonParser.parse(decryptedSettingsString);
-
-                jsonObject = (JSONObject) obj;
-
-                jsonObject.replace(Save.RESOLUTION_WIDTH_STRING, resWidth);
-                jsonObject.replace(Save.RESOLUTION_HEIGHT_STRING, resHeight);
-                jsonObject.replace(Save.DIFFICULTY_STRING, difficulty);
-                jsonObject.replace(Save.AUDIO_STRING, audioVolume);
-                jsonObject.replace(Save.LANGUAGE_STRING, language);
-
-                final byte[] encryptedMessage = SecureData.encrypt(jsonObject.toJSONString().getBytes(), SecureData.PASSWORD);
-
-                final FileOutputStream fileOutputStream = new FileOutputStream(file);
-                fileOutputStream.write(encryptedMessage);
-
-                fileOutputStream.close();
-            }
-        } catch(NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
-        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    final File settings =
+        new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/");
+    if (!settings.exists() && data.exists()) {
+      settings.mkdirs();
     }
 
-    /**
-     *
-     * @return an HashMap<String, String> with the settings' data.
-     */
-    public static Map<String, String> loadSettings() {
-    	final HashMap<String, String> map = new HashMap<>();
-    	final JSONParser jsonParser = new JSONParser();
+    return data.exists() && saves.exists() && settings.exists();
+  }
 
-    	final File settingsFile = new File(Save.SETTINGS_PATH);
-
-        try {
-            if(settingsFile.length() != 0){
-            	final byte[] decryptMessage = SecureData.decryptFile(Save.SETTINGS_PATH, SecureData.PASSWORD);
-
-            	final String clearMessage = new String(decryptMessage, StandardCharsets.UTF_8);
-
-            	final JSONObject jsonObject = (JSONObject) jsonParser.parse(clearMessage);
-
-                for (int i = 0; i < jsonObject.size(); i++) {
-
-                	final String resWidth = jsonObject.get(Save.RESOLUTION_WIDTH_STRING).toString();
-
-                	final String resHeight = jsonObject.get(Save.RESOLUTION_HEIGHT_STRING).toString();
-
-                	final String difficulty = jsonObject.get(Save.DIFFICULTY_STRING).toString();
-
-                	final String audio = jsonObject.get(Save.AUDIO_STRING).toString();
-
-                	final String language = jsonObject.get(Save.LANGUAGE_STRING).toString();
-
-                    map.put(Save.RESOLUTION_WIDTH_STRING, resWidth);
-                    map.put(Save.RESOLUTION_HEIGHT_STRING, resHeight);
-                    map.put(Save.DIFFICULTY_STRING, difficulty);
-                    map.put(Save.AUDIO_STRING, audio);
-                    map.put(Save.LANGUAGE_STRING, language);
-                }
-            }
-
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | 
-        		InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException | ParseException e) {
-            e.printStackTrace();
-        }
-
-        return map;
+  /**
+   * Check and create if not exist the project root directory as well as for the data and its
+   * subfolders.
+   */
+  public static void createGameDirectories() {
+    final boolean hasCreatedProjectDirectory = hasCreatedProjectDirectory();
+    if (hasCreatedProjectDirectory) {
+      AppLogger.getAppLogger().info("Project Directory created successfully!");
+    } else {
+      AppLogger.getAppLogger().info("Project Directory already exists or has not been created!");
     }
 
-    /**
-     *
-     * @param filePath : the path of the file that you want to reset all the data. 
-     */
-    public static void resetFile(final String filePath) {
-        try {
-        	final FileWriter fileWriter = new FileWriter(filePath, false); // mettendo false ricrea il file, cancellando quello che c'era prima.
-            fileWriter.close();
-            
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    final boolean hasCreatedData = doesDataExist();
+    if (hasCreatedData) {
+      AppLogger.getAppLogger().info("Data and subfolders created successfully or already exist!");
+    } else {
+      AppLogger.getAppLogger().info("Data and subfolders have not been created!");
     }
-
-    /**
-     *
-     * @param filePath : the path of the file.
-     * @return an InputStream of the file.
-     */
-    private static InputStream getFileFromResourceAsStream(String filePath) {
-
-        ClassLoader classLoader = Save.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(filePath);
-
-        if (Objects.isNull(inputStream)) {
-            throw new IllegalArgumentException("file not found! " + filePath);
-        } else {
-            return inputStream;
-        }
-
-    }
-
-    /**
-     *
-     * @return a boolean whether the project root directory has been created or if already exists.
-     */
-    private static boolean hasCreatedProjectDirectory(){
-
-        final File projectDirectory = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY);
-
-        return !projectDirectory.exists() && projectDirectory.mkdirs(); // return !projectDirectory.exists() ? projectDirectory.mkdirs() : false;
-    }
-
-    /**
-     *
-     * @return : a boolean whether data and its subfolders have been created or not.
-     */
-    private static boolean doesDataExist(){
-        final File data = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/");
-        if(!data.exists()){
-            data.mkdirs();
-        }
-
-        final File saves = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/saves/");
-        if(!saves.exists() && data.exists()){
-            saves.mkdirs();
-        }
-
-        final File settings = new File(Save.USER_HOME_DIRECTORY + Save.PROJECT_DIRECTORY + "data/settings/");
-        if(!settings.exists() && data.exists()){
-            settings.mkdirs();
-        }
-
-        return data.exists() && saves.exists() && settings.exists();
-    }
-
-    /**
-     * Check and create if not exist the project root directory as well as for the data and its subfolders.
-     */
-    public static void createGameDirectories(){
-        final boolean hasCreatedProjectDirectory = hasCreatedProjectDirectory();
-        if(hasCreatedProjectDirectory){
-            AppLogger.getAppLogger().info("Project Directory created successfully!");
-        } else {
-            AppLogger.getAppLogger().info("Project Directory already exists or has not been created!");
-        }
-
-        final boolean hasCreatedData = doesDataExist();
-        if(hasCreatedData){
-            AppLogger.getAppLogger().info("Data and subfolders created successfully or already exist!");
-        } else {
-            AppLogger.getAppLogger().info("Data and subfolders have not been created!");
-        }
-    }
-
+  }
 }

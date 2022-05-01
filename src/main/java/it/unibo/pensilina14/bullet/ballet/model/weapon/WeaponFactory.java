@@ -5,9 +5,9 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public interface WeaponFactory {
 
-	Weapon createGun(Environment gameEnv, SpeedVector2D speedVector);
-	
-	Weapon createShotGun(Environment gameEnv, SpeedVector2D speedVector);
-	
-	Weapon createAuto(Environment gameEnv, SpeedVector2D speedVector);
+  Weapon createGun(Environment gameEnv, SpeedVector2D speedVector);
+
+  Weapon createShotGun(Environment gameEnv, SpeedVector2D speedVector);
+
+  Weapon createAuto(Environment gameEnv, SpeedVector2D speedVector);
 }

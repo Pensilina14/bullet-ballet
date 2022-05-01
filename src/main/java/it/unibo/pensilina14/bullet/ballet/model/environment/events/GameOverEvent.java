@@ -2,16 +2,15 @@ package it.unibo.pensilina14.bullet.ballet.model.environment.events;
 
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 
-public final class GameOverEvent implements GameEvent{
-	
-	private final Player player;
+public final class GameOverEvent implements GameEvent {
 
-	public GameOverEvent(final Player player) {
-		this.player = player;
-	}
+  private final Player player;
 
-	public Player getPlayer() {
-		return player;
-	}
-	
+  public GameOverEvent(final Player player) {
+    this.player = player;
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
 }

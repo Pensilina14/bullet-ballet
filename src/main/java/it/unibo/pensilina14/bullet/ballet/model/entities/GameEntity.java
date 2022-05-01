@@ -1,17 +1,16 @@
 package it.unibo.pensilina14.bullet.ballet.model.entities;
 
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
 import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
-public class GameEntity implements PhysicalObject{
+import java.util.Optional;
+import java.util.function.Predicate;
+
+public class GameEntity implements PhysicalObject {
 
   private enum Bounds implements Predicate<ImmutablePair<GameEntity, MutablePosition2D>> {
     UP_CHECK(

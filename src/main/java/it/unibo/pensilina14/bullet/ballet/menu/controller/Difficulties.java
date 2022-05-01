@@ -1,27 +1,25 @@
 package it.unibo.pensilina14.bullet.ballet.menu.controller;
 
 public enum Difficulties {
+  EASY("easy"),
+  MEDIUM("medium"),
+  HARD("hard");
 
-	EASY("easy"),
-	MEDIUM("medium"),
-	HARD("hard");
-	
-	private final String difficulty;
+  private final String difficulty;
 
-	Difficulties(final String difficulty) {
-		this.difficulty = difficulty;
-	}
-	
-	/* 
-     * @see java.lang.Enum#toString()
-     */
-    @Override
-    public String toString() {
-        return this.difficulty;
-    }
+  Difficulties(final String difficulty) {
+    this.difficulty = difficulty;
+  }
 
-	public static Difficulties getDefaultDifficulty(){
-		return Difficulties.MEDIUM;
-	}
-	
+  /*
+   * @see java.lang.Enum#toString()
+   */
+  @Override
+  public String toString() {
+    return this.difficulty;
+  }
+
+  public static Difficulties getDefaultDifficulty() {
+    return Difficulties.MEDIUM;
+  }
 }

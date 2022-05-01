@@ -8,32 +8,31 @@ import java.util.Random;
 
 public class LevelLoader {
 
-    private final String[] level;
-    private final double levelHeight;
-    private final double levelWidth;
-    
-    private static final Random RAND = new Random();
+  private final String[] level;
+  private final double levelHeight;
+  private final double levelWidth;
 
-    public LevelLoader() {
-        this.level = Save.loadLevel(getRandomLevel());
-        this.levelWidth = this.level[0].length();
-        this.levelHeight = this.level.length;
-    }
+  private static final Random RAND = new Random();
 
-    private int getRandomLevel(){
-        return LevelLoader.RAND.nextInt(Save.MAX_LEVELS);
-    }
+  public LevelLoader() {
+    this.level = Save.loadLevel(getRandomLevel());
+    this.levelWidth = this.level[0].length();
+    this.levelHeight = this.level.length;
+  }
 
-    public double getLevelWidth(){
-        return this.levelWidth;
-    }
-    
-    public double getLevelHeight() {
-    	return this.levelHeight;
-    }
+  private int getRandomLevel() {
+    return LevelLoader.RAND.nextInt(Save.MAX_LEVELS);
+  }
 
-    public List<String> getLevel(){
-        return Arrays.asList(this.level); 
-    }
+  public double getLevelWidth() {
+    return this.levelWidth;
+  }
 
+  public double getLevelHeight() {
+    return this.levelHeight;
+  }
+
+  public List<String> getLevel() {
+    return Arrays.asList(this.level);
+  }
 }

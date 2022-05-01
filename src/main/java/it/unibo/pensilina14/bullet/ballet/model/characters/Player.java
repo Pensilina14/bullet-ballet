@@ -1,8 +1,5 @@
 package it.unibo.pensilina14.bullet.ballet.model.characters;
 
-import java.util.Optional;
-import java.util.Random;
-
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
@@ -11,219 +8,237 @@ import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
 import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystemImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
-public class Player extends GameEntity implements Characters{
+import java.util.Optional;
+import java.util.Random;
 
-    private double health;
-    private Optional<Double> mana;
+public class Player extends GameEntity implements Characters {
 
-    private String name;
+  private double health;
+  private Optional<Double> mana;
 
+  private String name;
 
-    private Optional<Weapon> weapon;
-    
-    private boolean landed;
-    private boolean blockedX;
+  private Optional<Weapon> weapon;
 
-    private EntityList.Characters.Player playerType;
+  private boolean landed;
+  private boolean blockedX;
 
-    private final ScoreSystem currentScore = new ScoreSystemImpl(0);
-    
-    private final Random rand = new Random();
-    private final static double MAX = 100.0;
+  private EntityList.Characters.Player playerType;
 
-    public Player(final String name, final Dimension2D dimension, final SpeedVector2D vector
-    		, final Environment environment, final double mass){
-        super(vector, environment, mass, dimension);
+  private final ScoreSystem currentScore = new ScoreSystemImpl(0);
 
-        this.name = name;
-        this.health = 100.0;
-        this.mana = Optional.of(100.0);
+  private final Random rand = new Random();
+  private static final double MAX = 100.0;
+
+  public Player(
+      final String name,
+      final Dimension2D dimension,
+      final SpeedVector2D vector,
+      final Environment environment,
+      final double mass) {
+    super(vector, environment, mass, dimension);
+
+    this.name = name;
+    this.health = 100.0;
+    this.mana = Optional.of(100.0);
+    this.weapon = Optional.empty();
+  }
+
+  public Player(
+      final String name,
+      final double health,
+      final Optional<Double> mana,
+      final Dimension2D dimension,
+      final SpeedVector2D vector,
+      final Environment environment,
+      final double mass) {
+    super(vector, environment, mass, dimension);
+    this.name = name;
+    this.health = health;
+    this.mana = mana;
+    this.weapon = Optional.empty();
+  }
+
+  public Player(
+      final EntityList.Characters.Player playerType,
+      final Dimension2D dimension,
+      final SpeedVector2D vector,
+      final Environment environment,
+      final double mass) {
+    super(vector, environment, mass, dimension);
+
+    this.playerType = playerType;
+
+    setPlayerType();
+  }
+
+  public Player(
+      final Dimension2D dimension,
+      final SpeedVector2D vector,
+      final Environment environment,
+      final double mass) {
+    super(vector, environment, mass, dimension);
+
+    setRandomPlayer();
+    setPlayerType();
+  }
+
+  private void setRandomPlayer() {
+    final int max = EntityList.Characters.Player.values().length;
+
+    final int randomPlayer = rand.nextInt(max);
+    for (final EntityList.Characters.Player p : EntityList.Characters.Player.values()) {
+      if (p.ordinal() == randomPlayer) {
+        this.playerType = p;
+      }
+    }
+  }
+
+  private void setPlayerType() {
+    double minHealth;
+    double minMana;
+    switch (this.playerType) {
+      case PLAYER1:
+        minHealth = 80.0;
+        minMana = 50.0;
+        this.name = "Player1";
         this.weapon = Optional.empty();
-    }
-
-    public Player(final String name, final double health,final Optional<Double> mana, final Dimension2D dimension
-    		, final SpeedVector2D vector, final Environment environment, final double mass){
-        super(vector, environment, mass, dimension);
-        this.name = name;
-        this.health = health;
-        this.mana = mana;
+        this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+        this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
+        break;
+      case PLAYER2:
+        minHealth = 65.0;
+        minMana = 70.0;
+        this.name = "Player2";
         this.weapon = Optional.empty();
+        this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+        this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
+        break;
+      case PLAYER3:
+        minHealth = 50.0;
+        minMana = 85.0;
+        this.name = "Player3";
+        this.weapon = Optional.empty();
+        this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
+        this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
+        break;
+      default:
+        break;
     }
+  }
 
-    public Player(final EntityList.Characters.Player playerType, final Dimension2D dimension
-    		, final SpeedVector2D vector, final Environment environment, final double mass){
-        super(vector, environment, mass, dimension);
+  @Override
+  public double getHealth() {
+    return this.health;
+  }
 
-        this.playerType = playerType;
-        
-        setPlayerType();
-    }
+  @Override
+  public Optional<Double> getMana() {
+    return this.mana;
+  }
 
-    public Player(final Dimension2D dimension, final SpeedVector2D vector, final Environment environment, final double mass){
-        super(vector, environment, mass, dimension);
+  @Override
+  public boolean isAlive() {
+    return this.health > 0.0 && this.getPosition().get().getY() < 1000;
+  }
 
-        setRandomPlayer();
-        setPlayerType();
+  @Override
+  public void setHealth(final double setHealth) {
+    this.health = setHealth;
+  }
 
-    }
+  @Override
+  public Optional<Weapon> getWeapon() {
+    return this.weapon;
+  }
 
-    private void setRandomPlayer() {
-        final int max = EntityList.Characters.Player.values().length;
+  @Override
+  public void setWeapon(final Weapon weapon) {
+    this.weapon = Optional.of(weapon);
+  }
 
-        final int randomPlayer = rand.nextInt(max);
-        for(final EntityList.Characters.Player p : EntityList.Characters.Player.values()){
-            if(p.ordinal() == randomPlayer){
-                this.playerType = p;
-            }
-        }
-    }
+  public void removeWeapon() {
+    this.weapon = Optional.empty();
+  }
 
-    private void setPlayerType(){
-        double minHealth;
-        double minMana;
-        switch(this.playerType){
-            case PLAYER1:
-                minHealth = 80.0;
-                minMana = 50.0;
-                this.name = "Player1";
-                this.weapon = Optional.empty();
-                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
-                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
-                break;
-            case PLAYER2:
-                minHealth = 65.0;
-                minMana = 70.0;
-                this.name = "Player2";
-                this.weapon = Optional.empty();
-                this.health = this.rand.nextDouble() * (MAX - minHealth)+ minHealth;
-                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
-                break;
-            case PLAYER3:
-                minHealth = 50.0;
-                minMana = 85.0;
-                this.name = "Player3";
-                this.weapon = Optional.empty();
-                this.health = this.rand.nextDouble() * (MAX - minHealth) + minHealth;
-                this.mana = Optional.of(this.rand.nextDouble() * (MAX - minMana) + minMana);
-                break;
-            default:
-            	break;
-        }
-    }
+  @Override
+  public String getName() {
+    return this.name;
+  }
 
-    @Override
-    public double getHealth() {
-        return this.health;
-    }
+  @Override
+  public boolean manaLeft() {
+    return this.mana.filter(i -> i > 0.0).isPresent();
+  }
 
-    @Override
-    public Optional<Double> getMana() {
-        return this.mana;
+  @Override
+  public void decreaseMana(final double decreaseValue) {
+    if (this.mana.isPresent()) {
+      this.mana = Optional.of(this.mana.get() - decreaseValue);
     }
+  }
 
-    @Override
-    public boolean isAlive() {
-        return this.health > 0.0
-        		&& this.getPosition().get().getY() < 1000;
+  @Override
+  public void increaseMana(final double increaseValue) {
+    if (this.mana.isPresent()) {
+      this.mana = Optional.of(this.mana.get() + increaseValue);
     }
+  }
 
-    @Override
-    public void setHealth(final double setHealth) {
-        this.health = setHealth;
-    }
+  @Override
+  public void increaseHealth(final double increaseHealth) {
+    this.health += increaseHealth;
+  }
 
-    @Override
-    public Optional<Weapon> getWeapon() {
-        return this.weapon;
-    }
+  @Override
+  public void decreaseHealth(final double decreaseHealth) {
+    this.health -= decreaseHealth;
+  }
 
-    @Override
-    public void setWeapon(final Weapon weapon) {
-        this.weapon = Optional.of(weapon);
-    }
-    
-    public void removeWeapon() {
-    	this.weapon = Optional.empty();
-    }
+  public EntityList.Characters.Player getPlayerType() {
+    return this.playerType;
+  }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+  public boolean hasWeapon() {
+    return this.weapon.isPresent();
+  }
 
-    @Override
-    public boolean manaLeft() {
-        return this.mana.filter( i -> i > 0.0).isPresent();
+  @Override
+  public void updateState() {
+    if (!this.blockedX) {
+      this.moveRight(0);
+    } else {
+      this.moveLeft(1);
     }
+  }
+  /*
+   * Following code could be universalized for every game entity.
+   */
+  public boolean hasLanded() {
+    return this.landed;
+  }
 
-    @Override
-    public void decreaseMana(final double decreaseValue) {
-        if(this.mana.isPresent()){
-            this.mana = Optional.of(this.mana.get() - decreaseValue);
-        }
-    }
+  public void land() {
+    this.landed = true;
+  }
 
-    @Override
-    public void increaseMana(final double increaseValue) {
-        if(this.mana.isPresent()){
-            this.mana = Optional.of(this.mana.get() + increaseValue);
-        }
-    }
+  public void resetLanding() {
+    this.landed = false;
+  }
 
-    @Override
-    public void increaseHealth(final double increaseHealth) {
-        this.health += increaseHealth;
-    }
+  public ScoreSystem getCurrentScore() {
+    return this.currentScore;
+  }
 
-    @Override
-    public void decreaseHealth(final double decreaseHealth) {
-        this.health -= decreaseHealth;
-    }
+  public void blockX() {
+    this.blockedX = true;
+  }
 
-    public EntityList.Characters.Player getPlayerType() {
-        return this.playerType;
-    }
-    
-    public boolean hasWeapon() {
-    	return this.weapon.isPresent();
-    }
+  public void unblockX() {
+    this.blockedX = false;
+  }
 
-    @Override
-    public void updateState() {
-    	if (!this.blockedX) {
-    		this.moveRight(0);
-    	} else {
-    		this.moveLeft(1);
-    	}
-    }
-    /*
-     * Following code could be universalized for every game entity.
-     */
-    public boolean hasLanded() {
-    	return this.landed;
-    }
-    
-    public void land() {
-    	this.landed = true;
-    }
-    
-    public void resetLanding() {
-    	this.landed = false;
-    }
-    
-    public ScoreSystem getCurrentScore() {
-    	return this.currentScore;
-    }
-    
-    public void blockX() {
-    	this.blockedX = true;
-    }
-    
-    public void unblockX() {
-    	this.blockedX = false;
-    }
-    
-    public boolean hasBlockedX() {
-    	return this.blockedX;
-    }
-} 
+  public boolean hasBlockedX() {
+    return this.blockedX;
+  }
+}

@@ -4,18 +4,12 @@ import javafx.scene.media.AudioClip;
 
 public interface Sound {
 
-	/**
-	 * This method will start the track
-	 */
-	void play();
-	/**
-	 * This method will stop the track
-	 */
-	void stop();
-	/**
-	 * 
-	 * @return AudioClip
-	 */
-	AudioClip getAudioClip();
-	
+  /** This method will start the track */
+  void play();
+  /** This method will stop the track */
+  void stop();
+  /**
+   * @return AudioClip
+   */
+  AudioClip getAudioClip();
 }

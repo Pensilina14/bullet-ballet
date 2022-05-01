@@ -4,7 +4,7 @@ import it.unibo.pensilina14.bullet.ballet.common.Dimension2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
-public class ObstacleFactoryImpl implements ObstacleFactory{
+public class ObstacleFactoryImpl implements ObstacleFactory {
 
   @Override
   public Obstacle createStandardObstacle(

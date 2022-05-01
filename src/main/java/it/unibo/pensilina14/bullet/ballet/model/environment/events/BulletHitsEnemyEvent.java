@@ -5,20 +5,20 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletImpl;
 
 public final class BulletHitsEnemyEvent implements GameEvent {
-	
-	private final Bullet bullet;
-	private final Enemy enemy;
-	
-	public BulletHitsEnemyEvent(final Bullet bullet, final Enemy enemy) {
-		this.bullet = (BulletImpl) bullet;
-		this.enemy = enemy;
-	}
-	
-	public Bullet getBullet() {
-		return this.bullet;
-	}
-	
-	public Enemy getEnemy() {
-		return this.enemy;
-	}
+
+  private final Bullet bullet;
+  private final Enemy enemy;
+
+  public BulletHitsEnemyEvent(final Bullet bullet, final Enemy enemy) {
+    this.bullet = bullet;
+    this.enemy = enemy;
+  }
+
+  public Bullet getBullet() {
+    return this.bullet;
+  }
+
+  public Enemy getEnemy() {
+    return this.enemy;
+  }
 }

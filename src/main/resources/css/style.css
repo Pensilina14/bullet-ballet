@@ -1,10 +1,9 @@
-
 /* Volendo si può fare uno stile per ciascun fxml, ma visto che sono tutti uguali ne uso uno solo. */
 
 /* se l'anchorPane è anche il root di tutto allora va bene anche così, altrimenti mettere una classe o un id in anchorPane e referenziarlo qui. */
 .root {
-    -fx-background-color:  MidnightBLue;
-    -fx-border-color:  Turquoise;
+    -fx-background-color: MidnightBLue;
+    -fx-border-color: Turquoise;
     -fx-border-style: Dotted;
     -fx-border-width: 3;
 }

@@ -4,16 +4,15 @@ import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 
 public interface GameMap {
 
-	Maps getMap();
+  Maps getMap();
 
-	void setMap(Maps map);
+  void setMap(Maps map);
 
-	int getMapWidth();
+  int getMapWidth();
 
-	int getMapHeight();
+  int getMapHeight();
 
-	Images.Platforms getPlatformType();
+  Images.Platforms getPlatformType();
 
-	Images.Coins getCoinType();
-
+  Images.Coins getCoinType();
 }

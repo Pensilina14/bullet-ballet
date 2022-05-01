@@ -4,6 +4,5 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
 public interface Command {
 
-    void execute(GameState env);
-	
+  void execute(GameState env);
 }
