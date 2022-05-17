@@ -8,12 +8,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet)
 
-### Why this?
-
-We have solid proof that another programming team used our design architecture, which is completely original, since we invented this game engine.
-
-<hr/>
-
 ### Bullet Ballet
 
 Bullet Ballet is a 2D platformer developed for a University Project at the _Alma Mater Studiorum_ of Bologna by
