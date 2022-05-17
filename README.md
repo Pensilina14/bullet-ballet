@@ -8,12 +8,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Pensilina14/bullet-ballet?style=flat-square)](https://github.com/Pensilina14/bullet-ballet)
 
-## DISCLAIMER - for i furbetti
-
-Remember that this is LICENCED software, so it's not ok if you literally copy and paste dozens of lines of code. There are engines that can verify that, we are open to
-collaboration, but we hate when programmers takes credit for our work. So, if you crazy robbers are reading this, remember to contact us, otherwise we will use 
-our right to report the robbery. Don't forget that even open source projects have boundaries, there's no shame in looking and forking other teams' projects, we would love to collaborate, but remember that it's not ok to take credit for other people's work.
-
 ### Why this?
 
 We have solid proof that another programming team used our design architecture, which is completely original, since we invented this game engine.
