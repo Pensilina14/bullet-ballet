@@ -263,7 +263,7 @@ public final class Save {
    * @param levelNumber: the number of the level that we want to load.
    * @return String[]: an array of strings with the data of the level.
    */
-  public static String[] loadLevelForTesting(final int levelNumber) {
+  public static String[] loadLevelFromTxt(final int levelNumber) {
 
     String[] level;
     final ArrayList<String> levelList = new ArrayList<>();
