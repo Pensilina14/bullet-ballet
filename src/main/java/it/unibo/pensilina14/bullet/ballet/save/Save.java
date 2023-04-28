@@ -232,99 +232,21 @@ public final class Save {
   }
 
   /**
-   * It encrypts the .txt level files into .dat files and remove the old .txt
-   *
-   * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
-   * @throws NoSuchPaddingException: padding not available.
-   * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
-   * @throws NoSuchAlgorithmException: algorithm doesn't exist.
-   * @throws InvalidKeySpecException: invalid key specifications.
-   * @throws BadPaddingException: input data not properly padded.
-   * @throws IOException: fail or interrupted I/O operations.
-   * @throws InvalidKeyException: invalid key.
-   */
-  // TODO: fix
-  /*public static void encryptLevels() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IOException, InvalidKeyException {
-  	final int numberOfLevels = getNumberOfLevels(Extensions.TXT.getExtension());
-
-  	final String level = "level";
-
-      for(int i = 0; i < numberOfLevels; i++){
-      	final String levelToEncrypt = Save.LEVEL_PATH + level + i + Extensions.TXT.getExtension();
-      	final String levelEncrypted = Save.LEVEL_PATH + level + i + Extensions.DAT.getExtension();
-          SecureData.encryptFile(levelToEncrypt, levelEncrypted, SecureData.PASSWORD );
-
-          File levelFile = new File(levelToEncrypt);
-          levelFile.delete();
-      }
-  }*/
-
-  /**
-   * @param levelNumber: the number of the level that we want to load.
-   * @return String[]: an array of strings with the data of the level.
-   */
-  public static String[] loadLevelFromTxt(final int levelNumber) {
-
-    String[] level;
-    final ArrayList<String> levelList = new ArrayList<>();
-    String line;
-
-    try {
-      final BufferedReader bufferedReader =
-          new BufferedReader(
-              new FileReader(
-                  Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension()));
-
-      line = bufferedReader.readLine();
-
-      while (Objects.nonNull(line) && !line.isEmpty()) {
-        levelList.add(line);
-        line = bufferedReader.readLine();
-      }
-
-      bufferedReader.close();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    level = levelList.toArray(String[]::new);
-
-    return level;
-  }
-
-  /**
    * @param levelNumber : the number of the level that you want to load
    * @return a String[] of the level
-   * @throws InvalidAlgorithmParameterException: invalid or inappropriate algorithm parameters.
-   * @throws NoSuchPaddingException: padding not available.
-   * @throws IllegalBlockSizeException: provided wrong length of data to the block cipher.
-   * @throws NoSuchAlgorithmException: algorithm doesn't exist.
-   * @throws InvalidKeySpecException: invalid key specifications.
-   * @throws BadPaddingException: input data not properly padded.
    * @throws IOException: fail or interrupted I/O operations.
-   * @throws InvalidKeyException: invalid key.
    */
   public static String[] loadLevel(final int levelNumber) {
     final String clearLevel;
     try {
       final String encryptedLevelPath =
-          Save.LEVEL_PATH + "level" + levelNumber + Extensions.DAT.getExtension();
-      final byte[] decryptedLevel =
-          SecureData.decryptFile(
-              getFileFromResourceAsStream(encryptedLevelPath).readAllBytes(), SecureData.PASSWORD);
+          Save.LEVEL_PATH + "level" + levelNumber + Extensions.TXT.getExtension();
+      final byte[] decryptedLevel = getFileFromResourceAsStream(encryptedLevelPath).readAllBytes();
       clearLevel = new String(decryptedLevel, StandardCharsets.UTF_8);
 
       return clearLevel.split("[\\r\\n]+");
 
-    } catch (InvalidAlgorithmParameterException
-        | NoSuchPaddingException
-        | IllegalBlockSizeException
-        | NoSuchAlgorithmException
-        | InvalidKeySpecException
-        | BadPaddingException
-        | IOException
-        | InvalidKeyException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
