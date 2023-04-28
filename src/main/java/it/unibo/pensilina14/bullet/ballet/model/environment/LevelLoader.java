@@ -15,7 +15,7 @@ public class LevelLoader {
   private static final Random RAND = new Random();
 
   public LevelLoader() {
-    this.level = Save.loadLevel(getRandomLevel());
+    this.level = Save.loadLevel(4);
     this.levelWidth = this.level[0].length();
     this.levelHeight = this.level.length;
   }
