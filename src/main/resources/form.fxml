@@ -1,87 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<?import java.net.URL?>
-<AnchorPane prefHeight="469.0" prefWidth="728.0"
-            style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.FormController">
+
+<AnchorPane prefHeight="469.0" prefWidth="728.0" style="-fx-background-color: MidnightBLue; -fx-border-color: Turquoise; -fx-border-style: Dotted; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.pensilina14.bullet.ballet.menu.controller.FormController">
     <children>
-        <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="BULLET BALLET"
-               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+        <Label alignment="BASELINE_CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="785.0" text="BULLET BALLET" textFill="#a83c48" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
             <font>
-                <Font name="Comic Sans MS Bold" size="48.0"/>
+                <Font name="Gameplay Regular" size="48.0" />
             </font>
             <effect>
                 <InnerShadow choke="0.02">
                     <color>
-                        <Color red="1.0" green="0.125490203499794" blue="0.125490203499794"/>
+                        <Color red="1.0" green="0.125490203499794" blue="0.125490203499794" />
                     </color>
                 </InnerShadow>
             </effect>
         </Label>
-        <TextField fx:id="insertionForm" alignment="CENTER" layoutX="159.0" layoutY="201.0" prefHeight="92.0"
-                   prefWidth="377.0" style="-fx-background-radius: 25;" AnchorPane.bottomAnchor="173.0"
-                   AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="201.0">
+        <TextField fx:id="insertionForm" alignment="CENTER" layoutX="159.0" layoutY="201.0" prefHeight="92.0" prefWidth="377.0" style="-fx-background-radius: 25;" AnchorPane.bottomAnchor="173.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="201.0">
             <font>
-                <Font name="Comic Sans MS" size="37.0"/>
+                <Font name="Comic Sans MS" size="37.0" />
             </font>
             <effect>
                 <DropShadow height="32.72" radius="15.1275" width="29.79">
                     <color>
-                        <Color red="1.0" green="0.33796295523643494" blue="0.33796295523643494"/>
+                        <Color red="1.0" green="0.33796295523643494" blue="0.33796295523643494" />
                     </color>
                 </DropShadow>
             </effect>
         </TextField>
-        <Label alignment="BASELINE_CENTER" contentDisplay="TOP" layoutX="-3.0" layoutY="131.0" prefHeight="50.0"
-               prefWidth="785.0" text="%lblPlayerName.text" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-1.0"
-               AnchorPane.topAnchor="131.0">
+        <Label alignment="BASELINE_CENTER" contentDisplay="TOP" layoutX="-3.0" layoutY="131.0" prefHeight="50.0" prefWidth="785.0" text="%lblPlayerName.text" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="131.0">
             <font>
-                <Font name="Comic Sans MS Bold" size="32.0"/>
+                <Font name="Comic Sans MS Bold" size="32.0" />
             </font>
             <effect>
                 <InnerShadow choke="0.02">
                     <color>
-                        <Color red="1.0" green="0.125490203499794" blue="0.125490203499794"/>
+                        <Color red="1.0" green="0.125490203499794" blue="0.125490203499794" />
                     </color>
                 </InnerShadow>
             </effect>
         </Label>
-        <Button layoutX="187.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#submitOnMouseClicked"
-                prefHeight="50.0" prefWidth="320.0" text="%btnFormSubmit.text" textFill="#d32c2c"
-                AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="221.0">
+        <Button layoutX="187.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#submitOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="%btnFormSubmit.text" textFill="#d32c2c" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="221.0">
             <effect>
                 <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                     <color>
-                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952"/>
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
                     </color>
                 </DropShadow>
             </effect>
             <font>
-                <Font name="Comic Sans MS" size="20.0"/>
+                <Font name="Gameplay Regular" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#goBackOnMouseClicked"
-                prefHeight="50.0" prefWidth="70.0" text="&lt;-" textFill="#d32c2c" AnchorPane.leftAnchor="14.0"
-                AnchorPane.topAnchor="15.0">
+        <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#goBackOnMouseClicked" prefHeight="50.0" prefWidth="70.0" text="&lt;-" textFill="#d32c2c" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
             <effect>
                 <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
                     <color>
-                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952"/>
+                        <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
                     </color>
                 </DropShadow>
             </effect>
             <font>
-                <Font name="Comic Sans MS" size="20.0"/>
+                <Font name="Fira Code Light" size="20.0" />
             </font>
         </Button>
     </children>
     <stylesheets>
-        <URL value="@css/style.css"/>
+        <URL value="@css/style.css" />
     </stylesheets>
 </AnchorPane>

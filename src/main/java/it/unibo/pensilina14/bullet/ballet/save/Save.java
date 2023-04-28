@@ -270,21 +270,6 @@ public final class Save {
   }
 
   /**
-   * @param extension : the extension of the level files.
-   * @return : an int with the number of the levels present in the levels' directory.
-   */
-  // TODO: fix.
-  /*public static int getNumberOfLevels(final String extension){
-     	final File levelsDirectory = new File(Save.LEVEL_PATH);
-         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension))).length;
-     }
-
-  public static int getNumberOfLevels(final Extensions extension){
-     	final File levelsDirectory = new File(Save.LEVEL_PATH);
-         return Objects.requireNonNull(levelsDirectory.listFiles((dir, filter) -> filter.toLowerCase(Locale.getDefault()).endsWith(extension.getExtension()))).length;
-     }*/
-
-  /**
    * @param resWidth : the resolution's width of the game.
    * @param resHeight : the resolution's height of the game.
    * @param difficulty : the difficulty of the game.
