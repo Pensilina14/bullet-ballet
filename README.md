@@ -27,7 +27,7 @@ At the end of the match, the player's name and score will be saved and will be s
 ## Requirements
 
 - JDK 11+
-- Gradle 8+
+- Gradle 7.2+ (or just use the included Gradle Wrapper: `./gradlew` / `gradlew.bat`)
 
 <hr/>
 
@@ -39,7 +39,8 @@ If the given version contains the jar:
 
 In alternative:
 
-- In the terminal run the command : ./gradlew run -> it requires gradle.
+- In the terminal run the command : `./gradlew run` (or on Windows: `gradlew.bat run`).
+  This uses the Gradle Wrapper, so you don't need a system-wide Gradle installation.
 
 When executed:
 - A root directory named "_.bullet-ballet_" will be created in the _user home directory_ to save and load in-game settings and statistics.

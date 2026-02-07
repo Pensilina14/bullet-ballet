@@ -15,7 +15,10 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.*;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactory;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.ObstacleFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.*;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,6 +29,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SpriteContainerTest {
+
+    @BeforeClass
+    public static void initJavaFx() {
+        /*
+         * These tests instantiate JavaFX Images (sprites).
+         * The JavaFX toolkit must be initialized, otherwise you'll get:
+         * "Internal graphics not initialized yet".
+         */
+        try {
+            Platform.startup(() -> {});
+        } catch (final IllegalStateException ignored) {
+            // JavaFX runtime already initialized.
+        }
+        // Ensures Toolkit init on some environments.
+        new JFXPanel();
+    }
   /**
    * The following X values indicate X axis position of the different entities. This is useful in
    * order to differentiate them.

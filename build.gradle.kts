@@ -60,7 +60,7 @@ tasks.withType<JavaCompile> {
 
 application {
     // Define the main class for the application
-    mainClassName = "it.unibo.pensilina14.bullet.ballet.Main"
+    mainClass.set("it.unibo.pensilina14.bullet.ballet.Main")
 }
 
 javafx {
