@@ -29,6 +29,7 @@ public class PhysicalObjectSprite extends Pane {
     this.renderPosition(position.getX(), position.getY());
     this.imageView.setFitWidth(physicalObjectWidth);
     this.imageView.setFitHeight(physicalObjectHeight);
+    this.imageView.setSmooth(false);
     this.imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
     this.getChildren().add(this.imageView);
   }
@@ -48,6 +49,7 @@ public class PhysicalObjectSprite extends Pane {
     this.renderPosition(position.getX(), position.getY());
     this.imageView.setFitWidth(physicalObjectWidth);
     this.imageView.setFitHeight(physicalObjectHeight);
+    this.imageView.setSmooth(false);
     this.imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
     this.getChildren().add(this.imageView);
   }
@@ -67,6 +69,7 @@ public class PhysicalObjectSprite extends Pane {
     this.renderPosition(position.getX(), position.getY());
     this.imageView.setFitWidth(physicalObjectWidth);
     this.imageView.setFitHeight(physicalObjectHeight);
+    this.imageView.setSmooth(false);
     this.imageView.setViewport(new Rectangle2D(0, 0, physicalObjectWidth, physicalObjectHeight));
     this.getChildren().add(this.imageView);
   }

@@ -48,6 +48,17 @@ interface PageLoader { // TODO: volendo si possono rimuovere quelli con lingua e
    * @throws IOException: fail or interrupted I/O operations.
    */
   Window goToSelectedPageOnInput(final Frames frame) throws IOException;
+
+    /**
+     * Opens the requested page in a new window owned by the provided owner.
+     * This is useful for pause/setting popups that must control the main game window.
+     *
+     * @param frame the selected menu
+     * @param owner the owner window
+     * @return the new window
+     * @throws IOException fail or interrupted I/O operations.
+     */
+    Window goToSelectedPageOnInput(final Frames frame, final Window owner) throws IOException;
   /**
    * This will load the software's first scene.
    *

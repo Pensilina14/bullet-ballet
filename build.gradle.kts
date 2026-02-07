@@ -8,7 +8,9 @@ plugins {
 
     id("org.openjfx.javafxplugin") version "0.0.9"
     
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    // Shadow 6.x has issues with Gradle 7 task validation + Kotlin DSL accessors.
+    // 7.1.2 is compatible with Gradle 7.x and works cleanly with Kotlin DSL.
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 repositories {

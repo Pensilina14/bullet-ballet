@@ -19,6 +19,21 @@ public enum Difficulties {
     return this.difficulty;
   }
 
+  /**
+   * Parses a difficulty string (as stored in settings) into an enum value.
+   *
+   * @param difficulty the string difficulty (e.g. "easy")
+   * @return a {@link Difficulties} value, or the default if not recognized
+   */
+  public static Difficulties fromString(final String difficulty) {
+    for (final var d : Difficulties.values()) {
+      if (d.toString().equalsIgnoreCase(difficulty)) {
+        return d;
+      }
+    }
+    return getDefaultDifficulty();
+  }
+
   public static Difficulties getDefaultDifficulty() {
     return Difficulties.MEDIUM;
   }

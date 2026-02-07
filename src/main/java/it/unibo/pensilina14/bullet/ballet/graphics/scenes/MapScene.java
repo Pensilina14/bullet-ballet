@@ -19,6 +19,7 @@ import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoaderImpl;
+import it.unibo.pensilina14.bullet.ballet.menu.controller.Resolutions;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
@@ -36,10 +37,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -54,7 +58,10 @@ public class MapScene extends AbstractScene implements GameView {
   private final Pane appPane = new StackPane();
   private final Pane gamePane = new Pane();
   private final Pane uiPane = new StackPane();
-  private ImageView backgroundView;
+  private final Pane backgroundPane = new Pane();
+  private ImageView backgroundView1;
+  private ImageView backgroundView2;
+  private double backgroundScrollX;
   private final GameMap map = new BackgroundMap();
   private final SpriteManager sprites;
   private Optional<MutablePair<PhysicalObjectSprite, MutablePosition2D>> mainWeapon;
@@ -87,18 +94,40 @@ public class MapScene extends AbstractScene implements GameView {
   public final void setup(final GameEngine controller) {
     setInputController(controller);
     this.initScene();
+
+    // The responsive scaling in AbstractScene uses a fixed logical size (FULLHD).
+    // Ensure the map/app pane fills that logical space, regardless of the actual window size.
+    this.appPane.setMinSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    this.appPane.setPrefSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    this.appPane.setMaxSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    AnchorPane.setTopAnchor(this.appPane, 0.0);
+    AnchorPane.setLeftAnchor(this.appPane, 0.0);
+
+    // Clip the app pane so the scrolling background doesn't bleed outside the viewport.
+    final Rectangle clip = new Rectangle();
+    clip.widthProperty().bind(this.appPane.widthProperty());
+    clip.heightProperty().bind(this.appPane.heightProperty());
+    this.appPane.setClip(clip);
+
     this.root.getChildren().add(this.appPane);
     AppLogger.getAppLogger().debug("Inside MapScene setup() method.");
-    this.backgroundView =
-        new ImageView(
-            String.valueOf(getClass().getClassLoader().getResource(this.map.getMap().getPath())));
+    final String bgUrl =
+      String.valueOf(getClass().getClassLoader().getResource(this.map.getMap().getPath()));
+    final Image bgImage = new Image(bgUrl);
+    this.backgroundView1 = new ImageView(bgImage);
+    this.backgroundView2 = new ImageView(bgImage);
+    this.backgroundView1.setSmooth(false);
+    this.backgroundView2.setSmooth(false);
+    this.backgroundScrollX = 0.0;
     AppLogger.getAppLogger().debug("Load background image");
     this.mainWeapon = Optional.empty();
-    this.appPane.getChildren().addAll(this.backgroundView, this.gamePane, this.uiPane);
-    this.backgroundView
-        .fitWidthProperty()
-        .bind(this.appPane.widthProperty()); // per quando si cambia la risoluzione dello schermo.
-    this.backgroundView.fitHeightProperty().bind(this.appPane.heightProperty());
+
+    this.backgroundPane.getChildren().addAll(this.backgroundView1, this.backgroundView2);
+    this.backgroundView1.fitWidthProperty().bind(this.appPane.widthProperty());
+    this.backgroundView2.fitWidthProperty().bind(this.appPane.widthProperty());
+    this.backgroundView1.fitHeightProperty().bind(this.appPane.heightProperty());
+    this.backgroundView2.fitHeightProperty().bind(this.appPane.heightProperty());
+    this.appPane.getChildren().addAll(this.backgroundPane, this.gamePane, this.uiPane);
     AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
     try {
       this.initialize();
@@ -292,7 +321,8 @@ public class MapScene extends AbstractScene implements GameView {
       this.soundsFactory.createSound(Sounds.HEALTH_INCREMENT);
       this.controller.get().stop();
       final PageLoader pageLoaderImpl = new PageLoaderImpl();
-      final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU);
+      final Window owner = this.getWindow();
+      final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU, owner);
       window.setOnCloseRequest(
           e -> {
             this.controller.get().start();
@@ -318,6 +348,8 @@ public class MapScene extends AbstractScene implements GameView {
 
   private void render() throws IOException {
     final Environment env = this.gameState.getGameEnvironment();
+
+    updateBackgroundScroll();
 
     if (this.sprites.getPlayerSprite().isPresent()) {
       this.sprites
@@ -359,7 +391,7 @@ public class MapScene extends AbstractScene implements GameView {
 
     if (this.sprites.getPlatformsSprites().isPresent()) {
       this.sprites.getPlatformsSprites().get().stream()
-          .forEach(p -> p.getLeft().renderMovingPosition());
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
     if (this.sprites.getEnemiesSprites().isPresent()) {
@@ -369,7 +401,7 @@ public class MapScene extends AbstractScene implements GameView {
 
     if (this.sprites.getItemsSprites().isPresent()) {
       this.sprites.getItemsSprites().get().stream()
-          .forEach(p -> p.getLeft().renderMovingPosition());
+          .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
     if (this.sprites.getObstaclesSprites().isPresent()) {
@@ -406,6 +438,27 @@ public class MapScene extends AbstractScene implements GameView {
             });
   }
 
+  private void updateBackgroundScroll() {
+    if (this.backgroundView1 == null || this.backgroundView2 == null) {
+      return;
+    }
+    final double w = this.appPane.getWidth();
+    if (w <= 1.0) {
+      return;
+    }
+
+    // The world moves left (x decreases). Scroll the background left too, so it doesn't look like
+    // the background is drifting to the right relative to the map.
+    this.backgroundScrollX -= 1.0;
+    this.backgroundScrollX = this.backgroundScrollX % w;
+    if (this.backgroundScrollX > 0) {
+      this.backgroundScrollX -= w;
+    }
+
+    this.backgroundView1.setTranslateX(this.backgroundScrollX);
+    this.backgroundView2.setTranslateX(this.backgroundScrollX + w);
+  }
+
   private boolean checkChildrenById(final int i, final HudLabels label) {
     return this.uiPane.getChildren().get(i).getId().equals(label.toString());
   }
@@ -433,12 +486,16 @@ public class MapScene extends AbstractScene implements GameView {
 
   @Override
   public final void setHeight(final double heigth) {
-    this.appPane.setPrefHeight(heigth);
+    // Keep the logical size fixed; AbstractScene will scale to the actual window.
+    this.appPane.setPrefHeight(Resolutions.FULLHD.getHeight());
+    super.setHeight(heigth);
   }
 
   @Override
   public final void setWidth(final double width) {
-    this.appPane.setPrefWidth(width);
+    // Keep the logical size fixed; AbstractScene will scale to the actual window.
+    this.appPane.setPrefWidth(Resolutions.FULLHD.getWidth());
+    super.setWidth(width);
   }
 
   @Override

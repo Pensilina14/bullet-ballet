@@ -13,6 +13,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.Node;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.geometry.Rectangle2D;
+import it.unibo.pensilina14.bullet.ballet.graphics.scenes.AbstractScene;
 
 import java.io.IOException;
 import java.net.URL;
@@ -112,6 +118,7 @@ public class PauseSettingsController implements Initializable {
 
       if (hasSaved) {
         generateSaveSettingsAlert(Alert.AlertType.INFORMATION);
+        applyResolutionToGameWindow(event);
       } else {
         generateSaveSettingsAlert(Alert.AlertType.ERROR);
       }
@@ -119,6 +126,50 @@ public class PauseSettingsController implements Initializable {
     } else {
       generateSaveSettingsAlert(AlertType.ERROR);
     }
+  }
+
+  private void applyResolutionToGameWindow(final MouseEvent event) {
+    final Stage settingsStage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+    final Window owner = settingsStage.getOwner();
+    if (!(owner instanceof Stage)) {
+      return;
+    }
+    final Stage gameStage = (Stage) owner;
+
+    final String selected = this.resolution.getSelectionModel().getSelectedItem();
+    if (selected == null || selected.isBlank()) {
+      return;
+    }
+
+    final List<String> resList = Arrays.asList(selected.split("[ ]"));
+    final int requestedW = Integer.parseInt(resList.get(PauseSettingsController.WIDTH_INDEX));
+    final int requestedH = Integer.parseInt(resList.get(PauseSettingsController.HEIGHT_INDEX));
+
+    final Screen currentScreen =
+        Screen.getScreensForRectangle(
+                gameStage.getX(), gameStage.getY(), gameStage.getWidth(), gameStage.getHeight())
+            .stream()
+            .findFirst()
+            .orElse(Screen.getPrimary());
+    final Rectangle2D bounds = currentScreen.getVisualBounds();
+
+    Resolutions chosen = Resolutions.fromDimensions(requestedW, requestedH);
+    if (chosen.getWidth() > bounds.getWidth() || chosen.getHeight() > bounds.getHeight()) {
+      chosen = Resolutions.bestFit(bounds.getWidth(), bounds.getHeight());
+    }
+
+    if (gameStage.isFullScreen()) {
+      gameStage.setFullScreen(false);
+    }
+    gameStage.setResizable(false);
+    gameStage.setWidth(chosen.getWidth());
+    gameStage.setHeight(chosen.getHeight());
+    if (gameStage.getScene() instanceof AbstractScene) {
+      final AbstractScene scene = (AbstractScene) gameStage.getScene();
+      scene.setWidth(gameStage.getWidth());
+      scene.setHeight(gameStage.getHeight());
+    }
+    gameStage.centerOnScreen();
   }
 
   private void generateSaveSettingsAlert(final AlertType alertType) {

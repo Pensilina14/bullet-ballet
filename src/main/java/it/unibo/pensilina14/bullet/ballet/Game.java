@@ -11,8 +11,10 @@ import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Difficulties;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Resolutions;
+import it.unibo.pensilina14.bullet.ballet.save.Save;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class Game {
@@ -32,14 +34,32 @@ public class Game {
     this.model = new ModelControllerImpl(new GameState());
     this.view = new ViewControllerImpl(Optional.of(new MapScene(this.model.getGameState().get())));
     this.engine = new GameEngine(this.view, this.model);
-    this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
+    this.settings = loadSettings();
   }
 
   public Game(final String playerName) {
     this.model = new ModelControllerImpl(new GameState(playerName));
     this.view = new ViewControllerImpl(Optional.of(new MapScene(this.model.getGameState().get())));
     this.engine = new GameEngine(this.view, this.model);
-    this.settings = new GameInfoImpl(Resolutions.FULLHD, Difficulties.EASY);
+    this.settings = loadSettings();
+  }
+
+  private static GameInfo loadSettings() {
+    final Map<String, String> settingsMap = Save.loadSettings();
+    if (settingsMap.isEmpty()) {
+      return new GameInfoImpl(Resolutions.getDefaultResolution(), Difficulties.getDefaultDifficulty());
+    }
+
+    final int width = Integer.parseInt(settingsMap.get(Save.RESOLUTION_WIDTH_STRING));
+    final int height = Integer.parseInt(settingsMap.get(Save.RESOLUTION_HEIGHT_STRING));
+    final Resolutions resolution = Resolutions.fromDimensions(width, height);
+
+    final Difficulties difficulty =
+        settingsMap.containsKey(Save.DIFFICULTY_STRING)
+            ? Difficulties.fromString(settingsMap.get(Save.DIFFICULTY_STRING))
+            : Difficulties.getDefaultDifficulty();
+
+    return new GameInfoImpl(resolution, difficulty);
   }
 
   public final void start() {

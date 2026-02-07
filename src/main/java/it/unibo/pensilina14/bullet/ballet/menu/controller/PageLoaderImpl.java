@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -82,6 +83,24 @@ public class PageLoaderImpl implements PageLoader {
             getLanguage(Languages.ENGLISH));
     final Scene scene = new Scene(root);
     final Stage window = new Stage();
+    window.setScene(scene);
+    window.show();
+    this.setWindow(window);
+    return window;
+  }
+
+  @Override
+  public Window goToSelectedPageOnInput(final Frames frame, final Window owner) throws IOException {
+    final Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource(frame.toString())),
+            getLanguage(Languages.ENGLISH));
+    final Scene scene = new Scene(root);
+    final Stage window = new Stage();
+    if (owner != null) {
+      window.initOwner(owner);
+      window.initModality(Modality.WINDOW_MODAL);
+    }
     window.setScene(scene);
     window.show();
     this.setWindow(window);
