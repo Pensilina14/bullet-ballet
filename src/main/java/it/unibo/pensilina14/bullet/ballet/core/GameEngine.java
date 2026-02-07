@@ -23,6 +23,7 @@ import it.unibo.pensilina14.bullet.ballet.model.score.ScoreSystem;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Items;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.EnemyBulletImpl;
 import it.unibo.pensilina14.bullet.ballet.save.Save;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sound;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
@@ -169,6 +170,8 @@ public class GameEngine implements InputController, GameEventListener, Engine {
                 playerHitsWeaponEventHandler(env, e);
               } else if (e instanceof BulletHitsEnemyEvent) {
                 bulletHitsEnemyEventHandler(env, e);
+              } else if (e instanceof BulletHitsPlayerEvent) {
+                bulletHitsPlayerEventHandler(env, e);
               } else if (e instanceof PlayerHitsPlatformEvent) {
                 playerHitsPlatformEventHandler(env, e);
               } else if (e instanceof EnemyHitsPlatformEvent) {
@@ -186,6 +189,15 @@ public class GameEngine implements InputController, GameEventListener, Engine {
               }
             });
     this.eventQueue.clear();
+  }
+
+  private void bulletHitsPlayerEventHandler(final Environment env, final GameEvent e) {
+    final Player player = ((BulletHitsPlayerEvent) e).getPlayer();
+    ((BulletHitsPlayerEvent) e).getBullet().getEffect().applyEffect(player);
+
+    final MutablePosition2D bulletPos = ((BulletHitsPlayerEvent) e).getBullet().getPosition().get();
+    env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+    this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
   }
 
   private void enemyHitsPlatformEventHandler(final Environment env, final GameEvent e) {
@@ -308,6 +320,14 @@ public class GameEngine implements InputController, GameEventListener, Engine {
   }
 
   private void bulletHitsEnemyEventHandler(final Environment env, final GameEvent e) {
+    // Enemy bullets must not hurt other enemies.
+    if (((BulletHitsEnemyEvent) e).getBullet() instanceof EnemyBulletImpl) {
+      final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
+      env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
+      this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+      return;
+    }
+
     final Enemy enemy = ((BulletHitsEnemyEvent) e).getEnemy();
     ((BulletHitsEnemyEvent) e).getBullet().getEffect().applyEffect(enemy);
     final MutablePosition2D bulletPos = ((BulletHitsEnemyEvent) e).getBullet().getPosition().get();
@@ -333,6 +353,12 @@ public class GameEngine implements InputController, GameEventListener, Engine {
         ((BulletHitsObstacleEvent) e).getBullet().getPosition().get();
     env.deleteObjByPosition(new ImmutablePosition2Dimpl(bulletPos.getX(), bulletPos.getY()));
     this.viewController.get().getGameView().deleteBulletSpriteImage(bulletPos);
+
+    // Enemy bullets must not damage obstacles ("conigli").
+    if (((BulletHitsObstacleEvent) e).getBullet() instanceof EnemyBulletImpl) {
+      return;
+    }
+
     env.deleteObjByPosition(
         new ImmutablePosition2Dimpl(
             obstacle.getPosition().get().getX(), obstacle.getPosition().get().getY()));

@@ -48,6 +48,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -419,7 +420,6 @@ public class MapScene extends AbstractScene implements GameView {
     game.getSettings().setResolution(chosen);
 
     gameStage.setResizable(false);
-    gameStage.setFullScreen(false);
     gameStage.setMaximized(false);
     gameStage.setWidth(chosen.getWidth());
     gameStage.setHeight(chosen.getHeight());
@@ -427,6 +427,9 @@ public class MapScene extends AbstractScene implements GameView {
     gameScene.setWidth(gameStage.getWidth());
     gameStage.setScene(gameScene);
     gameStage.show();
+    gameStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    gameStage.setFullScreenExitHint("");
+    gameStage.setFullScreen(true);
     gameStage.centerOnScreen();
     game.start();
   }
@@ -677,6 +680,9 @@ public class MapScene extends AbstractScene implements GameView {
                 gameScene.setWidth(gameStage.getWidth());
                 gameStage.setScene(gameScene);
                 gameStage.show();
+                gameStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+                gameStage.setFullScreenExitHint("");
+                gameStage.setFullScreen(true);
                 gameStage.centerOnScreen();
                 game.start();
               }
@@ -773,6 +779,16 @@ public class MapScene extends AbstractScene implements GameView {
           .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
+    // Ensure every model bullet has a sprite (e.g. bullets spawned by enemies).
+    if (env.getEntityManager().getBullets().isPresent()) {
+      for (final var bullet : env.getEntityManager().getBullets().get()) {
+        final var pos = bullet.getPosition().get();
+        if (!hasBulletSpriteAt(pos)) {
+          this.generateBullet(bullet);
+        }
+      }
+    }
+
     if (this.sprites.getBulletsSprites().isPresent()) {
       this.sprites.getBulletsSprites().get().stream()
           .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
@@ -813,6 +829,14 @@ public class MapScene extends AbstractScene implements GameView {
         }
       }
     }
+  }
+
+  private boolean hasBulletSpriteAt(final MutablePosition2D position) {
+    if (this.sprites.getBulletsSprites().isEmpty()) {
+      return false;
+    }
+    return this.sprites.getBulletsSprites().get().stream()
+        .anyMatch(p -> p.getRight().equals(position));
   }
 
   private void updateBackgroundScroll() {

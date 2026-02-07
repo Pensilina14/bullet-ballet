@@ -2,15 +2,28 @@ package it.unibo.pensilina14.bullet.ballet.model.characters;
 
 import it.unibo.pensilina14.bullet.ballet.common.Dimension2D;
 import it.unibo.pensilina14.bullet.ballet.common.ImmutablePosition2Dimpl;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2D;
+import it.unibo.pensilina14.bullet.ballet.common.MutablePosition2Dimpl;
 import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2D;
+import it.unibo.pensilina14.bullet.ballet.common.SpeedVector2DImpl;
 import it.unibo.pensilina14.bullet.ballet.model.entities.GameEntity;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.Bullet;
+import it.unibo.pensilina14.bullet.ballet.model.weapon.BulletFactoryImpl;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 
 import java.util.Optional;
 import java.util.Random;
 
 public class Enemy extends GameEntity implements Characters {
+
+  private static final int PATROL_SWITCH_TICKS = 90;
+  private static final double PATROL_STEP = 1.2;
+
+  private static final int SHOOT_COOLDOWN_TICKS = 75;
+  private static final double SHOOT_STEP = 6.0;
+  private static final double SHOOT_RANGE_X = 650.0;
+  private static final double SHOOT_RANGE_Y = 120.0;
 
   private double health;
   private Optional<Double> mana;
@@ -23,6 +36,11 @@ public class Enemy extends GameEntity implements Characters {
   private final Random rand = new Random();
   private static final double MAX = 100.0;
   private boolean landed;
+
+  private int patrolTick;
+  private boolean patrolRight;
+
+  private int shootCooldown;
 
   private static final double MAX_RANGE = 7.0;
 
@@ -42,6 +60,10 @@ public class Enemy extends GameEntity implements Characters {
     this.name = name;
     this.health = health;
     this.mana = mana;
+
+    this.patrolRight = this.rand.nextBoolean();
+    this.patrolTick = 0;
+    this.shootCooldown = rand.nextInt(SHOOT_COOLDOWN_TICKS + 1);
   }
 
   public Enemy(
@@ -53,6 +75,10 @@ public class Enemy extends GameEntity implements Characters {
     super(vector, environment, mass, dimension);
     this.enemyType = enemyType;
     setEnemyType();
+
+    this.patrolRight = this.rand.nextBoolean();
+    this.patrolTick = 0;
+    this.shootCooldown = rand.nextInt(SHOOT_COOLDOWN_TICKS + 1);
   }
 
   public Enemy(
@@ -64,6 +90,10 @@ public class Enemy extends GameEntity implements Characters {
 
     setRandomEnemy();
     setEnemyType();
+
+    this.patrolRight = this.rand.nextBoolean();
+    this.patrolTick = 0;
+    this.shootCooldown = rand.nextInt(SHOOT_COOLDOWN_TICKS + 1);
   }
 
   private void setRandomEnemy() {
@@ -179,11 +209,66 @@ public class Enemy extends GameEntity implements Characters {
   @Override
   public void updateState() {
     super.updateState();
+
+    this.updatePatrol();
+    this.tryShootAtPlayer();
+
     if (!this.isAlive()) {
       this.getGameEnvironment()
           .get()
           .deleteObjByPosition(new ImmutablePosition2Dimpl(this.getPosition().get()));
     }
+  }
+
+  private void updatePatrol() {
+    this.patrolTick++;
+    if (this.patrolTick >= PATROL_SWITCH_TICKS) {
+      this.patrolTick = 0;
+      this.patrolRight = !this.patrolRight;
+    }
+
+    final boolean moved = this.patrolRight ? this.moveRight(PATROL_STEP) : this.moveLeft(PATROL_STEP);
+    if (!moved) {
+      this.patrolRight = !this.patrolRight;
+    }
+  }
+
+  private void tryShootAtPlayer() {
+    if (this.getGameEnvironment().isEmpty()
+        || this.getGameEnvironment().get().getEntityManager().getPlayer().isEmpty()) {
+      return;
+    }
+
+    if (this.shootCooldown > 0) {
+      this.shootCooldown--;
+      return;
+    }
+
+    final var player = this.getGameEnvironment().get().getEntityManager().getPlayer().get();
+    final MutablePosition2D playerPos = player.getPosition().get();
+    final MutablePosition2D enemyPos = this.getPosition().get();
+
+    final double dx = playerPos.getX() - enemyPos.getX();
+    final double dy = Math.abs(playerPos.getY() - enemyPos.getY());
+    if (Math.abs(dx) > SHOOT_RANGE_X || dy > SHOOT_RANGE_Y) {
+      return;
+    }
+
+    // For now enemies shoot only to the left (same direction rule as the player).
+    if (dx > 0) {
+      return;
+    }
+
+    final double step = -SHOOT_STEP;
+    final Bullet bullet =
+        new BulletFactoryImpl()
+            .createEnemyClassicBullet(
+                this.getGameEnvironment().get(),
+                new SpeedVector2DImpl(
+                    new MutablePosition2Dimpl(enemyPos.getX(), enemyPos.getY()), 1.0),
+                step);
+    this.getGameEnvironment().get().getEntityManager().addBullet(bullet);
+    this.shootCooldown = SHOOT_COOLDOWN_TICKS;
   }
 
   /*

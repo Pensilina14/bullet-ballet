@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -70,6 +71,9 @@ public class FormController {
     gameScene.setWidth(stage.getWidth());
     stage.setScene(gameScene);
     stage.show();
+    stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    stage.setFullScreenExitHint("");
+    stage.setFullScreen(true);
     stage.centerOnScreen();
     game.start();
   }

@@ -28,7 +28,7 @@ public class PhysicalObjectSpriteFactoryImpl implements PhysicalObjectSpriteFact
   @Override
   public final PhysicalObjectSprite generateEnemySprite(final PhysicalObject enemy)
       throws IOException {
-    return new PhysicalObjectSprite(Images.ENEMY, enemy.getPosition().get(), enemy);
+    return new EnemySprite(enemy.getPosition().get(), enemy);
   }
 
   @Override

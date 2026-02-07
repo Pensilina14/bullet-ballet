@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.stage.Screen;
@@ -133,7 +134,12 @@ public class PauseSettingsController implements Initializable {
     this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
     final Stage gameStage = getGameStage(event);
     if (gameStage != null) {
-      gameStage.setFullScreen(!gameStage.isFullScreen());
+        final boolean next = !gameStage.isFullScreen();
+        if (next) {
+          gameStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+          gameStage.setFullScreenExitHint("");
+        }
+        gameStage.setFullScreen(next);
     }
   }
 

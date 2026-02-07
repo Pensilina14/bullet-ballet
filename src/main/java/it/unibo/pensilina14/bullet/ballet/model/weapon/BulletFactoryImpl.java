@@ -14,23 +14,7 @@ public class BulletFactoryImpl implements BulletFactory {
   private static final double MASS = 2.5;
   private static final int BULLET_DIM = 20;
   private final EffectFactory effectFact = new EffectFactoryImpl();
-  /*
-  @Override
-  public Bullet createClassicBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
-  	return new BulletImpl(EntityList.BulletType.CLASSICAL, new Dimension2Dimpl(BULLET_DIM, BULLET_DIM)
-  			, gameEnvironment, MASS, vector, Items.DAMAGE
-  			, effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()));
-  }
 
-  @Override
-  public Bullet createPoisonBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
-  	return new BulletImpl(EntityList.BulletType.TOXIC, new Dimension2Dimpl(BULLET_DIM, BULLET_DIM)
-  			, gameEnvironment, MASS, vector, Items.POISON
-  			, effectFact.createPoisonEffect(SpecialEffects.POISON.getDelta().getValue(),
-                 SpecialEffects.POISON.getMsStep().getValue(),
-                 SpecialEffects.POISON.getMsDuration().getValue()));
-  }
-  */
   @Override
   public Bullet createClassicBullet(final Environment gameEnvironment, final SpeedVector2D vector) {
     return new BulletImpl(
@@ -41,6 +25,25 @@ public class BulletFactoryImpl implements BulletFactory {
         Items.DAMAGE,
         effectFact.createHealEffect(Effects.DAMAGE.getDelta().getValue()),
         EntityList.BulletType.CLASSICAL);
+  }
+
+  /**
+   * Creates a bullet shot by an enemy, travelling horizontally.
+   *
+   * @param horizontalStep signed step applied each tick (negative = left, positive = right)
+   */
+  public Bullet createEnemyClassicBullet(
+      final Environment gameEnvironment, final SpeedVector2D vector, final double horizontalStep) {
+    final double damage = -Math.abs(Effects.DAMAGE.getDelta().getValue());
+    return new EnemyBulletImpl(
+        vector,
+        gameEnvironment,
+        MASS,
+        new Dimension2Dimpl(BULLET_DIM, BULLET_DIM),
+        Items.DAMAGE,
+        effectFact.createHealEffect(damage),
+        EntityList.BulletType.CLASSICAL,
+        horizontalStep);
   }
 
   @Override
