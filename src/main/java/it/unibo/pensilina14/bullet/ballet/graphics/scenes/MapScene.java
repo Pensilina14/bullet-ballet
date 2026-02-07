@@ -7,6 +7,7 @@ import it.unibo.pensilina14.bullet.ballet.core.GameEngine;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.BackgroundMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.GameMap;
 import it.unibo.pensilina14.bullet.ballet.graphics.map.Maps;
+import it.unibo.pensilina14.bullet.ballet.graphics.sprite.Images;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSprite;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactory;
 import it.unibo.pensilina14.bullet.ballet.graphics.sprite.PhysicalObjectSpriteFactoryImpl;
@@ -33,41 +34,52 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class MapScene extends AbstractScene implements GameView {
 
   private final Pane appPane = new StackPane();
   private final Pane gamePane = new Pane();
-  private final Pane uiPane = new StackPane();
+  private final Pane uiPane = new Pane();
   private final Pane backgroundPane = new Pane();
   private ImageView backgroundView1;
   private ImageView backgroundView2;
   private double backgroundScrollX;
+
+  private final StackPane gameOverOverlay = new StackPane();
+  private boolean isGameOver;
+
+  private ProgressBar healthBar;
+  private Label healthPercentLabel;
+  private Label scoreLabel;
+  private HBox ammoBox;
+  private Image ammoIconImage;
+  private int lastAmmoShown = -1;
+  private static final int MAX_AMMO_ICONS = 10;
+
   private final GameMap map = new BackgroundMap();
   private final SpriteManager sprites;
   private Optional<MutablePair<PhysicalObjectSprite, MutablePosition2D>> mainWeapon;
   private final GameState gameState;
   private Optional<GameEngine> controller;
-  private List<Hud> hudList;
   private final SoundsFactory soundsFactory;
 
   public MapScene(final GameState gameState) {
@@ -94,6 +106,7 @@ public class MapScene extends AbstractScene implements GameView {
   public final void setup(final GameEngine controller) {
     setInputController(controller);
     this.initScene();
+    this.isGameOver = false;
 
     // The responsive scaling in AbstractScene uses a fixed logical size (FULLHD).
     // Ensure the map/app pane fills that logical space, regardless of the actual window size.
@@ -129,6 +142,49 @@ public class MapScene extends AbstractScene implements GameView {
     this.backgroundView2.fitHeightProperty().bind(this.appPane.heightProperty());
     this.appPane.getChildren().addAll(this.backgroundPane, this.gamePane, this.uiPane);
     AppLogger.getAppLogger().debug("appPane children: " + this.appPane.getChildren().toString());
+
+    // appPane is a StackPane: anchor layers to TOP_LEFT to avoid extra centering that breaks HUD.
+    StackPane.setAlignment(this.backgroundPane, Pos.TOP_LEFT);
+    StackPane.setAlignment(this.gamePane, Pos.TOP_LEFT);
+    StackPane.setAlignment(this.uiPane, Pos.TOP_LEFT);
+
+    // Ensure HUD alignment is relative to the whole viewport.
+    this.uiPane.setMinSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    this.uiPane.setPrefSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    this.uiPane.setMaxSize(Resolutions.FULLHD.getWidth(), Resolutions.FULLHD.getHeight());
+    this.uiPane.setPickOnBounds(false);
+
+    setupHud();
+    setupGameOverOverlay();
+    this.appPane.getChildren().add(this.gameOverOverlay);
+
+    // Allow leaving the game-over overlay even when the engine is stopped.
+    this.addEventFilter(
+        KeyEvent.KEY_PRESSED,
+        e -> {
+          if (this.isGameOver && e.getCode() == KeyCode.ENTER) {
+            try {
+              final javafx.stage.Stage stage = (javafx.stage.Stage) this.getWindow();
+              final PageLoader loader = new PageLoaderImpl();
+              loader.loadFirstScene(stage);
+
+              // The game sets a fixed resolution and non-resizable stage.
+              // Reset the stage so the menu isn't stuck with the game sizing.
+              javafx.application.Platform.runLater(
+                  () -> {
+                    stage.setFullScreen(false);
+                    stage.setMaximized(false);
+                    stage.setResizable(true);
+                    stage.sizeToScene();
+                    stage.centerOnScreen();
+                  });
+            } catch (final IOException ex) {
+              ex.printStackTrace();
+            }
+            e.consume();
+          }
+        });
+
     try {
       this.initialize();
     } catch (final IOException exc) {
@@ -136,28 +192,110 @@ public class MapScene extends AbstractScene implements GameView {
       AppLogger.getAppLogger()
           .error("IOException, probably caused by a problem with components sprite imgs.");
     }
-    final Hud healthInfo =
-        new Hud(
-            HudLabels.HEALTH,
-            Pos.TOP_LEFT,
-            ContentDisplay.CENTER,
-            this.uiPane,
-            new Insets(20, 0, 0, 20));
-    final Hud scoreInfo =
-        new Hud(
-            HudLabels.SCORE,
-            Pos.TOP_CENTER,
-            ContentDisplay.RIGHT,
-            this.uiPane,
-            new Insets(20, 0, 0, 50));
-    final Hud ammoInfo =
-        new Hud(
-            HudLabels.AMMO,
-            Pos.TOP_RIGHT,
-            ContentDisplay.LEFT,
-            this.uiPane,
-            new Insets(20, 150, 0, 0));
-    this.hudList = List.of(healthInfo, scoreInfo, ammoInfo);
+  }
+
+  private void setupHud() {
+    // Health bar + percentage (top-left)
+    this.healthBar = new ProgressBar(1.0);
+    this.healthBar.setPrefWidth(260);
+    this.healthBar.setMaxWidth(260);
+    this.healthBar.setStyle("-fx-accent: red;");
+
+    this.healthPercentLabel = new Label("100%");
+    // Must be different from the bar color.
+    this.healthPercentLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+    this.healthPercentLabel.setFont(javafx.scene.text.Font.font(18));
+
+    final StackPane healthBox = new StackPane(this.healthBar, this.healthPercentLabel);
+    healthBox.setMaxWidth(260);
+    this.uiPane.getChildren().add(healthBox);
+    healthBox.setLayoutX(20);
+    healthBox.setLayoutY(20);
+
+    // Score with coin icon above (top-center)
+    final String coinUrl =
+        String.valueOf(getClass().getClassLoader().getResource(this.map.getCoinType().getPath()));
+    final ImageView coinIcon = new ImageView(new Image(coinUrl));
+    coinIcon.setSmooth(false);
+    coinIcon.setPreserveRatio(true);
+    coinIcon.setFitHeight(36);
+
+    this.scoreLabel = new Label("0");
+    this.scoreLabel.setTextFill(javafx.scene.paint.Color.RED);
+    this.scoreLabel.setFont(javafx.scene.text.Font.font(22));
+
+    final VBox scoreBox = new VBox(4, coinIcon, this.scoreLabel);
+    scoreBox.setAlignment(Pos.TOP_CENTER);
+    this.uiPane.getChildren().add(scoreBox);
+    scoreBox.setLayoutY(14);
+    scoreBox
+      .layoutXProperty()
+      .bind(this.uiPane.widthProperty().subtract(scoreBox.widthProperty()).divide(2.0));
+
+    // Ammo (top-right)
+    final String ammoUrl =
+      String.valueOf(
+        getClass().getClassLoader().getResource(Images.AMMO.getFileName()));
+    this.ammoIconImage = new Image(ammoUrl);
+    this.ammoBox = new HBox(4);
+    this.ammoBox.setAlignment(Pos.CENTER_RIGHT);
+    this.uiPane.getChildren().add(this.ammoBox);
+    this.ammoBox.setLayoutY(20);
+    this.ammoBox
+      .layoutXProperty()
+      .bind(this.uiPane.widthProperty().subtract(this.ammoBox.widthProperty()).subtract(150.0));
+  }
+
+  private void setupGameOverOverlay() {
+    this.gameOverOverlay.setVisible(false);
+    this.gameOverOverlay.setPickOnBounds(true);
+    this.gameOverOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.65);");
+    this.gameOverOverlay.prefWidthProperty().bind(this.appPane.widthProperty());
+    this.gameOverOverlay.prefHeightProperty().bind(this.appPane.heightProperty());
+
+    final Label title = new Label("GAME OVER");
+    title.setTextFill(javafx.scene.paint.Color.RED);
+    title.setFont(javafx.scene.text.Font.font(56));
+
+    final ImageView playerPreview =
+        new ImageView(
+            new Image(
+                String.valueOf(
+                    getClass().getClassLoader().getResource(Images.PLAYER.getFileName()))));
+    playerPreview.setSmooth(false);
+    playerPreview.setPreserveRatio(true);
+    playerPreview.setFitHeight(220);
+
+    final Label scoreTitle = new Label("Score");
+    scoreTitle.setTextFill(javafx.scene.paint.Color.RED);
+    scoreTitle.setFont(javafx.scene.text.Font.font(22));
+    final Label scoreValue = new Label("0");
+    scoreValue.setId("gameOverScoreValue");
+    scoreValue.setTextFill(javafx.scene.paint.Color.RED);
+    scoreValue.setFont(javafx.scene.text.Font.font(32));
+
+    final Label healthTitle = new Label("Health");
+    healthTitle.setTextFill(javafx.scene.paint.Color.RED);
+    healthTitle.setFont(javafx.scene.text.Font.font(22));
+    final Label healthValue = new Label("0%");
+    healthValue.setId("gameOverHealthValue");
+    healthValue.setTextFill(javafx.scene.paint.Color.RED);
+    healthValue.setFont(javafx.scene.text.Font.font(28));
+
+    final VBox scoreCol = new VBox(6, scoreTitle, scoreValue);
+    scoreCol.setAlignment(Pos.CENTER);
+    final VBox healthCol = new VBox(6, healthTitle, healthValue);
+    healthCol.setAlignment(Pos.CENTER);
+    final HBox statsRow = new HBox(60, scoreCol, healthCol);
+    statsRow.setAlignment(Pos.CENTER);
+
+    final Label hint = new Label("Premi ENTER per tornare al menu");
+    hint.setTextFill(javafx.scene.paint.Color.RED);
+    hint.setFont(javafx.scene.text.Font.font(18));
+
+    final VBox content = new VBox(18, title, playerPreview, statsRow, hint);
+    content.setAlignment(Pos.CENTER);
+    this.gameOverOverlay.getChildren().add(content);
   }
 
   private void initialize() throws IOException {
@@ -295,6 +433,9 @@ public class MapScene extends AbstractScene implements GameView {
   }
 
   private void update() throws IOException {
+    if (this.isGameOver) {
+      return;
+    }
     this.startPlayerAnimation();
 
     if (this.keysPressed.contains(KeyCode.UP)) {
@@ -419,23 +560,41 @@ public class MapScene extends AbstractScene implements GameView {
           .forEach(p -> p.getLeft().renderPosition(p.getRight().getX(), p.getRight().getY()));
     }
 
-    IntStream.range(0, this.hudList.size())
-        .forEach(
-            i -> {
-              final Label label = (Label) this.uiPane.getChildren().get(i);
-              if (this.checkChildrenById(i, HudLabels.HEALTH)) {
-                label.setText("Health: " + env.getEntityManager().getPlayer().get().getHealth());
-              } else if (this.checkChildrenById(i, HudLabels.SCORE)) {
-                label.setText(
-                    "Score: "
-                        + env.getEntityManager().getPlayer().get().getCurrentScore().showScore());
-              } else if (this.checkChildrenById(i, HudLabels.AMMO)
-                  && env.getEntityManager().getPlayer().get().hasWeapon()) {
-                label.setText(
-                    "Ammo: "
-                        + env.getEntityManager().getPlayer().get().getWeapon().get().getAmmoLeft());
-              }
-            });
+    // HUD update
+    if (env.getEntityManager().getPlayer().isPresent()) {
+      final var player = env.getEntityManager().getPlayer().get();
+      final double health = player.getHealth();
+      final double healthProgress = Math.max(0.0, Math.min(1.0, health / 100.0));
+      this.healthBar.setProgress(healthProgress);
+      this.healthPercentLabel.setText(String.format("%.0f%%", Math.max(0.0, health)));
+
+      this.scoreLabel.setText(String.valueOf(player.getCurrentScore().showScore()));
+
+      final int ammo =
+          (player.hasWeapon() && player.getWeapon().isPresent())
+              ? player.getWeapon().get().getAmmoLeft()
+              : 0;
+      if (ammo != this.lastAmmoShown) {
+        this.lastAmmoShown = ammo;
+        this.ammoBox.getChildren().clear();
+
+        final int iconsToShow = Math.min(ammo, MAX_AMMO_ICONS);
+        for (int i = 0; i < iconsToShow; i++) {
+          final ImageView icon = new ImageView(this.ammoIconImage);
+          icon.setSmooth(false);
+          icon.setPreserveRatio(true);
+          icon.setFitHeight(26);
+          this.ammoBox.getChildren().add(icon);
+        }
+
+        if (ammo > MAX_AMMO_ICONS) {
+          final Label overflow = new Label("... " + ammo);
+          overflow.setTextFill(javafx.scene.paint.Color.RED);
+          overflow.setFont(javafx.scene.text.Font.font(20));
+          this.ammoBox.getChildren().add(overflow);
+        }
+      }
+    }
   }
 
   private void updateBackgroundScroll() {
@@ -459,8 +618,26 @@ public class MapScene extends AbstractScene implements GameView {
     this.backgroundView2.setTranslateX(this.backgroundScrollX + w);
   }
 
-  private boolean checkChildrenById(final int i, final HudLabels label) {
-    return this.uiPane.getChildren().get(i).getId().equals(label.toString());
+  @Override
+  public final void showGameOverOverlay() {
+    this.isGameOver = true;
+    this.gameOverOverlay.setVisible(true);
+    this.gameOverOverlay.toFront();
+
+    final Environment env = this.gameState.getGameEnvironment();
+    if (env.getEntityManager().getPlayer().isPresent()) {
+      final var player = env.getEntityManager().getPlayer().get();
+
+      final javafx.scene.Node scoreNode = this.gameOverOverlay.lookup("#gameOverScoreValue");
+      if (scoreNode instanceof Label) {
+        ((Label) scoreNode).setText(String.valueOf(player.getCurrentScore().showScore()));
+      }
+
+      final javafx.scene.Node healthNode = this.gameOverOverlay.lookup("#gameOverHealthValue");
+      if (healthNode instanceof Label) {
+        ((Label) healthNode).setText(String.format("%.0f%%", Math.max(0.0, player.getHealth())));
+      }
+    }
   }
 
   public final void setMap(final Maps map) {

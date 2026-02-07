@@ -70,6 +70,7 @@ public class FormController {
     gameScene.setWidth(stage.getWidth());
     stage.setScene(gameScene);
     stage.show();
+    stage.centerOnScreen();
     game.start();
   }
 }

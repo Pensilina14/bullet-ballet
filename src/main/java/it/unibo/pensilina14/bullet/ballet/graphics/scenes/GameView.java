@@ -45,5 +45,8 @@ public interface GameView {
 
   void stopPlayerAnimation();
 
+  /** Shows a semi-transparent game-over overlay on top of the current game view. */
+  void showGameOverOverlay();
+
   void autoKill();
 }

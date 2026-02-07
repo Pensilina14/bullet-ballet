@@ -359,8 +359,7 @@ public class GameEngine implements InputController, GameEventListener, Engine {
   private void gameOverEventHandler(final GameEvent e) throws IOException {
     final Player player = ((GameOverEvent) e).getPlayer();
     this.viewController.get().stopPlayerAnimation();
-    this.viewController.get().getGameView().autoKill();
-    this.viewController.get().changeScene(Frames.HOMEPAGE);
+    this.viewController.get().getGameView().showGameOverOverlay();
     this.soundsFactory.createSound(Sounds.DIE).play();
     final SimpleDateFormat formatter =
         new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
