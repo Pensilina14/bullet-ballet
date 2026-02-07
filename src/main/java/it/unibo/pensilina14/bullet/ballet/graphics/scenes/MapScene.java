@@ -35,6 +35,12 @@ import it.unibo.pensilina14.bullet.ballet.model.weapon.Weapon;
 import it.unibo.pensilina14.bullet.ballet.sounds.Sounds;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactory;
 import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -53,6 +59,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.geometry.Rectangle2D;
 import org.apache.commons.lang3.tuple.MutablePair;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -745,7 +752,27 @@ public class MapScene extends AbstractScene implements GameView {
 
   @Override
   public final void deleteEnemySpriteImage(final MutablePosition2D position) {
-    this.deleteFromScene(position);
+    final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
+    if (deleted.isPresent()) {
+      final PhysicalObjectSprite sprite = deleted.get();
+
+      // "Death" animation: lay the enemy horizontally before disappearing.
+      final RotateTransition rotate = new RotateTransition(Duration.millis(180), sprite);
+      rotate.setToAngle(90);
+      rotate.setInterpolator(Interpolator.EASE_OUT);
+
+      final TranslateTransition fall = new TranslateTransition(Duration.millis(250), sprite);
+      fall.setByY(10);
+      fall.setInterpolator(Interpolator.EASE_OUT);
+
+      final FadeTransition fade = new FadeTransition(Duration.millis(250), sprite);
+      fade.setToValue(0.0);
+      fade.setInterpolator(Interpolator.EASE_OUT);
+
+      final ParallelTransition anim = new ParallelTransition(rotate, fall, fade);
+      anim.setOnFinished(e -> this.gamePane.getChildren().remove(sprite));
+      anim.play();
+    }
   }
 
   @Override
@@ -755,13 +782,46 @@ public class MapScene extends AbstractScene implements GameView {
 
   @Override
   public final void deleteItemSprite(final MutablePosition2D position) {
-    this.deleteFromScene(position);
+    final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
+    if (deleted.isPresent()) {
+      final PhysicalObjectSprite sprite = deleted.get();
+
+      final FadeTransition fade = new FadeTransition(Duration.millis(180), sprite);
+      fade.setToValue(0.0);
+      fade.setInterpolator(Interpolator.EASE_OUT);
+
+      final ScaleTransition scale = new ScaleTransition(Duration.millis(180), sprite);
+      scale.setToX(0.7);
+      scale.setToY(0.7);
+      scale.setInterpolator(Interpolator.EASE_OUT);
+
+      final ParallelTransition anim = new ParallelTransition(fade, scale);
+      anim.setOnFinished(e -> this.gamePane.getChildren().remove(sprite));
+      anim.play();
+    }
   }
 
   @Override
   public final void deleteWeaponSpriteImage(final MutablePosition2D position) {
-    this.deleteFromScene(position);
     this.mainWeapon = Optional.empty();
+
+    final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
+    if (deleted.isPresent()) {
+      final PhysicalObjectSprite sprite = deleted.get();
+
+      final FadeTransition fade = new FadeTransition(Duration.millis(180), sprite);
+      fade.setToValue(0.0);
+      fade.setInterpolator(Interpolator.EASE_OUT);
+
+      final ScaleTransition scale = new ScaleTransition(Duration.millis(180), sprite);
+      scale.setToX(0.7);
+      scale.setToY(0.7);
+      scale.setInterpolator(Interpolator.EASE_OUT);
+
+      final ParallelTransition anim = new ParallelTransition(fade, scale);
+      anim.setOnFinished(e -> this.gamePane.getChildren().remove(sprite));
+      anim.play();
+    }
   }
 
   private void deleteFromScene(final MutablePosition2D position) {
@@ -808,6 +868,26 @@ public class MapScene extends AbstractScene implements GameView {
 
   @Override
   public final void deleteObstacleSpriteImage(final MutablePosition2D position) {
-    this.deleteFromScene(position);
+    final Optional<PhysicalObjectSprite> deleted = this.sprites.deleteSprite(position);
+    if (deleted.isPresent()) {
+      final PhysicalObjectSprite sprite = deleted.get();
+
+      // Same "death" animation used for enemies: lay it horizontally before disappearing.
+      final RotateTransition rotate = new RotateTransition(Duration.millis(180), sprite);
+      rotate.setToAngle(90);
+      rotate.setInterpolator(Interpolator.EASE_OUT);
+
+      final TranslateTransition fall = new TranslateTransition(Duration.millis(250), sprite);
+      fall.setByY(10);
+      fall.setInterpolator(Interpolator.EASE_OUT);
+
+      final FadeTransition fade = new FadeTransition(Duration.millis(250), sprite);
+      fade.setToValue(0.0);
+      fade.setInterpolator(Interpolator.EASE_OUT);
+
+      final ParallelTransition anim = new ParallelTransition(rotate, fall, fade);
+      anim.setOnFinished(e -> this.gamePane.getChildren().remove(sprite));
+      anim.play();
+    }
   }
 }
