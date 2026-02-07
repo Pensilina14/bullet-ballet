@@ -7,7 +7,7 @@ import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 
 public class ObstacleImpl extends GameEntity implements Obstacle {
 
-  private static final double MS_TO_S = 1;
+  private static final double MS_TO_S = 2;
   private int counter;
 
   public ObstacleImpl(

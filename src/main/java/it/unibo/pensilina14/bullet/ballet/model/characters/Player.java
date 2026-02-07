@@ -208,7 +208,7 @@ public class Player extends GameEntity implements Characters {
     if (!this.blockedX) {
       this.moveRight(0);
     } else {
-      this.moveLeft(1);
+      this.moveLeft(2);
     }
   }
   /*

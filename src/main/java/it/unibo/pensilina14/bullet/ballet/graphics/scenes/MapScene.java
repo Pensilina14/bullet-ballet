@@ -826,7 +826,7 @@ public class MapScene extends AbstractScene implements GameView {
 
     // The world moves left (x decreases). Scroll the background left too, so it doesn't look like
     // the background is drifting to the right relative to the map.
-    this.backgroundScrollX -= 1.0;
+    this.backgroundScrollX -= 2.0;
     this.backgroundScrollX = this.backgroundScrollX % w;
     if (this.backgroundScrollX > 0) {
       this.backgroundScrollX -= w;
