@@ -100,6 +100,31 @@
                         </DropShadow>
                     </effect>
                 </ComboBox>
+
+                <Button mnemonicParsing="false" onMouseClicked="#fitAndCenterOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="Fit &amp; Center" textFill="#d32c2c" GridPane.rowIndex="3">
+                    <effect>
+                        <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                            <color>
+                                <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Gameplay Regular" size="20.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#toggleFullScreenOnMouseClicked" prefHeight="50.0" prefWidth="320.0" text="Full-screen" textFill="#d32c2c" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <effect>
+                        <DropShadow height="39.2" radius="28.27" spread="0.18" width="75.88">
+                            <color>
+                                <Color red="0.9210526347160339" green="0.12365984171628952" blue="0.12365984171628952" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Gameplay Regular" size="20.0" />
+                    </font>
+                </Button>
             </children>
         </GridPane>
     </children>

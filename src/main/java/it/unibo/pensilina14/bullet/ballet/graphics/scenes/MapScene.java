@@ -16,6 +16,7 @@ import it.unibo.pensilina14.bullet.ballet.input.Left;
 import it.unibo.pensilina14.bullet.ballet.input.Right;
 import it.unibo.pensilina14.bullet.ballet.input.Space;
 import it.unibo.pensilina14.bullet.ballet.input.Up;
+import it.unibo.pensilina14.bullet.ballet.Game;
 import it.unibo.pensilina14.bullet.ballet.logging.AppLogger;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.menu.controller.PageLoader;
@@ -47,14 +48,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import javafx.geometry.Rectangle2D;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class MapScene extends AbstractScene implements GameView {
+
+  private static final String PAUSE_ACTION_KEY = "pauseAction";
+  private static final String PAUSE_ACTION_RETRY = "retry";
+  private static final String PAUSE_ACTION_MENU = "menu";
 
   private final Pane appPane = new StackPane();
   private final Pane gamePane = new Pane();
@@ -466,6 +473,67 @@ public class MapScene extends AbstractScene implements GameView {
       final Window window = pageLoaderImpl.goToSelectedPageOnInput(Frames.PAUSEMENU, owner);
       window.setOnCloseRequest(
           e -> {
+            final Object actionObj = window.getProperties().get(PAUSE_ACTION_KEY);
+            final String action = actionObj instanceof String ? (String) actionObj : "";
+
+            if (PAUSE_ACTION_MENU.equals(action)) {
+              if (owner instanceof javafx.stage.Stage) {
+                final javafx.stage.Stage gameStage = (javafx.stage.Stage) owner;
+                try {
+                  final PageLoader loader = new PageLoaderImpl();
+                  loader.loadFirstScene(gameStage);
+                  javafx.application.Platform.runLater(
+                      () -> {
+                        gameStage.setFullScreen(false);
+                        gameStage.setMaximized(false);
+                        gameStage.setResizable(true);
+                        gameStage.sizeToScene();
+                        gameStage.centerOnScreen();
+                      });
+                } catch (final IOException ex) {
+                  ex.printStackTrace();
+                }
+              }
+              return;
+            }
+
+            if (PAUSE_ACTION_RETRY.equals(action)) {
+              if (owner instanceof javafx.stage.Stage) {
+                final javafx.stage.Stage gameStage = (javafx.stage.Stage) owner;
+                final Game game = new Game(this.gameState.getPlayerName());
+                final AbstractScene gameScene = game.getView();
+
+                final Screen currentScreen =
+                    Screen.getScreensForRectangle(
+                            gameStage.getX(),
+                            gameStage.getY(),
+                            gameStage.getWidth(),
+                            gameStage.getHeight())
+                        .stream()
+                        .findFirst()
+                        .orElse(Screen.getPrimary());
+                final Rectangle2D bounds = currentScreen.getVisualBounds();
+
+                Resolutions chosen = game.getSettings().getCurrentResolution();
+                if (chosen.getWidth() > bounds.getWidth() || chosen.getHeight() > bounds.getHeight()) {
+                  chosen = Resolutions.bestFit(bounds.getWidth(), bounds.getHeight());
+                }
+                game.getSettings().setResolution(chosen);
+
+                gameStage.setResizable(false);
+                gameStage.setWidth(chosen.getWidth());
+                gameStage.setHeight(chosen.getHeight());
+                gameScene.setHeight(gameStage.getHeight());
+                gameScene.setWidth(gameStage.getWidth());
+                gameStage.setScene(gameScene);
+                gameStage.show();
+                gameStage.centerOnScreen();
+                game.start();
+              }
+              return;
+            }
+
+            // Default: resume game.
             this.controller.get().start();
           });
     }

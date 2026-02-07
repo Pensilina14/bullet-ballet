@@ -128,6 +128,60 @@ public class PauseSettingsController implements Initializable {
     }
   }
 
+  @FXML
+  void toggleFullScreenOnMouseClicked(final MouseEvent event) {
+    this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
+    final Stage gameStage = getGameStage(event);
+    if (gameStage != null) {
+      gameStage.setFullScreen(!gameStage.isFullScreen());
+    }
+  }
+
+  @FXML
+  void fitAndCenterOnMouseClicked(final MouseEvent event) {
+    this.soundsFactory.createSound(Sounds.MENU_SOUND).play();
+    final Stage gameStage = getGameStage(event);
+    if (gameStage == null) {
+      return;
+    }
+    if (gameStage.isFullScreen()) {
+      gameStage.setFullScreen(false);
+    }
+
+    final Map<String, String> settingsMap = Save.loadSettings();
+    final int requestedW =
+        settingsMap.isEmpty()
+            ? Resolutions.getDefaultResolution().getWidth()
+            : Integer.parseInt(settingsMap.get(Save.RESOLUTION_WIDTH_STRING));
+    final int requestedH =
+        settingsMap.isEmpty()
+            ? Resolutions.getDefaultResolution().getHeight()
+            : Integer.parseInt(settingsMap.get(Save.RESOLUTION_HEIGHT_STRING));
+
+    final Screen currentScreen =
+        Screen.getScreensForRectangle(
+                gameStage.getX(), gameStage.getY(), gameStage.getWidth(), gameStage.getHeight())
+            .stream()
+            .findFirst()
+            .orElse(Screen.getPrimary());
+    final Rectangle2D bounds = currentScreen.getVisualBounds();
+
+    Resolutions chosen = Resolutions.fromDimensions(requestedW, requestedH);
+    if (chosen.getWidth() > bounds.getWidth() || chosen.getHeight() > bounds.getHeight()) {
+      chosen = Resolutions.bestFit(bounds.getWidth(), bounds.getHeight());
+    }
+
+    gameStage.setResizable(false);
+    gameStage.setWidth(chosen.getWidth());
+    gameStage.setHeight(chosen.getHeight());
+    if (gameStage.getScene() instanceof AbstractScene) {
+      final AbstractScene scene = (AbstractScene) gameStage.getScene();
+      scene.setWidth(gameStage.getWidth());
+      scene.setHeight(gameStage.getHeight());
+    }
+    gameStage.centerOnScreen();
+  }
+
   private void applyResolutionToGameWindow(final MouseEvent event) {
     final Stage settingsStage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
     final Window owner = settingsStage.getOwner();
@@ -170,6 +224,12 @@ public class PauseSettingsController implements Initializable {
       scene.setHeight(gameStage.getHeight());
     }
     gameStage.centerOnScreen();
+  }
+
+  private Stage getGameStage(final MouseEvent event) {
+    final Stage settingsStage = (Stage) (((Node) (event.getSource())).getScene().getWindow());
+    final Window owner = settingsStage.getOwner();
+    return owner instanceof Stage ? (Stage) owner : null;
   }
 
   private void generateSaveSettingsAlert(final AlertType alertType) {
