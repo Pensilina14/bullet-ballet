@@ -44,7 +44,8 @@ public final class Save {
   public static final String AUDIO_STRING = "Audio";
   public static final String LANGUAGE_STRING = "Language";
 
-  public static final int MAX_LEVELS = 4;
+  // Number of available level files in resources: data/levels/level0.txt .. level9.txt
+  public static final int MAX_LEVELS = 10;
 
   /** private constructor because I don't want the class to be instantiated. */
   private Save() {}

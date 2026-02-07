@@ -12,10 +12,20 @@ public class LevelLoader {
   private final double levelHeight;
   private final double levelWidth;
 
+  private static int nextLevelIndex;
+
   private static final Random RAND = new Random();
 
   public LevelLoader() {
-    this.level = Save.loadLevel(4);
+    final int levelIndex = nextLevelIndex;
+    nextLevelIndex = (nextLevelIndex + 1) % Save.MAX_LEVELS;
+
+    String[] loaded = Save.loadLevel(levelIndex);
+    if (loaded.length == 0) {
+      loaded = Save.loadLevel(0);
+    }
+
+    this.level = loaded;
     this.levelWidth = this.level[0].length();
     this.levelHeight = this.level.length;
   }
