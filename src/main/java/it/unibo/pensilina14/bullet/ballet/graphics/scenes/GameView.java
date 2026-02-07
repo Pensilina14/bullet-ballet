@@ -48,5 +48,8 @@ public interface GameView {
   /** Shows a semi-transparent game-over overlay on top of the current game view. */
   void showGameOverOverlay();
 
+  /** Shows a semi-transparent win overlay on top of the current game view. */
+  void showYouWinOverlay();
+
   void autoKill();
 }

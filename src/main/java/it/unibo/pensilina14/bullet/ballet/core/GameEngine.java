@@ -11,7 +11,6 @@ import it.unibo.pensilina14.bullet.ballet.core.controller.ViewControllerImpl;
 import it.unibo.pensilina14.bullet.ballet.graphics.scenes.MapScene;
 import it.unibo.pensilina14.bullet.ballet.input.Command;
 import it.unibo.pensilina14.bullet.ballet.input.InputController;
-import it.unibo.pensilina14.bullet.ballet.menu.controller.Frames;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Enemy;
 import it.unibo.pensilina14.bullet.ballet.model.characters.Player;
 import it.unibo.pensilina14.bullet.ballet.model.collision.CollisionSides;
@@ -249,8 +248,7 @@ public class GameEngine implements InputController, GameEventListener, Engine {
       this.soundsFactory.createSound(Sounds.RELOAD);
     } else if (item.getItemId().equals(Items.FLAG)) {
       this.viewController.get().stopPlayerAnimation();
-      this.viewController.get().getGameView().autoKill();
-      this.viewController.get().changeScene(Frames.HOMEPAGE);
+      this.viewController.get().getGameView().showYouWinOverlay();
       this.soundsFactory.createSound(Sounds.WIN).play();
       final SimpleDateFormat formatter =
           new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());

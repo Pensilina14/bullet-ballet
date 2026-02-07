@@ -27,6 +27,7 @@ import it.unibo.pensilina14.bullet.ballet.model.characters.EntityList;
 import it.unibo.pensilina14.bullet.ballet.model.entities.PhysicalObject;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Environment;
 import it.unibo.pensilina14.bullet.ballet.model.environment.GameState;
+import it.unibo.pensilina14.bullet.ballet.model.environment.LevelLoader;
 import it.unibo.pensilina14.bullet.ballet.model.environment.Platform;
 import it.unibo.pensilina14.bullet.ballet.model.obstacle.Obstacle;
 import it.unibo.pensilina14.bullet.ballet.model.weapon.Item;
@@ -81,6 +82,9 @@ public class MapScene extends AbstractScene implements GameView {
   private final StackPane gameOverOverlay = new StackPane();
   private boolean isGameOver;
 
+  private final StackPane youWinOverlay = new StackPane();
+  private boolean isGameWon;
+
   private ProgressBar healthBar;
   private Label healthPercentLabel;
   private Label scoreLabel;
@@ -121,6 +125,7 @@ public class MapScene extends AbstractScene implements GameView {
     setInputController(controller);
     this.initScene();
     this.isGameOver = false;
+    this.isGameWon = false;
 
     // The responsive scaling in AbstractScene uses a fixed logical size (FULLHD).
     // Ensure the map/app pane fills that logical space, regardless of the actual window size.
@@ -172,6 +177,9 @@ public class MapScene extends AbstractScene implements GameView {
     setupGameOverOverlay();
     this.appPane.getChildren().add(this.gameOverOverlay);
 
+    setupYouWinOverlay();
+    this.appPane.getChildren().add(this.youWinOverlay);
+
     // Allow leaving the game-over overlay even when the engine is stopped.
     this.addEventFilter(
         KeyEvent.KEY_PRESSED,
@@ -196,6 +204,20 @@ public class MapScene extends AbstractScene implements GameView {
               ex.printStackTrace();
             }
             e.consume();
+            return;
+          }
+
+          if (this.isGameWon) {
+            if (e.getCode() == KeyCode.ENTER) {
+              this.startNewRandomLevel();
+              e.consume();
+              return;
+            }
+            if (e.getCode() == KeyCode.ESCAPE) {
+              this.returnToMenu();
+              e.consume();
+              return;
+            }
           }
         });
 
@@ -310,6 +332,127 @@ public class MapScene extends AbstractScene implements GameView {
     final VBox content = new VBox(18, title, playerPreview, statsRow, hint);
     content.setAlignment(Pos.CENTER);
     this.gameOverOverlay.getChildren().add(content);
+  }
+
+  private void setupYouWinOverlay() {
+    this.youWinOverlay.setVisible(false);
+    this.youWinOverlay.setPickOnBounds(true);
+    this.youWinOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.65);");
+    this.youWinOverlay.prefWidthProperty().bind(this.appPane.widthProperty());
+    this.youWinOverlay.prefHeightProperty().bind(this.appPane.heightProperty());
+
+    final Label title = new Label("YOU WIN!");
+    title.setTextFill(javafx.scene.paint.Color.RED);
+    title.setFont(javafx.scene.text.Font.font(56));
+
+    final ImageView playerPreview =
+        new ImageView(
+            new Image(
+                String.valueOf(
+                    getClass().getClassLoader().getResource(Images.PLAYER.getFileName()))));
+    playerPreview.setSmooth(false);
+    playerPreview.setPreserveRatio(true);
+    playerPreview.setFitHeight(220);
+
+    final Label scoreTitle = new Label("Score");
+    scoreTitle.setTextFill(javafx.scene.paint.Color.RED);
+    scoreTitle.setFont(javafx.scene.text.Font.font(22));
+    final Label scoreValue = new Label("0");
+    scoreValue.setId("youWinScoreValue");
+    scoreValue.setTextFill(javafx.scene.paint.Color.RED);
+    scoreValue.setFont(javafx.scene.text.Font.font(32));
+
+    final Label healthTitle = new Label("Health");
+    healthTitle.setTextFill(javafx.scene.paint.Color.RED);
+    healthTitle.setFont(javafx.scene.text.Font.font(22));
+    final Label healthValue = new Label("0%");
+    healthValue.setId("youWinHealthValue");
+    healthValue.setTextFill(javafx.scene.paint.Color.RED);
+    healthValue.setFont(javafx.scene.text.Font.font(28));
+
+    final VBox scoreCol = new VBox(6, scoreTitle, scoreValue);
+    scoreCol.setAlignment(Pos.CENTER);
+    final VBox healthCol = new VBox(6, healthTitle, healthValue);
+    healthCol.setAlignment(Pos.CENTER);
+    final HBox statsRow = new HBox(60, scoreCol, healthCol);
+    statsRow.setAlignment(Pos.CENTER);
+
+    final Label hint1 = new Label("ENTER: altro livello (random)");
+    hint1.setTextFill(javafx.scene.paint.Color.RED);
+    hint1.setFont(javafx.scene.text.Font.font(18));
+
+    final Label hint2 = new Label("ESC: torna al menu");
+    hint2.setTextFill(javafx.scene.paint.Color.RED);
+    hint2.setFont(javafx.scene.text.Font.font(18));
+
+    final VBox content = new VBox(18, title, playerPreview, statsRow, hint1, hint2);
+    content.setAlignment(Pos.CENTER);
+    this.youWinOverlay.getChildren().add(content);
+  }
+
+  private void startNewRandomLevel() {
+    final Window owner = this.getWindow();
+    if (!(owner instanceof javafx.stage.Stage)) {
+      return;
+    }
+
+    final javafx.stage.Stage gameStage = (javafx.stage.Stage) owner;
+
+    // Ensure the next level is chosen randomly (single-run mode).
+    LevelLoader.requestRandomNextLevel();
+
+    final Game game = new Game(this.gameState.getPlayerName());
+    final AbstractScene gameScene = game.getView();
+
+    final Screen currentScreen =
+        Screen.getScreensForRectangle(
+                gameStage.getX(), gameStage.getY(), gameStage.getWidth(), gameStage.getHeight())
+            .stream()
+            .findFirst()
+            .orElse(Screen.getPrimary());
+    final Rectangle2D bounds = currentScreen.getVisualBounds();
+
+    Resolutions chosen = game.getSettings().getCurrentResolution();
+    if (chosen.getWidth() > bounds.getWidth() || chosen.getHeight() > bounds.getHeight()) {
+      chosen = Resolutions.bestFit(bounds.getWidth(), bounds.getHeight());
+    }
+    game.getSettings().setResolution(chosen);
+
+    gameStage.setResizable(false);
+    gameStage.setFullScreen(false);
+    gameStage.setMaximized(false);
+    gameStage.setWidth(chosen.getWidth());
+    gameStage.setHeight(chosen.getHeight());
+    gameScene.setHeight(gameStage.getHeight());
+    gameScene.setWidth(gameStage.getWidth());
+    gameStage.setScene(gameScene);
+    gameStage.show();
+    gameStage.centerOnScreen();
+    game.start();
+  }
+
+  private void returnToMenu() {
+    final Window owner = this.getWindow();
+    if (!(owner instanceof javafx.stage.Stage)) {
+      return;
+    }
+
+    final javafx.stage.Stage stage = (javafx.stage.Stage) owner;
+    try {
+      final PageLoader loader = new PageLoaderImpl();
+      loader.loadFirstScene(stage);
+
+      javafx.application.Platform.runLater(
+          () -> {
+            stage.setFullScreen(false);
+            stage.setMaximized(false);
+            stage.setResizable(true);
+            stage.sizeToScene();
+            stage.centerOnScreen();
+          });
+    } catch (final IOException ex) {
+      ex.printStackTrace();
+    }
   }
 
   private void initialize() throws IOException {
@@ -447,7 +590,7 @@ public class MapScene extends AbstractScene implements GameView {
   }
 
   private void update() throws IOException {
-    if (this.isGameOver) {
+    if (this.isGameOver || this.isGameWon) {
       return;
     }
     this.startPlayerAnimation();
@@ -711,6 +854,29 @@ public class MapScene extends AbstractScene implements GameView {
       final javafx.scene.Node healthNode = this.gameOverOverlay.lookup("#gameOverHealthValue");
       if (healthNode instanceof Label) {
         ((Label) healthNode).setText(String.format("%.0f%%", Math.max(0.0, player.getHealth())));
+      }
+    }
+  }
+
+  @Override
+  public final void showYouWinOverlay() {
+    this.isGameWon = true;
+    this.youWinOverlay.setVisible(true);
+    this.youWinOverlay.toFront();
+
+    final Environment env = this.gameState.getGameEnvironment();
+    if (env.getEntityManager().getPlayer().isPresent()) {
+      final var player = env.getEntityManager().getPlayer().get();
+
+      final javafx.scene.Node scoreNode = this.youWinOverlay.lookup("#youWinScoreValue");
+      if (scoreNode instanceof Label) {
+        ((Label) scoreNode).setText(String.valueOf(player.getCurrentScore().showScore()));
+      }
+
+      final javafx.scene.Node healthNode = this.youWinOverlay.lookup("#youWinHealthValue");
+      if (healthNode instanceof Label) {
+        ((Label) healthNode)
+            .setText(String.format("%.0f%%", Math.max(0.0, player.getHealth())));
       }
     }
   }
