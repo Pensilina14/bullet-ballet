@@ -45,6 +45,23 @@ public class GameEnvironment implements Environment {
   }
 
   /**
+   * Creates an environment with explicit gravity.
+   *
+   * <p>This is intended for gameplay tuning without affecting tests that rely on the default
+   * {@link GravityConstants#TEST}.
+   *
+   * @param gravity the gravity value to apply each tick
+   * @param height environment height
+   * @param width environment width
+   */
+  public GameEnvironment(final double gravity, final double height, final double width) {
+    this.gravity = gravity;
+    this.dimension = new Dimension2Dimpl(height, width);
+    this.entities = new EntityContainer();
+    this.eventListener = Optional.empty();
+  }
+
+  /**
    * Parameter-full constructor that provides a well-defined {@link GameEnvironment} capable of
    * connecting with a bunch of different objects.
    *

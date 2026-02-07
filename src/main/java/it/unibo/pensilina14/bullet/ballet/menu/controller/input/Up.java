@@ -9,7 +9,7 @@ import it.unibo.pensilina14.bullet.ballet.sounds.SoundsFactoryImpl;
 public class Up implements Command {
 
   /** Factor every time Up command is executed the player moves by. */
-  public static final double MOVEMENT_DELTA = 70;
+  public static final double MOVEMENT_DELTA = 50;
 
   private final double movement;
 

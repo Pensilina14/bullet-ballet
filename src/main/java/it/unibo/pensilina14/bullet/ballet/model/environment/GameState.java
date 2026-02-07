@@ -14,7 +14,7 @@ public class GameState {
   public GameState() {
     this.score = 0;
     this.generator = new EnvironmentGenerator();
-    this.env = new GameEnvironment(HEIGHT, WIDTH);
+    this.env = new GameEnvironment(Environment.GravityConstants.GAMEPLAY.getValue(), HEIGHT, WIDTH);
     this.generator.setEnvironment(this.env);
     this.generator.generate();
     this.playerName = "unknown";
@@ -32,7 +32,7 @@ public class GameState {
     this.playerName = playerName;
     this.score = 0;
     this.generator = new EnvironmentGenerator();
-    this.env = new GameEnvironment(HEIGHT, WIDTH);
+    this.env = new GameEnvironment(Environment.GravityConstants.GAMEPLAY.getValue(), HEIGHT, WIDTH);
     this.generator.setEnvironment(this.env);
     this.generator.generate();
   }

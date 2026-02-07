@@ -52,6 +52,7 @@ public interface Environment {
   /** Provides important constants for gravity representation. EARTH and MOON's provided. */
   enum GravityConstants {
     TEST(1.0),
+    GAMEPLAY(1.6),
     EARTH(9.81),
     MOON(6.673);
 
